@@ -5,7 +5,7 @@ import { Box } from '@mui/system';
 
 import managerApi from 'api/mangerAPI';
 import FileSaver from 'file-saver';
-import { CircularProgress, LinearProgress } from '@mui/material';
+import { CircularProgress } from '@mui/material';
 
 const DashBoard = () => {
 
