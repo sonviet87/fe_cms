@@ -41,15 +41,7 @@ const DashBoard = () => {
     }
 
     React.useEffect(() => {
-        (async () => {
-            setLoading(true);
-            const res = await managerApi.getAll(filter);
-            //console.log(res.data);
-            if (res.status) {
-                setList(res.data.data);
-            }
-            setLoading(false);
-        })();
+
     }, [filter]);
 
     return (
