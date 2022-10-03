@@ -1,13 +1,13 @@
 import { AccountCircle } from '@mui/icons-material';
-import { AppBar, IconButton, Menu, MenuItem, Toolbar, Typography } from '@mui/material';
+import { IconButton, Menu, MenuItem, Toolbar } from '@mui/material';
 import { Box } from '@mui/system';
 import { authActions } from 'features/auth/authSlice';
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-
 import { removeLSItem } from 'utils';
-
+import { AppBarStyled } from './SlytedComponent/AppBar';
+import MenuIcon from '@mui/icons-material/Menu';
 // import { Container } from './styles';
 
 function AdminHeader() {
@@ -31,11 +31,26 @@ function AdminHeader() {
         removeLSItem('typeLogin');
         navigate('/login');
     };
+
+
     return (
-        <AppBar position="static">
+        <AppBarStyled position="fixed">
             <Toolbar>
-                <Box sx={{ flexGrow: 1, mt: 1, mb: 1 }}>
-                    <img src={process.env.PUBLIC_URL + "/bottom_logo.png"} alt='' width={250} />
+                <Box sx={{ flexGrow: 1, mt: 1, mb: 1, display: 'flex', alignItems: 'center' }}>
+                    <img src={process.env.PUBLIC_URL + "/bottom_logo.png"} alt='' width={180} />
+                    <IconButton
+                        edge="start"
+                        color="inherit"
+                        aria-label="open drawer"
+
+                        sx={{
+                            marginRight: '36px',
+                            background: 'rgb(237, 231, 246)',
+                            color: 'rgb(94, 53, 177)'
+                        }}
+                    >
+                        <MenuIcon />
+                    </IconButton>
                 </Box>
 
 
@@ -46,7 +61,7 @@ function AdminHeader() {
                         aria-controls="menu-appbar"
                         aria-haspopup="true"
                         onClick={handleMenu}
-                        color="inherit"
+                        color={"success"}
                     >
                         <AccountCircle />
                     </IconButton>
@@ -71,8 +86,9 @@ function AdminHeader() {
                 </div>
 
             </Toolbar>
-        </AppBar>
+        </AppBarStyled>
     );
 }
 
 export default AdminHeader;
+

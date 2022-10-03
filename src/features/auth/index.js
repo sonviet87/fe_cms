@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { Navigate } from 'react-router-dom';
-import { getLSItem } from '../../utils/common';
+import { getLSItem } from '../../utils';
 
 
 function AuthFeature() {
