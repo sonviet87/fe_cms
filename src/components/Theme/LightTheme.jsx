@@ -14,21 +14,27 @@ const lightTheme = createTheme({
         },
         primary: {
             dark: '#3499E1',
-            light: '#3499E1',
+            light: '#4143c3',
             main: '#2F318F',
             greylight: '#EDEDFF',
             contrastText: '#fff',
         },
         secondary: {
-            main: '#3499E1',
+            light: '#6449b5',
+            main: '#4527a0',
         },
         third: {
-            main: '#EB2B00',
+            dark: '#2FF53D',
+            light: '#53cf5c',
+            main: '#28A831',
         },
         text: {
             primary: '#666',
             secondary: '#333',
         },
+        nav: {
+            width: '240px'
+        }
     },
     typography: {
         fontFamily: `"Montserrat", "Helvetica", "Arial", sans-serif`,
@@ -42,6 +48,9 @@ const lightTheme = createTheme({
             lg1366: 1367,
             xl: 1536,
         },
+    },
+    colors: {
+        lightMain: '#ede7f6'
     }
 });
 

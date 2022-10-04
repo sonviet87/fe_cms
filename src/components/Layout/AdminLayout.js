@@ -11,12 +11,19 @@ import AdminHeader from '../Common/AdminHeader';
 
 function Adminlayout() {
 
+    const [open, setOpen] = React.useState(true);
+    const toggleDrawer = () => {
+        setOpen(!open);
+    };
+
     return (
         <Box sx={{ display: 'flex' }}>
-            <AdminHeader />
-            <AdminSlidebar />
+            <AdminHeader open={open} onDrawer={toggleDrawer} />
+            <AdminSlidebar open={open} />
             <Wrapper component="main"  >
-                <AdminFeature />
+                <Box sx={{ height: 'calc(100% - 20px)' }}>
+                    <AdminFeature />
+                </Box>
                 <AdminFooter />
             </Wrapper>
 

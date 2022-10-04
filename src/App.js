@@ -7,7 +7,6 @@ import {
 import CssBaseline from '@mui/material/CssBaseline';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
-import { createTheme } from '@mui/material/styles';
 import Login from "./features/auth/pages/Login";
 import PrivateRoute from "./components/Common/PrivteRoute";
 import { store } from './app/store';
@@ -15,7 +14,7 @@ import AuthFeature from "./features/auth";
 import { Provider } from "react-redux";
 import NotFound from "components/Common/NotFound";
 import Adminlayout from "components/Layout/AdminLayout";
-import DashboardTest from "features/test";
+
 import ThemeMuTiProvider from "components/Theme/ThemeProvider";
 
 function App() {
@@ -27,7 +26,6 @@ function App() {
           <ToastContainer />
           <Routes>
             <Route exact path="/" element={<AuthFeature />} />
-            <Route exact path="/test" element={<DashboardTest />} />
             <Route exact path="login" element={<Login />} />
             <Route exact path='/admin/*' element={<PrivateRoute><Adminlayout /> </PrivateRoute>} />
             <Route path="*" element={<NotFound />} />

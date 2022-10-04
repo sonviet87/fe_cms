@@ -8,9 +8,10 @@ import { useNavigate } from 'react-router-dom';
 import { removeLSItem } from 'utils';
 import { AppBarStyled } from './SlytedComponent/AppBar';
 import MenuIcon from '@mui/icons-material/Menu';
-// import { Container } from './styles';
+import { IconButtonToggleStyled, ToolBoxHeaderStyled } from './SlytedComponent/Header';
 
-function AdminHeader() {
+
+function AdminHeader(props) {
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -32,27 +33,27 @@ function AdminHeader() {
         navigate('/login');
     };
 
+    const handleDrawer = () => {
+        if (!props.onDrawer) return;
+        props.onDrawer(props.open);
+    }
 
     return (
         <AppBarStyled position="fixed">
             <Toolbar>
-                <Box sx={{ flexGrow: 1, mt: 1, mb: 1, display: 'flex', alignItems: 'center' }}>
-                    <img src={process.env.PUBLIC_URL + "/bottom_logo.png"} alt='' width={180} />
-                    <IconButton
+                <ToolBoxHeaderStyled >
+                    <img src={process.env.PUBLIC_URL + "/logo.png"} alt='' height="40px" />
+                    <IconButtonToggleStyled
                         edge="start"
                         color="inherit"
                         aria-label="open drawer"
+                        onClick={handleDrawer}
 
-                        sx={{
-                            marginRight: '36px',
-                            background: 'rgb(237, 231, 246)',
-                            color: 'rgb(94, 53, 177)'
-                        }}
                     >
                         <MenuIcon />
-                    </IconButton>
-                </Box>
-
+                    </IconButtonToggleStyled>
+                </ToolBoxHeaderStyled>
+                <Box sx={{ flexGrow: 1 }}></Box>
 
                 <div>
                     <IconButton

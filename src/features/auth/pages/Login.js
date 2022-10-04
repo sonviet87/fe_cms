@@ -72,7 +72,7 @@ function Login() {
                 <Grid item md={4}>
 
                     <FormLogin>
-                        <img src={process.env.PUBLIC_URL + "/top_logo.png"} alt="" width="150px" />
+                        <img src={process.env.PUBLIC_URL + "/logo.png"} alt="" width="150px" />
 
                         <LoginForm onSubmit={handleSubmit} />
 

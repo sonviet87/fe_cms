@@ -12,6 +12,7 @@ export const DrawerStyled = styled(MuiDrawer, { shouldForwardProp: (prop) => pro
                 easing: theme.transitions.easing.sharp,
                 duration: theme.transitions.duration.enteringScreen,
             }),
+            padding: '0 10px',
             borderRight: 'none',
             marginTop: '65px',
             height: 'calc(100vh - 65px)',
@@ -22,10 +23,9 @@ export const DrawerStyled = styled(MuiDrawer, { shouldForwardProp: (prop) => pro
                     easing: theme.transitions.easing.sharp,
                     duration: theme.transitions.duration.leavingScreen,
                 }),
-                width: theme.spacing(7),
-                [theme.breakpoints.up('sm')]: {
-                    width: theme.spacing(9),
-                },
+                width: 0,
+                transform: 'translateX(-260px)'
+
             }),
         },
     }),
