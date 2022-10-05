@@ -1,9 +1,10 @@
-import { Button, Chip, Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TablePagination, TableRow } from '@mui/material'
+import { Chip, Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TablePagination, TableRow } from '@mui/material'
 import React from 'react'
 import { Link } from 'react-router-dom'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import EditIcon from '@mui/icons-material/Edit';
 import { TablePaginationActions } from 'components/Common/TablePaginationActions';
+import { BasicButtonStyled } from 'components/Common/SlytedComponent/Button';
 
 export default function UserList({ list, pagination, filter, onFilter }) {
 
@@ -27,7 +28,7 @@ export default function UserList({ list, pagination, filter, onFilter }) {
         <TableHead>
           <TableRow>
             <TableCell>ID</TableCell>
-            <TableCell>Name</TableCell>
+            <TableCell>Tên đăng nhập</TableCell>
             <TableCell>Email</TableCell>
             <TableCell>Phone</TableCell>
             <TableCell>Role</TableCell>
@@ -64,20 +65,20 @@ export default function UserList({ list, pagination, filter, onFilter }) {
 
                   style={{ minWidth: '130px' }}
                 >
-                  <Button
+                  <BasicButtonStyled
                     variant="contained"
                     color="primary"
-
+                    size="small"
                   >
-                    <EditIcon />
-                  </Button>
-                  <Button
+                    <EditIcon fontSize="small" />
+                  </BasicButtonStyled>
+                  <BasicButtonStyled
                     variant="contained"
                     color="error"
-
+                    size="small"
                   >
-                    <DeleteOutlineIcon />
-                  </Button>
+                    <DeleteOutlineIcon fontSize="small" />
+                  </BasicButtonStyled>
                 </TableCell>
               </TableRow>
             ))}

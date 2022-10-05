@@ -6,7 +6,6 @@ import React from 'react';
 import UserFilter from '../components/UserFilter';
 import UserList from '../components/UserList';
 
-// import { Container } from './styles';
 
 function UserListPage() {
     const [loading, setLoading] = React.useState(false);
