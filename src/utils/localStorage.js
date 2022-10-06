@@ -3,7 +3,7 @@ import config from './config';
 const getLocalStorageKey = (name) => `${config.APP_NAME}_${name}`;
 
 export const getLSItem = (name) => {
-    console.log(getLocalStorageKey(name))
+
     return localStorage.getItem(getLocalStorageKey(name));
 };
 

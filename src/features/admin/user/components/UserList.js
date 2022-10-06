@@ -1,12 +1,21 @@
 import { Chip, Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TablePagination, TableRow } from '@mui/material'
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import EditIcon from '@mui/icons-material/Edit';
 import { TablePaginationActions } from 'components/Common/TablePaginationActions';
 import { BasicButtonStyled } from 'components/Common/SlytedComponent/Button';
+import ConfirmDialog from 'components/Common/ConfirmDialog';
 
-export default function UserList({ list, pagination, filter, onFilter }) {
+export default function UserList({ list, pagination, filter, onFilter, onDelete }) {
+
+  const navigate = useNavigate();
+  const [confirmDeleteDialogData, setConfirmDeleteDialogData] = React.useState({
+    title: '',
+    message: '',
+    open: false,
+    deleteItem: null,
+  });
 
   const handleChangePage = (event, newPage) => {
     onFilter({
@@ -22,6 +31,29 @@ export default function UserList({ list, pagination, filter, onFilter }) {
     });
   };
 
+  const handleOpenConfirmDeleteDialog = (row) => {
+    setConfirmDeleteDialogData({
+      title: 'Notification',
+      message: `Are you sure to delete this user <strong>${row.name}</strong>!`,
+      open: true,
+      deleteItem: row,
+    });
+  };
+
+  const handleCloseConfirmDeleteDialog = () => {
+    setConfirmDeleteDialogData({
+      title: '',
+      message: '',
+      open: false,
+      deleteItem: null,
+    });
+  };
+
+  const handleAcceptConfirmDeleteDialog = () => {
+    handleCloseConfirmDeleteDialog();
+    if (!onDelete) return;
+    onDelete(confirmDeleteDialogData.deleteItem);
+  };
   return (
     <TableContainer>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -42,7 +74,7 @@ export default function UserList({ list, pagination, filter, onFilter }) {
               <TableRow key={row.id}>
                 <TableCell>{row.id}</TableCell>
                 <TableCell component="th">
-                  <Link to={'/edit'}>
+                  <Link to={'/admin/users/' + row.id}>
                     {row.name}
                   </Link>
                 </TableCell>
@@ -69,6 +101,7 @@ export default function UserList({ list, pagination, filter, onFilter }) {
                     variant="contained"
                     color="primary"
                     size="small"
+                    onClick={() => navigate('/admin/users/' + row.id)}
                   >
                     <EditIcon fontSize="small" />
                   </BasicButtonStyled>
@@ -76,6 +109,7 @@ export default function UserList({ list, pagination, filter, onFilter }) {
                     variant="contained"
                     color="error"
                     size="small"
+                    onClick={() => handleOpenConfirmDeleteDialog(row)}
                   >
                     <DeleteOutlineIcon fontSize="small" />
                   </BasicButtonStyled>
@@ -104,7 +138,13 @@ export default function UserList({ list, pagination, filter, onFilter }) {
           </TableRow>
         </TableFooter>
       </Table>
-
+      <ConfirmDialog
+        title={confirmDeleteDialogData.title}
+        message={confirmDeleteDialogData.message}
+        open={confirmDeleteDialogData.open}
+        onClose={handleCloseConfirmDeleteDialog}
+        onConfirm={handleAcceptConfirmDeleteDialog}
+      />
     </TableContainer>
   )
 }

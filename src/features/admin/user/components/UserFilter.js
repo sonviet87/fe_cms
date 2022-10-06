@@ -8,15 +8,17 @@ import InputBaseForm from 'components/FormElement/InputBase';
 import * as yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useNavigate } from 'react-router-dom';
 
 export default function UserFilter({ loading, filter, onSubmit }) {
 
+  const navigate = useNavigate();
   const schema = yup.object().shape({
 
 
   });
 
-  const { control, handleSubmit, reset } = useForm({
+  const { control, handleSubmit } = useForm({
     defaultValues: {
       username: "",
     },
@@ -42,7 +44,12 @@ export default function UserFilter({ loading, filter, onSubmit }) {
           <SearchIcon />
         </IconButtonStyled>
       </Box>
-      <Button color="primary" variant="contained" startIcon={<AddIcon />}> Thêm </Button>
+      <Button
+        color="primary"
+        variant="contained"
+        startIcon={<AddIcon />}
+        onClick={() => { navigate('add') }}
+      > Thêm </Button>
     </Box>
   )
 }

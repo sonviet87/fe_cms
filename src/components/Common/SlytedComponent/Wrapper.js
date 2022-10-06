@@ -24,3 +24,11 @@ export const Wrapper = styled(Box, {})(({ theme, open }) => ({
         }),
     }),
 }));
+
+
+export const WrapperPage = styled(Box, {})(({ theme }) => ({
+    background: '#fff',
+    padding: theme.spacing(2.5),
+    borderRadius: theme.spacing(1),
+
+}));
