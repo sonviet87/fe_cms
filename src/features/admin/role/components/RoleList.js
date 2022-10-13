@@ -7,7 +7,7 @@ import { TablePaginationActions } from 'components/Common/TablePaginationActions
 import { BasicButtonStyled } from 'components/Common/SlytedComponent/Button';
 import ConfirmDialog from 'components/Common/ConfirmDialog';
 
-export default function UserList({ list, pagination, filter, onFilter, onDelete }) {
+export default function RoleList({ list, pagination, filter, onFilter, onDelete }) {
 
   const navigate = useNavigate();
   const [confirmDeleteDialogData, setConfirmDeleteDialogData] = React.useState({
@@ -60,12 +60,9 @@ export default function UserList({ list, pagination, filter, onFilter, onDelete 
         <TableHead>
           <TableRow>
             <TableCell>ID</TableCell>
-            <TableCell>Tên đăng nhập</TableCell>
-            <TableCell>Email</TableCell>
-            <TableCell>Điện thoại</TableCell>
             <TableCell>Quyền</TableCell>
-            <TableCell>Tình trạng</TableCell>
-            <TableCell align="right">hành động</TableCell>
+
+            <TableCell align="right">Hàng động</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -74,24 +71,11 @@ export default function UserList({ list, pagination, filter, onFilter, onDelete 
               <TableRow key={row.id}>
                 <TableCell>{row.id}</TableCell>
                 <TableCell component="th">
-                  <Link to={'/admin/users/' + row.id}>
+                  <Link to={'/admin/roles/' + row.id}>
                     {row.name}
                   </Link>
                 </TableCell>
-                <TableCell>{row.email}</TableCell>
-                <TableCell>{row.phone}</TableCell>
 
-
-                <TableCell>
-                  <Chip label={row?.roles[0]?.name} color={'info'} size="small" />
-                </TableCell>
-                <TableCell>
-                  <Chip
-                    label={!row.status ? 'Unactive' : 'Active'}
-                    color={!row.status ? 'error' : 'primary'}
-                    size="small"
-                  />
-                </TableCell>
                 <TableCell
                   align="right"
 
@@ -101,7 +85,7 @@ export default function UserList({ list, pagination, filter, onFilter, onDelete 
                     variant="contained"
                     color="primary"
                     size="small"
-                    onClick={() => navigate('/admin/users/' + row.id)}
+                    onClick={() => navigate('/admin/roles/' + row.id)}
                   >
                     <EditIcon fontSize="small" />
                   </BasicButtonStyled>

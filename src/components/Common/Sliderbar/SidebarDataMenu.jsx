@@ -31,15 +31,14 @@ export const MenuCMS = [
             {
                 title: 'Người dùng',
                 Icon: ManageAccountsIcon,
-                route: '/admin/users',
                 items: [
                     {
                         title: 'Danh sách người dùng',
-                        route: '/admin/account',
+                        route: '/admin/users',
                     },
                     {
-                        title: 'Password & Security',
-                        route: '/admin/account',
+                        title: 'Quyền',
+                        route: '/admin/roles',
                     },
                 ],
             },

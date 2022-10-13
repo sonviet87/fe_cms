@@ -18,7 +18,6 @@ UserForm.propTypes = {
 
 
 function UserForm({ initialValue, onSubmit, userValue, isEdit }) {
-    console.log('isEdit', isEdit)
     const validationRules = {
         name: yup.string().required('Please enter your name'),
         password: yup

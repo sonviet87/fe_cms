@@ -1,18 +1,18 @@
-import userApi from 'api/userAPI';
+import roleApi from 'api/roleAPI';
 
 import { LoadingOverlay } from 'components/Common/LoadingOverlay';
 import { WrapperPage } from 'components/Common/SlytedComponent/Wrapper';
 import TitleForm from 'components/Common/TitleForm';
 import React from 'react';
 import { toast } from 'react-toastify';
-import UserFilter from '../components/UserFilter';
-import UserList from '../components/UserList';
+import RoleFilter from '../components/RoleFilter';
+import RoleList from '../components/RoleList';
 
 
-function UserListPage() {
+function RoleListPage() {
     const [loading, setLoading] = React.useState(false);
     const [list, setList] = React.useState({
-        users: [],
+        roles: [],
         pagination: {
             total: 0,
             current_page: 0
@@ -32,7 +32,7 @@ function UserListPage() {
 
     const handleDelete = async (item) => {
         setLoading(true);
-        const res = await userApi.delete([item.id]);
+        const res = await roleApi.delete([item.id]);
         if (res.status) {
             if (res.data.status) {
                 setFilter({
@@ -56,10 +56,11 @@ function UserListPage() {
     React.useEffect(() => {
         (async () => {
             setLoading(true);
-            const res = await userApi.getAll(filter);
+            const res = await roleApi.getAll(filter);
+            console.log(res);
             if (res.status) {
                 setList({
-                    users: res.data.data,
+                    roles: res.data.data,
                     pagination: {
                         total: res.data.meta.total,
                         current_page: res.data.meta.current_page
@@ -75,9 +76,9 @@ function UserListPage() {
             {loading && (
                 <LoadingOverlay />
             )}
-            <TitleForm lable="Danh sách người dùng" />
-            <UserFilter loading={loading} filter={filter} onSubmit={handleFilter} />
-            <UserList list={list.users}
+            <TitleForm lable="Danh sách quyền" />
+            <RoleFilter loading={loading} filter={filter} onSubmit={handleFilter} />
+            <RoleList list={list.roles}
                 pagination={list.pagination}
                 loading={loading}
                 filter={filter}
@@ -88,4 +89,4 @@ function UserListPage() {
     );
 }
 
-export default UserListPage;
+export default RoleListPage;
