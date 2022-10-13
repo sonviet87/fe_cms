@@ -83,7 +83,7 @@ export default function UserList({ list, pagination, filter, onFilter, onDelete 
 
 
                 <TableCell>
-                  <Chip label={row?.roles} color={'info'} size="small" />
+                  <Chip label={row?.roles[0]?.name} color={'info'} size="small" />
                 </TableCell>
                 <TableCell>
                   <Chip
