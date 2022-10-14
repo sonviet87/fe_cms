@@ -8,6 +8,7 @@ import { WrapperPage } from 'components/Common/SlytedComponent/Wrapper';
 import TitleForm from 'components/Common/TitleForm';
 import RoleForm from '../components/RoleForm';
 import roleApi from 'api/roleAPI';
+import permissionsApi from 'api/permissionAPI';
 
 function RoleAddEditPage() {
 
@@ -15,6 +16,7 @@ function RoleAddEditPage() {
     const { id } = useParams();
     const isEdit = Boolean(id);
     const [role, setRole] = React.useState({});
+    const [permissions, setPermission] = React.useState([]);
     const navigate = useNavigate();
 
     const initialValue = {
@@ -24,6 +26,16 @@ function RoleAddEditPage() {
     };
 
     React.useEffect(() => {
+        (async () => {
+            const resPermissons = await permissionsApi.getAll();
+            if (resPermissons.status) {
+                console.log(resPermissons.data)
+                if (resPermissons.status) {
+                    setPermission(resPermissons.data.data);
+                }
+
+            }
+        })();
         if (!id) return;
         (async () => {
             setLoading(true);
@@ -32,9 +44,8 @@ function RoleAddEditPage() {
 
                 if (res.status) {
                     setRole({
-                        name: res.data.data.name,
-
-                        permissions: "",
+                        name: res.data.data?.name,
+                        permissions,
                     });
 
                 } else {
@@ -48,10 +59,11 @@ function RoleAddEditPage() {
         })();
     }, [id, navigate]);
 
-
     const handleFormSubmit = async (formValues) => {
+        console.log(formValues);
         setLoading(true);
         try {
+
             let res;
             if (isEdit) {
                 res = await roleApi.update(id, formValues);
@@ -62,7 +74,7 @@ function RoleAddEditPage() {
                 console.log('res.message', res.message);
                 if (res.data.status) {
                     toast.success(res.message);
-                    navigate('/admin/users');
+                    navigate('/admin/roles');
                 } else {
                     toast.error(res.data.message);
                 }
@@ -84,7 +96,7 @@ function RoleAddEditPage() {
             <TitleForm lable={isEdit ? "Cập nhật quyền" : "Thêm quyền "} />
 
             {(!isEdit || Boolean(role)) && (
-                <RoleForm initialValue={initialValue} onSubmit={handleFormSubmit} userValue={role} isEdit={isEdit} />
+                <RoleForm initialValue={initialValue} onSubmit={handleFormSubmit} values={role} permissions={permissions} isEdit={isEdit} />
             )}
 
         </WrapperPage>

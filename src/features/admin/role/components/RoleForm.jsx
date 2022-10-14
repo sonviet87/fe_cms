@@ -18,7 +18,7 @@ RoleForm.propTypes = {
 };
 
 
-function RoleForm({ initialValue, onSubmit, values, isEdit }) {
+function RoleForm({ initialValue, permissions, onSubmit, values, isEdit }) {
     const validationRules = {
         name: yup.string().required('Please enter your name'),
 
@@ -37,17 +37,18 @@ function RoleForm({ initialValue, onSubmit, values, isEdit }) {
 
     const handleFormSubmit = async (formValues) => {
         if (!onSubmit) return;
-        //formValues.birthday = dayjs(formValues.birthday).format('YYYY-MM-DD');
-        console.log(formValues)
-        //await onSubmit(formValues);
+        // console.log(formValues)
+        await onSubmit(formValues);
     };
 
     React.useEffect(() => {
         if (isEdit) {
+            console.log('values', values);
             setValue('name', values.name);
 
         }
     }, [values]);
+
     return (
         <Box
             component="form"
@@ -58,15 +59,18 @@ function RoleForm({ initialValue, onSubmit, values, isEdit }) {
         >
             <Grid container spacing={2}>
                 <Grid item xs={12} md={6} >
-                    <TextFormik name="name" label="Full name" control={control} />
+                    <TextFormik name="name" label="Tên" control={control} />
                 </Grid>
-                <Divider />
-                <Grid item xs={12} md={6} >
-                    <CheckboxField name="permissions" value="1" label="Full name1" control={control} />
-                </Grid>
-                <Grid item xs={12} md={6} >
-                    <CheckboxField name="permissions" value="2" label="Full name2" control={control} />
-                </Grid>
+
+            </Grid>
+            <Divider sx={{ mt: 2 }} />
+            <Grid container spacing={2}>
+
+                {permissions.length > 0 && permissions.map((item) => {
+                    return <Grid item xs={2} key={item.id}><CheckboxField name="permissions" value={item.id} isArray label={item.name} control={control} /></Grid>
+                })}
+
+
                 <Grid item xs={12} md={12}>
                     <LoadingButton
                         onClick={handleSubmit(handleFormSubmit)}

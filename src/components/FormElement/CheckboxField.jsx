@@ -9,7 +9,7 @@ CheckboxField.propTypes = {
 };
 
 
-function CheckboxField({ name, label, control, ...inputProps }) {
+function CheckboxField({ name, label, control, isArray = false, ...inputProps }) {
     const {
         field: { ref, onChange, value },
         fieldState: { invalid, error },
@@ -24,10 +24,25 @@ function CheckboxField({ name, label, control, ...inputProps }) {
     return (
         <>
             <FormControlLabel
-
                 inputRef={ref}
-                value={value}
-                onChange={onChange}
+                value={inputProps.value}
+                onChange={(e) => {
+                    if (isArray) {
+                        const valueCopy = [...value];
+                        if (e.target.checked) {
+                            valueCopy.push(inputProps.value); // append to array
+                        } else {
+                            const idx = valueCopy.findIndex(
+                                (formOption) => formOption[1] === inputProps.value
+                            );
+                            valueCopy.splice(idx, 1); // remove from array
+                        }
+                        onChange(valueCopy); // update form field with new array
+                    } else {
+                        onChange(e.target.checked)
+                    }
+
+                }}
                 control={<Checkbox size="small" inputProps={inputProps} color="secondary" />}
                 label={label}
             />
