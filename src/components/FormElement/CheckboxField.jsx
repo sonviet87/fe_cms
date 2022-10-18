@@ -20,7 +20,6 @@ function CheckboxField({ name, label, control, isArray = false, ...inputProps })
         defaultValue: '',
     });
 
-
     return (
         <>
             <FormControlLabel

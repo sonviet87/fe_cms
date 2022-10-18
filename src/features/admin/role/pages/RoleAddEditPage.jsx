@@ -17,6 +17,7 @@ function RoleAddEditPage() {
     const isEdit = Boolean(id);
     const [role, setRole] = React.useState({});
     const [permissions, setPermission] = React.useState([]);
+    const [permissionsOwner, setPermissionOwner] = React.useState([]);
     const navigate = useNavigate();
 
     const initialValue = {
@@ -29,7 +30,6 @@ function RoleAddEditPage() {
         (async () => {
             const resPermissons = await permissionsApi.getAll();
             if (resPermissons.status) {
-                console.log(resPermissons.data)
                 if (resPermissons.status) {
                     setPermission(resPermissons.data.data);
                 }
@@ -45,8 +45,9 @@ function RoleAddEditPage() {
                 if (res.status) {
                     setRole({
                         name: res.data.data?.name,
-                        permissions,
+                        permissions: ["1", "2"],
                     });
+                    setPermissionOwner(res.data.data?.permissions)
 
                 } else {
                     toast.error(res.message);
@@ -57,10 +58,9 @@ function RoleAddEditPage() {
             }
             setLoading(false);
         })();
-    }, [id, navigate]);
+    }, [id]);
 
     const handleFormSubmit = async (formValues) => {
-        console.log(formValues);
         setLoading(true);
         try {
 
@@ -96,7 +96,7 @@ function RoleAddEditPage() {
             <TitleForm lable={isEdit ? "Cập nhật quyền" : "Thêm quyền "} />
 
             {(!isEdit || Boolean(role)) && (
-                <RoleForm initialValue={initialValue} onSubmit={handleFormSubmit} values={role} permissions={permissions} isEdit={isEdit} />
+                <RoleForm initialValue={initialValue} onSubmit={handleFormSubmit} values={role} permissions={permissions} permissionsOwner={permissionsOwner} isEdit={isEdit} />
             )}
 
         </WrapperPage>

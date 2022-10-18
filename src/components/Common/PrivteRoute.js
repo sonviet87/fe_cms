@@ -2,8 +2,8 @@ import userApi from "api/userAPI";
 import { authActions, selectCurrentUser } from "features/auth/authSlice";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Navigate, Outlet, useNavigate } from "react-router-dom";
-import { getLSItem, setLSItem } from "utils";
+import { useNavigate } from "react-router-dom";
+import { getLSItem } from "utils";
 import { LoadingOverlay } from "./LoadingOverlay";
 
 
@@ -21,22 +21,15 @@ function PrivateRoute({ children }) {
             if (!isLoggedIn) {
                 return navigate('/login');
             }
-            /*if (!selectUser) {
+            if (!selectUser) {
+                const res = await userApi.getUser();
 
-                const res = await userApi.getUserInfo();
-                if (res.status) {
-                    setLSItem('access_token', res.data.accessToken);
-                    dispatch(authActions.setRoles(res.data.roles));
-                    dispatch(authActions.setCurrentUser(res.data));
-                    dispatch(authActions.setTypeLogin(getLSItem('typeLogin')));
-                    // res.data.accessToken = undefined;
-                    // res.data.roles = undefined;
-                }
+                if (!res.status) return navigate('/login');
 
-                return navigate('/login');
+                dispatch(authActions.setRoles(res.data.roles));
+                dispatch(authActions.setCurrentUser(res.data));
 
-
-            }*/
+            }
             setLoading(false);
         })();
     }, [navigate, selectUser, dispatch]);

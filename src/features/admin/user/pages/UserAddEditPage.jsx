@@ -7,6 +7,7 @@ import userApi from 'api/userAPI';
 import UserForm from '../components/UserForm';
 import { WrapperPage } from 'components/Common/SlytedComponent/Wrapper';
 import TitleForm from 'components/Common/TitleForm';
+import roleApi from 'api/roleAPI';
 
 function AdminUserAddEditPage() {
 
@@ -14,6 +15,7 @@ function AdminUserAddEditPage() {
     const { id } = useParams();
     const isEdit = Boolean(id);
     const [user, setUser] = React.useState({});
+    const [role, setRole] = React.useState([]);
     const navigate = useNavigate();
 
     const initialValue = {
@@ -27,11 +29,23 @@ function AdminUserAddEditPage() {
     };
 
     React.useEffect(() => {
+        (async () => {
+            const rsRole = await roleApi.getAll();
+            if (rsRole.status) {
+                if (rsRole.status) {
+                    setRole(rsRole.data.data);
+                }
+            }
+        })();
         if (!id) return;
         (async () => {
             setLoading(true);
             try {
                 const res = await userApi.get(id);
+                // const [res, resRole] = await Promise.all([
+                //     await userApi.get(id),
+                //     await roleApi.getAll()
+                // ]);
 
                 if (res.status) {
                     setUser({
@@ -90,7 +104,7 @@ function AdminUserAddEditPage() {
             <TitleForm lable={isEdit ? "Cập nhật người dùng" : "Thêm người dùng "} />
 
             {(!isEdit || Boolean(user)) && (
-                <UserForm initialValue={initialValue} onSubmit={handleFormSubmit} userValue={user} isEdit={isEdit} />
+                <UserForm initialValue={initialValue} onSubmit={handleFormSubmit} userValue={user} role={role} isEdit={isEdit} />
             )}
 
         </WrapperPage>

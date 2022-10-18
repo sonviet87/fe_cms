@@ -9,8 +9,8 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { getLSItem } from 'utils/localStorage';
 import { setLSItem } from 'utils';
-import { authActions } from '../authSlice';
-import userApi from 'api/userAPI';
+import { authActions, loginThunk } from '../authSlice';
+//import userApi from 'api/userAPI';
 
 
 function Login() {
@@ -31,29 +31,28 @@ function Login() {
     });
     const handleSubmit = async (formValues) => {
         setLoading(true);
-        const res = await userApi.login({
-            username: formValues.username,
-            password: formValues.password,
-        });
-        if (res.status) {
+        // const res = await userApi.login({
+        //     username: formValues.username,
+        //     password: formValues.password,
+        // });
+        dispatch(loginThunk(formValues)).then((res) => {
+            if (res.payload.status) {
+                if (res.payload.data.status) {
+                    setLSItem('access_token', res.payload.data.data.accessToken);
+                    delete res.payload.data.data.accessToken;
+                    dispatch(authActions.setRoles(res.payload.data.data.roles));
+                    delete res.payload.data.roles;
+                    dispatch(authActions.setCurrentUser(res.payload.data.data));
+                    navigate('/admin');
+                } else {
+                    toast.error(res.payload.data.message);
+                }
+                setLoading(false);
 
-            if (res.data.status) {
-                setLSItem('access_token', res.data.data.accessToken);
-                delete res.data.data.accessToken;
-                dispatch(authActions.setRoles(res.data.data.roles));
-                delete res.data.roles;
-                dispatch(authActions.setCurrentUser(res.data.data));
-                navigate('/admin');
             } else {
-                toast.error(res.data.message);
+                toast.error(res.payload.data.message);
             }
-            setLoading(false);
-
-        } else {
-            toast.error(res.message);
-        }
-
-
+        })
     };
     return (
         <Container>

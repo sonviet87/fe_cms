@@ -17,7 +17,7 @@ UserForm.propTypes = {
 };
 
 
-function UserForm({ initialValue, onSubmit, userValue, isEdit }) {
+function UserForm({ initialValue, onSubmit, userValue, role, isEdit }) {
     const validationRules = {
         name: yup.string().required('Please enter your name'),
         password: yup
@@ -64,6 +64,7 @@ function UserForm({ initialValue, onSubmit, userValue, isEdit }) {
             setValue('phone', userValue.phone);
         }
     }, [userValue]);
+
     return (
         <Box
             component="form"
@@ -74,36 +75,33 @@ function UserForm({ initialValue, onSubmit, userValue, isEdit }) {
         >
             <Grid container spacing={2}>
                 <Grid item xs={12} md={6} >
-                    <TextFormik name="name" label="Full name" control={control} />
+                    <TextFormik name="name" label="Họ và tên" control={control} />
                 </Grid>
                 <Grid item xs={12} md={6}>
-                    <TextFormik name="username" label="Username" control={control} />
+                    <TextFormik name="username" label="Tên đăng nhập" control={control} />
                 </Grid>
                 <Grid item xs={12} md={6}>
                     <TextFormik
                         type="password"
                         name="password"
-                        label="Password"
+                        label="Mật khẩu"
                         control={control}
                     />
                 </Grid>
                 <Grid item xs={12} md={6}>
                     <TextFormik name="email" label="Email" control={control} />
                 </Grid>
-                <Grid item xs={12} md={6}>
+                <Grid item xs={12} md={6} >
                     <BasicSelect
                         name="role_id"
-                        label="Role"
+                        label="Quyền"
                         control={control}
-                        options={[
-                            { label: 'Admin', value: 1 },
-                            { label: 'Vendor', value: 2 },
-                            { label: 'Buyer', value: 3 },
-                        ]}
+                        options={role}
+
                     />
                 </Grid>
                 <Grid item xs={12} md={6}>
-                    <TextFormik name="phone" label="Phone" control={control} />
+                    <TextFormik name="phone" label="Điện thoại" control={control} />
                 </Grid>
 
 

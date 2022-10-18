@@ -1,4 +1,14 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import userApi from 'api/userAPI';
+
+// First, create the thunk
+export const loginThunk = createAsyncThunk('login', async (data) => {
+    const response = await userApi.login({
+        username: data.username,
+        password: data.password,
+    });
+    return response;
+});
 
 
 const authSlice = createSlice({
@@ -28,7 +38,11 @@ const authSlice = createSlice({
     },
     extraReducers: (builder) => {
         // Add reducers for additional action types here, and handle loading state as needed
+        builder.addCase(loginThunk.fulfilled, (state, action) => {
+            // Add user to the state array
 
+            //state.currentUser = action.payload;
+        });
     },
 });
 // Actions

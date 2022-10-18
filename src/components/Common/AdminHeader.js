@@ -1,9 +1,9 @@
 import { AccountCircle } from '@mui/icons-material';
-import { IconButton, Menu, MenuItem, Toolbar } from '@mui/material';
+import { IconButton, Menu, MenuItem, Toolbar, Typography } from '@mui/material';
 import { Box } from '@mui/system';
-import { authActions } from 'features/auth/authSlice';
+import { authActions, selectCurrentUser } from 'features/auth/authSlice';
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { removeLSItem } from 'utils';
 import { AppBarStyled } from './SlytedComponent/AppBar';
@@ -15,6 +15,7 @@ function AdminHeader(props) {
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const selectUser = useSelector(selectCurrentUser);
     const [anchorEl, setAnchorEl] = React.useState(null);
 
 
@@ -65,7 +66,9 @@ function AdminHeader(props) {
                         color={"success"}
                     >
                         <AccountCircle />
+                        <Typography component="span" color="#000" >{selectUser.name}</Typography>
                     </IconButton>
+
                     <Menu
                         id="menu-appbar"
                         anchorEl={anchorEl}

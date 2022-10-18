@@ -25,13 +25,14 @@ export default function BasicSelect({ name, label, control, options = [], ...inp
             fullWidth
             size="small"
             error={invalid}
+
         >
             <InputLabel id={`select-${name}`}>{label}</InputLabel>
-            <SlytedSelect labelId={`select-${name}`} label={label} value={value} onChange={onChange}>
+            <SlytedSelect labelId={`select-${name}`} label={label} value={value} onChange={onChange} >
 
-                {options.map((row, i) => (
-                    <MenuItem key={i} value={row.value}>
-                        {row.label}
+                {options?.map((row, i) => (
+                    <MenuItem key={i} value={row.id}>
+                        {row.name}
                     </MenuItem>
                 ))}
             </SlytedSelect>
