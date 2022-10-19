@@ -25,23 +25,7 @@ function CheckboxField({ name, label, control, isArray = false, ...inputProps })
             <FormControlLabel
                 inputRef={ref}
                 value={inputProps.value}
-                onChange={(e) => {
-                    if (isArray) {
-                        const valueCopy = [...value];
-                        if (e.target.checked) {
-                            valueCopy.push(inputProps.value); // append to array
-                        } else {
-                            const idx = valueCopy.findIndex(
-                                (formOption) => formOption[1] === inputProps.value
-                            );
-                            valueCopy.splice(idx, 1); // remove from array
-                        }
-                        onChange(valueCopy); // update form field with new array
-                    } else {
-                        onChange(e.target.checked)
-                    }
-
-                }}
+                onChange={onChange}
                 control={<Checkbox size="small" inputProps={inputProps} color="secondary" />}
                 label={label}
             />

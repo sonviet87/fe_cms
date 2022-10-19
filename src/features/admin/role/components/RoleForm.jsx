@@ -19,7 +19,7 @@ RoleForm.propTypes = {
 };
 
 
-function RoleForm({ initialValue, permissions, permissionsOwner, onSubmit, values, isEdit }) {
+function RoleForm({ initialValue, permissions, onSubmit, values, isEdit }) {
     const validationRules = {
         name: yup.string().required('Please enter your name'),
 
@@ -38,20 +38,16 @@ function RoleForm({ initialValue, permissions, permissionsOwner, onSubmit, value
 
     const handleFormSubmit = async (formValues) => {
         if (!onSubmit) return;
-        console.log(formValues)
-        // await onSubmit(formValues);
+        await onSubmit(formValues);
     };
 
     React.useEffect(() => {
         if (isEdit) {
-            console.log('values', values);
             setValue('name', values.name);
-            //console.log(permissionsOwner);
-
-            // setValue('permissions', Array.isArray(permissionsOwner) ? permissions.filter(value => permissionsOwner.filter(item => item.id === value.id)) : false)
+            setValue('permissions', values.permissions?.flatMap(x => x.id.toString()))
         }
     }, [values]);
-    console.log('permission', permissions);
+
     return (
         <Box
             component="form"
@@ -69,12 +65,14 @@ function RoleForm({ initialValue, permissions, permissionsOwner, onSubmit, value
             <Divider sx={{ mt: 2 }} />
             <Grid container spacing={2}>
 
-                {/* {permissions.length > 0 && permissions.map((item) => {
-                    return <Grid item xs={2} key={item.id}><CheckboxField name="permissions" value={item.id} isArray label={item.name} control={control} /></Grid>
-                })} */}
+                {/* {
+                    permissions.length > 0 && permissions.map((item) => {
+                        return <Grid item xs={2} key={item.id}><CheckboxField name="permissions" value={item.id} isArray label={item.name} control={control} /></Grid>
+                    })
+                } */}
 
 
-                <MutilCheckBox name="permissions" options={permissions} control={control} />
+                {<MutilCheckBox name="permissions" options={permissions} control={control} />}
 
 
 
