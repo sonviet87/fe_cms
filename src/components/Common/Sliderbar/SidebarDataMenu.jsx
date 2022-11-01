@@ -15,8 +15,8 @@ export const MenuCMS = [
                 Icon: DashboardIcon,
             },
             {
-                title: 'Order Management',
-                route: '/admin/orders',
+                title: 'Tài khoản',
+                route: '/admin/accounts',
                 Icon: ShoppingCartIcon,
             },
 
