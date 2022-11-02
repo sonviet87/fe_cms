@@ -3,7 +3,8 @@ import { authActions, selectCurrentUser } from "features/auth/authSlice";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { getLSItem } from "utils";
+import { toast } from "react-toastify";
+import { getLSItem, removeLSItem } from "utils";
 import { LoadingOverlay } from "./LoadingOverlay";
 
 
@@ -18,16 +19,26 @@ function PrivateRoute({ children }) {
         (async () => {
             const accessToken = getLSItem('access_token');
             const isLoggedIn = Boolean(accessToken);
+
             if (!isLoggedIn) {
                 return navigate('/login');
             }
             if (!selectUser) {
-                const res = await userApi.getUser();
+                try {
+                    const res = await userApi.getUser();
+                    if (!res.status) return navigate('/login');
 
-                if (!res.status) return navigate('/login');
+                    dispatch(authActions.setRoles(res.data.roles));
+                    dispatch(authActions.setCurrentUser(res.data));
+                } catch (err) {
+                    toast.error("Lỗi đăng nhập")
+                    //console.log(err.response.data);
+                    dispatch(authActions.logout());
+                    removeLSItem('access_token');
+                    removeLSItem('typeLogin');
+                    return navigate('/login');
+                }
 
-                dispatch(authActions.setRoles(res.data.roles));
-                dispatch(authActions.setCurrentUser(res.data));
 
             }
             setLoading(false);
