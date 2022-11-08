@@ -19,7 +19,11 @@ export const MenuCMS = [
                 route: '/admin/accounts',
                 Icon: ShoppingCartIcon,
             },
-
+            {
+                title: 'Liên hệ',
+                route: '/admin/contacts',
+                Icon: ShoppingCartIcon,
+            },
             {
                 title: 'Payment Management',
                 Icon: PaymentsIcon,
