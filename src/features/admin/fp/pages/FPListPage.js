@@ -1,17 +1,17 @@
-import accountApi from 'api/accountAPI';
+import fpApi from 'api/fpAPI';
+
 import { LoadingOverlay } from 'components/Common/LoadingOverlay';
 import { WrapperPage } from 'components/Common/SlytedComponent/Wrapper';
 import TitleForm from 'components/Common/TitleForm';
 import React from 'react';
 import { toast } from 'react-toastify';
-import UserFilter from '../components/AccountFilter';
-import AccountList from '../components/AccountList';
+import FPFilter from '../components/FPFilter';
+import FPList from '../components/FPList';
 
-
-function AccountListPage() {
+function FPListPage() {
     const [loading, setLoading] = React.useState(false);
     const [list, setList] = React.useState({
-        users: [],
+        fps: [],
         pagination: {
             total: 0,
             current_page: 0
@@ -31,20 +31,17 @@ function AccountListPage() {
 
     const handleDelete = async (item) => {
         setLoading(true);
-        const res = await accountApi.delete([item.id]);
+        const res = await fpApi.delete([item.id]);
         if (res.status) {
             if (res.data.status) {
                 setFilter({
                     per_page: 10,
                     page: 1,
                 });
-                console.log(res)
                 toast.success(res.data.message);
             } else {
                 toast.error(res.data.message);
             }
-
-
 
         } else {
             toast.error(res.message);
@@ -53,12 +50,14 @@ function AccountListPage() {
     };
 
     React.useEffect(() => {
+
         (async () => {
             setLoading(true);
-            const res = await accountApi.getAll(filter);
+            const res = await fpApi.getAll(filter);
             if (res.status) {
+                console.log(res.data.data)
                 setList({
-                    users: res.data.data,
+                    fps: res.data.data,
                     pagination: {
                         total: res.data.meta.total,
                         current_page: res.data.meta.current_page
@@ -74,9 +73,9 @@ function AccountListPage() {
             {loading && (
                 <LoadingOverlay />
             )}
-            <TitleForm lable="Danh sách tài khoản" />
-            <UserFilter loading={loading} filter={filter} onSubmit={handleFilter} />
-            <AccountList list={list.users}
+            <TitleForm lable="Danh sách FP" />
+            <FPFilter loading={loading} filter={filter} onSubmit={handleFilter} />
+            <FPList list={list.fps}
                 pagination={list.pagination}
                 loading={loading}
                 filter={filter}
@@ -87,4 +86,4 @@ function AccountListPage() {
     );
 }
 
-export default AccountListPage;
+export default FPListPage;

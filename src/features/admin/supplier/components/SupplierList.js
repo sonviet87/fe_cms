@@ -7,7 +7,7 @@ import { TablePaginationActions } from 'components/Common/TablePaginationActions
 import { BasicButtonStyled } from 'components/Common/SlytedComponent/Button';
 import ConfirmDialog from 'components/Common/ConfirmDialog';
 
-export default function ContactList({ list, pagination, filter, onFilter, onDelete }) {
+export default function SupplierList({ list, pagination, filter, onFilter, onDelete }) {
 
   const navigate = useNavigate();
   const [confirmDeleteDialogData, setConfirmDeleteDialogData] = React.useState({
@@ -33,8 +33,8 @@ export default function ContactList({ list, pagination, filter, onFilter, onDele
 
   const handleOpenConfirmDeleteDialog = (row) => {
     setConfirmDeleteDialogData({
-      title: 'Notification',
-      message: `Are you sure to delete this user <strong>${row.name}</strong>!`,
+      title: 'Cảnh báo',
+      message: `Bạn có chắc sẽ xóa <strong>${row.company} ?</strong>!`,
       open: true,
       deleteItem: row,
     });
@@ -60,13 +60,12 @@ export default function ContactList({ list, pagination, filter, onFilter, onDele
         <TableHead>
           <TableRow>
             <TableCell>ID</TableCell>
-            <TableCell>Họ và Tên</TableCell>
-            <TableCell>Tên tài khoản</TableCell>
-            <TableCell>Gán cho</TableCell>
+            <TableCell>Công ty</TableCell>
+            <TableCell>Tài khoản</TableCell>
+            <TableCell>Địa chỉ</TableCell>
+            <TableCell>Mã số thuế</TableCell>
             <TableCell>Điện thoại</TableCell>
             <TableCell>Email</TableCell>
-
-
             <TableCell align="right">hành động</TableCell>
           </TableRow>
         </TableHead>
@@ -76,18 +75,17 @@ export default function ContactList({ list, pagination, filter, onFilter, onDele
               <TableRow key={row.id}>
                 <TableCell>{row.id}</TableCell>
                 <TableCell component="th">
-                  <Link to={'/admin/contacts/' + row.id}>
-                    {row.name}
+                  <Link to={'/admin/suppliers/' + row.id}>
+                    {row.company}
                   </Link>
                 </TableCell>
                 <TableCell>{row.account}</TableCell>
-                <TableCell>{row.user}</TableCell>
+                <TableCell>{row.address}</TableCell>
 
 
-                <TableCell> {row.phone} </TableCell>
+                <TableCell>{row.mst} </TableCell>
+                <TableCell>{row.phone}</TableCell>
                 <TableCell>{row.email}</TableCell>
-
-
                 <TableCell
                   align="right"
 
@@ -97,7 +95,7 @@ export default function ContactList({ list, pagination, filter, onFilter, onDele
                     variant="contained"
                     color="primary"
                     size="small"
-                    onClick={() => navigate('/admin/contacts/' + row.id)}
+                    onClick={() => navigate('/admin/suppliers/' + row.id)}
                   >
                     <EditIcon fontSize="small" />
                   </BasicButtonStyled>
@@ -117,7 +115,7 @@ export default function ContactList({ list, pagination, filter, onFilter, onDele
           <TableRow>
             <TablePagination
               rowsPerPageOptions={[5, 10, 25]}
-              colSpan={10}
+              colSpan={8}
               count={pagination.total}
               rowsPerPage={filter.per_page}
               page={pagination.current_page ? pagination.current_page - 1 : 0}

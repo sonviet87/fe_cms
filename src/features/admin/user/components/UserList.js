@@ -120,11 +120,17 @@ export default function UserList({ list, pagination, filter, onFilter, onDelete 
         <TableFooter>
           <TableRow>
             <TablePagination
-              rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
+              rowsPerPageOptions={[5, 10, 25]}
               colSpan={8}
               count={pagination.total}
               rowsPerPage={filter.per_page}
               page={pagination.current_page ? pagination.current_page - 1 : 0}
+              labelRowsPerPage={"Số dòng trên trang"}
+              labelDisplayedRows={
+                ({ from, to, count }) => {
+                  return '' + from + '-' + to + ' của ' + count + ' dòng'
+                }
+              }
               SelectProps={{
                 inputProps: {
                   'aria-label': 'rows per page',

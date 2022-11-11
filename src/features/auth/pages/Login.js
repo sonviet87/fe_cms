@@ -35,8 +35,10 @@ function Login() {
         //     username: formValues.username,
         //     password: formValues.password,
         // });
+
         dispatch(loginThunk(formValues)).then((res) => {
-            if (res.payload.status) {
+
+            if (res.payload?.status && res.payload !== undefined) {
                 if (res.payload.data.status) {
                     setLSItem('access_token', res.payload.data.data.accessToken);
                     delete res.payload.data.data.accessToken;
@@ -45,14 +47,21 @@ function Login() {
                     dispatch(authActions.setCurrentUser(res.payload.data.data));
                     navigate('/admin');
                 } else {
-                    toast.error(res.payload.data.message);
+                    toast.error(res.payload?.data.message);
                 }
                 setLoading(false);
 
             } else {
-                toast.error(res.payload.data.message);
+                if (res.payload !== undefined) toast.error(res.payload?.data.message);
+                else toast.error(res.error.message);
+                setLoading(false);
             }
+        }).catch((errorMessage) => {
+            console.error(errorMessage);
+            setLoading(false);
         })
+
+
     };
     return (
         <Container>

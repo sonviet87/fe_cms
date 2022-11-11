@@ -20,7 +20,7 @@ function UserListPage() {
     });
 
     const [filter, setFilter] = React.useState({
-        per_page: 5,
+        per_page: 10,
         page: 0,
     });
     const handleFilter = async (data) => {
@@ -81,6 +81,7 @@ function UserListPage() {
                 pagination={list.pagination}
                 loading={loading}
                 filter={filter}
+                labelRowsPerPage={"Số dòng trên trang"}
                 onFilter={handleFilter}
                 onDelete={handleDelete}
             />

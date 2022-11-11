@@ -20,7 +20,7 @@ function ContactListPage() {
     });
 
     const [filter, setFilter] = React.useState({
-        per_page: 5,
+        per_page: 10,
         page: 0,
     });
     const handleFilter = async (data) => {

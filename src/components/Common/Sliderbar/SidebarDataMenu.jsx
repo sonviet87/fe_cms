@@ -1,6 +1,5 @@
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
-import PaymentsIcon from '@mui/icons-material/Payments';
 import ReceiptIcon from '@mui/icons-material/Receipt';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 
@@ -25,8 +24,14 @@ export const MenuCMS = [
                 Icon: ShoppingCartIcon,
             },
             {
-                title: 'Payment Management',
-                Icon: PaymentsIcon,
+                title: 'Nhà cung cấp',
+                route: '/admin/suppliers',
+                Icon: ShoppingCartIcon,
+            },
+            {
+                title: 'FP',
+                route: '/admin/fps',
+                Icon: ShoppingCartIcon,
             },
             {
                 title: 'Quotation Management',

@@ -1,15 +1,11 @@
 import axiosClient from "./axiosClient";
-const url = '/contacts';
-const contactApi = {
+const url = '/fps';
+const fpApi = {
   getAll: (params) => {
     return axiosClient.get(url, { params });
   },
   get: (id) => {
     return axiosClient.get(url + '/' + id);
-  },
-
-  getByIDUsers: (id) => {
-    return axiosClient.get(url + '/user/' + id );
   },
 
   add: (params) => {
@@ -29,4 +25,4 @@ const contactApi = {
   }
 };
 
-export default contactApi;
+export default fpApi;
