@@ -7,6 +7,9 @@ const accountApi = {
   get: (id) => {
     return axiosClient.get(url + '/' + id);
   },
+  getContactByIDAccount: (id) => {
+    return axiosClient.get(url + '/contacts/' + id);
+  },
 
   add: (params) => {
     return axiosClient.post(url, params);

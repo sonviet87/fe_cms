@@ -8,9 +8,7 @@ const contactApi = {
     return axiosClient.get(url + '/' + id);
   },
 
-  getByIDUsers: (id) => {
-    return axiosClient.get(url + '/user/' + id );
-  },
+  
 
   add: (params) => {
     return axiosClient.post(url, params);

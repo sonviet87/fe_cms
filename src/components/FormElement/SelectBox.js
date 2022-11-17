@@ -1,5 +1,4 @@
 import * as React from 'react';
-import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
@@ -21,7 +20,7 @@ export default function BasicSelect({ name, label, control, options = [], ...inp
     return (
 
         <FormControl
-            sx={{ minWidth: 120, marginBottom: '8px' }}
+            sx={{ minWidth: 150, marginBottom: '8px', marginTop: '8px' }}
             fullWidth
             size="small"
             error={invalid}
@@ -30,14 +29,14 @@ export default function BasicSelect({ name, label, control, options = [], ...inp
             <InputLabel id={`select-${name}`}>{label}</InputLabel>
             <SlytedSelect labelId={`select-${name}`} label={label} value={value}
                 onChange={(e) => {
-                    inputProps.onChange();
+                    if (inputProps.onChange) inputProps.onChange(e.target.value);
                     onChange(e.target.value)
                 }}
+                {...inputProps}
             >
+                {options && options?.map((row, i) => (
 
-                {options.length !== 0 && options?.map((row, i) => (
-
-                    <MenuItem key={i} value={row.id}>
+                    <MenuItem key={i} value={row.id} >
                         {row.name}
                     </MenuItem>
                 ))}
@@ -50,7 +49,8 @@ export default function BasicSelect({ name, label, control, options = [], ...inp
 
 export const SlytedSelect = styled(Select)(({ theme }) => ({
     '& .MuiSelect-select': {
-        padding: '8px 14px'
+        padding: '8px 14px',
     },
-    margin: '0 5px'
+    margin: '0 5px',
+
 }))

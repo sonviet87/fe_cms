@@ -9,7 +9,9 @@ import TitleForm from 'components/Common/TitleForm';
 import FPForm from '../components/FPForm';
 import fpApi from 'api/fpAPI';
 import accountApi from 'api/accountAPI';
-import contactApi from 'api/contactAPI';
+import categoryAPi from 'api/categoryAPI';
+import supplierApi from 'api/suppliertAPI';
+
 
 function AdminFPAddEditPage() {
 
@@ -19,6 +21,8 @@ function AdminFPAddEditPage() {
     const [fps, setFP] = React.useState({});
     const [accounts, setAccounts] = React.useState([]);
     const [contacts, setContacts] = React.useState([]);
+    const [categories, setCategories] = React.useState([]);
+    const [suppliers, setSuppliers] = React.useState([]);
 
     const navigate = useNavigate();
 
@@ -26,10 +30,26 @@ function AdminFPAddEditPage() {
         name: '',
         account_id: '',
         contact_id: '',
+
         user_id: '',
         status: 0,
         selling: 0,
         margin: 0,
+        details:
+            [
+                {
+                    supplier_id: '',
+                    category_id: '',
+                    qty: 1,
+                    price_buy: '',
+                    total_buy: 0,
+                    price_sell: '',
+                    total_sell: 0,
+                    profit: ''
+                },
+
+            ]
+
 
     };
 
@@ -37,16 +57,20 @@ function AdminFPAddEditPage() {
 
         (async () => {
             try {
-                let [accountRs, contactRs] = await Promise.all([
+                let [accountRs, categoriesRs, supplierRs] = await Promise.all([
                     accountApi.getAll(),
-                    contactApi.getAll(),
+                    categoryAPi.getAll(),
+                    supplierApi.getlist(),
                 ]);
+
                 if (accountRs.status) {
                     setAccounts(accountRs.data.data);
                 }
-
-                if (contactRs.status) {
-                    setContacts(contactRs.data.data);
+                if (categoriesRs.status) {
+                    setCategories(categoriesRs.data.data);
+                }
+                if (supplierRs.status) {
+                    setSuppliers(supplierRs.data.data);
                 }
 
             }
@@ -111,6 +135,13 @@ function AdminFPAddEditPage() {
         setLoading(false);
     };
 
+    const handleCallAPIContact = async (formValues) => {
+        const contactRs = await accountApi.getContactByIDAccount(formValues);
+        if (contactRs.status) {
+            setContacts(contactRs.data.data);
+        }
+
+    }
     return (
         <WrapperPage >
             {loading && (
@@ -119,7 +150,7 @@ function AdminFPAddEditPage() {
             <TitleForm lable={isEdit ? "Cập nhật FP" : "Thêm FP "} />
 
             {(!isEdit || Boolean(fps)) && (
-                <FPForm initialValue={initialValue} onSubmit={handleFormSubmit} itemValue={fps} accountValue={accounts} contactValue={contacts} isEdit={isEdit} />
+                <FPForm initialValue={initialValue} onSubmit={handleFormSubmit} onCallContactAPi={handleCallAPIContact} itemValue={fps} accountValue={accounts} contactValue={contacts} categoriesValues={categories} suppliersValues={suppliers} isEdit={isEdit} />
             )}
 
         </WrapperPage>

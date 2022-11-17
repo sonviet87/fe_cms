@@ -1,6 +1,7 @@
 import React from 'react';
 import { useController } from 'react-hook-form';
-import { TextField } from '@mui/material';
+import { TextFiledStyled } from 'components/Common/SlytedComponent/Input';
+import { NumericFormat } from 'react-number-format';
 // import { Container } from './styles';
 
 function TextFormik({ name, label, control, ...inputProps }) {
@@ -14,7 +15,7 @@ function TextFormik({ name, label, control, ...inputProps }) {
         defaultValue: '',
     });
     return (
-        <TextField
+        <TextFiledStyled
             error={invalid}
             name={name}
             fullWidth
@@ -28,7 +29,40 @@ function TextFormik({ name, label, control, ...inputProps }) {
             onBlur={onBlur}
             inputProps={inputProps}
             helperText={error?.message}
+            {...inputProps}
         />
+    );
+}
+export const TextFieldNumber = ({ name, label, control, onValueChange, ...inputProps }) => {
+    const {
+        field: { ref, onChange, onBlur, value },
+        fieldState: { invalid, error },
+    } = useController({
+        name,
+        control,
+        rules: { required: true },
+        defaultValue: '',
+    });
+
+    return (
+        <NumericFormat
+            customInput={TextFiledStyled}
+            thousandSeparator={true}
+            value={value}
+            {...inputProps}
+            label={label}
+            margin="normal"
+            size="small"
+            variant="outlined"
+            onValueChange={onValueChange}
+            onChange={onChange}
+            onBlur={onBlur}
+            inputProps={inputProps}
+            helperText={error?.message}
+            inputRef={ref}
+
+        />
+
     );
 }
 

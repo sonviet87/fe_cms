@@ -4,6 +4,9 @@ const supplierApi = {
   getAll: (params) => {
     return axiosClient.get(url, { params });
   },
+  getlist: (params) => {
+    return axiosClient.get('/suppliersList', { params });
+  },
   get: (id) => {
     return axiosClient.get(url + '/' + id);
   },

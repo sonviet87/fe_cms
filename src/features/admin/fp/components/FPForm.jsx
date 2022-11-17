@@ -1,49 +1,54 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Grid } from '@mui/material';
+import { Button, Grid } from '@mui/material';
 import { Box } from '@mui/system';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { useForm } from 'react-hook-form';
+import { useFieldArray, useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import LoadingButton from '@mui/lab/LoadingButton';
 import TextFormik from 'components/FormElement/TextFormik';
 import BasicSelect from 'components/FormElement/SelectBox';
-import contactApi from 'api/contactAPI';
+import { BoxItem, WrapperBox, WrapperBoxItem } from '../style/StyledFP';
+import { BasicButtonStyled } from 'components/Common/SlytedComponent/Button';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import AddIcon from '@mui/icons-material/Add';
+import { TextFieldNumber } from 'components/FormElement';
 
 FPForm.propTypes = {
     initialValue: PropTypes.object,
     onSubmit: PropTypes.func,
 };
 
-function FPForm({ initialValue, onSubmit, itemValue, accountValue, contactValue, isEdit }) {
+function FPForm({ initialValue, onSubmit, onCallContactAPi, itemValue, accountValue, contactValue, categoriesValues, suppliersValues, isEdit }) {
     const validationRules = {
-        company: yup.string().required('Xin hãy điền thông tin công ty'),
+        name: yup.string().required('Xin hãy điền tên FP'),
+        // category_id: yup.string().required('Xin hãy chọn danh mục'),
     };
 
-    const [contacts, setContacts] = React.useState([]);
     const schema = yup.object().shape(validationRules);
-    const {
-        control,
-        handleSubmit,
-        formState: { isSubmitting },
-        setValue
-    } = useForm({
+
+
+    const { control, handleSubmit, formState: { isSubmitting, errors }, setValue, getValues } = useForm({
         defaultValues: initialValue,
         resolver: yupResolver(schema),
     });
 
+    const { fields, append, remove, prepend } = useFieldArray({
+        control,
+        name: "details"
+    });
+
     const handleFormSubmit = async (formValues) => {
         if (!onSubmit) return;
-        await onSubmit(formValues);
+        console.log(formValues)
+        //await onSubmit(formValues);
     };
 
 
-    const handleCallAPIContact = async (formValues) => {
-        const contactRs = await contactApi.getByIDUsers(2);
-        if (contactRs.status) {
-            setContacts(contactRs.data.data);
-        }
-        contactValue = contacts;
+    const handleCallAPIContact = async (formValue) => {
+        if (!onCallContactAPi) return;
+        setValue('contact_id', "");
+        await onCallContactAPi(formValue);
     }
     React.useEffect(() => {
         if (isEdit) {
@@ -65,6 +70,7 @@ function FPForm({ initialValue, onSubmit, itemValue, accountValue, contactValue,
             onSubmit={handleSubmit(handleFormSubmit)}
 
         >
+
             <Grid container spacing={2}>
                 <Grid item xs={12} md={12} >
                     <TextFormik name="name" label="Tên FP" control={control} />
@@ -75,7 +81,7 @@ function FPForm({ initialValue, onSubmit, itemValue, accountValue, contactValue,
                         label="Tài khoản"
                         control={control}
                         options={accountValue}
-                        onChange={() => { handleCallAPIContact() }}
+                        onChange={handleCallAPIContact}
                     />
                 </Grid>
                 <Grid item xs={12} md={6} >
@@ -88,7 +94,111 @@ function FPForm({ initialValue, onSubmit, itemValue, accountValue, contactValue,
 
                     />
                 </Grid>
+                <Grid item xs={12}>
+                    <WrapperBox>
+                        {fields.map((field, index) => (
 
+                            <WrapperBoxItem key={field.id} >
+
+                                <BoxItem  >
+                                    <BasicSelect
+                                        name={`details[${index}].category_id`}
+                                        label="Danh mục"
+                                        control={control}
+                                        options={categoriesValues}
+                                        sx={{ width: '250px' }}
+                                    />
+                                </BoxItem>
+                                <BoxItem >
+                                    <TextFieldNumber
+                                        name={`details[${index}].qty`}
+                                        label="Số lượng" control={control}
+                                        sx={{ width: '80px' }}
+                                        onValueChange={(v) => {
+                                            let price_buy = getValues(`details[${index}].price_buy`);
+                                            let price_sell = getValues(`details[${index}].price_sell`);
+                                            setValue(`details[${index}].total_buy`, v.value * parseFloat(price_buy.replace(/,/g, '')));
+                                            setValue(`details[${index}].total_sell`, v.value * parseFloat(price_sell.replace(/,/g, '')));
+                                        }}
+                                    />
+                                </BoxItem>
+                                <BoxItem >
+
+                                    <TextFieldNumber
+                                        name={`details[${index}].price_buy`}
+                                        label="Giá mua"
+                                        control={control}
+                                        onValueChange={(v) => {
+                                            let qty = getValues(`details[${index}].qty`);
+                                            setValue(`details[${index}].total_buy`, qty * parseFloat(v.value.replace(/,/g, '')));
+                                        }}
+                                    />
+                                </BoxItem>
+                                <BoxItem >
+
+                                    <TextFieldNumber name={`details[${index}].total_buy`} label="Tổng giá mua" control={control} />
+                                </BoxItem>
+                                <BoxItem >
+                                    <TextFieldNumber
+                                        name={`details[${index}].price_sell`}
+                                        label="Giá bán"
+                                        control={control}
+                                        onValueChange={(v) => {
+                                            let qty = getValues(`details[${index}].qty`);
+                                            setValue(`details[${index}].total_sell`, qty * parseFloat(v.value.replace(/,/g, '')));
+                                        }}
+                                    />
+                                </BoxItem>
+                                <BoxItem >
+                                    <TextFieldNumber name={`details[${index}].total_sell`} label="Tổng giá bán" control={control} />
+                                </BoxItem>
+                                <BoxItem >
+                                    <TextFieldNumber suffix={'%'} name={`details[${index}].profit`} label="Lợi nhuận" control={control} />
+                                </BoxItem>
+                                <BoxItem  >
+                                    <BasicSelect
+                                        name={`details[${index}].supplier_id`}
+                                        label="Nhà cung cấp"
+                                        control={control}
+                                        options={suppliersValues}
+                                        sx={{ width: '250px' }}
+                                    />
+                                </BoxItem>
+                                <BoxItem >
+                                    <BasicButtonStyled
+                                        variant="contained"
+                                        color="error"
+                                        size="small"
+                                        onClick={() => remove(index)}
+                                    >
+                                        <DeleteOutlineIcon fontSize="small" />
+                                    </BasicButtonStyled>
+                                </BoxItem>
+                            </WrapperBoxItem >
+                        ))}
+
+                        <Button
+                            color="primary"
+                            variant="contained"
+                            startIcon={<AddIcon />}
+                            onClick={() => {
+                                append({
+                                    supplier_id: '',
+                                    category_id: '',
+                                    qty: '',
+                                    price_buy: '',
+                                    price_sell: '',
+                                    profit: '',
+                                    text_buy: '',
+                                    text_sell: ''
+                                })
+                            }}
+                        > Thêm </Button>
+
+
+                    </WrapperBox>
+
+                </Grid>
 
 
                 <Grid item xs={12} md={6}>
@@ -103,7 +213,7 @@ function FPForm({ initialValue, onSubmit, itemValue, accountValue, contactValue,
                     </LoadingButton>
                 </Grid>
             </Grid>
-        </Box>
+        </Box >
     );
 }
 
