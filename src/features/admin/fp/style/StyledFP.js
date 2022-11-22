@@ -1,4 +1,4 @@
-import { Box } from '@mui/material';
+import { Box, TableCell } from '@mui/material';
 import { styled } from '@mui/material/styles';
 export const WrapperBox = styled(Box, {}
 )(() => ({
@@ -19,5 +19,11 @@ export const WrapperBoxItem = styled(Box, {}
 export const BoxItem = styled(Box, {}
 )(() => ({
     margin: '0 5px',
+
+}));
+
+export const TableCellStyled = styled(TableCell, {}
+)(() => ({
+    padding: '5px',
 
 }));

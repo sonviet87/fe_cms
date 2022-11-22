@@ -57,7 +57,45 @@ export const TextFieldNumber = ({ name, label, control, onValueChange, ...inputP
             onValueChange={onValueChange}
             onChange={onChange}
             onBlur={onBlur}
-            inputProps={inputProps}
+
+            helperText={error?.message}
+            inputRef={ref}
+
+        />
+
+    );
+}
+
+export const TextFieldNumberAuto = ({ name, label, control, onValueChange, ...inputProps }) => {
+    const {
+        field: { ref, onChange, onBlur, value },
+        fieldState: { invalid, error },
+    } = useController({
+        name,
+        control,
+        rules: { required: true },
+        defaultValue: '',
+    });
+
+    return (
+        <NumericFormat
+            customInput={TextFiledStyled}
+            thousandSeparator={true}
+            value={value}
+            {...inputProps}
+            label={label}
+            margin="normal"
+            size="small"
+            variant="outlined"
+            onValueChange={onValueChange}
+            onChange={onChange}
+            onBlur={onBlur}
+            InputProps={{
+                inputProps: {
+                    type: 'number',
+                    min: 0, max: 50,
+                },
+            }}
             helperText={error?.message}
             inputRef={ref}
 

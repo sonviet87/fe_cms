@@ -7,7 +7,7 @@ import styled from '@emotion/styled';
 import { useController } from 'react-hook-form';
 import { FormHelperText } from '@mui/material';
 
-export default function BasicSelect({ name, label, control, options = [], ...inputProps }) {
+export default function BasicSelect({ name, label, control, options = [], onChangeAjax, ...inputProps }) {
 
     const {
         field: { onChange, value },
@@ -29,7 +29,7 @@ export default function BasicSelect({ name, label, control, options = [], ...inp
             <InputLabel id={`select-${name}`}>{label}</InputLabel>
             <SlytedSelect labelId={`select-${name}`} label={label} value={value}
                 onChange={(e) => {
-                    if (inputProps.onChange) inputProps.onChange(e.target.value);
+                    if (onChangeAjax) onChangeAjax(e.target.value);
                     onChange(e.target.value)
                 }}
                 {...inputProps}

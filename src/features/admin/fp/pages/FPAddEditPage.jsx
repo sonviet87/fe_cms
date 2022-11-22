@@ -30,7 +30,8 @@ function AdminFPAddEditPage() {
         name: '',
         account_id: '',
         contact_id: '',
-
+        shipping_charges: '',
+        guest_costs: '',
         user_id: '',
         status: 0,
         selling: 0,
@@ -45,10 +46,10 @@ function AdminFPAddEditPage() {
                     total_buy: 0,
                     price_sell: '',
                     total_sell: 0,
-                    profit: ''
+                    profit: '10%'
                 },
 
-            ]
+            ],
 
 
     };
