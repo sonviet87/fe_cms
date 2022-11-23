@@ -58,8 +58,8 @@ export const TextFieldNumber = ({ name, label, control, onValueChange, ...inputP
             onChange={onChange}
             onBlur={onBlur}
 
-            helperText={error?.message}
-            inputRef={ref}
+        // helperText={error?.message}
+        // inputRef={ref}
 
         />
 

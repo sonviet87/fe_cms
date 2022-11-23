@@ -49,6 +49,27 @@ function FPForm({ initialValue, onSubmit, onCallContactAPi, itemValue, accountVa
         //await onSubmit(formValues);
     };
 
+    const handleFPUpdatePrice = (price_buy, price_sell, qty, profit, index) => {
+        console.log(index)
+        price_buy = parseFloat(price_buy.replace(/,/g, ''));
+        price_sell = parseFloat(price_sell.replace(/,/g, ''));
+
+        // fomula price sell
+        let priceSell = (Math.round((price_buy / (1 - (toDecimal(profit)))) + Number.EPSILON).toFixed());
+        setValue(`details[${index}].price_sell`, priceSell);
+
+        if (price_buy !== '') setValue(`details[${index}].total_buy`, qty * price_buy);
+        if (price_sell !== '') setValue(`details[${index}].total_sell`, qty * priceSell);
+        if (price_buy !== '') setTotalsBuy(totalPriceBuy(getValues('details')));
+        let totalSell = totalPriceSell(getValues('details'));
+        if (price_sell !== '') setTotalsSell(totalSell);
+        setValue('shipping_charges_percent', ((parseFloat(getValues('shipping_charges').toString().replace(/,/g, '')) / totalSell) * 100).toFixed(0));
+        setValue('guest_costs_percent', ((parseFloat(getValues('guest_costs').toString().replace(/,/g, '')) / totalSell) * 100).toFixed(0));
+        setValue('deployment_costs_percent', ((parseFloat(getValues('deployment_costs').toString().replace(/,/g, '')) / totalSell) * 100).toFixed(0));
+        setValue('interest', Math.round(((getValues('interest_percent') * totalSell) / 100)));
+        setValue("commission", Math.round(((getValues('commission_percent').toString().replace(/%/g, '')) / 100) * totalSell));
+        setValue("tax", Math.round(Math.round(((getValues('commission_percent').toString().replace(/%/g, '')) / 100) * totalSell) * 0.2))
+    }
 
     const handleCallAPIContact = async (formValue) => {
         if (!onCallContactAPi) return;
@@ -106,9 +127,6 @@ function FPForm({ initialValue, onSubmit, onCallContactAPi, itemValue, accountVa
                             <Table aria-label="simple table">
                                 <TableBody>
                                     {fields.map((field, index) => (
-
-
-
                                         <TableRow key={field.id} >
                                             <TableCellStyled>
 
@@ -128,17 +146,22 @@ function FPForm({ initialValue, onSubmit, onCallContactAPi, itemValue, accountVa
                                                     label="Số lượng" control={control}
                                                     sx={{ width: '80px' }}
                                                     onValueChange={(v) => {
-                                                        let price_buy = getValues(`details[${index}].price_buy`);
+                                                        let price_buy = getValues(`details[${index}].price_buy`).toString();
                                                         let price_sell = getValues(`details[${index}].price_sell`).toString();
-                                                        // fomula price sell
-                                                        let profit = getValues(`details[${index}].profit`);
-                                                        let priceSell = (Math.round(price_sell / (1 - (toDecimal(profit)))));
-                                                        setValue(`details[${index}].price_sell`, priceSell);
 
-                                                        if (price_buy !== '') setValue(`details[${index}].total_buy`, v.value * parseFloat(price_buy.replace(/,/g, '')));
-                                                        if (price_sell !== '') setValue(`details[${index}].total_sell`, v.value * parseFloat(price_sell.replace(/,/g, '')));
-                                                        if (price_buy !== '') setTotalsBuy(totalPriceBuy(getValues('details')))
-                                                        if (price_sell !== '') setTotalsSell(totalPriceSell(getValues('details')))
+                                                        // price_buy = parseFloat(price_buy.replace(/,/g, ''));
+                                                        // price_sell = parseFloat(price_sell.replace(/,/g, ''));
+                                                        let profit = getValues(`details[${index}].profit`);
+
+                                                        // let priceSell = (Math.round(price_buy / (1 - (toDecimal(profit)))));
+                                                        // setValue(`details[${index}].price_sell`, priceSell);
+
+                                                        // if (price_buy !== '') setValue(`details[${index}].total_buy`, v.value * price_buy);
+                                                        // if (price_sell !== '') setValue(`details[${index}].total_sell`, v.value * price_sell);
+                                                        // if (price_buy !== '') setTotalsBuy(totalPriceBuy(getValues('details')))
+                                                        // if (price_sell !== '') setTotalsSell(totalPriceSell(getValues('details')))
+                                                        handleFPUpdatePrice(price_buy, price_sell, v.value, profit, index)
+
                                                     }}
                                                 />
 
@@ -152,15 +175,21 @@ function FPForm({ initialValue, onSubmit, onCallContactAPi, itemValue, accountVa
                                                     control={control}
                                                     onValueChange={(v) => {
                                                         let qty = getValues(`details[${index}].qty`);
-                                                        setValue(`details[${index}].total_buy`, qty * parseFloat(v.value.replace(/,/g, '')));
+
+                                                        //setValue(`details[${index}].total_buy`, qty * parseFloat(v.value.replace(/,/g, '')));
                                                         // fomula price sell
                                                         let profit = getValues(`details[${index}].profit`);
-                                                        let priceSell = (Math.round(parseFloat(v.value.replace(/,/g, '')) / (1 - (toDecimal(profit)))));
+                                                        //let priceSell = (Math.round(parseFloat(v.value.replace(/,/g, '')) / (1 - (toDecimal(profit)))));
 
-                                                        setValue(`details[${index}].price_sell`, priceSell);
-                                                        setValue(`details[${index}].total_sell`, qty * priceSell);
-                                                        setTotalsSell(totalPriceSell(getValues('details')))
-                                                        setTotalsBuy(totalPriceBuy(getValues('details')))
+                                                        // setValue(`details[${index}].price_sell`, priceSell);
+                                                        // setValue(`details[${index}].total_sell`, qty * priceSell);
+                                                        // setTotalsSell(totalPriceSell(getValues('details')))
+                                                        // setTotalsBuy(totalPriceBuy(getValues('details')))
+
+                                                        let price_sell = getValues(`details[${index}].price_sell`).toString();
+                                                        handleFPUpdatePrice(v.value, price_sell, qty, profit, index)
+
+
                                                     }}
                                                 />
 
@@ -192,7 +221,14 @@ function FPForm({ initialValue, onSubmit, onCallContactAPi, itemValue, accountVa
                                             </TableCellStyled>
                                             <TableCellStyled>
 
-                                                <TextFieldNumber suffix={'%'} name={`details[${index}].profit`} label="Lợi nhuận" control={control} />
+                                                <TextFieldNumber suffix={'%'} name={`details[${index}].profit`} label="Lợi nhuận" control={control}
+                                                    onValueChange={(v) => {
+                                                        let qty = getValues(`details[${index}].qty`);
+                                                        let price_sell = getValues(`details[${index}].price_sell`).toString();
+                                                        let price_buy = getValues(`details[${index}].price_buy`).toString();
+                                                        handleFPUpdatePrice(price_buy, price_sell, qty, v.value, index)
+                                                    }}
+                                                />
 
                                             </TableCellStyled>
                                             <TableCellStyled>
@@ -207,15 +243,22 @@ function FPForm({ initialValue, onSubmit, onCallContactAPi, itemValue, accountVa
 
                                             </TableCellStyled>
                                             <TableCellStyled>
-
-                                                <BasicButtonStyled
+                                                {index !== 0 && <BasicButtonStyled
                                                     variant="contained"
                                                     color="error"
                                                     size="small"
-                                                    onClick={() => remove(index)}
+                                                    onClick={() => {
+                                                        remove(index)
+                                                        let price_buy = getValues(`details[0].price_buy`).toString();
+                                                        let price_sell = getValues(`details[0].price_sell`).toString();
+                                                        let profit = getValues(`details[0].profit`);
+                                                        let qty = getValues(`details[0].qty`);
+                                                        handleFPUpdatePrice(price_buy, price_sell, qty, profit, 0)
+                                                    }}
                                                 >
                                                     <DeleteOutlineIcon fontSize="small" />
-                                                </BasicButtonStyled>
+                                                </BasicButtonStyled>}
+
 
                                             </TableCellStyled>
                                         </TableRow>
@@ -239,6 +282,7 @@ function FPForm({ initialValue, onSubmit, onCallContactAPi, itemValue, accountVa
                             color="primary"
                             variant="contained"
                             startIcon={<AddIcon />}
+                            sx={{ mt: 2 }}
                             onClick={() => {
                                 append({
                                     supplier_id: '',
@@ -256,7 +300,8 @@ function FPForm({ initialValue, onSubmit, onCallContactAPi, itemValue, accountVa
 
                     </WrapperBox>
                     <Grid container spacing={0} sx={{ justifyContent: 'flex-end' }} >
-                        <FPTotal control={control} totalSell={totalSell} totalBuy={totalBuy} />
+
+                        <FPTotal control={control} totalSell={totalSell} totalBuy={totalBuy} getValues={getValues} setValue={setValue} />
                     </Grid>
 
                 </Grid>
@@ -293,6 +338,9 @@ export function totalPriceSell(arrPrice, name) {
         return total + item.total_sell;
     }, 0)
 }
+
+
+
 function toDecimal(percent) {
     return parseFloat(percent) / 100;
 }
