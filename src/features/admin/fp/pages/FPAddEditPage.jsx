@@ -40,6 +40,8 @@ function AdminFPAddEditPage() {
         interest_percent: 0,
         commission: 0,
         commission_percent: 10,
+        bids_cost: 0,
+        bids_cost_percent: 0,
         tax: 0,
         user_id: '',
         status: 0,

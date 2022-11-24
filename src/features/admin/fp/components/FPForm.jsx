@@ -3,7 +3,7 @@ import { Button, Grid, Table, TableBody, TableContainer, TableRow, Typography } 
 import { Box } from '@mui/system';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { useFieldArray, useForm } from 'react-hook-form';
+import { useFieldArray, useForm, useWatch } from 'react-hook-form';
 import * as yup from 'yup';
 import LoadingButton from '@mui/lab/LoadingButton';
 import TextFormik, { TextFieldNumberAuto } from 'components/FormElement/TextFormik';
@@ -32,6 +32,7 @@ function FPForm({ initialValue, onSubmit, onCallContactAPi, itemValue, accountVa
 
     const [totalBuy, setTotalsBuy] = React.useState(0);
     const [totalSell, setTotalsSell] = React.useState(0);
+    const [totalBids, setTotalsBids] = React.useState(0);
 
     const { control, handleSubmit, formState: { isSubmitting, errors }, setValue, getValues } = useForm({
         defaultValues: initialValue,
@@ -49,8 +50,25 @@ function FPForm({ initialValue, onSubmit, onCallContactAPi, itemValue, accountVa
         //await onSubmit(formValues);
     };
 
+    const handleTotalPrice = (shipping_charges, guest_costs, deployment_costs, interest, commission, tax, bids_cost) => {
+
+        const totalPrice = totalPriceSell(getValues('details')) - totalPriceBuy(getValues('details'));
+        // const shipping_charges = getValues("shipping_charges").toString().replace(/,/g, '');
+        // const guest_costs = getValues("guest_costs").toString().replace(/,/g, '');
+        // const deployment_costs = getValues("deployment_costs").toString().replace(/,/g, '');
+        // const interest = getValues("interest").toString().replace(/,/g, '');
+        // const commission = getValues("commission").toString().replace(/,/g, '');
+        // const tax = getValues("tax").toString().replace(/,/g, '');
+        // const bids_cost = getValues("bids_cost").toString().replace(/,/g, '');
+        console.log(getValues());
+        const totalBids = totalPrice - shipping_charges - guest_costs - deployment_costs - interest - commission - tax - bids_cost;
+
+        setTotalsBids(totalBids);
+        //return totalBids;
+    }
+
     const handleFPUpdatePrice = (price_buy, price_sell, qty, profit, index) => {
-        console.log(index)
+
         price_buy = parseFloat(price_buy.replace(/,/g, ''));
         price_sell = parseFloat(price_sell.replace(/,/g, ''));
 
@@ -63,12 +81,24 @@ function FPForm({ initialValue, onSubmit, onCallContactAPi, itemValue, accountVa
         if (price_buy !== '') setTotalsBuy(totalPriceBuy(getValues('details')));
         let totalSell = totalPriceSell(getValues('details'));
         if (price_sell !== '') setTotalsSell(totalSell);
-        setValue('shipping_charges_percent', ((parseFloat(getValues('shipping_charges').toString().replace(/,/g, '')) / totalSell) * 100).toFixed(0));
-        setValue('guest_costs_percent', ((parseFloat(getValues('guest_costs').toString().replace(/,/g, '')) / totalSell) * 100).toFixed(0));
-        setValue('deployment_costs_percent', ((parseFloat(getValues('deployment_costs').toString().replace(/,/g, '')) / totalSell) * 100).toFixed(0));
+        setValue('shipping_charges_percent', ((parseFloat(getValues('shipping_charges').toString().replace(/,/g, '')) / totalSell) * 100).toFixed(2));
+        setValue('guest_costs_percent', ((parseFloat(getValues('guest_costs').toString().replace(/,/g, '')) / totalSell) * 100).toFixed(2));
+        setValue('deployment_costs_percent', ((parseFloat(getValues('deployment_costs').toString().replace(/,/g, '')) / totalSell) * 100).toFixed(2));
         setValue('interest', Math.round(((getValues('interest_percent') * totalSell) / 100)));
         setValue("commission", Math.round(((getValues('commission_percent').toString().replace(/%/g, '')) / 100) * totalSell));
         setValue("tax", Math.round(Math.round(((getValues('commission_percent').toString().replace(/%/g, '')) / 100) * totalSell) * 0.2))
+        setValue("bids_cost", Math.round((((getValues('bids_cost_percent').toString().replace(/%/g, '')) / 100) * totalSell)))
+
+
+        const shipping_charges = getValues("shipping_charges").toString().replace(/,/g, '');
+        const guest_costs = getValues("guest_costs").toString().replace(/,/g, '');
+        const deployment_costs = getValues("deployment_costs").toString().replace(/,/g, '');
+        const interest = getValues("interest").toString().replace(/,/g, '');
+        const commission = getValues("commission").toString().replace(/,/g, '');
+        const tax = getValues("tax").toString().replace(/,/g, '');
+        const bids_cost = getValues("bids_cost").toString().replace(/,/g, '');
+
+        handleTotalPrice(shipping_charges, guest_costs, deployment_costs, interest, commission, tax, bids_cost);
     }
 
     const handleCallAPIContact = async (formValue) => {
@@ -162,6 +192,7 @@ function FPForm({ initialValue, onSubmit, onCallContactAPi, itemValue, accountVa
                                                         // if (price_sell !== '') setTotalsSell(totalPriceSell(getValues('details')))
                                                         handleFPUpdatePrice(price_buy, price_sell, v.value, profit, index)
 
+
                                                     }}
                                                 />
 
@@ -190,6 +221,7 @@ function FPForm({ initialValue, onSubmit, onCallContactAPi, itemValue, accountVa
                                                         handleFPUpdatePrice(v.value, price_sell, qty, profit, index)
 
 
+
                                                     }}
                                                 />
 
@@ -209,7 +241,27 @@ function FPForm({ initialValue, onSubmit, onCallContactAPi, itemValue, accountVa
                                                     onValueChange={(v) => {
                                                         let qty = getValues(`details[${index}].qty`);
                                                         setValue(`details[${index}].total_sell`, qty * parseFloat(v.value.replace(/,/g, '')));
-                                                        setTotalsSell(totalPriceSell(getValues('details')))
+                                                        let totalSell = totalPriceSell(getValues('details'));
+                                                        setTotalsSell(totalSell)
+
+
+                                                        setValue('shipping_charges_percent', ((parseFloat(getValues('shipping_charges').toString().replace(/,/g, '')) / totalSell) * 100).toFixed(0));
+                                                        setValue('guest_costs_percent', ((parseFloat(getValues('guest_costs').toString().replace(/,/g, '')) / totalSell) * 100).toFixed(0));
+                                                        setValue('deployment_costs_percent', ((parseFloat(getValues('deployment_costs').toString().replace(/,/g, '')) / totalSell) * 100).toFixed(0));
+                                                        setValue('interest', Math.round(((getValues('interest_percent') * totalSell) / 100)));
+                                                        setValue("commission", Math.round(((getValues('commission_percent').toString().replace(/%/g, '')) / 100) * totalSell));
+                                                        setValue("tax", Math.round(Math.round(((getValues('commission_percent').toString().replace(/%/g, '')) / 100) * totalSell) * 0.2))
+                                                        setValue("bids_cost", Math.round((((getValues('bids_cost_percent').toString().replace(/%/g, '')) / 100) * totalSell)))
+
+                                                        const shipping_charges = getValues("shipping_charges").toString().replace(/,/g, '');
+                                                        const guest_costs = getValues("guest_costs").toString().replace(/,/g, '');
+                                                        const deployment_costs = getValues("deployment_costs").toString().replace(/,/g, '');
+                                                        const interest = getValues("interest").toString().replace(/,/g, '');
+                                                        const commission = getValues("commission").toString().replace(/,/g, '');
+                                                        const tax = getValues("tax").toString().replace(/,/g, '');
+                                                        const bids_cost = getValues("bids_cost").toString().replace(/,/g, '');
+
+                                                        handleTotalPrice(shipping_charges, guest_costs, deployment_costs, interest, commission, tax, bids_cost);
                                                     }}
                                                 />
 
@@ -227,6 +279,7 @@ function FPForm({ initialValue, onSubmit, onCallContactAPi, itemValue, accountVa
                                                         let price_sell = getValues(`details[${index}].price_sell`).toString();
                                                         let price_buy = getValues(`details[${index}].price_buy`).toString();
                                                         handleFPUpdatePrice(price_buy, price_sell, qty, v.value, index)
+
                                                     }}
                                                 />
 
@@ -254,6 +307,7 @@ function FPForm({ initialValue, onSubmit, onCallContactAPi, itemValue, accountVa
                                                         let profit = getValues(`details[0].profit`);
                                                         let qty = getValues(`details[0].qty`);
                                                         handleFPUpdatePrice(price_buy, price_sell, qty, profit, 0)
+
                                                     }}
                                                 >
                                                     <DeleteOutlineIcon fontSize="small" />
@@ -301,7 +355,7 @@ function FPForm({ initialValue, onSubmit, onCallContactAPi, itemValue, accountVa
                     </WrapperBox>
                     <Grid container spacing={0} sx={{ justifyContent: 'flex-end' }} >
 
-                        <FPTotal control={control} totalSell={totalSell} totalBuy={totalBuy} getValues={getValues} setValue={setValue} />
+                        <FPTotal control={control} totalSell={totalSell} totalBuy={totalBuy} getValues={getValues} setValue={setValue} TotalPrice={handleTotalPrice} totalBids={totalBids} />
                     </Grid>
 
                 </Grid>

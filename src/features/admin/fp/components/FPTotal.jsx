@@ -1,6 +1,7 @@
 import { Grid, Table, TableBody, TableContainer, TableRow } from '@mui/material';
+
 import BasicSelect from 'components/FormElement/SelectBox';
-import TextFormik, { TextFieldNumber } from 'components/FormElement/TextFormik';
+import { TextFieldNumber } from 'components/FormElement/TextFormik';
 import React from 'react';
 import { useWatch } from 'react-hook-form';
 import { NumericFormat } from 'react-number-format';
@@ -8,11 +9,18 @@ import { TableCellStyled, WrapperBox } from '../style/StyledFP';
 
 // import { Container } from './styles';
 
-function FPTotal({ control, totalBuy, totalSell, setValue }) {
+function FPTotal({ control, totalBuy, totalSell, setValue, getValues, TotalPrice, totalBids }) {
     const monthInterest = useWatch({
         control,
         name: "interest_percent",
     });
+
+
+    const handleTotalPrice = (shipping_charges, guest_costs, deployment_costs, interest, commission, tax, bids_cost) => {
+
+        TotalPrice(shipping_charges, guest_costs, deployment_costs, interest, commission, tax, bids_cost);
+    }
+
     return <WrapperBox sx={{ mt: 4 }}>
 
         <Grid item xs={12} md={12}>
@@ -27,7 +35,7 @@ function FPTotal({ control, totalBuy, totalSell, setValue }) {
                                 <NumericFormat displayType="text" value={totalSell - totalBuy} thousandSeparator="," renderText={(value) => <b>{value}</b>} />
                             </TableCellStyled>
                             <TableCellStyled component="th" scope="row">
-                                {totalSell && (((totalSell - totalBuy) / totalSell) * 100).toFixed(0)}%
+                                {totalSell && (((totalSell - totalBuy) / totalSell) * 100).toFixed(2)}%
                             </TableCellStyled>
                         </TableRow>
                         <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}  >
@@ -37,7 +45,14 @@ function FPTotal({ control, totalBuy, totalSell, setValue }) {
                             <TableCellStyled component="th" scope="row">
                                 <TextFieldNumber name="shipping_charges" control={control}
                                     onValueChange={(v) => {
-                                        setValue("shipping_charges_percent", ((parseFloat(v.value.toString().replace(/,/g, '')) / totalSell) * 100).toFixed(2))
+                                        setValue("shipping_charges_percent", ((parseFloat(v.value.toString().replace(/,/g, '')) / totalSell) * 100).toFixed(2));
+                                        const guest_costs = getValues("guest_costs").toString().replace(/,/g, '');
+                                        const deployment_costs = getValues("deployment_costs").toString().replace(/,/g, '');
+                                        const interest = getValues("interest").toString().replace(/,/g, '');
+                                        const commission = getValues("commission").toString().replace(/,/g, '');
+                                        const tax = getValues("tax").toString().replace(/,/g, '');
+                                        const bids_cost = getValues("bids_cost").toString().replace(/,/g, '');
+                                        handleTotalPrice(v.value.toString().replace(/,/g, ''), guest_costs, deployment_costs, interest, commission, tax, bids_cost);
                                     }}
                                 />
                             </TableCellStyled>
@@ -53,6 +68,13 @@ function FPTotal({ control, totalBuy, totalSell, setValue }) {
                                 <TextFieldNumber name="guest_costs" control={control}
                                     onValueChange={(v) => {
                                         setValue("guest_costs_percent", ((parseFloat(v.value.toString().replace(/,/g, '')) / totalSell) * 100).toFixed(2))
+                                        const shipping_charges = getValues("shipping_charges").toString().replace(/,/g, '');
+                                        const deployment_costs = getValues("deployment_costs").toString().replace(/,/g, '');
+                                        const interest = getValues("interest").toString().replace(/,/g, '');
+                                        const commission = getValues("commission").toString().replace(/,/g, '');
+                                        const tax = getValues("tax").toString().replace(/,/g, '');
+                                        const bids_cost = getValues("bids_cost").toString().replace(/,/g, '');
+                                        handleTotalPrice(shipping_charges, v.value.toString().replace(/,/g, ''), deployment_costs, interest, commission, tax, bids_cost);
                                     }}
                                 />
                             </TableCellStyled>
@@ -68,6 +90,13 @@ function FPTotal({ control, totalBuy, totalSell, setValue }) {
                                 <TextFieldNumber name="deployment_costs" control={control}
                                     onValueChange={(v) => {
                                         setValue("deployment_costs_percent", ((parseFloat(v.value.toString().replace(/,/g, '')) / totalSell) * 100).toFixed(2))
+                                        const shipping_charges = getValues("shipping_charges").toString().replace(/,/g, '');
+                                        const guest_costs = getValues("guest_costs").toString().replace(/,/g, '');
+                                        const interest = getValues("interest").toString().replace(/,/g, '');
+                                        const commission = getValues("commission").toString().replace(/,/g, '');
+                                        const tax = getValues("tax").toString().replace(/,/g, '');
+                                        const bids_cost = getValues("bids_cost").toString().replace(/,/g, '');
+                                        handleTotalPrice(shipping_charges, guest_costs, v.value.toString().replace(/,/g, ''), interest, commission, tax, bids_cost);
                                     }}
                                 />
                             </TableCellStyled>
@@ -89,6 +118,14 @@ function FPTotal({ control, totalBuy, totalSell, setValue }) {
                                     ]}
                                     onChangeAjax={(e) => {
                                         setValue("interest", Math.round((e * totalSell) / 100))
+                                        const shipping_charges = getValues("shipping_charges").toString().replace(/,/g, '');
+                                        const guest_costs = getValues("guest_costs").toString().replace(/,/g, '');
+                                        const deployment_costs = getValues("deployment_costs").toString().replace(/,/g, '');
+                                        const interest = getValues("interest").toString().replace(/,/g, '');
+                                        const commission = getValues("commission").toString().replace(/,/g, '');
+                                        const tax = getValues("tax").toString().replace(/,/g, '');
+                                        const bids_cost = getValues("bids_cost").toString().replace(/,/g, '');
+                                        handleTotalPrice(shipping_charges, guest_costs, deployment_costs, interest, commission, tax, bids_cost);
                                     }}
 
                                 />
@@ -113,6 +150,13 @@ function FPTotal({ control, totalBuy, totalSell, setValue }) {
                                         const commission = Math.round(((v.value.toString().replace(/%/g, '')) / 100) * totalSell);
                                         setValue("commission", commission)
                                         setValue("tax", Math.round(commission * 0.2))
+                                        const shipping_charges = getValues("shipping_charges").toString().replace(/,/g, '');
+                                        const guest_costs = getValues("guest_costs").toString().replace(/,/g, '');
+                                        const deployment_costs = getValues("deployment_costs").toString().replace(/,/g, '');
+                                        const interest = getValues("interest").toString().replace(/,/g, '');
+                                        const tax = getValues("tax").toString().replace(/,/g, '');
+                                        const bids_cost = getValues("bids_cost").toString().replace(/,/g, '');
+                                        handleTotalPrice(shipping_charges, guest_costs, deployment_costs, interest, v.value.toString().replace(/,/g, ''), tax, bids_cost);
                                     }}
                                     sx={{ width: '60px' }}
                                 />
@@ -135,10 +179,25 @@ function FPTotal({ control, totalBuy, totalSell, setValue }) {
 
                             </TableCellStyled>
                             <TableCellStyled component="th" scope="row">
-                                <TextFormik name="total" control={control} />
+                                <TextFieldNumber name="bids_cost" control={control} />
                             </TableCellStyled>
                             <TableCellStyled component="th" scope="row">
-                                37.43%
+                                <TextFieldNumber name="bids_cost_percent" control={control} suffix={'%'}
+                                    onValueChange={(v) => {
+                                        const bids_cost = Math.round(((v.value.toString().replace(/%/g, '')) / 100) * totalSell);
+                                        setValue("bids_cost", bids_cost)
+                                        const shipping_charges = getValues("shipping_charges").toString().replace(/,/g, '');
+                                        const guest_costs = getValues("guest_costs").toString().replace(/,/g, '');
+                                        const deployment_costs = getValues("deployment_costs").toString().replace(/,/g, '');
+                                        const interest = getValues("interest").toString().replace(/,/g, '');
+                                        const commission = getValues("commission").toString().replace(/,/g, '');
+                                        const tax = getValues("tax").toString().replace(/,/g, '');
+
+                                        handleTotalPrice(shipping_charges, guest_costs, deployment_costs, interest, commission, tax, bids_cost);
+
+                                    }}
+                                    sx={{ width: '60px' }}
+                                />
                             </TableCellStyled>
                         </TableRow>
                         <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}  >
@@ -147,7 +206,7 @@ function FPTotal({ control, totalBuy, totalSell, setValue }) {
 
                             </TableCellStyled>
                             <TableCellStyled component="th" scope="row">
-
+                                <NumericFormat displayType="text" value={totalBids} thousandSeparator="," renderText={(value) => <b>{value}</b>} />
                             </TableCellStyled>
                             <TableCellStyled component="th" scope="row">
                                 37.43%
