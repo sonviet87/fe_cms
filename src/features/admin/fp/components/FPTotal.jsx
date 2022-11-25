@@ -209,7 +209,7 @@ function FPTotal({ control, totalBuy, totalSell, setValue, getValues, TotalPrice
                                 <NumericFormat displayType="text" value={totalBids} thousandSeparator="," renderText={(value) => <b>{value}</b>} />
                             </TableCellStyled>
                             <TableCellStyled component="th" scope="row">
-                                37.43%
+                                {((parseInt(totalBids) / parseInt(totalSell) * 100)).toFixed(2)}%
                             </TableCellStyled>
                         </TableRow>
 

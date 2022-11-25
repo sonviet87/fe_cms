@@ -3,7 +3,7 @@ import { Button, Grid, Table, TableBody, TableContainer, TableRow, Typography } 
 import { Box } from '@mui/system';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { useFieldArray, useForm, useWatch } from 'react-hook-form';
+import { useFieldArray, useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import LoadingButton from '@mui/lab/LoadingButton';
 import TextFormik, { TextFieldNumberAuto } from 'components/FormElement/TextFormik';
@@ -15,7 +15,7 @@ import AddIcon from '@mui/icons-material/Add';
 import { TextFieldNumber } from 'components/FormElement';
 import { NumericFormat } from 'react-number-format';
 import FPTotal from './FPTotal';
-
+import { ROUND } from '@formulajs/formulajs'
 
 FPForm.propTypes = {
     initialValue: PropTypes.object,
@@ -25,7 +25,13 @@ FPForm.propTypes = {
 function FPForm({ initialValue, onSubmit, onCallContactAPi, itemValue, accountValue, contactValue, categoriesValues, suppliersValues, isEdit }) {
     const validationRules = {
         name: yup.string().required('Xin hãy điền tên FP'),
-        // category_id: yup.string().required('Xin hãy chọn danh mục'),
+        contact_id: yup.string().required('Xin hãy chọn liên hệ'),
+        account_id: yup.string().required('Xin hãy chọn tài khoản'),
+        details: yup.lazy(() => yup.array().of(yup.object({
+            category_id: yup.string().required('Xin hãy chọn danh muc'),
+            supplier_id: yup.string().required('Xin hãy chọn nhà cung cấp'),
+
+        })))
     };
 
     const schema = yup.object().shape(validationRules);
@@ -41,7 +47,9 @@ function FPForm({ initialValue, onSubmit, onCallContactAPi, itemValue, accountVa
 
     const { fields, append, remove, prepend } = useFieldArray({
         control,
-        name: "details"
+        name: "details", rules: {
+            required: true,
+        }
     });
 
     const handleFormSubmit = async (formValues) => {
@@ -60,9 +68,7 @@ function FPForm({ initialValue, onSubmit, onCallContactAPi, itemValue, accountVa
         // const commission = getValues("commission").toString().replace(/,/g, '');
         // const tax = getValues("tax").toString().replace(/,/g, '');
         // const bids_cost = getValues("bids_cost").toString().replace(/,/g, '');
-        console.log(getValues());
         const totalBids = totalPrice - shipping_charges - guest_costs - deployment_costs - interest - commission - tax - bids_cost;
-
         setTotalsBids(totalBids);
         //return totalBids;
     }
@@ -73,7 +79,8 @@ function FPForm({ initialValue, onSubmit, onCallContactAPi, itemValue, accountVa
         price_sell = parseFloat(price_sell.replace(/,/g, ''));
 
         // fomula price sell
-        let priceSell = (Math.round((price_buy / (1 - (toDecimal(profit)))) + Number.EPSILON).toFixed());
+        //let priceSell = (Math.round((price_buy / (1 - (toDecimal(profit)))) + Number.EPSILON).toFixed());
+        let priceSell = ROUND((price_buy / (1 - (toDecimal(profit)))), -3);
         setValue(`details[${index}].price_sell`, priceSell);
 
         if (price_buy !== '') setValue(`details[${index}].total_buy`, qty * price_buy);
@@ -245,9 +252,9 @@ function FPForm({ initialValue, onSubmit, onCallContactAPi, itemValue, accountVa
                                                         setTotalsSell(totalSell)
 
 
-                                                        setValue('shipping_charges_percent', ((parseFloat(getValues('shipping_charges').toString().replace(/,/g, '')) / totalSell) * 100).toFixed(0));
-                                                        setValue('guest_costs_percent', ((parseFloat(getValues('guest_costs').toString().replace(/,/g, '')) / totalSell) * 100).toFixed(0));
-                                                        setValue('deployment_costs_percent', ((parseFloat(getValues('deployment_costs').toString().replace(/,/g, '')) / totalSell) * 100).toFixed(0));
+                                                        setValue('shipping_charges_percent', ((parseFloat(getValues('shipping_charges').toString().replace(/,/g, '')) / totalSell) * 100).toFixed(2));
+                                                        setValue('guest_costs_percent', ((parseFloat(getValues('guest_costs').toString().replace(/,/g, '')) / totalSell) * 100).toFixed(2));
+                                                        setValue('deployment_costs_percent', ((parseFloat(getValues('deployment_costs').toString().replace(/,/g, '')) / totalSell) * 100).toFixed(2));
                                                         setValue('interest', Math.round(((getValues('interest_percent') * totalSell) / 100)));
                                                         setValue("commission", Math.round(((getValues('commission_percent').toString().replace(/%/g, '')) / 100) * totalSell));
                                                         setValue("tax", Math.round(Math.round(((getValues('commission_percent').toString().replace(/%/g, '')) / 100) * totalSell) * 0.2))
@@ -342,7 +349,7 @@ function FPForm({ initialValue, onSubmit, onCallContactAPi, itemValue, accountVa
                                     supplier_id: '',
                                     category_id: '',
                                     qty: 1,
-                                    price_buy: '',
+                                    price_buy: 0,
                                     price_sell: '',
                                     profit: '10',
                                     text_buy: '',
@@ -393,7 +400,9 @@ export function totalPriceSell(arrPrice, name) {
     }, 0)
 }
 
-
+export function roundNumber(rnum, rlength) {
+    return Math.floor((Math.pow(10, 2) * rnum) + 0.5) * Math.pow(10, -2);
+}
 
 function toDecimal(percent) {
     return parseFloat(percent) / 100;

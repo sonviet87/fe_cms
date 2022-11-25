@@ -53,12 +53,13 @@ function AdminFPAddEditPage() {
                     supplier_id: '',
                     category_id: '',
                     qty: 1,
-                    price_buy: '',
+                    price_buy: 0,
                     total_buy: 0,
-                    price_sell: '',
+                    price_sell: 0,
                     total_sell: 0,
                     profit: '10%'
-                },
+                }
+
 
             ],
 
