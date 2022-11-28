@@ -40,12 +40,12 @@ function FPForm({ initialValue, onSubmit, onCallContactAPi, itemValue, accountVa
     const [totalSell, setTotalsSell] = React.useState(0);
     const [totalBids, setTotalsBids] = React.useState(0);
 
-    const { control, handleSubmit, formState: { isSubmitting, errors }, setValue, getValues } = useForm({
+    const { control, handleSubmit, formState: { isSubmitting, errors }, setValue, getValues, reset } = useForm({
         defaultValues: initialValue,
         resolver: yupResolver(schema),
     });
 
-    const { fields, append, remove, prepend } = useFieldArray({
+    const { fields, append, remove, update } = useFieldArray({
         control,
         name: "details", rules: {
             required: true,
@@ -54,8 +54,8 @@ function FPForm({ initialValue, onSubmit, onCallContactAPi, itemValue, accountVa
 
     const handleFormSubmit = async (formValues) => {
         if (!onSubmit) return;
-        console.log(formValues)
-        //await onSubmit(formValues);
+
+        await onSubmit(formValues);
     };
 
     const handleTotalPrice = (shipping_charges, guest_costs, deployment_costs, interest, commission, tax, bids_cost) => {
@@ -116,15 +116,23 @@ function FPForm({ initialValue, onSubmit, onCallContactAPi, itemValue, accountVa
     React.useEffect(() => {
 
         if (isEdit) {
-            setValue('name', itemValue.name);
-            setValue('account_id', itemValue.account_id);
-            setValue('contact_id', itemValue.contact_id);
-            setValue('user_id', itemValue.user_id);
-            setValue('status', itemValue.status);
-            setValue('selling', itemValue.selling);
-            setValue('margin', itemValue.margin);
+            console.log(itemValue)
+            // setValue('name', itemValue.name);
+            // setValue('account_id', itemValue.account_id);
+            // setValue('contact_id', itemValue.contact_id);
+            // setValue('user_id', itemValue.user_id);
+            // setValue('status', itemValue.status);
+            // setValue('selling', itemValue.selling);
+            // setValue('margin', itemValue.margin);
+            // const itemDetail = itemValue.details !== undefined ? itemValue.details : [];
+            if (Object.keys(itemValue).length !== 0) {
+                reset(
+                    itemValue
+                )
+            }
         }
-    }, [itemValue]);
+
+    }, [itemValue, reset]);
 
     return (
         <Box
@@ -185,18 +193,7 @@ function FPForm({ initialValue, onSubmit, onCallContactAPi, itemValue, accountVa
                                                     onValueChange={(v) => {
                                                         let price_buy = getValues(`details[${index}].price_buy`).toString();
                                                         let price_sell = getValues(`details[${index}].price_sell`).toString();
-
-                                                        // price_buy = parseFloat(price_buy.replace(/,/g, ''));
-                                                        // price_sell = parseFloat(price_sell.replace(/,/g, ''));
                                                         let profit = getValues(`details[${index}].profit`);
-
-                                                        // let priceSell = (Math.round(price_buy / (1 - (toDecimal(profit)))));
-                                                        // setValue(`details[${index}].price_sell`, priceSell);
-
-                                                        // if (price_buy !== '') setValue(`details[${index}].total_buy`, v.value * price_buy);
-                                                        // if (price_sell !== '') setValue(`details[${index}].total_sell`, v.value * price_sell);
-                                                        // if (price_buy !== '') setTotalsBuy(totalPriceBuy(getValues('details')))
-                                                        // if (price_sell !== '') setTotalsSell(totalPriceSell(getValues('details')))
                                                         handleFPUpdatePrice(price_buy, price_sell, v.value, profit, index)
 
 
@@ -213,22 +210,9 @@ function FPForm({ initialValue, onSubmit, onCallContactAPi, itemValue, accountVa
                                                     control={control}
                                                     onValueChange={(v) => {
                                                         let qty = getValues(`details[${index}].qty`);
-
-                                                        //setValue(`details[${index}].total_buy`, qty * parseFloat(v.value.replace(/,/g, '')));
-                                                        // fomula price sell
                                                         let profit = getValues(`details[${index}].profit`);
-                                                        //let priceSell = (Math.round(parseFloat(v.value.replace(/,/g, '')) / (1 - (toDecimal(profit)))));
-
-                                                        // setValue(`details[${index}].price_sell`, priceSell);
-                                                        // setValue(`details[${index}].total_sell`, qty * priceSell);
-                                                        // setTotalsSell(totalPriceSell(getValues('details')))
-                                                        // setTotalsBuy(totalPriceBuy(getValues('details')))
-
                                                         let price_sell = getValues(`details[${index}].price_sell`).toString();
                                                         handleFPUpdatePrice(v.value, price_sell, qty, profit, index)
-
-
-
                                                     }}
                                                 />
 
@@ -352,8 +336,7 @@ function FPForm({ initialValue, onSubmit, onCallContactAPi, itemValue, accountVa
                                     price_buy: 0,
                                     price_sell: '',
                                     profit: '10',
-                                    text_buy: '',
-                                    text_sell: ''
+
                                 })
                             }}
                         > Thêm </Button>

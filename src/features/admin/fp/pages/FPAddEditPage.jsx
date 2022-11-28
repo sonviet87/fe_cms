@@ -11,6 +11,7 @@ import fpApi from 'api/fpAPI';
 import accountApi from 'api/accountAPI';
 import categoryAPi from 'api/categoryAPI';
 import supplierApi from 'api/suppliertAPI';
+import contactApi from 'api/contactAPI';
 
 
 function AdminFPAddEditPage() {
@@ -23,6 +24,7 @@ function AdminFPAddEditPage() {
     const [contacts, setContacts] = React.useState([]);
     const [categories, setCategories] = React.useState([]);
     const [suppliers, setSuppliers] = React.useState([]);
+
 
     const navigate = useNavigate();
 
@@ -59,11 +61,7 @@ function AdminFPAddEditPage() {
                     total_sell: 0,
                     profit: '10%'
                 }
-
-
             ],
-
-
     };
 
     React.useEffect(() => {
@@ -96,21 +94,23 @@ function AdminFPAddEditPage() {
         (async () => {
             setLoading(true);
             try {
-                const res = await fpApi.get(id);
-                if (res.status) {
-                    setFP({
-                        name: res.data.data.name,
-                        account_id: res.data.data.account_id ?? '',
-                        contact_id: res.data.data.adcontact_iddress,
-                        user_id: res.data.data.user_id,
-                        status: res.data.data.status,
-                        selling: res.data.data.selling,
-                        margin: res.data.data.margin,
+                let [fpRs, contactRs] = await Promise.all([
+                    fpApi.get(id),
+                    contactApi.getAll()
+                ]);
 
-                    });
+                if (contactRs.status) {
+                    setContacts(contactRs.data.data)
+                }
+                console.log(fpRs);
+                if (fpRs.status) {
+                    setFP(
+                        fpRs.data.data
+                    );
+
 
                 } else {
-                    toast.error(res.message);
+                    toast.error(fpRs.message);
                     navigate('/admin/fps');
                 }
             } catch (error) {
