@@ -45,7 +45,7 @@ function FPForm({ initialValue, onSubmit, onCallContactAPi, itemValue, accountVa
         resolver: yupResolver(schema),
     });
 
-    const { fields, append, remove, update } = useFieldArray({
+    const { fields, append, remove } = useFieldArray({
         control,
         name: "details", rules: {
             required: true,
@@ -61,16 +61,9 @@ function FPForm({ initialValue, onSubmit, onCallContactAPi, itemValue, accountVa
     const handleTotalPrice = (shipping_charges, guest_costs, deployment_costs, interest, commission, tax, bids_cost) => {
 
         const totalPrice = totalPriceSell(getValues('details')) - totalPriceBuy(getValues('details'));
-        // const shipping_charges = getValues("shipping_charges").toString().replace(/,/g, '');
-        // const guest_costs = getValues("guest_costs").toString().replace(/,/g, '');
-        // const deployment_costs = getValues("deployment_costs").toString().replace(/,/g, '');
-        // const interest = getValues("interest").toString().replace(/,/g, '');
-        // const commission = getValues("commission").toString().replace(/,/g, '');
-        // const tax = getValues("tax").toString().replace(/,/g, '');
-        // const bids_cost = getValues("bids_cost").toString().replace(/,/g, '');
         const totalBids = totalPrice - shipping_charges - guest_costs - deployment_costs - interest - commission - tax - bids_cost;
         setTotalsBids(totalBids);
-        //return totalBids;
+
     }
 
     const handleFPUpdatePrice = (price_buy, price_sell, qty, profit, index) => {
@@ -80,7 +73,11 @@ function FPForm({ initialValue, onSubmit, onCallContactAPi, itemValue, accountVa
 
         // fomula price sell
         //let priceSell = (Math.round((price_buy / (1 - (toDecimal(profit)))) + Number.EPSILON).toFixed());
+
         let priceSell = ROUND((price_buy / (1 - (toDecimal(profit)))), -3);
+        if (getValues(`details[${index}].price_buy`).toString() === "0") {
+            priceSell = getValues(`details[${index}].price_sell`).toString().replace(/,/g, '');
+        }
         setValue(`details[${index}].price_sell`, priceSell);
 
         if (price_buy !== '') setValue(`details[${index}].total_buy`, qty * price_buy);
@@ -92,9 +89,10 @@ function FPForm({ initialValue, onSubmit, onCallContactAPi, itemValue, accountVa
         setValue('guest_costs_percent', ((parseFloat(getValues('guest_costs').toString().replace(/,/g, '')) / totalSell) * 100).toFixed(2));
         setValue('deployment_costs_percent', ((parseFloat(getValues('deployment_costs').toString().replace(/,/g, '')) / totalSell) * 100).toFixed(2));
         setValue('interest', Math.round(((getValues('interest_percent') * totalSell) / 100)));
+        setValue("bids_cost", Math.round((((getValues('bids_cost_percent').toString().replace(/%/g, '')) / 100) * totalSell)))
         setValue("commission", Math.round(((getValues('commission_percent').toString().replace(/%/g, '')) / 100) * totalSell));
         setValue("tax", Math.round(Math.round(((getValues('commission_percent').toString().replace(/%/g, '')) / 100) * totalSell) * 0.2))
-        setValue("bids_cost", Math.round((((getValues('bids_cost_percent').toString().replace(/%/g, '')) / 100) * totalSell)))
+
 
 
         const shipping_charges = getValues("shipping_charges").toString().replace(/,/g, '');
@@ -117,19 +115,24 @@ function FPForm({ initialValue, onSubmit, onCallContactAPi, itemValue, accountVa
 
         if (isEdit) {
             console.log(itemValue)
+            if (Object.keys(itemValue).length !== 0) {
+                reset(itemValue)
+            }
             // setValue('name', itemValue.name);
             // setValue('account_id', itemValue.account_id);
             // setValue('contact_id', itemValue.contact_id);
             // setValue('user_id', itemValue.user_id);
             // setValue('status', itemValue.status);
-            // setValue('selling', itemValue.selling);
-            // setValue('margin', itemValue.margin);
-            // const itemDetail = itemValue.details !== undefined ? itemValue.details : [];
-            if (Object.keys(itemValue).length !== 0) {
-                reset(
-                    itemValue
-                )
-            }
+            // setValue('bids_cost', itemValue.bids_cost);
+            // setValue('bids_cost_percent', itemValue.bids_cost_percent);
+            // setValue('commission', itemValue.commission);
+            // setValue('deployment_costs', itemValue.deployment_costs);
+            // setValue('commission_percent', itemValue.commission_percent);
+            // setValue('guest_costs', itemValue.guest_costs);
+            // setValue('interest', itemValue.interest);
+            // setValue('interest_percent', itemValue.interest_percent);
+            // setValue('shipping_charges', itemValue.shipping_charges);
+            // setValue('tax', itemValue.tax);
         }
 
     }, [itemValue, reset]);
@@ -213,6 +216,7 @@ function FPForm({ initialValue, onSubmit, onCallContactAPi, itemValue, accountVa
                                                         let profit = getValues(`details[${index}].profit`);
                                                         let price_sell = getValues(`details[${index}].price_sell`).toString();
                                                         handleFPUpdatePrice(v.value, price_sell, qty, profit, index)
+
                                                     }}
                                                 />
 
@@ -230,6 +234,7 @@ function FPForm({ initialValue, onSubmit, onCallContactAPi, itemValue, accountVa
                                                     label="Giá bán"
                                                     control={control}
                                                     onValueChange={(v) => {
+
                                                         let qty = getValues(`details[${index}].qty`);
                                                         setValue(`details[${index}].total_sell`, qty * parseFloat(v.value.replace(/,/g, '')));
                                                         let totalSell = totalPriceSell(getValues('details'));
@@ -240,9 +245,10 @@ function FPForm({ initialValue, onSubmit, onCallContactAPi, itemValue, accountVa
                                                         setValue('guest_costs_percent', ((parseFloat(getValues('guest_costs').toString().replace(/,/g, '')) / totalSell) * 100).toFixed(2));
                                                         setValue('deployment_costs_percent', ((parseFloat(getValues('deployment_costs').toString().replace(/,/g, '')) / totalSell) * 100).toFixed(2));
                                                         setValue('interest', Math.round(((getValues('interest_percent') * totalSell) / 100)));
+                                                        setValue("bids_cost", Math.round((((getValues('bids_cost_percent').toString().replace(/%/g, '')) / 100) * totalSell)))
                                                         setValue("commission", Math.round(((getValues('commission_percent').toString().replace(/%/g, '')) / 100) * totalSell));
                                                         setValue("tax", Math.round(Math.round(((getValues('commission_percent').toString().replace(/%/g, '')) / 100) * totalSell) * 0.2))
-                                                        setValue("bids_cost", Math.round((((getValues('bids_cost_percent').toString().replace(/%/g, '')) / 100) * totalSell)))
+
 
                                                         const shipping_charges = getValues("shipping_charges").toString().replace(/,/g, '');
                                                         const guest_costs = getValues("guest_costs").toString().replace(/,/g, '');
@@ -253,6 +259,8 @@ function FPForm({ initialValue, onSubmit, onCallContactAPi, itemValue, accountVa
                                                         const bids_cost = getValues("bids_cost").toString().replace(/,/g, '');
 
                                                         handleTotalPrice(shipping_charges, guest_costs, deployment_costs, interest, commission, tax, bids_cost);
+
+
                                                     }}
                                                 />
 
@@ -266,10 +274,12 @@ function FPForm({ initialValue, onSubmit, onCallContactAPi, itemValue, accountVa
 
                                                 <TextFieldNumber suffix={'%'} name={`details[${index}].profit`} label="Lợi nhuận" control={control}
                                                     onValueChange={(v) => {
+
                                                         let qty = getValues(`details[${index}].qty`);
                                                         let price_sell = getValues(`details[${index}].price_sell`).toString();
                                                         let price_buy = getValues(`details[${index}].price_buy`).toString();
                                                         handleFPUpdatePrice(price_buy, price_sell, qty, v.value, index)
+
 
                                                     }}
                                                 />

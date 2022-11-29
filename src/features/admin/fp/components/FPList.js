@@ -35,7 +35,7 @@ export default function FPList({ list, pagination, filter, onFilter, onDelete })
   const handleOpenConfirmDeleteDialog = (row) => {
     setConfirmDeleteDialogData({
       title: 'Cảnh báo',
-      message: `Bạn có chắc sẽ xóa <strong>${row.company} ?</strong>!`,
+      message: `Bạn có chắc sẽ xóa <strong>${row.name} ?</strong>!`,
       open: true,
       deleteItem: row,
     });

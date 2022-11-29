@@ -25,7 +25,6 @@ function AdminFPAddEditPage() {
     const [categories, setCategories] = React.useState([]);
     const [suppliers, setSuppliers] = React.useState([]);
 
-
     const navigate = useNavigate();
 
     const initialValue = {
@@ -41,7 +40,7 @@ function AdminFPAddEditPage() {
         interest: 0,
         interest_percent: 0,
         commission: 0,
-        commission_percent: 10,
+        commission_percent: 0,
         bids_cost: 0,
         bids_cost_percent: 0,
         tax: 0,
@@ -107,7 +106,6 @@ function AdminFPAddEditPage() {
                     setFP(
                         fpRs.data.data
                     );
-
 
                 } else {
                     toast.error(fpRs.message);
