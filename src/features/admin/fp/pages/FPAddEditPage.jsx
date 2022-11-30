@@ -5,13 +5,15 @@ import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 
 import { WrapperPage } from 'components/Common/SlytedComponent/Wrapper';
-import TitleForm from 'components/Common/TitleForm';
+
 import FPForm from '../components/FPForm';
 import fpApi from 'api/fpAPI';
 import accountApi from 'api/accountAPI';
 import categoryAPi from 'api/categoryAPI';
 import supplierApi from 'api/suppliertAPI';
 import contactApi from 'api/contactAPI';
+import FPHeaderPage from '../components/FPHeaderPage';
+
 
 
 function AdminFPAddEditPage() {
@@ -158,7 +160,8 @@ function AdminFPAddEditPage() {
             {loading && (
                 <LoadingOverlay />
             )}
-            <TitleForm lable={isEdit ? "Cập nhật FP" : "Thêm FP "} />
+            {isEdit && (<FPHeaderPage isEdit={isEdit} />)}
+
 
             {(!isEdit || Boolean(fps)) && (
                 <FPForm initialValue={initialValue} onSubmit={handleFormSubmit} onCallContactAPi={handleCallAPIContact} itemValue={fps} accountValue={accounts} contactValue={contacts} categoriesValues={categories} suppliersValues={suppliers} isEdit={isEdit} />

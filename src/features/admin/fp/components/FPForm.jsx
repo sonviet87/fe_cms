@@ -17,6 +17,7 @@ import { NumericFormat } from 'react-number-format';
 import FPTotal from './FPTotal';
 import { ROUND } from '@formulajs/formulajs'
 
+
 FPForm.propTypes = {
     initialValue: PropTypes.object,
     onSubmit: PropTypes.func,
@@ -72,9 +73,8 @@ function FPForm({ initialValue, onSubmit, onCallContactAPi, itemValue, accountVa
         price_sell = parseFloat(price_sell.replace(/,/g, ''));
 
         // fomula price sell
-        //let priceSell = (Math.round((price_buy / (1 - (toDecimal(profit)))) + Number.EPSILON).toFixed());
-
         let priceSell = ROUND((price_buy / (1 - (toDecimal(profit)))), -3);
+
         if (getValues(`details[${index}].price_buy`).toString() === "0") {
             priceSell = getValues(`details[${index}].price_sell`).toString().replace(/,/g, '');
         }

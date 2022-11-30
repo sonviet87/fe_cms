@@ -55,7 +55,6 @@ function FPListPage() {
             setLoading(true);
             const res = await fpApi.getAll(filter);
             if (res.status) {
-                console.log(res.data.data)
                 setList({
                     fps: res.data.data,
                     pagination: {
@@ -73,6 +72,7 @@ function FPListPage() {
             {loading && (
                 <LoadingOverlay />
             )}
+
             <TitleForm lable="Danh sách FP" />
             <FPFilter loading={loading} filter={filter} onSubmit={handleFilter} />
             <FPList list={list.fps}
