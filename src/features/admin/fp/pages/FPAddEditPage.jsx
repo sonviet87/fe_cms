@@ -14,159 +14,149 @@ import supplierApi from 'api/suppliertAPI';
 import contactApi from 'api/contactAPI';
 import FPHeaderPage from '../components/FPHeaderPage';
 
-
-
 function AdminFPAddEditPage() {
+  const [loading, setLoading] = React.useState(false);
+  const { id } = useParams();
+  const isEdit = Boolean(id);
+  const [fps, setFP] = React.useState({});
+  const [accounts, setAccounts] = React.useState([]);
+  const [contacts, setContacts] = React.useState([]);
+  const [categories, setCategories] = React.useState([]);
+  const [suppliers, setSuppliers] = React.useState([]);
 
-    const [loading, setLoading] = React.useState(false);
-    const { id } = useParams();
-    const isEdit = Boolean(id);
-    const [fps, setFP] = React.useState({});
-    const [accounts, setAccounts] = React.useState([]);
-    const [contacts, setContacts] = React.useState([]);
-    const [categories, setCategories] = React.useState([]);
-    const [suppliers, setSuppliers] = React.useState([]);
+  const navigate = useNavigate();
 
-    const navigate = useNavigate();
+  const initialValue = {
+    name: '',
+    account_id: '',
+    contact_id: '',
+    shipping_charges: 0,
+    shipping_charges_percent: 0,
+    guest_costs: 0,
+    guest_costs_percent: 0,
+    deployment_costs: 0,
+    deployment_costs_percent: 0,
+    interest: 0,
+    interest_percent: 0,
+    commission: 0,
+    commission_percent: 0,
+    bids_cost: 0,
+    bids_cost_percent: 0,
+    tax: 0,
+    user_id: '',
+    status: 0,
+    selling: 0,
+    margin: 0,
+    details: [
+      {
+        supplier_id: '',
+        category_id: '',
+        qty: 1,
+        price_buy: 0,
+        total_buy: 0,
+        price_sell: 0,
+        total_sell: 0,
+        profit: '10%',
+      },
+    ],
+  };
 
-    const initialValue = {
-        name: '',
-        account_id: '',
-        contact_id: '',
-        shipping_charges: 0,
-        shipping_charges_percent: 0,
-        guest_costs: 0,
-        guest_costs_percent: 0,
-        deployment_costs: 0,
-        deployment_costs_percent: 0,
-        interest: 0,
-        interest_percent: 0,
-        commission: 0,
-        commission_percent: 0,
-        bids_cost: 0,
-        bids_cost_percent: 0,
-        tax: 0,
-        user_id: '',
-        status: 0,
-        selling: 0,
-        margin: 0,
-        details:
-            [
-                {
-                    supplier_id: '',
-                    category_id: '',
-                    qty: 1,
-                    price_buy: 0,
-                    total_buy: 0,
-                    price_sell: 0,
-                    total_sell: 0,
-                    profit: '10%'
-                }
-            ],
-    };
+  React.useEffect(() => {
+    (async () => {
+      try {
+        let [accountRs, categoriesRs, supplierRs] = await Promise.all([
+          accountApi.getAll(),
+          categoryAPi.getAll(),
+          supplierApi.getlist(),
+        ]);
 
-    React.useEffect(() => {
-
-        (async () => {
-            try {
-                let [accountRs, categoriesRs, supplierRs] = await Promise.all([
-                    accountApi.getAll(),
-                    categoryAPi.getAll(),
-                    supplierApi.getlist(),
-                ]);
-
-                if (accountRs.status) {
-                    setAccounts(accountRs.data.data);
-                }
-                if (categoriesRs.status) {
-                    setCategories(categoriesRs.data.data);
-                }
-                if (supplierRs.status) {
-                    setSuppliers(supplierRs.data.data);
-                }
-
-            }
-            catch (err) {
-                console.log(err);
-            };
-        })();
-
-        if (!id) return;
-        (async () => {
-            setLoading(true);
-            try {
-                let [fpRs, contactRs] = await Promise.all([
-                    fpApi.get(id),
-                    contactApi.getAll()
-                ]);
-
-                if (contactRs.status) {
-                    setContacts(contactRs.data.data)
-                }
-                console.log(fpRs);
-                if (fpRs.status) {
-                    setFP(
-                        fpRs.data.data
-                    );
-
-                } else {
-                    toast.error(fpRs.message);
-                    navigate('/admin/fps');
-                }
-            } catch (error) {
-                console.log('get fp by id error', error);
-            }
-            setLoading(false);
-        })();
-    }, [id, navigate]);
-
-
-    const handleFormSubmit = async (formValues) => {
-        setLoading(true);
-        try {
-            let res;
-            if (isEdit) {
-                res = await fpApi.update(id, formValues);
-            } else {
-                res = await fpApi.add(formValues);
-            }
-            if (res.status) {
-
-                if (res.data.status) {
-                    toast.success(res.message);
-                    navigate('/admin/fps');
-                } else {
-                    toast.error(res.data.message);
-                }
-            } else {
-                toast.error(res.message);
-            }
-
-        } catch (error) {
-            console.log('Error', error.message);
+        if (accountRs.status) {
+          setAccounts(accountRs.data.data);
         }
-        setLoading(false);
-    };
+        if (categoriesRs.status) {
+          setCategories(categoriesRs.data.data);
+        }
+        if (supplierRs.status) {
+          setSuppliers(supplierRs.data.data);
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    })();
 
-    const handleCallAPIContact = async (formValues) => {
-        const contactRs = await accountApi.getContactByIDAccount(formValues);
+    if (!id) return;
+    (async () => {
+      setLoading(true);
+      try {
+        let [fpRs, contactRs] = await Promise.all([fpApi.get(id), contactApi.getAll()]);
+
         if (contactRs.status) {
-            setContacts(contactRs.data.data);
+          setContacts(contactRs.data.data);
         }
 
-    }
-    return (
-        <WrapperPage >
-            {loading && (
-                <LoadingOverlay />
-            )}
-            <FPHeaderPage isEdit={isEdit} />
-            {(!isEdit || Boolean(fps)) && (
-                <FPForm initialValue={initialValue} onSubmit={handleFormSubmit} onCallContactAPi={handleCallAPIContact} itemValue={fps} accountValue={accounts} contactValue={contacts} categoriesValues={categories} suppliersValues={suppliers} isEdit={isEdit} />
-            )}
+        if (fpRs.status) {
+          setFP(fpRs.data.data);
+        } else {
+          toast.error(fpRs.message);
+          navigate('/admin/fps');
+        }
+      } catch (error) {
+        console.log('get fp by id error', error);
+      }
+      setLoading(false);
+    })();
+  }, [id, navigate]);
 
-        </WrapperPage>
-    );
+  const handleFormSubmit = async (formValues) => {
+    setLoading(true);
+    try {
+      let res;
+      if (isEdit) {
+        res = await fpApi.update(id, formValues);
+      } else {
+        res = await fpApi.add(formValues);
+      }
+      if (res.status) {
+        if (res.data.status) {
+          toast.success(res.message);
+          navigate('/admin/fps');
+        } else {
+          toast.error(res.data.message);
+        }
+      } else {
+        toast.error(res.message);
+      }
+    } catch (error) {
+      console.log('Error', error.message);
+    }
+    setLoading(false);
+  };
+
+  const handleCallAPIContact = async (formValues) => {
+    const contactRs = await accountApi.getContactByIDAccount(formValues);
+    if (contactRs.status) {
+      setContacts(contactRs.data.data);
+    }
+  };
+  return (
+    <WrapperPage>
+      {loading && <LoadingOverlay />}
+      <FPHeaderPage isEdit={isEdit} id={id} />
+      {(!isEdit || Boolean(fps)) && (
+        <FPForm
+          initialValue={initialValue}
+          onSubmit={handleFormSubmit}
+          onCallContactAPi={handleCallAPIContact}
+          itemValue={fps}
+          accountValue={accounts}
+          contactValue={contacts}
+          categoriesValues={categories}
+          suppliersValues={suppliers}
+          isEdit={isEdit}
+        />
+      )}
+    </WrapperPage>
+  );
 }
 
 export default AdminFPAddEditPage;
