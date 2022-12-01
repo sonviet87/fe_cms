@@ -33,11 +33,11 @@ export const WrapperPage = styled(Box, {})(({ theme }) => ({
 
 }));
 
-export const WrapperBoxAlign = styled('div', {})(({ theme, align, haveBorder = true }) => ({
+export const WrapperBoxAlign = styled('div', {})(({ theme, align, isborder = true }) => ({
 
     display: 'flex',
     justifyContent: align ? align : 'flex-start',
     alignItems: 'center',
-    ...(haveBorder && { borderBottom: '1px solid #e5e4e4' })
+    ...(isborder && { borderBottom: '1px solid #e5e4e4' })
 
 }));

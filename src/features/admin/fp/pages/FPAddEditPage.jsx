@@ -160,9 +160,7 @@ function AdminFPAddEditPage() {
             {loading && (
                 <LoadingOverlay />
             )}
-            {isEdit && (<FPHeaderPage isEdit={isEdit} />)}
-
-
+            <FPHeaderPage isEdit={isEdit} />
             {(!isEdit || Boolean(fps)) && (
                 <FPForm initialValue={initialValue} onSubmit={handleFormSubmit} onCallContactAPi={handleCallAPIContact} itemValue={fps} accountValue={accounts} contactValue={contacts} categoriesValues={categories} suppliersValues={suppliers} isEdit={isEdit} />
             )}

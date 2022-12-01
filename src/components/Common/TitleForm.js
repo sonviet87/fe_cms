@@ -2,9 +2,9 @@ import React from 'react';
 import { TitleFormStyled } from './SlytedComponent/Title';
 
 
-function TitleForm({ lable, haveBorder }) {
+function TitleForm({ lable, isborder }) {
     return (
-        <TitleFormStyled haveBorder={haveBorder}>{lable ? lable : ''}</TitleFormStyled>
+        <TitleFormStyled isborder={isborder}>{lable ? lable : ''}</TitleFormStyled>
     );
 }
 
