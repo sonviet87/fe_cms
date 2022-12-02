@@ -96,6 +96,7 @@ function AdminFPAddEditPage() {
 
         if (fpRs.status) {
           setFP(fpRs.data.data);
+          console.log(fpRs.data.data)
         } else {
           toast.error(fpRs.message);
           navigate('/admin/fps');
@@ -141,7 +142,7 @@ function AdminFPAddEditPage() {
   return (
     <WrapperPage>
       {loading && <LoadingOverlay />}
-      <FPHeaderPage isEdit={isEdit} id={id} />
+      <FPHeaderPage isEdit={isEdit} id={id} fps={fps} />
       {(!isEdit || Boolean(fps)) && (
         <FPForm
           initialValue={initialValue}

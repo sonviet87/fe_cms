@@ -33,11 +33,11 @@ const DATA = [
     status: 'Pass',
   },
 ];
-function FPHeaderPage({ isEdit, id }) {
+function FPHeaderPage({ isEdit, id, fps }) {
   return (
     <WrapperBoxAlign align="space-between" isborder={0}>
       <TitleForm lable={isEdit ? 'Cập nhật FP' : 'Thêm FP '} isborder={0} />
-      {isEdit && <FPExportExcel data={DATA} id={id} />}
+      {isEdit && <FPExportExcel data={fps.details} id={id} fps={fps} />}
     </WrapperBoxAlign>
   );
 }
