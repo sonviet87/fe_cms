@@ -113,6 +113,11 @@ function AdminFPAddEditPage() {
     try {
       let res;
       if (isEdit) {
+        delete formValues.account;
+        delete formValues.contact;
+        delete formValues.user;
+        delete formValues.phone;
+
         res = await fpApi.update(id, formValues);
       } else {
         res = await fpApi.add(formValues);
