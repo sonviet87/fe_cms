@@ -347,7 +347,7 @@ const FPExportExcel = ({ data, id, fps }) => {
         mergeCells(ws, addRow(ws, ['Người nhận', '', fps?.contact], info), 1, 2);
         mergeCells(ws, addRow(ws, ['Đơn vị cung cấp ', '', 'CÔNG TY MVTECH'], info), 1, 2);
         mergeCells(ws, addRow(ws, ['Địa chỉ', '', 'Số 132/70A Đường Bình Đông, P14, Quận 8, TP. Hồ Chí Minh.'], info), 1, 2);
-        let rowUser = addRow(ws, ['Người gửi', '', fps?.user + ' - ĐT: ' + fps?.phone], info);
+        let rowUser = addRow(ws, ['Người gửi', '', fps?.user_assign_name + ' - ĐT: ' + fps?.phone], info);
         const dateObj = new Date();
         const month = dateObj.getUTCMonth() + 1; //months from 1-12
         const day = dateObj.getUTCDate();

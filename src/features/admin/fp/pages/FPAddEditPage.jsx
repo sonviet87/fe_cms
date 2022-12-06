@@ -13,6 +13,7 @@ import categoryAPi from 'api/categoryAPI';
 import supplierApi from 'api/suppliertAPI';
 import contactApi from 'api/contactAPI';
 import FPHeaderPage from '../components/FPHeaderPage';
+import userApi from 'api/userAPI';
 
 function AdminFPAddEditPage() {
   const [loading, setLoading] = React.useState(false);
@@ -23,6 +24,7 @@ function AdminFPAddEditPage() {
   const [contacts, setContacts] = React.useState([]);
   const [categories, setCategories] = React.useState([]);
   const [suppliers, setSuppliers] = React.useState([]);
+  const [users, setUsers] = React.useState([]);
 
   const navigate = useNavigate();
 
@@ -43,7 +45,7 @@ function AdminFPAddEditPage() {
     bids_cost: 0,
     bids_cost_percent: 0,
     tax: 0,
-    user_id: '',
+    user_assign: '',
     status: 0,
     selling: 0,
     margin: 0,
@@ -64,10 +66,11 @@ function AdminFPAddEditPage() {
   React.useEffect(() => {
     (async () => {
       try {
-        let [accountRs, categoriesRs, supplierRs] = await Promise.all([
+        let [accountRs, categoriesRs, supplierRs, userRs] = await Promise.all([
           accountApi.getAll(),
           categoryAPi.getAll(),
           supplierApi.getlist(),
+          userApi.getAll()
         ]);
 
         if (accountRs.status) {
@@ -78,6 +81,9 @@ function AdminFPAddEditPage() {
         }
         if (supplierRs.status) {
           setSuppliers(supplierRs.data.data);
+        }
+        if (userRs.status) {
+          setUsers(userRs.data.data);
         }
       } catch (err) {
         console.log(err);
@@ -117,7 +123,7 @@ function AdminFPAddEditPage() {
         delete formValues.contact;
         delete formValues.user;
         delete formValues.phone;
-
+        delete formValues.user_assign_name;
         res = await fpApi.update(id, formValues);
       } else {
         res = await fpApi.add(formValues);
@@ -147,7 +153,7 @@ function AdminFPAddEditPage() {
   return (
     <WrapperPage>
       {loading && <LoadingOverlay />}
-      <FPHeaderPage isEdit={isEdit} id={id} fps={fps} />
+      <FPHeaderPage isEdit={isEdit} id={id} fps={fps} initialValue={initialValue} onSubmit={handleFormSubmit} />
       {(!isEdit || Boolean(fps)) && (
         <FPForm
           initialValue={initialValue}
@@ -158,6 +164,7 @@ function AdminFPAddEditPage() {
           contactValue={contacts}
           categoriesValues={categories}
           suppliersValues={suppliers}
+          usersValues={users}
           isEdit={isEdit}
         />
       )}

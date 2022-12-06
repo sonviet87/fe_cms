@@ -31,6 +31,7 @@ function FPForm({
   contactValue,
   categoriesValues,
   suppliersValues,
+  usersValues,
   isEdit,
 }) {
   const validationRules = {
@@ -75,7 +76,7 @@ function FPForm({
 
   const handleFormSubmit = async (formValues) => {
     if (!onSubmit) return;
-
+    console.log(formValues)
     await onSubmit(formValues);
   };
 
@@ -147,21 +148,6 @@ function FPForm({
       if (Object.keys(itemValue).length !== 0) {
         reset(itemValue);
       }
-      // setValue('name', itemValue.name);
-      // setValue('account_id', itemValue.account_id);
-      // setValue('contact_id', itemValue.contact_id);
-      // setValue('user_id', itemValue.user_id);
-      // setValue('status', itemValue.status);
-      // setValue('bids_cost', itemValue.bids_cost);
-      // setValue('bids_cost_percent', itemValue.bids_cost_percent);
-      // setValue('commission', itemValue.commission);
-      // setValue('deployment_costs', itemValue.deployment_costs);
-      // setValue('commission_percent', itemValue.commission_percent);
-      // setValue('guest_costs', itemValue.guest_costs);
-      // setValue('interest', itemValue.interest);
-      // setValue('interest_percent', itemValue.interest_percent);
-      // setValue('shipping_charges', itemValue.shipping_charges);
-      // setValue('tax', itemValue.tax);
     }
   }, [itemValue, reset]);
 
@@ -171,7 +157,10 @@ function FPForm({
         <Grid item xs={12} md={12}>
           <TextFormik name="name" label="Tên FP" control={control} />
         </Grid>
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12} md={4}>
+          <BasicSelect name="user_assign" label="Gán cho" control={control} options={usersValues} />
+        </Grid>
+        <Grid item xs={12} md={4}>
           <BasicSelect
             name="account_id"
             label="Tài khoản"
@@ -180,7 +169,7 @@ function FPForm({
             onChangeAjax={handleCallAPIContact}
           />
         </Grid>
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12} md={4}>
           <BasicSelect name="contact_id" label="Liên hệ" control={control} options={contactValue} />
         </Grid>
         <Grid item xs={12}>

@@ -73,7 +73,7 @@ function FPListPage() {
                 <LoadingOverlay />
             )}
 
-            <TitleForm lable="Danh sách FP" />
+            <TitleForm lable="Danh sách Phương án kinh doanh" />
             <FPFilter loading={loading} filter={filter} onSubmit={handleFilter} />
             <FPList list={list.fps}
                 pagination={list.pagination}

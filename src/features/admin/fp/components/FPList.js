@@ -1,4 +1,4 @@
-import { Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TablePagination, TableRow } from '@mui/material'
+import { Chip, Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TablePagination, TableRow } from '@mui/material'
 import React from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
@@ -76,7 +76,7 @@ export default function FPList({ list, pagination, filter, onFilter, onDelete })
           {list.length > 0 &&
             list.map((row) => (
               <TableRow key={row.id}>
-                <TableCell>{row.id}</TableCell>
+                <TableCell>{row.code}</TableCell>
                 <TableCell component="th">
                   <Link to={'/admin/fps/' + row.id}>
                     {row.name}
@@ -86,8 +86,8 @@ export default function FPList({ list, pagination, filter, onFilter, onDelete })
                 <TableCell>{row.contact}</TableCell>
 
 
-                <TableCell>{row.user} </TableCell>
-                <TableCell>{row.status}</TableCell>
+                <TableCell>{row.user_assign} </TableCell>
+                <TableCell> <Chip label={row.status} color="success" /></TableCell>
                 <TableCell>{row.selling}</TableCell>
                 <TableCell>{row.margin}</TableCell>
                 <TableCell>{moment(row.created_at).format('DD-MM-YYYY')}</TableCell>

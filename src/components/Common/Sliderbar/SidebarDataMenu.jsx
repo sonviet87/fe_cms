@@ -29,14 +29,11 @@ export const MenuCMS = [
                 Icon: ShoppingCartIcon,
             },
             {
-                title: 'FP',
+                title: 'Phương án kinh doanh',
                 route: '/admin/fps',
                 Icon: ShoppingCartIcon,
             },
-            {
-                title: 'Quotation Management',
-                Icon: ReceiptIcon,
-            },
+
             {
                 title: 'Người dùng',
                 Icon: ManageAccountsIcon,
