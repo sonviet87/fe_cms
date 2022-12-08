@@ -27,9 +27,9 @@ function PrivateRoute({ children }) {
                 try {
                     const res = await userApi.getUser();
                     if (!res.status) return navigate('/login');
-
-                    dispatch(authActions.setRoles(res.data.roles));
-                    dispatch(authActions.setCurrentUser(res.data));
+                    console.log(res)
+                    dispatch(authActions.setRoles(res.data.data.roles));
+                    dispatch(authActions.setCurrentUser(res.data.data.user));
                 } catch (err) {
                     toast.error("Lỗi đăng nhập")
                     //console.log(err.response.data);

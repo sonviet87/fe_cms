@@ -10,7 +10,6 @@ import TitleForm from 'components/Common/TitleForm';
 import roleApi from 'api/roleAPI';
 
 function AdminUserAddEditPage() {
-
     const [loading, setLoading] = React.useState(false);
     const { id } = useParams();
     const isEdit = Boolean(id);
@@ -46,7 +45,7 @@ function AdminUserAddEditPage() {
                 //     await userApi.get(id),
                 //     await roleApi.getAll()
                 // ]);
-
+                console.log(res)
                 if (res.status) {
                     setUser({
                         name: res.data.data.name,

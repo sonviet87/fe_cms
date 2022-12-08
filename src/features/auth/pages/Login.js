@@ -42,8 +42,9 @@ function Login() {
                 if (res.payload.data.status) {
                     setLSItem('access_token', res.payload.data.data.accessToken);
                     delete res.payload.data.data.accessToken;
-                    dispatch(authActions.setRoles(res.payload.data.data.roles));
-                    delete res.payload.data.roles;
+                    dispatch(authActions.setRoles(res.payload.data.data.scopes));
+                    delete res.payload.data.data.roles;
+                    delete res.payload.data.data.scopes;
                     dispatch(authActions.setCurrentUser(res.payload.data.data));
                     navigate('/admin');
                 } else {
