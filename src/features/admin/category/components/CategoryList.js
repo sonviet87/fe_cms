@@ -1,4 +1,4 @@
-import { Chip, Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TablePagination, TableRow } from '@mui/material'
+import { Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TablePagination, TableRow } from '@mui/material'
 import React from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
@@ -6,11 +6,8 @@ import EditIcon from '@mui/icons-material/Edit';
 import { TablePaginationActions } from 'components/Common/TablePaginationActions';
 import { BasicButtonStyled } from 'components/Common/SlytedComponent/Button';
 import ConfirmDialog from 'components/Common/ConfirmDialog';
-import moment from 'moment';
-import { NumericFormat } from 'react-number-format';
-import ChipStatus from 'components/Common/Element/Chip';
 
-export default function FPList({ list, pagination, filter, onFilter, onDelete }) {
+export default function CategoryList({ list, pagination, filter, onFilter, onDelete }) {
 
   const navigate = useNavigate();
   const [confirmDeleteDialogData, setConfirmDeleteDialogData] = React.useState({
@@ -37,7 +34,7 @@ export default function FPList({ list, pagination, filter, onFilter, onDelete })
   const handleOpenConfirmDeleteDialog = (row) => {
     setConfirmDeleteDialogData({
       title: 'Cảnh báo',
-      message: `Bạn có chắc sẽ xóa <strong>${row.name} ?</strong>!`,
+      message: `Bạn có chắc sẽ xóa <strong>${row.company} ?</strong>!`,
       open: true,
       deleteItem: row,
     });
@@ -63,14 +60,9 @@ export default function FPList({ list, pagination, filter, onFilter, onDelete })
         <TableHead>
           <TableRow>
             <TableCell>ID</TableCell>
-            <TableCell>Tên FP</TableCell>
-            <TableCell>Tài khoản</TableCell>
-            <TableCell>Liên hệ</TableCell>
-            <TableCell>Gán cho</TableCell>
-            <TableCell>Tình trạng</TableCell>
-            <TableCell>Tổng giá bán</TableCell>
-            <TableCell>Lợi nhuận</TableCell>
-            <TableCell>Ngày tạo</TableCell>
+            <TableCell>Tên sản phẩm</TableCell>
+            <TableCell>Mô tả</TableCell>
+            <TableCell>VAT</TableCell>
             <TableCell align="right">hành động</TableCell>
           </TableRow>
         </TableHead>
@@ -78,35 +70,17 @@ export default function FPList({ list, pagination, filter, onFilter, onDelete })
           {list.length > 0 &&
             list.map((row) => (
               <TableRow key={row.id}>
-                <TableCell>{row.code}</TableCell>
+                <TableCell>{row.id}</TableCell>
                 <TableCell component="th">
-                  <Link to={'/admin/fps/' + row.id}>
+                  <Link to={'/admin/category/' + row.id}>
                     {row.name}
                   </Link>
                 </TableCell>
-                <TableCell>{row.account}</TableCell>
-                <TableCell>{row.contact}</TableCell>
+                <TableCell style={{ maxWidth: '330px' }}>{row.descriptions}</TableCell>
+                <TableCell>{row.tax_percent}</TableCell>
 
 
-                <TableCell>{row.user_assign} </TableCell>
-                <TableCell> <ChipStatus label={row.status} status={row.statusNumber} /></TableCell>
-                <TableCell>
-                  {<NumericFormat
-                    displayType="text"
-                    value={row.selling}
-                    thousandSeparator=","
-                    renderText={(value) => <b>{value}</b>}
-                  />}
-                </TableCell>
-                <TableCell>
-                  {<NumericFormat
-                    displayType="text"
-                    value={row.margin}
-                    thousandSeparator=","
-                    renderText={(value) => <b>{value}</b>}
-                  />}
-                </TableCell>
-                <TableCell>{moment(row.created_at).format('DD-MM-YYYY')}</TableCell>
+
                 <TableCell
                   align="right"
 
@@ -116,7 +90,7 @@ export default function FPList({ list, pagination, filter, onFilter, onDelete })
                     variant="contained"
                     color="primary"
                     size="small"
-                    onClick={() => navigate('/admin/fps/' + row.id)}
+                    onClick={() => navigate('/admin/suppliers/' + row.id)}
                   >
                     <EditIcon fontSize="small" />
                   </BasicButtonStyled>
@@ -136,7 +110,7 @@ export default function FPList({ list, pagination, filter, onFilter, onDelete })
           <TableRow>
             <TablePagination
               rowsPerPageOptions={[5, 10, 25]}
-              colSpan={10}
+              colSpan={8}
               count={pagination.total}
               rowsPerPage={filter.per_page}
               page={pagination.current_page ? pagination.current_page - 1 : 0}

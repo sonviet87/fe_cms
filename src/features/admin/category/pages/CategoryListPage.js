@@ -1,17 +1,18 @@
-import fpApi from 'api/fpAPI';
-
+import categoryAPi from 'api/categoryAPI';
 import { LoadingOverlay } from 'components/Common/LoadingOverlay';
 import { WrapperPage } from 'components/Common/SlytedComponent/Wrapper';
 import TitleForm from 'components/Common/TitleForm';
 import React from 'react';
 import { toast } from 'react-toastify';
-import FPFilter from '../components/FPFilter';
-import FPList from '../components/FPList';
+import CategoryFilter from '../components/CategoryFilter';
+import CategoryList from '../components/CategoryList';
 
-function FPListPage() {
+
+
+function CategoryListPage() {
     const [loading, setLoading] = React.useState(false);
     const [list, setList] = React.useState({
-        fps: [],
+        suppliers: [],
         pagination: {
             total: 0,
             current_page: 0
@@ -31,7 +32,7 @@ function FPListPage() {
 
     const handleDelete = async (item) => {
         setLoading(true);
-        const res = await fpApi.delete([item.id]);
+        const res = await categoryAPi.delete([item.id]);
         if (res.status) {
             if (res.data.status) {
                 setFilter({
@@ -53,23 +54,15 @@ function FPListPage() {
 
         (async () => {
             setLoading(true);
-            const res = await fpApi.getAll(filter);
-            try {
-                if (res.status) {
-                    setList({
-                        fps: res.data.data,
-                        pagination: {
-                            total: res.data.meta.total,
-                            current_page: res.data.meta.current_page
-                        },
-                    });
-                }
-                else {
-                    toast.error(res.message);
-                }
-            } catch (error) {
-                toast.error("Bạn không có quyền truy cập");
-                //console.log('Lỗi hệ thống', error);
+            const res = await categoryAPi.getAll(filter);
+            if (res.status) {
+                setList({
+                    suppliers: res.data.data,
+                    pagination: {
+                        total: res.data.meta.total,
+                        current_page: res.data.meta.current_page
+                    },
+                });
             }
             setLoading(false);
         })();
@@ -80,10 +73,9 @@ function FPListPage() {
             {loading && (
                 <LoadingOverlay />
             )}
-
-            <TitleForm lable="Danh sách Phương án kinh doanh" />
-            <FPFilter loading={loading} filter={filter} onSubmit={handleFilter} />
-            <FPList list={list.fps}
+            <TitleForm lable="Danh mục sản phẩm" />
+            <CategoryFilter loading={loading} filter={filter} onSubmit={handleFilter} />
+            <CategoryList list={list.suppliers}
                 pagination={list.pagination}
                 loading={loading}
                 filter={filter}
@@ -94,4 +86,4 @@ function FPListPage() {
     );
 }
 
-export default FPListPage;
+export default CategoryListPage;

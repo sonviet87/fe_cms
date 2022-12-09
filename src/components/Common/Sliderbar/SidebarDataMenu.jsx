@@ -14,6 +14,11 @@ export const MenuCMS = [
                 Icon: DashboardIcon,
             },
             {
+                title: 'Phương án kinh doanh',
+                route: '/admin/fps',
+                Icon: ShoppingCartIcon,
+            },
+            {
                 title: 'Tài khoản',
                 route: '/admin/accounts',
                 Icon: ShoppingCartIcon,
@@ -29,8 +34,8 @@ export const MenuCMS = [
                 Icon: ShoppingCartIcon,
             },
             {
-                title: 'Phương án kinh doanh',
-                route: '/admin/fps',
+                title: 'Danh mục sản phẩm',
+                route: '/admin/category',
                 Icon: ShoppingCartIcon,
             },
 

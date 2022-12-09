@@ -10,7 +10,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useNavigate } from 'react-router-dom';
 
-export default function FPFilter({ loading, filter, onSubmit }) {
+export default function CategoryFilter({ loading, filter, onSubmit }) {
 
   const navigate = useNavigate();
   const schema = yup.object().shape({
@@ -20,7 +20,7 @@ export default function FPFilter({ loading, filter, onSubmit }) {
 
   const { control, handleSubmit } = useForm({
     defaultValues: {
-      search: "",
+      username: "",
     },
     resolver: yupResolver(schema),
   });
@@ -35,10 +35,10 @@ export default function FPFilter({ loading, filter, onSubmit }) {
       <Box component="form" onSubmit={handleSubmit(handleFormSubmit)} sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 300, border: '1px solid #acacac', borderRadius: '8px' }}>
         <InputBaseForm
           sx={{ ml: 1, flex: 1 }}
-          placeholder="Tìm PAKD"
-          inputProps={{ 'aria-label': 'Tìm PAKD' }}
+          placeholder="Tìm nhà cung cấp"
+          inputProps={{ 'aria-label': 'Tìm nhà cung cấp' }}
           control={control}
-          name="search"
+          name="username"
         />
         <IconButtonStyled type="button" sx={{ p: '10px' }} aria-label="search" size="small" onClick={handleSubmit(handleFormSubmit)}>
           <SearchIcon />
