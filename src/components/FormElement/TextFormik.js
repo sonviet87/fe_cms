@@ -4,7 +4,7 @@ import { TextFiledStyled } from 'components/Common/SlytedComponent/Input';
 import { NumericFormat } from 'react-number-format';
 // import { Container } from './styles';
 
-function TextFormik({ name, label, control, ...inputProps }) {
+function TextFormik({ name, label, control, multiline = false, ...inputProps }) {
     const {
         field: { ref, onChange, onBlur, value },
         fieldState: { invalid, error },
@@ -19,6 +19,7 @@ function TextFormik({ name, label, control, ...inputProps }) {
             error={invalid}
             name={name}
             fullWidth
+            multiline={multiline}
             label={label}
             value={value}
             margin="normal"

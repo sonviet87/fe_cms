@@ -6,7 +6,7 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import LoadingButton from '@mui/lab/LoadingButton';
-import TextFormik from 'components/FormElement/TextFormik';
+import TextFormik, { TextFieldNumber } from 'components/FormElement/TextFormik';
 
 CategoryForm.propTypes = {
     initialValue: PropTypes.object,
@@ -56,15 +56,11 @@ function CategoryForm({ initialValue, onSubmit, itemValue, isEdit }) {
                     <TextFormik name="name" label="Tên sản phẩm" control={control} />
                 </Grid>
                 <Grid item xs={12} md={6}>
-                    <TextFormik name="tax_percent" label="VAT" control={control} />
+                    <TextFieldNumber name="tax_percent" suffix={'%'} label="VAT" control={control} />
                 </Grid>
                 <Grid item xs={12} md={12}>
-                    <TextFormik name="descriptions" label="Mô tả sản phẩm" control={control} />
+                    <TextFormik name="descriptions" label="Mô tả sản phẩm" control={control} multiline={true} rows={8} />
                 </Grid>
-
-
-
-
 
                 <Grid item xs={12} md={6}>
                     <LoadingButton
