@@ -1,5 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Button, Grid, Table, TableBody, TableContainer, TableRow, Typography } from '@mui/material';
+import { Button, Divider, Grid, Table, TableBody, TableContainer, TableRow, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -18,8 +18,8 @@ import FPTotal from './FPTotal';
 import { ROUND } from '@formulajs/formulajs';
 import UploadFile from 'components/Common/UploadFile';
 import FPUploadFile from './FPUploadFile';
-
-
+import { WrapperBoxAlign } from 'components/Common/SlytedComponent/Wrapper';
+import { useNavigate } from 'react-router-dom';
 FPForm.propTypes = {
   initialValue: PropTypes.object,
   onSubmit: PropTypes.func,
@@ -47,12 +47,11 @@ function FPForm({
         yup.object({
           category_id: yup.string().required('Xin hãy chọn danh muc'),
           supplier_id: yup.string().required('Xin hãy chọn nhà cung cấp'),
-
         }),
       ),
     ),
   };
-
+  const navigate = useNavigate();
   const schema = yup.object().shape(validationRules);
 
   const [totalBuy, setTotalsBuy] = React.useState(0);
@@ -80,7 +79,6 @@ function FPForm({
   });
 
   const handleFormSubmit = async (formValues) => {
-
     if (!onSubmit) return;
     formValues.net_profit = totalBids;
     formValues.net_profit_percent = ((parseInt(totalBids) / parseInt(totalSell)) * 100).toFixed(2);
@@ -153,7 +151,6 @@ function FPForm({
   };
   React.useEffect(() => {
     if (isEdit) {
-
       if (Object.keys(itemValue).length !== 0) {
         reset(itemValue);
       }
@@ -328,7 +325,17 @@ function FPForm({
                           sx={{ width: '250px' }}
                         />
                       </TableCellStyled>
-                      <TableCellStyled> <UploadFile control={control} name={`details[${index}].file`} setValue={setValue} isEdit={isEdit} field={field} index={index} /></TableCellStyled>
+                      <TableCellStyled>
+                        {' '}
+                        <UploadFile
+                          control={control}
+                          name={`details[${index}].file`}
+                          setValue={setValue}
+                          isEdit={isEdit}
+                          field={field}
+                          index={index}
+                        />
+                      </TableCellStyled>
                       <TableCellStyled>
                         {index !== 0 && (
                           <BasicButtonStyled
@@ -348,7 +355,6 @@ function FPForm({
                           </BasicButtonStyled>
                         )}
                       </TableCellStyled>
-
                     </TableRow>
                   ))}
                   <TableRow>
@@ -396,7 +402,7 @@ function FPForm({
                   price_sell: '',
                   profit: '10',
                   file: '',
-                  file_url: ''
+                  file_url: '',
                 });
               }}
             >
@@ -417,17 +423,31 @@ function FPForm({
             />
           </Grid>
         </Grid>
-
-        <Grid item xs={12} md={6}>
-          <LoadingButton
-            onClick={handleSubmit(handleFormSubmit)}
-            color="primary"
-            loading={isSubmitting}
-            loadingIndicator="Loading..."
-            variant="contained"
-          >
-            Lưu
-          </LoadingButton>
+        <Grid item xs={12} md={12}>
+          <Divider />
+        </Grid>
+        <Grid item xs={12} md={12}>
+          <WrapperBoxAlign isborder={false} align={'center'}>
+            <LoadingButton
+              onClick={handleSubmit(handleFormSubmit)}
+              color="primary"
+              loading={isSubmitting}
+              loadingIndicator="Loading..."
+              variant="contained"
+            >
+              Lưu
+            </LoadingButton>
+            <Button
+              color="fourth"
+              variant="contained"
+              sx={{ ml: 2 }}
+              onClick={() => {
+                navigate('/admin/fps');
+              }}
+            >
+              Trở lại
+            </Button>
+          </WrapperBoxAlign>
         </Grid>
       </Grid>
     </Box>

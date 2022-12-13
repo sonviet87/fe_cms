@@ -35,7 +35,7 @@ export default function CategoryFilter({ loading, filter, onSubmit }) {
       <Box component="form" onSubmit={handleSubmit(handleFormSubmit)} sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 300, border: '1px solid #acacac', borderRadius: '8px' }}>
         <InputBaseForm
           sx={{ ml: 1, flex: 1 }}
-          placeholder="Tìm nhà cung cấp"
+          placeholder="Tìm danh mục"
           inputProps={{ 'aria-label': 'Tìm nhà cung cấp' }}
           control={control}
           name="username"
