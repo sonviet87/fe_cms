@@ -27,7 +27,7 @@ function PrivateRoute({ children }) {
                 try {
                     const res = await userApi.getUser();
                     if (!res.status) return navigate('/login');
-                    console.log(res)
+
                     dispatch(authActions.setRoles(res.data.data.roles));
                     dispatch(authActions.setCurrentUser(res.data.data.user));
                 } catch (err) {

@@ -16,6 +16,9 @@ import { TextFieldNumber } from 'components/FormElement';
 import { NumericFormat } from 'react-number-format';
 import FPTotal from './FPTotal';
 import { ROUND } from '@formulajs/formulajs';
+import UploadFile from 'components/Common/UploadFile';
+import FPUploadFile from './FPUploadFile';
+
 
 FPForm.propTypes = {
   initialValue: PropTypes.object,
@@ -38,11 +41,13 @@ function FPForm({
     name: yup.string().required('Xin hãy điền tên FP'),
     contact_id: yup.string().required('Xin hãy chọn liên hệ'),
     account_id: yup.string().required('Xin hãy chọn tài khoản'),
+    user_assign: yup.string().required('Xin hãy chọn danh mục'),
     details: yup.lazy(() =>
       yup.array().of(
         yup.object({
           category_id: yup.string().required('Xin hãy chọn danh muc'),
           supplier_id: yup.string().required('Xin hãy chọn nhà cung cấp'),
+
         }),
       ),
     ),
@@ -75,13 +80,11 @@ function FPForm({
   });
 
   const handleFormSubmit = async (formValues) => {
+
     if (!onSubmit) return;
     formValues.net_profit = totalBids;
     formValues.net_profit_percent = ((parseInt(totalBids) / parseInt(totalSell)) * 100).toFixed(2);
     formValues.total_sell = totalSell;
-    // console.log(formValues)
-
-
     await onSubmit(formValues);
   };
 
@@ -150,6 +153,7 @@ function FPForm({
   };
   React.useEffect(() => {
     if (isEdit) {
+
       if (Object.keys(itemValue).length !== 0) {
         reset(itemValue);
       }
@@ -306,6 +310,7 @@ function FPForm({
                           name={`details[${index}].profit`}
                           label="Lợi nhuận"
                           control={control}
+                          sx={{ width: '90px' }}
                           onValueChange={(v) => {
                             let qty = getValues(`details[${index}].qty`);
                             let price_sell = getValues(`details[${index}].price_sell`).toString();
@@ -323,6 +328,7 @@ function FPForm({
                           sx={{ width: '250px' }}
                         />
                       </TableCellStyled>
+                      <TableCellStyled> <UploadFile control={control} name={`details[${index}].file`} setValue={setValue} isEdit={isEdit} field={field} index={index} /></TableCellStyled>
                       <TableCellStyled>
                         {index !== 0 && (
                           <BasicButtonStyled
@@ -342,6 +348,7 @@ function FPForm({
                           </BasicButtonStyled>
                         )}
                       </TableCellStyled>
+
                     </TableRow>
                   ))}
                   <TableRow>
@@ -370,6 +377,7 @@ function FPForm({
                     <TableCellStyled></TableCellStyled>
                     <TableCellStyled></TableCellStyled>
                     <TableCellStyled></TableCellStyled>
+                    <TableCellStyled></TableCellStyled>
                   </TableRow>
                 </TableBody>
               </Table>
@@ -387,6 +395,8 @@ function FPForm({
                   price_buy: 0,
                   price_sell: '',
                   profit: '10',
+                  file: '',
+                  file_url: ''
                 });
               }}
             >
@@ -394,7 +404,8 @@ function FPForm({
               Thêm{' '}
             </Button>
           </WrapperBox>
-          <Grid container spacing={0} sx={{ justifyContent: 'flex-end' }}>
+          <Grid container spacing={0} sx={{ justifyContent: 'space-between' }}>
+            <FPUploadFile control={control} setValue={setValue} isEdit={isEdit} itemValue={itemValue} />
             <FPTotal
               control={control}
               totalSell={totalSell}

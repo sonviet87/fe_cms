@@ -69,7 +69,7 @@ function FPListPage() {
                 }
             } catch (error) {
                 toast.error("Bạn không có quyền truy cập");
-                //console.log('Lỗi hệ thống', error);
+                console.log('Lỗi hệ thống', error);
             }
             setLoading(false);
         })();

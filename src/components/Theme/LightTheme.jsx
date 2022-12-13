@@ -29,6 +29,12 @@ const lightTheme = createTheme({
             main: '#28A831',
             contrastText: '#fff',
         },
+        fourth: {
+            dark: '#d90f0f',
+            light: '#fb3636',
+            main: '#d90f0f',
+            contrastText: '#fff',
+        },
         text: {
             primary: '#666',
             secondary: '#333',

@@ -2,11 +2,12 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { Grid } from '@mui/material';
 import { Box } from '@mui/system';
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import LoadingButton from '@mui/lab/LoadingButton';
 import TextFormik, { TextFieldNumber } from 'components/FormElement/TextFormik';
+
 
 CategoryForm.propTypes = {
     initialValue: PropTypes.object,
@@ -42,7 +43,10 @@ function CategoryForm({ initialValue, onSubmit, itemValue, isEdit }) {
 
         }
     }, [itemValue]);
-
+    const [selectedFiles, setSelectedFiles] = useState(undefined);
+    const selectFile = (event) => {
+        setSelectedFiles(event.target.files);
+    };
     return (
         <Box
             component="form"
@@ -61,6 +65,7 @@ function CategoryForm({ initialValue, onSubmit, itemValue, isEdit }) {
                 <Grid item xs={12} md={12}>
                     <TextFormik name="descriptions" label="Mô tả sản phẩm" control={control} multiline={true} rows={8} />
                 </Grid>
+
 
                 <Grid item xs={12} md={6}>
                     <LoadingButton

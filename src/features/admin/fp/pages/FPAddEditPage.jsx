@@ -59,6 +59,7 @@ function AdminFPAddEditPage() {
         price_sell: 0,
         total_sell: 0,
         profit: '10%',
+
       },
     ],
   };
@@ -116,6 +117,7 @@ function AdminFPAddEditPage() {
 
   const handleFormSubmit = async (formValues) => {
     setLoading(true);
+
     try {
       let res;
       if (isEdit) {
@@ -124,8 +126,10 @@ function AdminFPAddEditPage() {
         delete formValues.user;
         delete formValues.phone;
         delete formValues.user_assign_name;
+
         res = await fpApi.update(id, formValues);
       } else {
+
         res = await fpApi.add(formValues);
       }
       if (res.status) {
