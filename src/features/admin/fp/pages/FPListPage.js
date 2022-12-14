@@ -1,6 +1,7 @@
 import fpApi from 'api/fpAPI';
 
 import { LoadingOverlay } from 'components/Common/LoadingOverlay';
+import SkeletonList from 'components/Common/Skeleton/SkeletonList';
 import { WrapperPage } from 'components/Common/SlytedComponent/Wrapper';
 import TitleForm from 'components/Common/TitleForm';
 import React from 'react';
@@ -77,19 +78,20 @@ function FPListPage() {
 
     return (
         <WrapperPage>
-            {loading && (
-                <LoadingOverlay />
-            )}
+
 
             <TitleForm lable="Danh sách Phương án kinh doanh" />
             <FPFilter loading={loading} filter={filter} onSubmit={handleFilter} />
-            <FPList list={list.fps}
+            {loading ? (
+                <SkeletonList />
+            ) : (<FPList list={list.fps}
                 pagination={list.pagination}
                 loading={loading}
                 filter={filter}
                 onFilter={handleFilter}
                 onDelete={handleDelete}
-            />
+            />)}
+
         </WrapperPage>
     );
 }

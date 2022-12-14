@@ -1,16 +1,18 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import { Routes, Route } from 'react-router';
-import AdminContactAddEditPage from './pages/ContactAddEditPage';
-import ContactListPage from './pages/ContactListPage';
 
+const AdminContactAddEditPage = lazy(() => import('./pages/ContactAddEditPage'));
+const ContactListPage = lazy(() => import('./pages/ContactListPage'));
 
 function AdminContactFeature() {
     return (
-        <Routes>
-            <Route path="/" element={<ContactListPage />} />
-            <Route path="/add" element={<AdminContactAddEditPage />} />
-            <Route path="/:id" element={<AdminContactAddEditPage />} />
-        </Routes>
+        <Suspense>
+            <Routes>
+                <Route path="/" element={<ContactListPage />} />
+                <Route path="/add" element={<AdminContactAddEditPage />} />
+                <Route path="/:id" element={<AdminContactAddEditPage />} />
+            </Routes>
+        </Suspense>
     );
 }
 

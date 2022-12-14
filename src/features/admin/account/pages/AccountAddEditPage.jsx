@@ -102,7 +102,7 @@ function AdminAccountAddEditPage() {
             {loading && (
                 <LoadingOverlay />
             )}
-            <TitleForm lable={isEdit ? "Cập nhật tài khoản" : "Thêm tài khoản"} />
+            <TitleForm lable={isEdit ? "Cập nhật khách hàng" : "Thêm khách hàng"} />
 
             {(!isEdit || Boolean(account)) && (
                 <AccountForm initialValue={initialValue} onSubmit={handleFormSubmit} itemValue={account} role={role} isEdit={isEdit} />

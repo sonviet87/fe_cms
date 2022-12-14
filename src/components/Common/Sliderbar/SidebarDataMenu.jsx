@@ -1,7 +1,10 @@
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
-import ReceiptIcon from '@mui/icons-material/Receipt';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import AssessmentIcon from '@mui/icons-material/Assessment';
+import PermContactCalendarIcon from '@mui/icons-material/PermContactCalendar';
+import SpatialAudioOffIcon from '@mui/icons-material/SpatialAudioOff';
+import SupervisedUserCircleIcon from '@mui/icons-material/SupervisedUserCircle';
+import CategoryIcon from '@mui/icons-material/Category';
 
 
 export const MenuCMS = [
@@ -12,44 +15,53 @@ export const MenuCMS = [
                 title: 'Bảng điều khiển',
                 route: '/admin',
                 Icon: DashboardIcon,
+                permission: 'all'
             },
             {
                 title: 'Phương án kinh doanh',
                 route: '/admin/fps',
-                Icon: ShoppingCartIcon,
+                Icon: AssessmentIcon,
+                permission: 'fp-list'
             },
             {
-                title: 'Tài khoản',
+                title: 'Khách hàng',
                 route: '/admin/accounts',
-                Icon: ShoppingCartIcon,
+                Icon: PermContactCalendarIcon,
+                permission: 'account-list'
             },
             {
                 title: 'Liên hệ',
                 route: '/admin/contacts',
-                Icon: ShoppingCartIcon,
+                Icon: SpatialAudioOffIcon,
+                permission: 'contact-list'
             },
             {
                 title: 'Nhà cung cấp',
                 route: '/admin/suppliers',
-                Icon: ShoppingCartIcon,
+                Icon: SupervisedUserCircleIcon,
+                permission: 'supplier-list'
             },
             {
                 title: 'Danh mục sản phẩm',
                 route: '/admin/category',
-                Icon: ShoppingCartIcon,
+                Icon: CategoryIcon,
+                permission: 'category-list'
             },
 
             {
                 title: 'Người dùng',
                 Icon: ManageAccountsIcon,
+                permission: 'user-list',
                 items: [
                     {
                         title: 'Danh sách người dùng',
                         route: '/admin/users',
+                        permission: 'user-list'
                     },
                     {
                         title: 'Quyền',
                         route: '/admin/roles',
+                        permission: 'role-list'
                     },
                 ],
             },

@@ -16,7 +16,7 @@ function FPHeaderPage({ isEdit, id, fps }) {
   }
   return (
     <WrapperBoxAlign align="space-between" isborder={0}>
-      <TitleForm lable={isEdit ? 'Cập nhật FP' : 'Thêm FP '} isborder={0} />
+      <TitleForm lable={isEdit ? 'Cập nhật phương án kinh doanh' : 'Thêm phương án kinh doanh '} isborder={0} />
       {isEdit && (<div> <FPButtonApproved status={status} onChangeStatus={handleChangeStatus} /><FPExportExcel data={fps.details} id={id} fps={fps} status={status} /></div>)}
     </WrapperBoxAlign>
   );

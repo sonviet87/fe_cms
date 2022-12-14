@@ -54,18 +54,23 @@ function AccountListPage() {
 
     React.useEffect(() => {
         (async () => {
-            setLoading(true);
-            const res = await accountApi.getAll(filter);
-            if (res.status) {
-                setList({
-                    users: res.data.data,
-                    pagination: {
-                        total: res.data.meta.total,
-                        current_page: res.data.meta.current_page
-                    },
-                });
+            try {
+                setLoading(true);
+                const res = await accountApi.getAll(filter);
+                if (res.status) {
+                    setList({
+                        users: res.data.data,
+                        pagination: {
+                            total: res.data.meta.total,
+                            current_page: res.data.meta.current_page
+                        },
+                    });
+                }
+                setLoading(false);
+            } catch (e) {
+                console.log(e)
             }
-            setLoading(false);
+
         })();
     }, [filter]);
 

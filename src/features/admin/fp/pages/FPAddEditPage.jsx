@@ -68,10 +68,10 @@ function AdminFPAddEditPage() {
     (async () => {
       try {
         let [accountRs, categoriesRs, supplierRs, userRs] = await Promise.all([
-          accountApi.getAll(),
-          categoryAPi.getAll(),
+          accountApi.getList(),
+          categoryAPi.getList(),
           supplierApi.getlist(),
-          userApi.getAll()
+          userApi.getList()
         ]);
 
         if (accountRs.status) {

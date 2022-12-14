@@ -84,14 +84,14 @@ function ContactForm({ initialValue, onSubmit, itemValue, usersValue, accountsVa
                 <Grid item xs={12} md={6} >
                     <BasicSelect
                         name="account_id"
-                        label="Tài khoản"
+                        label="Khách hàng"
                         control={control}
                         options={accountsValue}
 
                     />
                 </Grid>
 
-                <Grid item xs={12} md={6}>
+                <Grid item xs={12} md={12}>
                     <LoadingButton
                         onClick={handleSubmit(handleFormSubmit)}
                         color="primary"
@@ -99,7 +99,7 @@ function ContactForm({ initialValue, onSubmit, itemValue, usersValue, accountsVa
                         loadingIndicator="Loading..."
                         variant="contained"
                     >
-                        Save Changes
+                        Lưu
                     </LoadingButton>
                 </Grid>
             </Grid>

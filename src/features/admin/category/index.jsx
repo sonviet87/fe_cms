@@ -1,15 +1,16 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import { Routes, Route } from 'react-router';
-import AdminCategoryAddEditPage from './pages/CategoryAddEditPage';
-import CategoryListPage from './pages/CategoryListPage';
-
+const AdminCategoryAddEditPage = lazy(() => import('./pages/CategoryAddEditPage'));
+const CategoryListPage = lazy(() => import('./pages/CategoryListPage'));
 function AdminCategoryFeature() {
     return (
-        <Routes>
-            <Route path="/" element={<CategoryListPage />} />
-            <Route path="/add" element={<AdminCategoryAddEditPage />} />
-            <Route path="/:id" element={<AdminCategoryAddEditPage />} />
-        </Routes>
+        <Suspense>
+            <Routes>
+                <Route path="/" element={<CategoryListPage />} />
+                <Route path="/add" element={<AdminCategoryAddEditPage />} />
+                <Route path="/:id" element={<AdminCategoryAddEditPage />} />
+            </Routes>
+        </Suspense>
     );
 }
 

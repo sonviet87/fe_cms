@@ -1,16 +1,18 @@
-import React from 'react';
+import React, { Suspense } from 'react';
+import { lazy } from 'react';
 import { Routes, Route } from 'react-router';
-import AdminUserAddEditPage from './pages/UserAddEditPage';
-import UserListPage from './pages/UserListPage';
 
-
+const UserListPage = lazy(() => import('./pages/UserListPage'));
+const AdminUserAddEditPage = lazy(() => import('./pages/UserAddEditPage'));
 function AdminUsersFeature() {
     return (
-        <Routes>
-            <Route path="/" element={<UserListPage />} />
-            <Route path="/add" element={<AdminUserAddEditPage />} />
-            <Route path="/:id" element={<AdminUserAddEditPage />} />
-        </Routes>
+        <Suspense>
+            <Routes>
+                <Route path="/" element={<UserListPage />} />
+                <Route path="/add" element={<AdminUserAddEditPage />} />
+                <Route path="/:id" element={<AdminUserAddEditPage />} />
+            </Routes>
+        </Suspense>
     );
 }
 

@@ -1,17 +1,19 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import { Routes, Route } from 'react-router';
-import RoleAddEditPage from './pages/RoleAddEditPage';
-import RoleListPage from './pages/RoleListPage';
 
+const RoleAddEditPage = lazy(() => import('./pages/RoleAddEditPage'));
+const RoleListPage = lazy(() => import('./pages/RoleListPage'));
 
 
 function AdminRolesFeature() {
     return (
-        <Routes>
-            <Route path="/" element={<RoleListPage />} />
-            <Route path="/add" element={<RoleAddEditPage />} />
-            <Route path="/:id" element={<RoleAddEditPage />} />
-        </Routes>
+        <Suspense>
+            <Routes>
+                <Route path="/" element={<RoleListPage />} />
+                <Route path="/add" element={<RoleAddEditPage />} />
+                <Route path="/:id" element={<RoleAddEditPage />} />
+            </Routes>
+        </Suspense>
     );
 }
 

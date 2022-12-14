@@ -2,7 +2,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { Grid } from '@mui/material';
 import { Box } from '@mui/system';
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import React from 'react';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import LoadingButton from '@mui/lab/LoadingButton';
@@ -17,6 +17,7 @@ CategoryForm.propTypes = {
 function CategoryForm({ initialValue, onSubmit, itemValue, isEdit }) {
     const validationRules = {
         name: yup.string().required('Xin hãy điền tên sản phẩm'),
+        tax_percent: yup.string().required('Xin hãy điền VAT'),
     };
 
     const schema = yup.object().shape(validationRules);
@@ -43,10 +44,7 @@ function CategoryForm({ initialValue, onSubmit, itemValue, isEdit }) {
 
         }
     }, [itemValue]);
-    const [selectedFiles, setSelectedFiles] = useState(undefined);
-    const selectFile = (event) => {
-        setSelectedFiles(event.target.files);
-    };
+
     return (
         <Box
             component="form"

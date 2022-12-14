@@ -90,7 +90,7 @@ export default function CategoryList({ list, pagination, filter, onFilter, onDel
                     variant="contained"
                     color="primary"
                     size="small"
-                    onClick={() => navigate('/admin/suppliers/' + row.id)}
+                    onClick={() => navigate('/admin/category/' + row.id)}
                   >
                     <EditIcon fontSize="small" />
                   </BasicButtonStyled>

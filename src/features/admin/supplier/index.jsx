@@ -1,15 +1,18 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import { Routes, Route } from 'react-router';
-import AdminSupplierAddEditPage from './pages/SupplierAddEditPage';
-import SupplierListPage from './pages/SupplierListPage';
+
+const AdminSupplierAddEditPage = lazy(() => import('./pages/SupplierAddEditPage'));
+const SupplierListPage = lazy(() => import('./pages/SupplierListPage'));
 
 function AdminSuppliersFeature() {
     return (
-        <Routes>
-            <Route path="/" element={<SupplierListPage />} />
-            <Route path="/add" element={<AdminSupplierAddEditPage />} />
-            <Route path="/:id" element={<AdminSupplierAddEditPage />} />
-        </Routes>
+        <Suspense>
+            <Routes>
+                <Route path="/" element={<SupplierListPage />} />
+                <Route path="/add" element={<AdminSupplierAddEditPage />} />
+                <Route path="/:id" element={<AdminSupplierAddEditPage />} />
+            </Routes>
+        </Suspense>
     );
 }
 

@@ -10,6 +10,7 @@ import { useNavigate } from 'react-router-dom';
 import { getLSItem } from 'utils/localStorage';
 import { setLSItem } from 'utils';
 import { authActions, loginThunk } from '../authSlice';
+import jwtDecode from 'jwt-decode';
 //import userApi from 'api/userAPI';
 
 
@@ -40,8 +41,9 @@ function Login() {
 
             if (res.payload?.status && res.payload !== undefined) {
                 if (res.payload.data.status) {
+                    console.log(jwtDecode(res.payload.data.data.accessToken));
                     setLSItem('access_token', res.payload.data.data.accessToken);
-                    delete res.payload.data.data.accessToken;
+                    //delete res.payload.data.data.accessToken;
                     dispatch(authActions.setRoles(res.payload.data.data.scopes));
                     delete res.payload.data.data.roles;
                     delete res.payload.data.data.scopes;

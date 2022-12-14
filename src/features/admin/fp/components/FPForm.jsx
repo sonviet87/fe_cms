@@ -161,7 +161,7 @@ function FPForm({
     <Box component="form" noValidate autoComplete="off" onSubmit={handleSubmit(handleFormSubmit)}>
       <Grid container spacing={2}>
         <Grid item xs={12} md={12}>
-          <TextFormik name="name" label="Tên FP" control={control} />
+          <TextFormik name="name" label="Tên phương án kinh doanh" control={control} />
         </Grid>
         <Grid item xs={12} md={4}>
           <BasicSelect name="user_assign" label="Gán cho" control={control} options={usersValues} />
@@ -410,8 +410,8 @@ function FPForm({
               Thêm{' '}
             </Button>
           </WrapperBox>
-          <Grid container spacing={0} sx={{ justifyContent: 'space-between' }}>
-            <FPUploadFile control={control} setValue={setValue} isEdit={isEdit} itemValue={itemValue} />
+          <Grid container spacing={0} sx={isEdit ? { justifyContent: 'space-between' } : { justifyContent: 'flex-end' }}>
+            {isEdit && <FPUploadFile control={control} setValue={setValue} isEdit={isEdit} itemValue={itemValue} />}
             <FPTotal
               control={control}
               totalSell={totalSell}

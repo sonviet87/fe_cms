@@ -1,8 +1,10 @@
 import { ExpandLess, ExpandMore } from '@mui/icons-material';
-import { List, ListItemButton, ListItemIcon, ListItemText, Collapse } from '@mui/material';
+import { List, ListItemText, Collapse } from '@mui/material';
+import { selectRoles } from 'features/auth/authSlice';
 
 import PropTypes from 'prop-types';
 import React, { useMemo, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { ListItemButtonStyled, ListItemIconStyled } from '../SlytedComponent/Nav';
 
@@ -25,8 +27,8 @@ const SidebarItemComponent = (props) => {
 };
 
 function SidebarItem(props) {
-
-    const { title, route, Icon, items = [] } = props;
+    const permissons = useSelector(selectRoles);
+    const { title, route, Icon, items, permission = [] } = props;
     const isCollapse = useMemo(() => items && items.length > 0, [items]);
     const [open, setOpen] = useState(false);
 
@@ -57,12 +59,17 @@ function SidebarItem(props) {
                 {isCollapse && !open && <ExpandMore />}
                 {isCollapse && open && <ExpandLess />}
             </SidebarItemComponent>
+
             {isCollapse && (
                 <Collapse in={open}>
                     <List component="div" disablePadding>
-                        {items.map((item, idx) => (
-                            <SidebarItem {...item} key={idx} />
-                        ))}
+                        {items.map((item, idx) => {
+                            if (permissons.includes(item.permission) || item.permission === 'all') {
+                                return <SidebarItem {...item} key={idx} />
+                            } else {
+                                return ''
+                            }
+                        })}
                     </List>
                 </Collapse>
             )}

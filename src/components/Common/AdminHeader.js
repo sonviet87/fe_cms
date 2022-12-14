@@ -1,5 +1,5 @@
 import { AccountCircle } from '@mui/icons-material';
-import { IconButton, Menu, MenuItem, Toolbar, Typography } from '@mui/material';
+import { Badge, IconButton, Menu, MenuItem, Toolbar, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import { authActions, selectCurrentUser } from 'features/auth/authSlice';
 import React from 'react';
@@ -9,7 +9,7 @@ import { removeLSItem } from 'utils';
 import { AppBarStyled } from './SlytedComponent/AppBar';
 import MenuIcon from '@mui/icons-material/Menu';
 import { IconButtonToggleStyled, ToolBoxHeaderStyled } from './SlytedComponent/Header';
-
+import NotificationsIcon from '@mui/icons-material/Notifications';
 
 function AdminHeader(props) {
 
@@ -59,11 +59,20 @@ function AdminHeader(props) {
                 <div>
                     <IconButton
                         size="large"
+                        aria-label="show 17 new notifications"
+                        color="primary"
+                    >
+                        <Badge color="error">
+                            <NotificationsIcon />
+                        </Badge>
+                    </IconButton>
+                    <IconButton
+                        size="large"
                         aria-label="account of current user"
                         aria-controls="menu-appbar"
                         aria-haspopup="true"
                         onClick={handleMenu}
-                        color={"success"}
+                        color="primary"
                     >
                         <AccountCircle />
                         <Typography component="span" color="#000" >{selectUser.name}</Typography>

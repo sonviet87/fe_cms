@@ -1,16 +1,18 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import { Routes, Route } from 'react-router';
-import AdminFPAddEditPage from './pages/FPAddEditPage';
-import FPListPage from './pages/FPListPage';
 
+const AdminFPAddEditPage = lazy(() => import('./pages/FPAddEditPage'));
+const FPListPage = lazy(() => import('./pages/FPListPage'));
 
 function AdminFPsFeature() {
     return (
-        <Routes>
-            <Route path="/" element={<FPListPage />} />
-            <Route path="/add" element={<AdminFPAddEditPage />} />
-            <Route path="/:id" element={<AdminFPAddEditPage />} />
-        </Routes>
+        <Suspense>
+            <Routes>
+                <Route path="/" element={<FPListPage />} />
+                <Route path="/add" element={<AdminFPAddEditPage />} />
+                <Route path="/:id" element={<AdminFPAddEditPage />} />
+            </Routes>
+        </Suspense>
     );
 }
 
