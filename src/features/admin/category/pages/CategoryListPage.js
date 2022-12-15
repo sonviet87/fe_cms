@@ -1,5 +1,6 @@
 import categoryAPi from 'api/categoryAPI';
 import { LoadingOverlay } from 'components/Common/LoadingOverlay';
+import SkeletonList from 'components/Common/Skeleton/SkeletonList';
 import { WrapperPage } from 'components/Common/SlytedComponent/Wrapper';
 import TitleForm from 'components/Common/TitleForm';
 import React from 'react';
@@ -70,18 +71,18 @@ function CategoryListPage() {
 
     return (
         <WrapperPage>
-            {loading && (
-                <LoadingOverlay />
-            )}
+
             <TitleForm lable="Danh mục sản phẩm" />
             <CategoryFilter loading={loading} filter={filter} onSubmit={handleFilter} />
-            <CategoryList list={list.suppliers}
+            {loading ? (
+                <SkeletonList />
+            ) : (<CategoryList list={list.suppliers}
                 pagination={list.pagination}
                 loading={loading}
                 filter={filter}
                 onFilter={handleFilter}
                 onDelete={handleDelete}
-            />
+            />)}
         </WrapperPage>
     );
 }

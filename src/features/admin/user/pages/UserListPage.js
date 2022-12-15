@@ -1,6 +1,7 @@
 import userApi from 'api/userAPI';
 
 import { LoadingOverlay } from 'components/Common/LoadingOverlay';
+import SkeletonList from 'components/Common/Skeleton/SkeletonList';
 import { WrapperPage } from 'components/Common/SlytedComponent/Wrapper';
 import TitleForm from 'components/Common/TitleForm';
 import React from 'react';
@@ -72,19 +73,19 @@ function UserListPage() {
 
     return (
         <WrapperPage>
-            {loading && (
-                <LoadingOverlay />
-            )}
+
             <TitleForm lable="Danh sách người dùng" />
             <UserFilter loading={loading} filter={filter} onSubmit={handleFilter} />
-            <UserList list={list.users}
+            {loading ? (
+                <SkeletonList />
+            ) : (<UserList list={list.users}
                 pagination={list.pagination}
                 loading={loading}
                 filter={filter}
                 labelRowsPerPage={"Số dòng trên trang"}
                 onFilter={handleFilter}
                 onDelete={handleDelete}
-            />
+            />)}
         </WrapperPage>
     );
 }

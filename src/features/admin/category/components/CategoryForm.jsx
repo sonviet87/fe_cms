@@ -58,7 +58,7 @@ function CategoryForm({ initialValue, onSubmit, itemValue, isEdit }) {
                     <TextFormik name="name" label="Tên sản phẩm" control={control} />
                 </Grid>
                 <Grid item xs={12} md={6}>
-                    <TextFieldNumber name="tax_percent" suffix={'%'} label="VAT" control={control} />
+                    <TextFieldNumber name="tax_percent" label="VAT" control={control} />
                 </Grid>
                 <Grid item xs={12} md={12}>
                     <TextFormik name="descriptions" label="Mô tả sản phẩm" control={control} multiline={true} rows={8} />

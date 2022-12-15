@@ -2,6 +2,7 @@ import React from 'react';
 import { useController } from 'react-hook-form';
 import { TextFiledStyled } from 'components/Common/SlytedComponent/Input';
 import { NumericFormat } from 'react-number-format';
+import { FormHelperText } from '@mui/material';
 // import { Container } from './styles';
 
 function TextFormik({ name, label, control, multiline = false, ...inputProps }) {
@@ -14,6 +15,7 @@ function TextFormik({ name, label, control, multiline = false, ...inputProps }) 
         rules: { required: true },
         defaultValue: '',
     });
+
     return (
         <TextFiledStyled
             error={invalid}
@@ -45,25 +47,36 @@ export const TextFieldNumber = ({ name, label, control, onValueChange, ...inputP
         defaultValue: '',
     });
 
+    // const setErrorStyle = (name) => {
+    //     return {
+    //          borderColor: name ? "red" : "",
+    //          boxShadow: name ? "0 0 1.5px 1px red" : "",
+
+    //     };
+    // };
     return (
-        <NumericFormat
-            customInput={TextFiledStyled}
-            thousandSeparator={true}
-            value={value}
-            {...inputProps}
-            label={label}
-            margin="normal"
-            size="small"
-            variant="outlined"
-            onValueChange={onValueChange}
-            onChange={onChange}
-            onBlur={onBlur}
-        // error={!!invalid}
-        //helperText={error?.message}
-        // inputRef={ref}
+        <>
+            <NumericFormat
+                customInput={TextFiledStyled}
+                thousandSeparator={true}
+                value={value}
+                {...inputProps}
+                label={label}
+                margin="normal"
+                size="small"
+                variant="outlined"
+                onValueChange={onValueChange}
+                onChange={onChange}
+                onBlur={onBlur}
+                getInputRef={ref}
+            //error={!!invalid}
+            //helperText={error?.message}
+            //inputRef={ref}
+            //style={setErrorStyle(error?.message)}
 
-        />
-
+            />
+            {invalid && <FormHelperText error={true}>{error?.message}</FormHelperText>}
+        </>
     );
 }
 
@@ -94,7 +107,7 @@ export const TextFieldNumberAuto = ({ name, label, control, onValueChange, ...in
             InputProps={{
                 inputProps: {
                     type: 'number',
-                    min: 0, max: 50,
+                    min: 0, max: 100,
                 },
             }}
             helperText={error?.message}

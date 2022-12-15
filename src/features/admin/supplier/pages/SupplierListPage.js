@@ -1,6 +1,7 @@
 import supplierApi from 'api/suppliertAPI';
 
 import { LoadingOverlay } from 'components/Common/LoadingOverlay';
+import SkeletonList from 'components/Common/Skeleton/SkeletonList';
 import { WrapperPage } from 'components/Common/SlytedComponent/Wrapper';
 import TitleForm from 'components/Common/TitleForm';
 import React from 'react';
@@ -71,18 +72,18 @@ function SupplierListPage() {
 
     return (
         <WrapperPage>
-            {loading && (
-                <LoadingOverlay />
-            )}
+
             <TitleForm lable="Danh sách nhà cung cấp" />
             <SupplierFilter loading={loading} filter={filter} onSubmit={handleFilter} />
-            <SupplierList list={list.suppliers}
+            {loading ? (
+                <SkeletonList />
+            ) : (<SupplierList list={list.suppliers}
                 pagination={list.pagination}
                 loading={loading}
                 filter={filter}
                 onFilter={handleFilter}
                 onDelete={handleDelete}
-            />
+            />)}
         </WrapperPage>
     );
 }

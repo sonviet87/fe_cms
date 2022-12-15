@@ -1,6 +1,6 @@
 import config from './config';
 
-const getLocalStorageKey = (name) => `${config.APP_NAME}_${name}`;
+const getLocalStorageKey = (name) => `CMS_${name}`;
 
 export const getLSItem = (name) => {
 

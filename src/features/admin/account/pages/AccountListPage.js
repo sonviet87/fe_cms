@@ -1,5 +1,6 @@
 import accountApi from 'api/accountAPI';
 import { LoadingOverlay } from 'components/Common/LoadingOverlay';
+import SkeletonList from 'components/Common/Skeleton/SkeletonList';
 import { WrapperPage } from 'components/Common/SlytedComponent/Wrapper';
 import TitleForm from 'components/Common/TitleForm';
 import React from 'react';
@@ -76,18 +77,18 @@ function AccountListPage() {
 
     return (
         <WrapperPage>
-            {loading && (
-                <LoadingOverlay />
-            )}
+
             <TitleForm lable="Danh sách tài khoản" />
             <UserFilter loading={loading} filter={filter} onSubmit={handleFilter} />
-            <AccountList list={list.users}
+            {loading ? (
+                <SkeletonList />
+            ) : (<AccountList list={list.users}
                 pagination={list.pagination}
                 loading={loading}
                 filter={filter}
                 onFilter={handleFilter}
                 onDelete={handleDelete}
-            />
+            />)}
         </WrapperPage>
     );
 }

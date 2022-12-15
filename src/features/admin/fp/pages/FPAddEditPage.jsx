@@ -14,6 +14,7 @@ import supplierApi from 'api/suppliertAPI';
 import contactApi from 'api/contactAPI';
 import FPHeaderPage from '../components/FPHeaderPage';
 import userApi from 'api/userAPI';
+import SkeletonPageFP from 'components/Common/Skeleton/SkeletonPageFP';
 
 function AdminFPAddEditPage() {
   const [loading, setLoading] = React.useState(false);
@@ -158,9 +159,12 @@ function AdminFPAddEditPage() {
 
   return (
     <WrapperPage>
-      {loading && <LoadingOverlay />}
+
       <FPHeaderPage isEdit={isEdit} id={id} fps={fps} initialValue={initialValue} onSubmit={handleFormSubmit} />
-      {(!isEdit || Boolean(fps)) && (
+
+      {loading ? (
+        <SkeletonPageFP />
+      ) : (
         <FPForm
           initialValue={initialValue}
           onSubmit={handleFormSubmit}

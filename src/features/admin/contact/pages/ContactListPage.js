@@ -1,6 +1,7 @@
 
 import contactApi from 'api/contactAPI';
 import { LoadingOverlay } from 'components/Common/LoadingOverlay';
+import SkeletonList from 'components/Common/Skeleton/SkeletonList';
 import { WrapperPage } from 'components/Common/SlytedComponent/Wrapper';
 import TitleForm from 'components/Common/TitleForm';
 import React from 'react';
@@ -72,18 +73,18 @@ function ContactListPage() {
 
     return (
         <WrapperPage>
-            {loading && (
-                <LoadingOverlay />
-            )}
+
             <TitleForm lable="Danh sách liên hệ" />
             <ContactFilter loading={loading} filter={filter} onSubmit={handleFilter} />
-            <ContactList list={list.users}
+            {loading ? (
+                <SkeletonList />
+            ) : (<ContactList list={list.users}
                 pagination={list.pagination}
                 loading={loading}
                 filter={filter}
                 onFilter={handleFilter}
                 onDelete={handleDelete}
-            />
+            />)}
         </WrapperPage>
     );
 }
