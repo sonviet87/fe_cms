@@ -53,7 +53,15 @@ export const FPButtonApproved = ({ status, onChangeStatus }) => {
                             {' '}
                             Duyệt PAKD
                         </Button>
-
+                            <Button
+                                color="error"
+                                variant="contained"
+                                sx={{ mb: 2, mr: 1 }}
+                                size="small"
+                                onClick={() => handleChangeStatus(7)}
+                            >
+                                Trả về
+                            </Button>
                             <Button
                                 color="error"
                                 variant="contained"

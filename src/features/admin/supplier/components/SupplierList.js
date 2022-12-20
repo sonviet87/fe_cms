@@ -61,10 +61,13 @@ export default function SupplierList({ list, pagination, filter, onFilter, onDel
           <TableRow>
             <TableCell>ID</TableCell>
             <TableCell>Công ty</TableCell>
+
             <TableCell>Tài khoản</TableCell>
+            <TableCell>Sale phụ trách</TableCell>
             <TableCell>Địa chỉ</TableCell>
             <TableCell>Mã số thuế</TableCell>
             <TableCell>Điện thoại</TableCell>
+
             <TableCell>Email</TableCell>
             <TableCell align="right">hành động</TableCell>
           </TableRow>
@@ -80,6 +83,7 @@ export default function SupplierList({ list, pagination, filter, onFilter, onDel
                   </Link>
                 </TableCell>
                 <TableCell>{row.account}</TableCell>
+                <TableCell>{row.user}</TableCell>
                 <TableCell>{row.address}</TableCell>
 
 

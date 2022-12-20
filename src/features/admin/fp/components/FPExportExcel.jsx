@@ -483,7 +483,7 @@ const FPExportExcel = ({ data, id, fps, status }) => {
             }}
         >
             {' '}
-            Xuất Excel
+            Xuất báo giá
         </Button>
     );
 };

@@ -9,9 +9,12 @@ import ConfirmDialog from 'components/Common/ConfirmDialog';
 import moment from 'moment';
 import { NumericFormat } from 'react-number-format';
 import ChipStatus from 'components/Common/Element/Chip';
+import { fpPermissions } from '../constants/FPConstants';
+import { selectRoles } from 'features/auth/authSlice';
+import { useSelector } from 'react-redux';
 
 export default function FPList({ list, pagination, filter, onFilter, onDelete }) {
-
+  const permissions = useSelector(selectRoles)
   const navigate = useNavigate();
   const [confirmDeleteDialogData, setConfirmDeleteDialogData] = React.useState({
     title: '',
@@ -120,14 +123,17 @@ export default function FPList({ list, pagination, filter, onFilter, onDelete })
                   >
                     <EditIcon fontSize="small" />
                   </BasicButtonStyled>
-                  <BasicButtonStyled
-                    variant="contained"
-                    color="error"
-                    size="small"
-                    onClick={() => handleOpenConfirmDeleteDialog(row)}
-                  >
-                    <DeleteOutlineIcon fontSize="small" />
-                  </BasicButtonStyled>
+                  {console.log((parseInt(row.status_code) === 0 || (row.status_code) === 7))}
+                  {(!permissions.includes(fpPermissions.FP_IS_SALE) || (parseInt(row.status_code) === 0 || (row.status_code) === 7)) &&
+                    <BasicButtonStyled
+                      variant="contained"
+                      color="error"
+                      size="small"
+                      onClick={() => handleOpenConfirmDeleteDialog(row)}
+                    >
+                      <DeleteOutlineIcon fontSize="small" />
+                    </BasicButtonStyled>
+                  }
                 </TableCell>
               </TableRow>
             ))}

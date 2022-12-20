@@ -7,13 +7,14 @@ import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import LoadingButton from '@mui/lab/LoadingButton';
 import TextFormik from 'components/FormElement/TextFormik';
+import BasicSelect from 'components/FormElement/SelectBox';
 
 SupplierForm.propTypes = {
     initialValue: PropTypes.object,
     onSubmit: PropTypes.func,
 };
 
-function SupplierForm({ initialValue, onSubmit, itemValue, role, isEdit }) {
+function SupplierForm({ initialValue, onSubmit, itemValue, isEdit, usersValue }) {
     const validationRules = {
         company: yup.string().required('Xin hãy điền thông tin công ty'),
     };
@@ -42,6 +43,7 @@ function SupplierForm({ initialValue, onSubmit, itemValue, role, isEdit }) {
             setValue('email', itemValue.email);
             setValue('mst', itemValue.mst);
             setValue('phone', itemValue.phone);
+            setValue('user_id', itemValue.user_id);
         }
     }, [itemValue]);
 
@@ -72,10 +74,18 @@ function SupplierForm({ initialValue, onSubmit, itemValue, role, isEdit }) {
                 <Grid item xs={12} md={6}>
                     <TextFormik name="email" label="email" control={control} />
                 </Grid>
+                <Grid item xs={12} md={6} >
+                    <BasicSelect
+                        name="user_id"
+                        label="Sale phụ trách"
+                        control={control}
+                        options={usersValue}
+
+                    />
+                </Grid>
 
 
-
-                <Grid item xs={12} md={6}>
+                <Grid item xs={12} md={12}>
                     <LoadingButton
                         onClick={handleSubmit(handleFormSubmit)}
                         color="primary"

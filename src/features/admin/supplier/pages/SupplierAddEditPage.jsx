@@ -8,6 +8,7 @@ import { WrapperPage } from 'components/Common/SlytedComponent/Wrapper';
 import TitleForm from 'components/Common/TitleForm';
 import SupplierForm from '../components/SupplierForm';
 import supplierApi from 'api/suppliertAPI';
+import userApi from 'api/userAPI';
 
 function AdminSupplierAddEditPage() {
 
@@ -15,7 +16,7 @@ function AdminSupplierAddEditPage() {
     const { id } = useParams();
     const isEdit = Boolean(id);
     const [suppliers, setSupplier] = React.useState({});
-
+    const [users, setUsers] = React.useState([]);
     const navigate = useNavigate();
 
     const initialValue = {
@@ -25,10 +26,19 @@ function AdminSupplierAddEditPage() {
         mst: '',
         phone: '',
         email: '',
+        user_id: '',
     };
 
     React.useEffect(() => {
-
+        (async () => {
+            try {
+                const usersRs = await userApi.getList();
+                setUsers(usersRs.data.data);
+            }
+            catch (err) {
+                console.log(err);
+            };
+        })();
         if (!id) return;
         (async () => {
             setLoading(true);
@@ -42,6 +52,7 @@ function AdminSupplierAddEditPage() {
                         mst: res.data.data.mst,
                         email: res.data.data.email,
                         phone: res.data.data.phone,
+                        user_id: res.data.data.user_id,
 
                     });
 
@@ -92,7 +103,7 @@ function AdminSupplierAddEditPage() {
             <TitleForm lable={isEdit ? "Cập nhật nhà cung cấp" : "Thêm nhà cung cấp "} />
 
             {(!isEdit || Boolean(suppliers)) && (
-                <SupplierForm initialValue={initialValue} onSubmit={handleFormSubmit} itemValue={suppliers} isEdit={isEdit} />
+                <SupplierForm initialValue={initialValue} onSubmit={handleFormSubmit} itemValue={suppliers} usersValue={users} isEdit={isEdit} />
             )}
 
         </WrapperPage>

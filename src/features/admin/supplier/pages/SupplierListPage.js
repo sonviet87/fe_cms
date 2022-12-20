@@ -57,6 +57,7 @@ function SupplierListPage() {
         (async () => {
             setLoading(true);
             const res = await supplierApi.getAll(filter);
+            console.log(res.data.data)
             if (res.status) {
                 setList({
                     suppliers: res.data.data,

@@ -36,6 +36,7 @@ function FPForm({
   suppliersValues,
   usersValues,
   isEdit,
+  disabled
 }) {
   const validationRules = {
     name: yup.string().required('Xin hãy điền tên FP'),
@@ -57,6 +58,7 @@ function FPForm({
   const [totalBuy, setTotalsBuy] = React.useState(0);
   const [totalSell, setTotalsSell] = React.useState(0);
   const [totalBids, setTotalsBids] = React.useState(0);
+
 
   const {
     control,
@@ -90,6 +92,7 @@ function FPForm({
     const totalPrice = totalPriceSell(getValues('details')) - totalPriceBuy(getValues('details'));
     const totalBids =
       totalPrice - shipping_charges - guest_costs - deployment_costs - interest - commission - tax - bids_cost;
+
     setTotalsBids(totalBids);
   };
 
@@ -161,10 +164,10 @@ function FPForm({
     <Box component="form" noValidate autoComplete="off" onSubmit={handleSubmit(handleFormSubmit)}>
       <Grid container spacing={2}>
         <Grid item xs={12} md={12}>
-          <TextFormik name="name" label="Tên phương án kinh doanh" control={control} />
+          <TextFormik name="name" disabled={disabled} label="Tên phương án kinh doanh" control={control} />
         </Grid>
         <Grid item xs={12} md={4}>
-          <BasicSelect name="user_assign" label="Gán cho" control={control} options={usersValues} />
+          <BasicSelect name="user_assign" disabled={disabled} label="Gán cho" control={control} options={usersValues} />
         </Grid>
         <Grid item xs={12} md={4}>
           <BasicSelect
@@ -173,10 +176,11 @@ function FPForm({
             control={control}
             options={accountValue}
             onChangeAjax={handleCallAPIContact}
+            disabled={disabled}
           />
         </Grid>
         <Grid item xs={12} md={4}>
-          <BasicSelect name="contact_id" label="Liên hệ" control={control} options={contactValue} />
+          <BasicSelect name="contact_id" label="Liên hệ" control={control} options={contactValue} disabled={disabled} />
         </Grid>
         <Grid item xs={12}>
           <WrapperBox>
@@ -192,6 +196,7 @@ function FPForm({
                           control={control}
                           options={categoriesValues}
                           sx={{ width: '250px' }}
+                          disabled={disabled}
                         />
                       </TableCellStyled>
                       <TableCellStyled>
@@ -206,6 +211,7 @@ function FPForm({
                             let profit = getValues(`details[${index}].profit`);
                             handleFPUpdatePrice(price_buy, price_sell, v.value, profit, index);
                           }}
+                          disabled={disabled}
                         />
                       </TableCellStyled>
                       <TableCellStyled>
@@ -213,22 +219,26 @@ function FPForm({
                           name={`details[${index}].price_buy`}
                           label="Giá mua"
                           control={control}
+                          disabled={disabled}
                           onValueChange={(v) => {
                             let qty = getValues(`details[${index}].qty`);
                             let profit = getValues(`details[${index}].profit`);
                             let price_sell = getValues(`details[${index}].price_sell`).toString();
-                            handleFPUpdatePrice(v.value, price_sell, qty, profit, index);
+                            let priceBuy = "0";
+                            if (v.value !== '') priceBuy = v.value;
+                            handleFPUpdatePrice(priceBuy, price_sell, qty, profit, index);
                           }}
                         />
                       </TableCellStyled>
                       <TableCellStyled>
-                        <TextFieldNumber name={`details[${index}].total_buy`} label="Tổng giá mua" control={control} />
+                        <TextFieldNumber name={`details[${index}].total_buy`} label="Tổng giá mua" control={control} disabled={disabled} />
                       </TableCellStyled>
                       <TableCellStyled>
                         <TextFieldNumber
                           name={`details[${index}].price_sell`}
                           label="Giá bán"
                           control={control}
+                          disabled={disabled}
                           onValueChange={(v) => {
                             let qty = getValues(`details[${index}].qty`);
                             setValue(`details[${index}].total_sell`, qty * parseFloat(v.value.replace(/,/g, '')));
@@ -299,10 +309,11 @@ function FPForm({
                         />
                       </TableCellStyled>
                       <TableCellStyled>
-                        <TextFieldNumber name={`details[${index}].total_sell`} label="Tổng giá bán" control={control} />
+                        <TextFieldNumber name={`details[${index}].total_sell`} label="Tổng giá bán" control={control} disabled={disabled} />
                       </TableCellStyled>
                       <TableCellStyled>
                         <TextFieldNumber
+                          disabled={disabled}
                           suffix={'%'}
                           name={`details[${index}].profit`}
                           label="Lợi nhuận"
@@ -312,7 +323,9 @@ function FPForm({
                             let qty = getValues(`details[${index}].qty`);
                             let price_sell = getValues(`details[${index}].price_sell`).toString();
                             let price_buy = getValues(`details[${index}].price_buy`).toString();
-                            handleFPUpdatePrice(price_buy, price_sell, qty, v.value, index);
+                            let profit = 0;
+                            if (v.value !== '') profit = v.value;
+                            handleFPUpdatePrice(price_buy, price_sell, qty, profit, index);
                           }}
                         />
                       </TableCellStyled>
@@ -323,6 +336,7 @@ function FPForm({
                           control={control}
                           options={suppliersValues}
                           sx={{ width: '250px' }}
+                          disabled={disabled}
                         />
                       </TableCellStyled>
                       <TableCellStyled>
@@ -337,7 +351,7 @@ function FPForm({
                         />
                       </TableCellStyled>
                       <TableCellStyled>
-                        {index !== 0 && (
+                        {(index !== 0 && !disabled) && (
                           <BasicButtonStyled
                             variant="contained"
                             color="error"
@@ -388,7 +402,7 @@ function FPForm({
                 </TableBody>
               </Table>
             </TableContainer>
-            <Button
+            {!disabled && <Button
               color="primary"
               variant="contained"
               startIcon={<AddIcon />}
@@ -408,7 +422,8 @@ function FPForm({
             >
               {' '}
               Thêm{' '}
-            </Button>
+            </Button>}
+
           </WrapperBox>
           <Grid container spacing={0} sx={isEdit ? { justifyContent: 'space-between' } : { justifyContent: 'flex-end' }}>
             {isEdit && <FPUploadFile control={control} setValue={setValue} isEdit={isEdit} itemValue={itemValue} />}
@@ -420,6 +435,7 @@ function FPForm({
               setValue={setValue}
               TotalPrice={handleTotalPrice}
               totalBids={totalBids}
+              disabled={disabled}
             />
           </Grid>
         </Grid>

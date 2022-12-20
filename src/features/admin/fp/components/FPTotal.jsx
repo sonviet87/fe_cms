@@ -10,7 +10,7 @@ import { totalPriceSell } from './FPForm';
 
 // import { Container } from './styles';
 
-function FPTotal({ control, totalBuy, totalSell, setValue, getValues, TotalPrice, totalBids }) {
+function FPTotal({ control, totalBuy, totalSell, setValue, getValues, TotalPrice, totalBids, disabled }) {
   const monthInterest = useWatch({
     control,
     name: 'interest_percent',
@@ -50,6 +50,7 @@ function FPTotal({ control, totalBuy, totalSell, setValue, getValues, TotalPrice
                   <TextFieldNumber
                     name="shipping_charges"
                     control={control}
+                    disabled={disabled}
                     onValueChange={(v) => {
                       setValue(
                         'shipping_charges_percent',
@@ -77,7 +78,7 @@ function FPTotal({ control, totalBuy, totalSell, setValue, getValues, TotalPrice
                   />
                 </TableCellStyled>
                 <TableCellStyled component="th" scope="row">
-                  <TextFieldNumber name="shipping_charges_percent" control={control} displayType="text" suffix={'%'} />
+                  <TextFieldNumber disabled={disabled} name="shipping_charges_percent" control={control} displayType="text" suffix={'%'} />
                 </TableCellStyled>
               </TableRow>
               <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
@@ -88,6 +89,7 @@ function FPTotal({ control, totalBuy, totalSell, setValue, getValues, TotalPrice
                   <TextFieldNumber
                     name="guest_costs"
                     control={control}
+                    disabled={disabled}
                     onValueChange={(v) => {
                       setValue(
                         'guest_costs_percent',
@@ -115,7 +117,7 @@ function FPTotal({ control, totalBuy, totalSell, setValue, getValues, TotalPrice
                   />
                 </TableCellStyled>
                 <TableCellStyled component="th" scope="row">
-                  <TextFieldNumber name="guest_costs_percent" control={control} displayType="text" suffix={'%'} />
+                  <TextFieldNumber disabled={disabled} name="guest_costs_percent" control={control} displayType="text" suffix={'%'} />
                 </TableCellStyled>
               </TableRow>
               <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
@@ -124,6 +126,7 @@ function FPTotal({ control, totalBuy, totalSell, setValue, getValues, TotalPrice
                 </TableCellStyled>
                 <TableCellStyled component="th" scope="row">
                   <TextFieldNumber
+                    disabled={disabled}
                     name="deployment_costs"
                     control={control}
                     onValueChange={(v) => {
@@ -153,12 +156,13 @@ function FPTotal({ control, totalBuy, totalSell, setValue, getValues, TotalPrice
                   />
                 </TableCellStyled>
                 <TableCellStyled component="th" scope="row">
-                  <TextFieldNumber name="deployment_costs_percent" control={control} displayType="text" suffix={'%'} />
+                  <TextFieldNumber disabled={disabled} name="deployment_costs_percent" control={control} displayType="text" suffix={'%'} />
                 </TableCellStyled>
               </TableRow>
               <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                 <TableCellStyled component="th" scope="row">
                   <BasicSelect
+                    disabled={disabled}
                     name="interest_percent"
                     label="Lãi/ tháng"
                     control={control}
@@ -190,7 +194,7 @@ function FPTotal({ control, totalBuy, totalSell, setValue, getValues, TotalPrice
                   />
                 </TableCellStyled>
                 <TableCellStyled component="th" scope="row">
-                  <TextFieldNumber name="interest" control={control} />
+                  <TextFieldNumber disabled={disabled} name="interest" control={control} />
                 </TableCellStyled>
                 <TableCellStyled component="th" scope="row">
                   {monthInterest + '%'}
@@ -201,17 +205,19 @@ function FPTotal({ control, totalBuy, totalSell, setValue, getValues, TotalPrice
                   Chi phí HH:
                 </TableCellStyled>
                 <TableCellStyled component="th" scope="row">
-                  <TextFieldNumber name="commission" control={control} />
+                  <TextFieldNumber disabled={disabled} name="commission" control={control} />
                 </TableCellStyled>
                 <TableCellStyled component="th" scope="row">
                   <TextFieldNumber
                     name="commission_percent"
+                    disabled={disabled}
                     control={control}
                     suffix={'%'}
                     onValueChange={(v) => {
                       const commission = Math.round(
                         (v.value.toString().replace(/%/g, '') / 100) * totalPriceSell(getValues('details')),
                       );
+
                       setValue('commission', commission);
                       setValue('tax', Math.round(commission * 0.2));
                       const shipping_charges = getValues('shipping_charges').toString().replace(/,/g, '');
@@ -225,7 +231,7 @@ function FPTotal({ control, totalBuy, totalSell, setValue, getValues, TotalPrice
                         guest_costs,
                         deployment_costs,
                         interest,
-                        v.value.toString().replace(/,/g, ''),
+                        commission,
                         tax,
                         bids_cost,
                       );
@@ -239,7 +245,7 @@ function FPTotal({ control, totalBuy, totalSell, setValue, getValues, TotalPrice
                   Thuế thu nhập 20%:
                 </TableCellStyled>
                 <TableCellStyled component="th" scope="row">
-                  <TextFieldNumber name="tax" control={control} />
+                  <TextFieldNumber disabled={disabled} name="tax" control={control} />
                 </TableCellStyled>
                 <TableCellStyled component="th" scope="row">
                   20%
@@ -250,10 +256,11 @@ function FPTotal({ control, totalBuy, totalSell, setValue, getValues, TotalPrice
                   Chi phí đấu thầu 10% :
                 </TableCellStyled>
                 <TableCellStyled component="th" scope="row">
-                  <TextFieldNumber name="bids_cost" control={control} />
+                  <TextFieldNumber disabled={disabled} name="bids_cost" control={control} />
                 </TableCellStyled>
                 <TableCellStyled component="th" scope="row">
                   <TextFieldNumber
+                    disabled={disabled}
                     name="bids_cost_percent"
                     control={control}
                     suffix={'%'}

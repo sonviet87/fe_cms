@@ -15,6 +15,9 @@ import contactApi from 'api/contactAPI';
 import FPHeaderPage from '../components/FPHeaderPage';
 import userApi from 'api/userAPI';
 import SkeletonPageFP from 'components/Common/Skeleton/SkeletonPageFP';
+import { selectRoles } from 'features/auth/authSlice';
+import { useSelector } from 'react-redux';
+import { fpPermissions } from '../constants/FPConstants';
 
 function AdminFPAddEditPage() {
   const [loading, setLoading] = React.useState(false);
@@ -26,6 +29,10 @@ function AdminFPAddEditPage() {
   const [categories, setCategories] = React.useState([]);
   const [suppliers, setSuppliers] = React.useState([]);
   const [users, setUsers] = React.useState([]);
+
+
+  const [disabled, setDisable] = React.useState(false);
+  const permissions = useSelector(selectRoles)
 
   const navigate = useNavigate();
 
@@ -104,7 +111,8 @@ function AdminFPAddEditPage() {
 
         if (fpRs.status) {
           setFP(fpRs.data.data);
-          console.log(fpRs.data.data)
+          if (permissions.includes(fpPermissions.FP_IS_SALE) && (parseInt(fpRs.data.data.status) !== 0 || (fpRs.data.data.status) !== 7)) { setDisable(true) }
+          //console.log(fpRs.data.data)
         } else {
           toast.error(fpRs.message);
           navigate('/admin/fps');
@@ -176,6 +184,7 @@ function AdminFPAddEditPage() {
           suppliersValues={suppliers}
           usersValues={users}
           isEdit={isEdit}
+          disabled={disabled}
         />
       )}
     </WrapperPage>

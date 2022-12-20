@@ -1,6 +1,6 @@
 import fpApi from 'api/fpAPI';
 
-import { LoadingOverlay } from 'components/Common/LoadingOverlay';
+
 import SkeletonList from 'components/Common/Skeleton/SkeletonList';
 import { WrapperPage } from 'components/Common/SlytedComponent/Wrapper';
 import TitleForm from 'components/Common/TitleForm';

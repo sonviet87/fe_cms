@@ -46,10 +46,9 @@ function AccountForm({ initialValue, onSubmit, itemValue, role, isEdit }) {
             setValue('phone', itemValue.phone);
             setValue('address', itemValue.address);
             setValue('legal_name', itemValue.legal_name);
-            setValue('legal_address', itemValue.legal_address);
+
             setValue('industry', itemValue.industry);
-            setValue('district', itemValue.district);
-            setValue('city', itemValue.city);
+
 
         }
     }, [itemValue]);
@@ -74,23 +73,16 @@ function AccountForm({ initialValue, onSubmit, itemValue, role, isEdit }) {
                     <TextFormik name="address" label="Đia chỉ" control={control} />
                 </Grid>
                 <Grid item xs={12} md={6} >
-                    <TextFormik name="legal_name" label="Tên pháp lý" control={control} />
+                    <TextFormik name="legal_name" label="Tên viết tắt" control={control} />
                 </Grid>
-                <Grid item xs={12} md={6}>
-                    <TextFormik name="legal_address" label="Địa chỉ pháp lý" control={control} />
-                </Grid>
+
                 <Grid item xs={12} md={6}>
                     <TextFormik name="industry" label="Ngành" control={control} />
                 </Grid>
-                <Grid item xs={12} md={6}>
-                    <TextFormik name="district" label="Quận" control={control} />
-                </Grid>
-                <Grid item xs={12} md={6}>
-                    <TextFormik name="city" label="Thành phố" control={control} />
-                </Grid>
 
 
-                <Grid item xs={12} md={6}>
+
+                <Grid item xs={12} md={12}>
                     <LoadingButton
                         onClick={handleSubmit(handleFormSubmit)}
                         color="primary"

@@ -16,13 +16,13 @@ const DashBoard = () => {
                 <Grid item xs={12}>
                     <Grid container spacing={2}>
                         <Grid item xs={4}>
-                            <CardItem title="500" subTitle="Đơn hàng" />
+                            <CardItem title="0" subTitle="Nhà cung cấp" />
                         </Grid>
                         <Grid item xs={4}>
-                            <CardItem bgColor={theme.palette.secondary.main} bgColorSub={theme.palette.secondary.light} title="400" subTitle="Khách hàng" />
+                            <CardItem bgColor={theme.palette.secondary.main} bgColorSub={theme.palette.secondary.light} title="0" subTitle="Khách hàng" />
                         </Grid>
                         <Grid item xs={4}>
-                            <CardItem bgColor={theme.palette.third.main} bgColorSub={theme.palette.third.light} title="300" subTitle="FB" />
+                            <CardItem bgColor={theme.palette.third.main} bgColorSub={theme.palette.third.light} title="0" subTitle="PAKD" />
                         </Grid>
                     </Grid>
                 </Grid>

@@ -7,6 +7,7 @@ export const BasicButtonStyled = styled(Button, {})(({ theme }) => ({
     margin: theme.spacing(0.5)
 }));
 
+
 export const IconButtonStyled = styled(IconButton, {})(({ theme }) => ({
     padding: theme.spacing(0.5),
 

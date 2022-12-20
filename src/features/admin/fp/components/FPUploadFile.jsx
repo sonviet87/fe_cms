@@ -1,5 +1,6 @@
 import { Grid, Table, TableBody, TableContainer, TableRow, Typography } from '@mui/material';
 import UploadFile from 'components/Common/UploadFile';
+import UploadMuitiFile from 'components/Common/UploadMuitiFile';
 import React from 'react';
 import { TableCellStyled, WrapperBox } from '../style/StyledFP';
 
@@ -29,7 +30,7 @@ function FPUploadFile({ control, name, setValue, isEdit, itemValue }) {
               </TableRow>
               <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                 <TableCellStyled component="th" scope="row">
-                  <Typography>Hóa đơn công ty</Typography>
+                  <Typography>Hợp đồng với Khách hàng </Typography>
                 </TableCellStyled>
               </TableRow>
               <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
@@ -57,6 +58,23 @@ function FPUploadFile({ control, name, setValue, isEdit, itemValue }) {
                     setValue={setValue}
                     isEdit={isEdit}
                     field={{ file: itemValue?.file_bbbg, file_url: itemValue?.file_bbbg_url }}
+                    index={name}
+                  />
+                </TableCellStyled>
+              </TableRow>
+              <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                <TableCellStyled component="th" scope="row">
+                  <Typography>Hợp đồng NCC</Typography>
+                </TableCellStyled>
+              </TableRow>
+              <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                <TableCellStyled component="th" scope="row">
+                  <UploadMuitiFile
+                    control={control}
+                    name="file_ncc"
+                    setValue={setValue}
+                    isEdit={isEdit}
+                    field={itemValue.file_ncc}
                     index={name}
                   />
                 </TableCellStyled>

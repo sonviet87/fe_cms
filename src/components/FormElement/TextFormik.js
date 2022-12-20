@@ -69,6 +69,7 @@ export const TextFieldNumber = ({ name, label, control, onValueChange, ...inputP
                 onChange={onChange}
                 onBlur={onBlur}
                 getInputRef={ref}
+            //disabled={true}
             //error={!!invalid}
             //helperText={error?.message}
             //inputRef={ref}

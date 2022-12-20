@@ -63,8 +63,8 @@ export default function AccountList({ list, pagination, filter, onFilter, onDele
             <TableCell>Tên</TableCell>
             <TableCell>Điện thoại</TableCell>
             <TableCell>Địa chỉ</TableCell>
-            <TableCell>Tên pháp lý</TableCell>
-            <TableCell>Địa chỉ pháp lý</TableCell>
+            <TableCell>Tên viết tắt</TableCell>
+
             <TableCell>industry</TableCell>
 
             <TableCell align="right">hành động</TableCell>
@@ -76,7 +76,7 @@ export default function AccountList({ list, pagination, filter, onFilter, onDele
               <TableRow key={row.id}>
                 <TableCell>{row.id}</TableCell>
                 <TableCell component="th">
-                  <Link to={'/admin/users/' + row.id}>
+                  <Link to={'/admin/accounts/' + row.id}>
                     {row.name}
                   </Link>
                 </TableCell>
@@ -85,7 +85,7 @@ export default function AccountList({ list, pagination, filter, onFilter, onDele
 
 
                 <TableCell> {row.legal_name} </TableCell>
-                <TableCell>{row.legal_address}</TableCell>
+
                 <TableCell> {row.industry} </TableCell>
 
                 <TableCell

@@ -17,4 +17,5 @@ export const fpPermissions = {
     FP_CREATE: 'fp-create',
     FP_EDIT: 'fp-edit',
     FP_DELETE: 'fp-delete',
+    FP_IS_SALE: 'fp-is-sale',
 }
