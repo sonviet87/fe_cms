@@ -8,7 +8,7 @@ import * as yup from 'yup';
 import LoadingButton from '@mui/lab/LoadingButton';
 import TextFormik, { TextFieldNumberAuto } from 'components/FormElement/TextFormik';
 import BasicSelect from 'components/FormElement/SelectBox';
-import { TableCellStyled, WrapperBox } from '../style/StyledFP';
+import { TableCellStyled, WrapperBox, WrapperBoxItem } from '../style/StyledFP';
 import { BasicButtonStyled } from 'components/Common/SlytedComponent/Button';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import AddIcon from '@mui/icons-material/Add';
@@ -20,6 +20,7 @@ import UploadFile from 'components/Common/UploadFile';
 import FPUploadFile from './FPUploadFile';
 import { WrapperBoxAlign } from 'components/Common/SlytedComponent/Wrapper';
 import { useNavigate } from 'react-router-dom';
+import FPInvoice from './FPInvoice';
 FPForm.propTypes = {
   initialValue: PropTypes.object,
   onSubmit: PropTypes.func,
@@ -426,7 +427,10 @@ function FPForm({
 
           </WrapperBox>
           <Grid container spacing={0} sx={isEdit ? { justifyContent: 'space-between' } : { justifyContent: 'flex-end' }}>
-            {isEdit && <FPUploadFile control={control} setValue={setValue} isEdit={isEdit} itemValue={itemValue} />}
+            <WrapperBoxItem>
+              {isEdit && <FPUploadFile control={control} setValue={setValue} isEdit={isEdit} itemValue={itemValue} />}
+              {isEdit && <FPInvoice control={control} setValue={setValue} isEdit={isEdit} itemValue={itemValue} />}
+            </WrapperBoxItem>
             <FPTotal
               control={control}
               totalSell={totalSell}

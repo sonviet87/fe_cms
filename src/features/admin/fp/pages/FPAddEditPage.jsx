@@ -57,6 +57,8 @@ function AdminFPAddEditPage() {
     status: 0,
     selling: 0,
     margin: 0,
+    date_invoice: '',
+    date_shipping: '',
     details: [
       {
         supplier_id: '',

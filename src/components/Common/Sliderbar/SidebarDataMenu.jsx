@@ -47,7 +47,19 @@ export const MenuCMS = [
                 Icon: CategoryIcon,
                 permission: 'category-list'
             },
+            {
+                title: 'Báo cáo thống kê',
+                Icon: ManageAccountsIcon,
+                permission: 'report-list',
+                items: [
+                    {
+                        title: 'Báo cáo phương án kinh doanh',
+                        route: '/admin/reporst',
+                        permission: 'report-list'
+                    },
 
+                ],
+            },
             {
                 title: 'Người dùng',
                 Icon: ManageAccountsIcon,
