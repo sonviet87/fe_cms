@@ -1,4 +1,3 @@
-import { LoadingOverlay } from 'components/Common/LoadingOverlay';
 import React from 'react';
 import { useParams } from 'react-router';
 import { toast } from 'react-toastify';
@@ -16,10 +15,12 @@ import FPHeaderPage from '../components/FPHeaderPage';
 import userApi from 'api/userAPI';
 import SkeletonPageFP from 'components/Common/Skeleton/SkeletonPageFP';
 import { selectRoles } from 'features/auth/authSlice';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { fpPermissions } from '../constants/FPConstants';
+import { fpActions } from '../fpSlice';
 
 function AdminFPAddEditPage() {
+  const dispatch = useDispatch();
   const [loading, setLoading] = React.useState(false);
   const { id } = useParams();
   const isEdit = Boolean(id);
@@ -59,6 +60,7 @@ function AdminFPAddEditPage() {
     margin: 0,
     date_invoice: '',
     date_shipping: '',
+    number_invoice: '',
     details: [
       {
         supplier_id: '',
@@ -69,12 +71,15 @@ function AdminFPAddEditPage() {
         price_sell: 0,
         total_sell: 0,
         profit: '10%',
+        number_invoice: '',
+        date_invoice: ''
 
       },
     ],
   };
 
   React.useEffect(() => {
+    dispatch(fpActions.setIsEdit(isEdit));
     (async () => {
       try {
         let [accountRs, categoriesRs, supplierRs, userRs] = await Promise.all([
@@ -114,7 +119,8 @@ function AdminFPAddEditPage() {
         if (fpRs.status) {
           setFP(fpRs.data.data);
           if (permissions.includes(fpPermissions.FP_IS_SALE) && (parseInt(fpRs.data.data.status) !== 0 || (fpRs.data.data.status) !== 7)) { setDisable(true) }
-          //console.log(fpRs.data.data)
+          console.log(fpRs.data.data)
+          dispatch(fpActions.setStatus(fpRs.data.data.status))
         } else {
           toast.error(fpRs.message);
           navigate('/admin/fps');

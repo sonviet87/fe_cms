@@ -55,7 +55,8 @@ export const SlytedDatetimePicker = styled(DatePicker)(({ theme }) => ({
         top: '-8px'
     },
     '& .MuiInputBase-input': {
-        padding: '8px 10px'
+        padding: '8px 10px',
+        minWidth: '100px'
     },
     margin: '0 5px'
 }))

@@ -10,14 +10,12 @@ import { fpPermissions, statusApproved } from '../constants/FPConstants';
 
 export const FPButtonApproved = ({ status, onChangeStatus }) => {
     const navigate = useNavigate();
+
     const permissions = useSelector(selectRoles)
     const [loading, setLoading] = React.useState(false);
-    // const [statusButton, setStatusButton] = useState(0);
-    const { id } = useParams();
-    // React.useEffect(() => {
-    //     setStatusButton(status)
 
-    // }, [status])
+    const { id } = useParams();
+
     const handleChangeStatus = async (value) => {
         setLoading(true);
         try {

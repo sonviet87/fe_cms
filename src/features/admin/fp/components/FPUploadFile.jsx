@@ -2,9 +2,12 @@ import { Grid, Table, TableBody, TableContainer, TableRow, Typography } from '@m
 import UploadFile from 'components/Common/UploadFile';
 import UploadMuitiFile from 'components/Common/UploadMuitiFile';
 import React from 'react';
+import { useSelector } from 'react-redux';
+import { selectIsEdit } from '../fpSlice';
 import { TableCellStyled, WrapperBox } from '../style/StyledFP';
 
-function FPUploadFile({ control, name, setValue, isEdit, itemValue }) {
+function FPUploadFile({ control, name, setValue, itemValue }) {
+  const isEdit = useSelector(selectIsEdit)
   return (
     <WrapperBox sx={{ mt: 4 }}>
       <Grid item xs={12} md={12}>

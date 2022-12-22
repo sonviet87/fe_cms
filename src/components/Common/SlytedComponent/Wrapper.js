@@ -15,6 +15,7 @@ export const Wrapper = styled(Box, {})(({ theme, open }) => ({
     padding: '20px',
     marginRight: '20px',
     borderRadius: '8px 8px 0px 0px',
+    width: '70%',
     ...(open && {
         marginLeft: '240px',
         // width: `calc(100% - ${drawerWidth}px)`,

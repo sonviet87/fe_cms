@@ -123,7 +123,7 @@ export default function FPList({ list, pagination, filter, onFilter, onDelete })
                   >
                     <EditIcon fontSize="small" />
                   </BasicButtonStyled>
-                  {console.log((parseInt(row.status_code) === 0 || (row.status_code) === 7))}
+
                   {(!permissions.includes(fpPermissions.FP_IS_SALE) || (parseInt(row.status_code) === 0 || (row.status_code) === 7)) &&
                     <BasicButtonStyled
                       variant="contained"
