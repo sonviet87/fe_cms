@@ -61,6 +61,19 @@ export const MenuCMS = [
                 ],
             },
             {
+                title: 'Công nợ',
+                Icon: ManageAccountsIcon,
+                permission: 'all',
+                items: [
+                    {
+                        title: 'Công nợ khách hàng',
+                        route: '/admin/debts',
+                        permission: 'all'
+                    },
+
+                ],
+            },
+            {
                 title: 'Người dùng',
                 Icon: ManageAccountsIcon,
                 permission: 'user-list',

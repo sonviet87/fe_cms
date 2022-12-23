@@ -4,6 +4,7 @@ import AdminAccountFeature from './account';
 import AdminCategoryFeature from './category';
 import AdminContactFeature from './contact';
 import DashBoard from './dashboard/pages/DashBoard';
+import AdminDebtFeature from './debt';
 import AdminFPsFeature from './fp';
 import AdminReportFeature from './report';
 import AdminRolesFeature from './role';
@@ -22,6 +23,7 @@ const AdminFeature = () => {
             <Route path={'/fps/*'} element={<AdminFPsFeature />} />
             <Route path={'/category/*'} element={<AdminCategoryFeature />} />
             <Route path={'/reports/*'} element={<AdminReportFeature />} />
+            <Route path={'/debts/*'} element={<AdminDebtFeature />} />
         </Routes>
     );
 };
