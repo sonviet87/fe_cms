@@ -4,6 +4,9 @@ const fpApi = {
   getAll: (params) => {
     return axiosClient.get(url, { params });
   },
+  getList: (params) => {
+    return axiosClient.get(url + '/getList', { params });
+  },
   get: (id) => {
     return axiosClient.get(url + '/' + id);
   },

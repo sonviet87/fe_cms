@@ -90,7 +90,7 @@ export default function DebtList({ list, pagination, filter, onFilter, onDelete 
                 <TableCell> {row.date_over} </TableCell>
                 <TableCell> {row.number_date_over} </TableCell>
                 <TableCell> {row.total_debt} </TableCell>
-                <TableCell> {row?.isDebt} </TableCell>
+                <TableCell> {row?.isDone} </TableCell>
 
                 <TableCell
                   align="right"

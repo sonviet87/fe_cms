@@ -34,7 +34,7 @@ export default function BasicSelect({ name, label, control, options = [], onChan
                 }}
                 {...inputProps}
             >
-                {options && options?.map((row, i) => (
+                {options.length > 0 && options?.map((row, i) => (
 
                     <MenuItem key={i} value={row.id} >
                         {row.name}

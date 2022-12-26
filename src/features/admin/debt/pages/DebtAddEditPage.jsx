@@ -8,6 +8,7 @@ import TitleForm from 'components/Common/TitleForm';
 
 import DebtForm from '../components/DebtForm';
 import debtApi from 'api/debtAPI';
+import fpApi from 'api/fpAPI';
 
 function AdminDebtAddEditPage() {
 
@@ -15,6 +16,7 @@ function AdminDebtAddEditPage() {
     const { id } = useParams();
     const isEdit = Boolean(id);
     const [debts, setDebts] = React.useState({});
+    const [fp, setFP] = React.useState({});
 
     const navigate = useNavigate();
 
@@ -31,7 +33,27 @@ function AdminDebtAddEditPage() {
     };
 
     React.useEffect(() => {
+        (async () => {
+            try {
+                const res = await fpApi.getList();
 
+                if (res.status) {
+
+                    let arrFP = [];
+                    const fpRs = res.data.data;
+                    console.log("arrFP", res)
+                    fpRs.map((item) => {
+                        return arrFP.push({ id: item.id, name: item.code })
+                    })
+                    setFP(arrFP);
+
+                } else {
+                    toast.error(res.message);
+                }
+            } catch (error) {
+                console.log('get fp by id error', error);
+            }
+        })();
         if (!id) return;
         (async () => {
             setLoading(true);
@@ -76,7 +98,7 @@ function AdminDebtAddEditPage() {
                 console.log('res.message', res.message);
                 if (res.data.status) {
                     toast.success(res.message);
-                    navigate('/admin/accounts');
+                    navigate('/admin/debts');
                 } else {
                     toast.error(res.data.message);
                 }
@@ -90,6 +112,8 @@ function AdminDebtAddEditPage() {
         setLoading(false);
     };
 
+
+    console.log(fp)
     return (
         <WrapperPage >
             {loading && (
@@ -98,7 +122,7 @@ function AdminDebtAddEditPage() {
             <TitleForm lable={isEdit ? "Cập nhật công nợ" : "Thêm công nợ"} />
 
             {(!isEdit || Boolean(debts)) && (
-                <DebtForm initialValue={initialValue} onSubmit={handleFormSubmit} itemValue={debts} isEdit={isEdit} />
+                <DebtForm initialValue={initialValue} onSubmit={handleFormSubmit} itemValue={debts} isEdit={isEdit} fp={fp} />
             )}
 
         </WrapperPage>
