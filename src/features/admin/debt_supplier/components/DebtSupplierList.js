@@ -10,7 +10,7 @@ import { NumericFormat } from 'react-number-format';
 import moment from 'moment';
 import ChipStatus from 'components/Common/Element/Chip';
 
-export default function DebtList({ list, pagination, filter, onFilter, onDelete }) {
+export default function DebtSupplierList({ list, pagination, filter, onFilter, onDelete }) {
 
   const navigate = useNavigate();
   const [confirmDeleteDialogData, setConfirmDeleteDialogData] = React.useState({
@@ -81,7 +81,7 @@ export default function DebtList({ list, pagination, filter, onFilter, onDelete 
               <TableRow key={row.id}>
                 <TableCell>{row.id}</TableCell>
                 <TableCell component="th">
-                  <Link to={'/admin/debts/' + row.id}>
+                  <Link to={'/admin/debts-supplier/' + row.id}>
                     {row.name}
                   </Link>
                 </TableCell>
@@ -105,7 +105,7 @@ export default function DebtList({ list, pagination, filter, onFilter, onDelete 
                     variant="contained"
                     color="primary"
                     size="small"
-                    onClick={() => navigate('/admin/debts/' + row.id)}
+                    onClick={() => navigate('/admin/debts-supplier/' + row.id)}
                   >
                     <EditIcon fontSize="small" />
                   </BasicButtonStyled>

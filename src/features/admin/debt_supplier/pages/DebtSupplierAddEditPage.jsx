@@ -6,11 +6,12 @@ import { useNavigate } from 'react-router-dom';
 import { WrapperPage } from 'components/Common/SlytedComponent/Wrapper';
 import TitleForm from 'components/Common/TitleForm';
 
-import DebtForm from '../components/DebtForm';
+import DebtForm from '../components/DebtSupplierForm';
 import debtApi from 'api/debtAPI';
 import fpApi from 'api/fpAPI';
+import debtSupplierApi from 'api/debtSupplierAPI';
 
-function AdminDebtAddEditPage() {
+function AdminDebtSupplierAddEditPage() {
 
     const [loading, setLoading] = React.useState(false);
     const { id } = useParams();
@@ -121,13 +122,16 @@ function AdminDebtAddEditPage() {
     };
 
 
-    console.log(fp)
+    const handleCallAPIContact = async (formValues) => {
+        const contactRs = await debtSupplierApi.getContactByIDAccount(formValues);
+
+    };
     return (
         <WrapperPage >
             {loading && (
                 <LoadingOverlay />
             )}
-            <TitleForm lable={isEdit ? "Cập nhật công nợ" : "Thêm công nợ"} />
+            <TitleForm lable={isEdit ? "Cập nhật công nợ nhà cung cấp" : "Thêm công nợ nhà cung cấp"} />
 
             {(!isEdit || Boolean(debts)) && (
                 <DebtForm initialValue={initialValue} onSubmit={handleFormSubmit} itemValue={debts} isEdit={isEdit} fp={fp} />
@@ -137,4 +141,4 @@ function AdminDebtAddEditPage() {
     );
 }
 
-export default AdminDebtAddEditPage;
+export default AdminDebtSupplierAddEditPage;

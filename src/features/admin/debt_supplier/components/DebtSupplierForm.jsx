@@ -14,13 +14,13 @@ import moment from 'moment/moment';
 import { NumericFormat } from 'react-number-format';
 import { useNavigate } from 'react-router-dom';
 
-DebtForm.propTypes = {
+DebtSupplierForm.propTypes = {
     initialValue: PropTypes.object,
     onSubmit: PropTypes.func,
 };
 
 
-function DebtForm({ initialValue, onSubmit, itemValue, isEdit, fp }) {
+function DebtSupplierForm({ initialValue, onSubmit, itemValue, isEdit, fp }) {
     const navigate = useNavigate();
     const [fpdetails, setFPDetails] = React.useState([]);
     const validationRules = {
@@ -53,17 +53,17 @@ function DebtForm({ initialValue, onSubmit, itemValue, isEdit, fp }) {
 
     const handleCallAPIFP = async (formValue) => {
 
-        const fpRs = await fpApi.get(formValue);
-        if (fpRs.status) {
-            const totalDebt = fpRs.data.data.details.reduce((total, num) => {
-                return total += (parseInt(num.price_sell) + (parseInt(num.price_sell) * (parseInt(num.category.tax_percent.replace(/%/g, '')) / 100)));
-            }, 0);
-            setValue('account', fpRs.data.data.account)
-            setValue('number_invoice', fpRs.data.data.number_invoice)
-            setValue('date_invoice', fpRs.data.data.date_invoice)
-            setValue('total_debt', totalDebt)
-            setFPDetails(fpRs.data.data.details)
-        }
+        // const fpRs = await fpApi.get(formValue);
+        // if (fpRs.status) {
+        //     const totalDebt = fpRs.data.data.details.reduce((total, num) => {
+        //         return total += (parseInt(num.price_sell) + (parseInt(num.price_sell) * (parseInt(num.category.tax_percent.replace(/%/g, '')) / 100)));
+        //     }, 0);
+        //     setValue('account', fpRs.data.data.account)
+        //     setValue('number_invoice', fpRs.data.data.number_invoice)
+        //     setValue('date_invoice', fpRs.data.data.date_invoice)
+        //     setValue('total_debt', totalDebt)
+        //     setFPDetails(fpRs.data.data.details)
+        // }
     };
 
     const handleChangeDeposit = (formValue) => {
@@ -116,10 +116,10 @@ function DebtForm({ initialValue, onSubmit, itemValue, isEdit, fp }) {
 
         >
             <Grid container spacing={2}>
-                <Grid item xs={12} md={6} >
+                <Grid item xs={12} md={12} >
                     <TextFormik name="name" label="Tên" control={control} />
                 </Grid>
-                <Grid item xs={12} md={3}>
+                <Grid item xs={12} md={4}>
                     <BasicSelect
                         name="fp_id"
                         label="Mã PAKD"
@@ -130,7 +130,17 @@ function DebtForm({ initialValue, onSubmit, itemValue, isEdit, fp }) {
                     // disabled={disabled}
                     />
                 </Grid>
-                <Grid item xs={12} md={3}>
+                <Grid item xs={12} md={4}>
+                    <BasicSelect
+                        name="supplier_id"
+                        label="Nhà cung cấp"
+                        control={control}
+                        options={
+                            []
+                        }
+                    />
+                </Grid>
+                <Grid item xs={12} md={4}>
                     <BasicSelect
                         name="isDone"
                         label="Tình trạng"
@@ -145,23 +155,7 @@ function DebtForm({ initialValue, onSubmit, itemValue, isEdit, fp }) {
                         }
                     />
                 </Grid>
-                <Grid item xs={12} md={4}>
-                    <TextFormik name="account" label="Tên khách hàng" control={control} disabled={true} />
-                </Grid>
-                <Grid item xs={12} md={4} >
-                    <TextFormik name="number_invoice" label="Số hóa đơn" control={control} disabled={true} />
-                </Grid>
 
-                <Grid item xs={12} md={4}>
-
-                    <BasicDatePicker
-                        name="date_invoice"
-                        lableText="Ngày xuất hóa đơn"
-                        control={control}
-                        disabled={true}
-                        inputFormat="DD-MM-YYYY"
-                    />
-                </Grid>
                 <Grid item xs={12} md={4}>
                     <BasicDatePicker
                         name="date_over"
@@ -282,4 +276,4 @@ function DebtForm({ initialValue, onSubmit, itemValue, isEdit, fp }) {
     );
 }
 
-export default DebtForm;
+export default DebtSupplierForm;

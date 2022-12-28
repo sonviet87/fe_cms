@@ -12,7 +12,7 @@ moment.updateLocale("vi", {
     // weekdaysShort: ["一-", "二", "三", "四", "五", "六", "日"],
     months: ["Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6", "Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12",]
 });
-export default function BasicDatePicker({ name, lableText, control, ...inputProps }) {
+export default function BasicDatePicker({ name, lableText, control, onChangeAjax, ...inputProps }) {
     const {
         field: { onChange, value },
         fieldState: { invalid, error },
@@ -34,7 +34,10 @@ export default function BasicDatePicker({ name, lableText, control, ...inputProp
                     dayOfWeekFormatter={(day) => { day.charAt(0).toUpperCase() }}
                     {...inputProps}
                     value={value}
-                    onChange={onChange}
+                    onChange={(e) => {
+                        if (onChangeAjax) onChangeAjax(e);
+                        onChange(e)
+                    }}
                     label={lableText}
                     InputLabelProps={{
                         shrink: true,

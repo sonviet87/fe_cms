@@ -70,6 +70,11 @@ export const MenuCMS = [
                         route: '/admin/debts',
                         permission: 'all'
                     },
+                    {
+                        title: 'Công nợ nhà cung cấp',
+                        route: '/admin/debts-supplier',
+                        permission: 'all'
+                    },
 
                 ],
             },

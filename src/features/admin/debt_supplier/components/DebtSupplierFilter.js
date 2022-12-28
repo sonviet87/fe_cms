@@ -10,7 +10,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useNavigate } from 'react-router-dom';
 
-export default function DebtFilter({ loading, filter, onSubmit }) {
+export default function DebtSupplierFilter({ loading, filter, onSubmit }) {
 
   const navigate = useNavigate();
   const schema = yup.object().shape({
