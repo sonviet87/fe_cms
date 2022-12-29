@@ -1,4 +1,5 @@
 import debtApi from 'api/debtAPI';
+import debtSupplierApi from 'api/debtSupplierAPI';
 import SkeletonList from 'components/Common/Skeleton/SkeletonList';
 import { WrapperPage } from 'components/Common/SlytedComponent/Wrapper';
 import TitleForm from 'components/Common/TitleForm';
@@ -53,7 +54,7 @@ function DebtSupplierListPage() {
         (async () => {
             try {
                 setLoading(true);
-                const res = await debtApi.getAll(filter);
+                const res = await debtSupplierApi.getAll(filter);
                 if (res.status) {
                     setList({
                         users: res.data.data,

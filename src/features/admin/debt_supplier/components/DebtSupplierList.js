@@ -67,9 +67,8 @@ export default function DebtSupplierList({ list, pagination, filter, onFilter, o
             <TableCell>Tên</TableCell>
             <TableCell>Mã PAKD</TableCell>
             <TableCell>Tên khách hàng</TableCell>
-            <TableCell>Số hóa đơn</TableCell>
-            <TableCell>Ngày đến hạn</TableCell>
-            <TableCell>Số ngày quá hạn</TableCell>
+
+
             <TableCell>Tổng tiền hóa đơn</TableCell>
             <TableCell>Tình trạng</TableCell>
             <TableCell align="right">hành động</TableCell>
@@ -87,12 +86,6 @@ export default function DebtSupplierList({ list, pagination, filter, onFilter, o
                 </TableCell>
                 <TableCell>{row.fp_id?.code}</TableCell>
                 <TableCell>{row.fp_id?.account}</TableCell>
-
-
-                <TableCell> {row.fp_id?.number_invoice} </TableCell>
-
-                <TableCell> {moment(row.date_over).format('DD-MM-YYYY')} </TableCell>
-                <TableCell> {row.number_date_over} </TableCell>
                 <TableCell> {<NumericFormat value={row.total_debt} thousandSeparator={true} displayType="text" />} </TableCell>
                 <TableCell> <ChipStatus label={row?.isDone} status={row.isDone_number} /></TableCell>
 

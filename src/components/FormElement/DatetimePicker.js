@@ -23,7 +23,7 @@ export default function BasicDatePicker({ name, lableText, control, onChangeAjax
 
     return (
         <FormControl
-            sx={{ marginBottom: '8px', marginTop: '14px' }}
+            sx={{ marginBottom: '8px', marginTop: '8px' }}
             fullWidth
             size="small"
             error={invalid}
@@ -55,7 +55,7 @@ export default function BasicDatePicker({ name, lableText, control, onChangeAjax
 
 export const SlytedDatetimePicker = styled(DatePicker)(({ theme }) => ({
     '& .MuiInputLabel-root': {
-        top: '-8px'
+        top: '-5px'
     },
     '& .MuiInputBase-input': {
         padding: '8px 10px',

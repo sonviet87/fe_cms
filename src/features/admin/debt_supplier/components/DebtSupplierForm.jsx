@@ -9,10 +9,10 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import TextFormik, { TextFieldNumber } from 'components/FormElement/TextFormik';
 import BasicSelect from 'components/FormElement/SelectBox';
 import BasicDatePicker from 'components/FormElement/DatetimePicker';
-import fpApi from 'api/fpAPI';
 import moment from 'moment/moment';
 import { NumericFormat } from 'react-number-format';
 import { useNavigate } from 'react-router-dom';
+import debtSupplierApi from 'api/debtSupplierAPI';
 
 DebtSupplierForm.propTypes = {
     initialValue: PropTypes.object,
@@ -20,7 +20,7 @@ DebtSupplierForm.propTypes = {
 };
 
 
-function DebtSupplierForm({ initialValue, onSubmit, itemValue, isEdit, fp }) {
+function DebtSupplierForm({ initialValue, onSubmit, itemValue, isEdit, fp, onCallAPISupplier, supplierValue }) {
     const navigate = useNavigate();
     const [fpdetails, setFPDetails] = React.useState([]);
     const validationRules = {
@@ -51,19 +51,33 @@ function DebtSupplierForm({ initialValue, onSubmit, itemValue, isEdit, fp }) {
         await onSubmit(formValues);
     };
 
-    const handleCallAPIFP = async (formValue) => {
+    const handleCallAPISupplierFP = async (formValue) => {
+        if (!onCallAPISupplier) return;
+        setValue('supplier_id', '');
+        await onCallAPISupplier(formValue);
 
-        // const fpRs = await fpApi.get(formValue);
-        // if (fpRs.status) {
-        //     const totalDebt = fpRs.data.data.details.reduce((total, num) => {
-        //         return total += (parseInt(num.price_sell) + (parseInt(num.price_sell) * (parseInt(num.category.tax_percent.replace(/%/g, '')) / 100)));
-        //     }, 0);
-        //     setValue('account', fpRs.data.data.account)
-        //     setValue('number_invoice', fpRs.data.data.number_invoice)
-        //     setValue('date_invoice', fpRs.data.data.date_invoice)
-        //     setValue('total_debt', totalDebt)
-        //     setFPDetails(fpRs.data.data.details)
-        // }
+    };
+
+    const handleCallAPIFP = async (supplier_id) => {
+
+        const fpID = getValues('fp_id');
+
+        if (fpID === '' || fpID === undefined) return;
+        try {
+            const fpDetailsRs = await debtSupplierApi.getFPBySupplier(fpID, supplier_id);
+            if (fpDetailsRs.status) {
+                console.log(fpDetailsRs.data.data)
+                const total = fpDetailsRs.data.data.reduce((total, num) => {
+                    return total += (parseInt(num.price_buy) + (parseInt(num.price_buy) * (parseInt(num.category.tax_percent.replace(/%/g, '')) / 100)));
+                }, 0);
+                setFPDetails(fpDetailsRs.data.data)
+                setValue('total_debt', total)
+            }
+        } catch (error) {
+            console.log('Error', error.message);
+        }
+
+
     };
 
     const handleChangeDeposit = (formValue) => {
@@ -102,6 +116,7 @@ function DebtSupplierForm({ initialValue, onSubmit, itemValue, isEdit, fp }) {
             setValue('pay_second', itemValue.pay_second);
             setValue('isDone', itemValue.isDone);
             setValue('date_over', itemValue.date_over);
+            setValue('supplier_id', itemValue.supplier_id);
             setFPDetails(itemValue.details ?? [])
 
         }
@@ -126,7 +141,7 @@ function DebtSupplierForm({ initialValue, onSubmit, itemValue, isEdit, fp }) {
                         control={control}
                         disabled={isEdit}
                         options={fp}
-                        onChangeAjax={handleCallAPIFP}
+                        onChangeAjax={handleCallAPISupplierFP}
                     // disabled={disabled}
                     />
                 </Grid>
@@ -135,9 +150,8 @@ function DebtSupplierForm({ initialValue, onSubmit, itemValue, isEdit, fp }) {
                         name="supplier_id"
                         label="Nhà cung cấp"
                         control={control}
-                        options={
-                            []
-                        }
+                        options={supplierValue}
+                        onChangeAjax={handleCallAPIFP}
                     />
                 </Grid>
                 <Grid item xs={12} md={4}>
@@ -162,7 +176,7 @@ function DebtSupplierForm({ initialValue, onSubmit, itemValue, isEdit, fp }) {
                         lableText="Ngày đến hạn"
                         control={control}
                         sx={{ minWidth: '200px' }}
-                        onChangeAjax={handleChangeDateOver}
+                        //onChangeAjax={handleChangeDateOver}
                         disabled={isEdit}
                     />
                 </Grid>
@@ -226,6 +240,8 @@ function DebtSupplierForm({ initialValue, onSubmit, itemValue, isEdit, fp }) {
                                         <TableCell >Giá</TableCell>
                                         <TableCell >VAT</TableCell>
                                         <TableCell >Tổng</TableCell>
+                                        <TableCell >Số hóa đơn</TableCell>
+                                        <TableCell >Ngày hóa đơn</TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
@@ -239,9 +255,11 @@ function DebtSupplierForm({ initialValue, onSubmit, itemValue, isEdit, fp }) {
                                             </TableCell>
                                             <TableCell >{row.category.name}</TableCell>
                                             <TableCell >{row.qty}</TableCell>
-                                            <TableCell >{<NumericFormat value={row.price_sell} thousandSeparator={true} displayType="text" />}</TableCell>
+                                            <TableCell >{<NumericFormat value={row.price_buy} thousandSeparator={true} displayType="text" />}</TableCell>
                                             <TableCell >{row.category.tax_percent}</TableCell>
-                                            <TableCell >{<NumericFormat value={parseInt(row.price_sell) + (parseInt(row.price_sell) * (parseInt((row.category.tax_percent).replace(/%/g, '')) / 100))} thousandSeparator={true} displayType="text" />}</TableCell>
+                                            <TableCell >{<NumericFormat value={parseInt(row.price_buy) + (parseInt(row.price_buy) * (parseInt((row.category.tax_percent).replace(/%/g, '')) / 100))} thousandSeparator={true} displayType="text" />}</TableCell>
+                                            <TableCell >{row.number_invoice}</TableCell>
+                                            <TableCell >{row.date_invoice ? moment(row.date_invoice).format("DD/MM/YYYY") : ''}</TableCell>
                                         </TableRow>
                                     ))}
                                 </TableBody>
@@ -265,7 +283,7 @@ function DebtSupplierForm({ initialValue, onSubmit, itemValue, isEdit, fp }) {
                         variant="contained"
                         sx={{ ml: 2 }}
                         onClick={() => {
-                            navigate('/admin/debts');
+                            navigate('/admin/debts-supplier');
                         }}
                     >
                         Trở lại

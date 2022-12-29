@@ -50,12 +50,12 @@ export const MenuCMS = [
             {
                 title: 'Báo cáo thống kê',
                 Icon: ManageAccountsIcon,
-                permission: 'report-list',
+                permission: 'all',
                 items: [
                     {
-                        title: 'Báo cáo phương án kinh doanh',
-                        route: '/admin/reporst',
-                        permission: 'report-list'
+                        title: 'Báo cáo PAKD',
+                        route: '/admin/reports',
+                        permission: 'all'
                     },
 
                 ],
