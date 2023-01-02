@@ -1,12 +1,13 @@
 import accountApi from 'api/accountAPI';
+import categoryAPi from 'api/categoryAPI';
 import reportApi from 'api/reportAPI';
 import supplierApi from 'api/suppliertAPI';
 import userApi from 'api/userAPI';
 import SkeletonList from 'components/Common/Skeleton/SkeletonList';
 import { WrapperPage } from 'components/Common/SlytedComponent/Wrapper';
-import TitleForm from 'components/Common/TitleForm';
 import React from 'react';
 import ReportFilter from '../components/ReportFilter';
+import ReportHeaderPage from '../components/ReportHeaderPage';
 import ReportList from '../components/ReportList';
 
 function ReportListPage() {
@@ -14,8 +15,11 @@ function ReportListPage() {
 
     const [accounts, setAccounts] = React.useState([]);
     const [users, setUsers] = React.useState([]);
+    const [suppliers, setSuppliers] = React.useState([]);
+    const [categories, setCategories] = React.useState([]);
+
     const [list, setList] = React.useState({
-        suppliers: [],
+        reports: [],
         pagination: {
             total: 0,
             current_page: 0
@@ -27,10 +31,10 @@ function ReportListPage() {
         page: 0,
     });
     const handleFilter = async (data) => {
-        // setFilter({
-        //     ...filter,
-        //     ...data,
-        // });
+        setFilter({
+            ...filter,
+            ...data,
+        });
         const params = {
             ...filter,
             ...data,
@@ -40,7 +44,7 @@ function ReportListPage() {
         console.log(res.data.data)
         if (res.status) {
             setList({
-                suppliers: res.data.data,
+                reports: res.data.data,
                 pagination: {
                     total: res.data.meta.total,
                     current_page: res.data.meta.current_page
@@ -53,10 +57,11 @@ function ReportListPage() {
 
         (async () => {
             try {
-                let [accountRs, userRs] = await Promise.all([
+                let [accountRs, userRs, supplierRs, categoryRs] = await Promise.all([
                     accountApi.getList(),
-                    userApi.getList()
-
+                    userApi.getList(),
+                    supplierApi.getlist(),
+                    categoryAPi.getList(),
                 ]);
                 if (accountRs.status) {
                     setAccounts(accountRs.data.data);
@@ -64,20 +69,26 @@ function ReportListPage() {
                 if (userRs.status) {
                     setUsers(userRs.data.data);
                 }
+                if (supplierRs.status) {
+                    setSuppliers(supplierRs.data.data);
+                }
+                if (categoryRs.status) {
+                    setCategories(categoryRs.data.data);
+                }
 
             } catch (error) {
                 console.log('get fp by id error', error);
             }
         })();
-    }, [filter]);
-
+    }, []);
+    console.log(filter)
     return (
         <WrapperPage>
-            <TitleForm lable="Thống kê phương án kinh doanh" />
-            <ReportFilter loading={loading} filter={filter} onSubmit={handleFilter} users={users} accounts={accounts} />
+            <ReportHeaderPage list={list.reports} filter={filter} />
+            <ReportFilter loading={loading} filter={filter} onSubmit={handleFilter} users={users} accounts={accounts} suppliers={suppliers} categories={categories} />
             {loading ? (
                 <SkeletonList />
-            ) : (<ReportList list={list.suppliers}
+            ) : (<ReportList list={list.reports}
                 pagination={list.pagination}
                 loading={loading}
                 filter={filter}

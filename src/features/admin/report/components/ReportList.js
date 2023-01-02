@@ -1,16 +1,16 @@
-import { Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TablePagination, TableRow } from '@mui/material'
+import { Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TablePagination, TableRow, Typography } from '@mui/material'
 import React from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
-import EditIcon from '@mui/icons-material/Edit';
+import { Link } from 'react-router-dom'
+
 import { TablePaginationActions } from 'components/Common/TablePaginationActions';
-import { BasicButtonStyled } from 'components/Common/SlytedComponent/Button';
+
+import ChipStatus from 'components/Common/Element/Chip';
+import { NumericFormat } from 'react-number-format';
+
+import { Box } from '@mui/system';
 
 
 export default function ReportList({ list, pagination, filter, onFilter }) {
-
-  const navigate = useNavigate();
-
 
   const handleChangePage = (event, newPage) => {
     onFilter({
@@ -26,7 +26,20 @@ export default function ReportList({ list, pagination, filter, onFilter }) {
     });
   };
 
+  const handleTotalFP = () => {
+    if (list.length === 0) return '(Tổng PAKD: <b>0</b> / Tổng giá bán: <b>0</b> / Tổng lợi nhuận: <b>0</b>)';
+    let totalSelling = 0;
+    let totalMargin = 0;
+    let totalFP = 0;
+    list.map((item, index) => {
+      totalSelling += parseInt(item.selling);
+      totalMargin += parseInt(item.margin);
+      totalFP++;
+      return item;
+    })
 
+    return `(Tổng PAKD: <b>${totalFP}</b> / Tổng giá bán: <b>${totalSelling.toLocaleString()}</b> / Tổng lợi nhuận: <b>${totalMargin.toLocaleString()}</b>)`
+  }
 
 
 
@@ -36,36 +49,55 @@ export default function ReportList({ list, pagination, filter, onFilter }) {
         <TableHead>
           <TableRow>
             <TableCell>ID</TableCell>
-            <TableCell>Công ty</TableCell>
+            <TableCell>Khách hàng</TableCell>
 
-            <TableCell>Tài khoản</TableCell>
+            <TableCell>Liên hệ</TableCell>
             <TableCell>Sale phụ trách</TableCell>
-            <TableCell>Địa chỉ</TableCell>
-            <TableCell>Mã số thuế</TableCell>
-            <TableCell>Điện thoại</TableCell>
+            <TableCell>Tổng giá bán</TableCell>
+            <TableCell>Lợi nhuận</TableCell>
+            <TableCell>Tình trạng</TableCell>
 
-            <TableCell>Email</TableCell>
+
 
           </TableRow>
         </TableHead>
         <TableBody>
+          <TableRow>
+            <TableCell colSpan={7}>
+              <Box sx={{ textAlign: 'center' }}>
+                <div dangerouslySetInnerHTML={{ __html: handleTotalFP() }} />
+
+              </Box>
+
+            </TableCell>
+          </TableRow>
           {list.length > 0 &&
             list.map((row) => (
               <TableRow key={row.id}>
-                <TableCell>{row.id}</TableCell>
+                <TableCell>{row.code}</TableCell>
                 <TableCell component="th">
-                  <Link to={'/admin/suppliers/' + row.id}>
-                    {row.company}
+                  <Link to={'/admin/fps/' + row.id}>
+                    {row.account}
                   </Link>
                 </TableCell>
-                <TableCell>{row.account}</TableCell>
-                <TableCell>{row.user}</TableCell>
-                <TableCell>{row.address}</TableCell>
+                <TableCell>{row.contact}</TableCell>
+                <TableCell>{row.user_assign}</TableCell>
+                <TableCell>{<NumericFormat
+                  displayType="text"
+                  value={row.selling}
+                  thousandSeparator=","
+                  renderText={(value) => <b>{value}</b>}
+                />}</TableCell>
 
 
-                <TableCell>{row.mst} </TableCell>
-                <TableCell>{row.phone}</TableCell>
-                <TableCell>{row.email}</TableCell>
+                <TableCell>{<NumericFormat
+                  displayType="text"
+                  value={row.margin}
+                  thousandSeparator=","
+                  renderText={(value) => <b>{value}</b>}
+                />} </TableCell>
+                <TableCell><ChipStatus label={row.status} status={row.statusNumber} /></TableCell>
+
 
               </TableRow>
             ))}

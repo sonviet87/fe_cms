@@ -11,7 +11,9 @@ export const ListItemIconStyled = styled(ListItemIcon, {})(({ theme }) => ({
 export const ListItemButtonStyled = styled(ListItemButton, {})(({ theme }) => ({
     padding: '15px 0',
     borderRadius: '8px',
-
+    '& .MuiListItemText-inset': {
+        paddingLeft: '45px'
+    },
     '&:hover': {
         background: theme.palette.primary.main,
         '& .MuiListItemIcon-root': {
