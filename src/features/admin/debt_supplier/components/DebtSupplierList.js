@@ -84,8 +84,8 @@ export default function DebtSupplierList({ list, pagination, filter, onFilter, o
                     {row.name}
                   </Link>
                 </TableCell>
-                <TableCell>{row.fp_id?.code}</TableCell>
-                <TableCell>{row.fp_id?.account}</TableCell>
+                <TableCell>{row.fp_code}</TableCell>
+                <TableCell>{row.supplier}</TableCell>
                 <TableCell> {<NumericFormat value={row.total_debt} thousandSeparator={true} displayType="text" />} </TableCell>
                 <TableCell> <ChipStatus label={row?.isDone} status={row.isDone_number} /></TableCell>
 

@@ -104,6 +104,7 @@ function DebtSupplierForm({ initialValue, onSubmit, itemValue, isEdit, fp, onCal
 
     React.useEffect(() => {
         if (isEdit) {
+            console.log(itemValue)
             setValue('name', itemValue.name);
             setValue('fp_id', itemValue.fp_id);
             setValue('account', itemValue.account);
@@ -142,7 +143,7 @@ function DebtSupplierForm({ initialValue, onSubmit, itemValue, isEdit, fp, onCal
                         disabled={isEdit}
                         options={fp}
                         onChangeAjax={handleCallAPISupplierFP}
-                    // disabled={disabled}
+
                     />
                 </Grid>
                 <Grid item xs={12} md={4}>
@@ -152,6 +153,7 @@ function DebtSupplierForm({ initialValue, onSubmit, itemValue, isEdit, fp, onCal
                         control={control}
                         options={supplierValue}
                         onChangeAjax={handleCallAPIFP}
+                        disabled={isEdit}
                     />
                 </Grid>
                 <Grid item xs={12} md={4}>

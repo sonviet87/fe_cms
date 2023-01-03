@@ -9,6 +9,7 @@ import TitleForm from 'components/Common/TitleForm';
 import DebtForm from '../components/DebtSupplierForm';
 import fpApi from 'api/fpAPI';
 import debtSupplierApi from 'api/debtSupplierAPI';
+import supplierApi from 'api/suppliertAPI';
 
 function AdminDebtSupplierAddEditPage() {
 
@@ -39,12 +40,11 @@ function AdminDebtSupplierAddEditPage() {
         (async () => {
             try {
                 const res = await fpApi.getList();
-
                 if (res.status) {
 
                     let arrFP = [];
                     const fpRs = res.data.data;
-                    console.log("arrFP", res)
+                    // console.log("arrFP", res)
                     fpRs.map((item) => {
                         return arrFP.push({ id: item.id, name: item.code })
                     })
@@ -61,8 +61,16 @@ function AdminDebtSupplierAddEditPage() {
         (async () => {
             setLoading(true);
             try {
-                const res = await debtSupplierApi.get(id);
 
+                const [supplierRs, res] = await Promise.all([
+                    supplierApi.getlist(),
+                    debtSupplierApi.get(id),
+
+                ]);
+                if (supplierRs.status) {
+
+                    setSupplier(supplierRs.data.data)
+                }
                 if (res.status) {
                     console.log(res.data.data)
                     setDebts({
@@ -79,7 +87,9 @@ function AdminDebtSupplierAddEditPage() {
                         date_invoice: res.data.data.fp_id?.date_invoice ?? '',
 
                         // number_invoice: res.data.data.fp_id?.number_invoice ?? '',
-                        details: res.data.data.fp_id.details ?? [],
+                        details: res.data.data.fp_id.details ? res.data.data.fp_id.details.filter((item) => {
+                            if (item.supplier_id === res.data.data.supplier_id) return item;
+                        }) : [],
                         isDone: res.data.data.isDone ?? '',
                     });
 

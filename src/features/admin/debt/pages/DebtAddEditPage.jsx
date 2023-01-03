@@ -30,7 +30,7 @@ function AdminDebtAddEditPage() {
         date_invoice: '',
         debt_percent: '',
         total_debt: 0,
-        isDone: 1,
+        isDone: 2,
     };
 
     React.useEffect(() => {

@@ -56,6 +56,7 @@ function DebtSupplierListPage() {
                 setLoading(true);
                 const res = await debtSupplierApi.getAll(filter);
                 if (res.status) {
+                    console.log(res.data.data)
                     setList({
                         users: res.data.data,
                         pagination: {
