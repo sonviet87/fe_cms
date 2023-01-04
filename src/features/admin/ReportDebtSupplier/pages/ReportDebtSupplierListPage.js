@@ -1,19 +1,18 @@
-import accountApi from 'api/accountAPI';
 import fpApi from 'api/fpAPI';
-import reportApi from 'api/reportAPI';
 import reportDebtFPApi from 'api/reportDebtFPAPI';
+import reportDebtSupplierApi from 'api/reportDebtSupplierAPI';
+import supplierApi from 'api/suppliertAPI';
 import userApi from 'api/userAPI';
 import SkeletonList from 'components/Common/Skeleton/SkeletonList';
 import { WrapperPage } from 'components/Common/SlytedComponent/Wrapper';
 import React from 'react';
-import ReportDebtFPFilter from '../components/ReportDebtFPFilter';
-import ReportDebtFPHeaderPage from '../components/ReportDebtFPHeaderPage';
-import ReportList from '../components/ReportDebtFPList';
+import ReportDebtSupplierFilter from '../components/ReportDebtSupplierFilter';
+import ReportDebtSupplierHeaderPage from '../components/ReportDebtSupplierHeaderPage';
+import ReportList from '../components/ReportDebtSupplierList';
 
 function ReportDebtFPListPage() {
     const [loading, setLoading] = React.useState(false);
-
-    const [accounts, setAccounts] = React.useState([]);
+    const [suppliers, setSuppliers] = React.useState([]);
     const [users, setUsers] = React.useState([]);
     const [fps, setFps] = React.useState([]);
 
@@ -39,7 +38,7 @@ function ReportDebtFPListPage() {
             ...data,
         }
         setLoading(true);
-        const res = await reportDebtFPApi.getList(params);
+        const res = await reportDebtSupplierApi.getList(params);
         console.log(res.data.data)
         if (res.status) {
             setList({
@@ -56,14 +55,13 @@ function ReportDebtFPListPage() {
 
         (async () => {
             try {
-                let [accountRs, userRs, fpRs] = await Promise.all([
-                    accountApi.getList(),
+                let [userRs, fpRs, supplierRs] = await Promise.all([
+
                     userApi.getList(),
-                    fpApi.getList()
+                    fpApi.getList(),
+                    supplierApi.getlist(),
                 ]);
-                if (accountRs.status) {
-                    setAccounts(accountRs.data.data);
-                }
+
                 if (userRs.status) {
                     setUsers(userRs.data.data);
                 }
@@ -71,6 +69,10 @@ function ReportDebtFPListPage() {
                 if (fpRs.status) {
                     const fpList = fpRs.data.data.map((item) => { return { id: item.id, name: item.code } })
                     setFps(fpList);
+                }
+
+                if (supplierRs.status) {
+                    setSuppliers(supplierRs.data.data);
                 }
 
             } catch (error) {
@@ -81,8 +83,8 @@ function ReportDebtFPListPage() {
 
     return (
         <WrapperPage>
-            <ReportDebtFPHeaderPage list={list.reports} filter={filter} />
-            <ReportDebtFPFilter loading={loading} filter={filter} onSubmit={handleFilter} users={users} accounts={accounts} fps={fps} />
+            <ReportDebtSupplierHeaderPage list={list.reports} filter={filter} />
+            <ReportDebtSupplierFilter loading={loading} filter={filter} onSubmit={handleFilter} users={users} suppliers={suppliers} fps={fps} />
             {loading ? (
                 <SkeletonList />
             ) : (<ReportList list={list.reports}

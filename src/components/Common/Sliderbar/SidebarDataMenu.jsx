@@ -61,6 +61,11 @@ export const MenuCMS = [
             route: '/admin/reports-debt-fp',
             permission: 'all',
           },
+          {
+            title: 'Công nợ Nhà cung cấp',
+            route: '/admin/reports-debt-supplier',
+            permission: 'all',
+          },
         ],
       },
       {
@@ -78,6 +83,7 @@ export const MenuCMS = [
             route: '/admin/debts-supplier',
             permission: 'all',
           },
+
         ],
       },
       {

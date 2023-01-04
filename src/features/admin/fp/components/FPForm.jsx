@@ -90,7 +90,9 @@ function FPForm({
     formValues.net_profit = totalBids;
     formValues.net_profit_percent = ((parseInt(totalBids) / parseInt(totalSell)) * 100).toFixed(2);
     formValues.total_sell = totalSell;
-    await onSubmit(formValues);
+    delete formValues.status;
+    console.log(formValues)
+    //await onSubmit(formValues);
   };
 
   const handleTotalPrice = (shipping_charges, guest_costs, deployment_costs, interest, commission, tax, bids_cost) => {

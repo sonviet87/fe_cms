@@ -5,7 +5,7 @@ import ExcelJS from 'exceljs';
 import { saveAs } from 'file-saver';
 import moment from 'moment';
 
-const ReportDebtFPExportExcel = ({ data, filter }) => {
+const ReportDebtSupplierExportExcel = ({ data, filter }) => {
   const fontFamily = 'Times New Roman';
   console.log("export", data)
   const exportToExcel = async (fileName, sheetName) => {
@@ -196,4 +196,4 @@ const ReportDebtFPExportExcel = ({ data, filter }) => {
   );
 };
 
-export default ReportDebtFPExportExcel;
+export default ReportDebtSupplierExportExcel;

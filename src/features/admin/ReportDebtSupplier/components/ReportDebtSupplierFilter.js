@@ -7,11 +7,9 @@ import { yupResolver } from '@hookform/resolvers/yup';
 
 import BasicDatePicker from 'components/FormElement/DatetimePicker';
 import BasicSelect from 'components/FormElement/SelectBox';
-import { statusArray } from 'features/admin/fp/constants/FPConstants';
 
 
-
-export default function ReportFilter({ loading, filter, onSubmit, accounts, users, suppliers, categories }) {
+export default function ReportDebtSupplierFilter({ loading, filter, onSubmit, users, suppliers, fps }) {
 
   const schema = yup.object().shape({
     startDay: yup.string().required('Xin hãy chọn ngày bắt đầu'),
@@ -23,10 +21,9 @@ export default function ReportFilter({ loading, filter, onSubmit, accounts, user
       startDay: '',
       endDay: '',
       user_id: '',
-      supplier_id: '',
       account_id: '',
-      category_id: '',
-      type_fp: '',
+      fp_id: '',
+      isDone: '',
 
     },
     resolver: yupResolver(schema),
@@ -41,6 +38,7 @@ export default function ReportFilter({ loading, filter, onSubmit, accounts, user
   return (
     <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
       <Box component="form" onSubmit={handleSubmit(handleFormSubmit)} >
+
         <Grid container spacing={1}>
           <Grid item xs={12} md={2} >
             <BasicDatePicker
@@ -60,46 +58,6 @@ export default function ReportFilter({ loading, filter, onSubmit, accounts, user
           </Grid>
           <Grid item xs={12} sm={6} md={2}>
             <BasicSelect
-              name="user_id"
-              label="Sale phụ trách"
-              control={control}
-              options={
-                users
-              }
-            />
-          </Grid>
-          <Grid item xs={12} sm={6} md={2} >
-            <BasicSelect
-              name="account_id"
-              label="Khách hàng"
-              control={control}
-              options={
-                accounts
-              }
-            />
-          </Grid>
-          <Grid item xs={12} sm={6} md={2}>
-            <BasicSelect
-              name="type_fp"
-              label="Tình trạng PAKD"
-              control={control}
-              options={
-                statusArray
-              }
-            />
-          </Grid>
-          <Grid item xs={12} sm={6} md={2}>
-            <BasicSelect
-              name="category_id"
-              label="Danh mục sản phẩm"
-              control={control}
-              options={
-                categories
-              }
-            />
-          </Grid>
-          <Grid item xs={12} sm={6} md={2}>
-            <BasicSelect
               name="supplier_id"
               label="Nhà cung cấp"
               control={control}
@@ -108,7 +66,44 @@ export default function ReportFilter({ loading, filter, onSubmit, accounts, user
               }
             />
           </Grid>
-          <Grid item alignItems="center" display="flex"
+          <Grid item xs={12} sm={6} md={2}>
+            <BasicSelect
+              name="fp_id"
+              label="Mã PAKD"
+              control={control}
+              options={
+                fps
+              }
+            />
+          </Grid>
+          <Grid item xs={12} sm={6} md={2}>
+            <BasicSelect
+              name="user_id"
+              label="Sale phụ trách"
+              control={control}
+              options={
+                users
+              }
+            />
+          </Grid>
+
+
+          <Grid item xs={12} sm={6} md={2}>
+            <BasicSelect
+              name="isDone"
+              label="Tình trạng"
+              control={control}
+
+              options={
+                [
+                  { id: 2, name: "Chưa thu" },
+                  { id: 1, name: "Đã thu xong" },
+
+                ]
+              }
+            />
+          </Grid>
+          <Grid item xs={12} sm={6} md={1} alignItems="center" display="flex"
             justifyContent="center">
             <Box sx={{ width: '300px' }} >
               <Button
