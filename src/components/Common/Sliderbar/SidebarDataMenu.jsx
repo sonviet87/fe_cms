@@ -5,7 +5,8 @@ import PermContactCalendarIcon from '@mui/icons-material/PermContactCalendar';
 import SpatialAudioOffIcon from '@mui/icons-material/SpatialAudioOff';
 import SupervisedUserCircleIcon from '@mui/icons-material/SupervisedUserCircle';
 import CategoryIcon from '@mui/icons-material/Category';
-
+import SummarizeIcon from '@mui/icons-material/Summarize';
+import AnalyticsIcon from '@mui/icons-material/Analytics';
 export const MenuCMS = [
   {
     // title: 'Management',
@@ -48,7 +49,7 @@ export const MenuCMS = [
       },
       {
         title: 'Báo cáo thống kê',
-        Icon: ManageAccountsIcon,
+        Icon: AnalyticsIcon,
         permission: 'all',
         items: [
           {
@@ -70,7 +71,7 @@ export const MenuCMS = [
       },
       {
         title: 'Công nợ',
-        Icon: ManageAccountsIcon,
+        Icon: SummarizeIcon,
         permission: 'all',
         items: [
           {

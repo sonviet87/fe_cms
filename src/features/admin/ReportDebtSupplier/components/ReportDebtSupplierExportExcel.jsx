@@ -22,7 +22,7 @@ const ReportDebtSupplierExportExcel = ({ data, filter }) => {
   };
 
   const createSheetPAKD = (wb, ws) => {
-    const headers = ['No', 'Khách hàng', 'Liên hệ', 'Sale phụ trách', 'Tổng giá bán', 'Tổng giá bán (VAT)', 'Lợi nhuận', 'Tình trạng'];
+    const headers = ['No', 'Khách hàng', 'Liên hệ', 'Sale phụ trách', 'Tổng giá bán (VAT)', 'Tình trạng'];
 
     const columns = headers?.length;
     const widths = [
@@ -80,14 +80,14 @@ const ReportDebtSupplierExportExcel = ({ data, filter }) => {
     //start from row four
     ws.getRow(2).values = '';
 
-    let row = addRow(ws, ['BÁO CÁO CÔNG NỢ KHÁCH HÀNG'], title);
+    let row = addRow(ws, ['BÁO CÁO CÔNG NỢ NHÀ CUNG CẤP'], title);
 
     mergeCells(ws, row, 1, columns);
     //add date row
 
     let rowDate = addRow(
       ws,
-      [moment(filter?.start_day).format('DD-MM-YYYY') + ' - ' + moment(filter?.end_day).format('DD-MM-YYYY')],
+      [moment(filter?.startDay).format('DD-MM-YYYY') + ' - ' + moment(filter?.endDay).format('DD-MM-YYYY')],
       {
         border: false,
         font: { size: 11, bold: true, color: { argb: '000000' }, name: fontFamily },
@@ -98,17 +98,14 @@ const ReportDebtSupplierExportExcel = ({ data, filter }) => {
     //add empty row
     addRow(ws, ' ');
     addRow(ws, Object.values(headers), header);
-    let totalSelling = 0;
-    let totalMargin = 0;
+
     let totalVAT = 0;
     let totalFP = 0;
     data.forEach((r) => {
-      totalSelling += parseInt(r.fp.selling);
-      totalMargin += parseInt(r.fp.margin);
       totalVAT += parseInt(r.total_debt);
       totalFP++;
     });
-    const stringTotal = `(Tổng PAKD: ${totalFP} / Tổng giá bán: ${totalSelling.toLocaleString()} /   Tổng giá bán (VAT): ${totalVAT.toLocaleString()} /Tổng lợi nhuận: ${totalMargin.toLocaleString()})`;
+    const stringTotal = `(Tổng PAKD: ${totalFP} /  Tổng giá mua (VAT): ${totalVAT.toLocaleString()})`;
     let rowbg = addRow(ws, [stringTotal], {
       border: true,
       height: 50,
@@ -128,7 +125,7 @@ const ReportDebtSupplierExportExcel = ({ data, filter }) => {
     data.forEach((r) => {
       const row = addRow(
         ws,
-        [r.fp.code, r.fp.account, r.fp.contact, r.fp.user_assign_name, parseInt(r.fp.selling), parseInt(r.total_debt), parseInt(r.fp.margin), r.isDone],
+        [r.fp.code, r.fp.account, r.supplier, r.fp.user_assign_name, parseInt(r.total_debt), r.isDone],
         item,
       );
       //set style

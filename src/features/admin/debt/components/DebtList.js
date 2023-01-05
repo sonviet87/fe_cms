@@ -79,7 +79,7 @@ export default function DebtList({ list, pagination, filter, onFilter, onDelete 
           {list.length > 0 &&
             list.map((row) => (
               <TableRow key={row.id}>
-                <TableCell>{row.id}</TableCell>
+                <TableCell>{row.code}</TableCell>
                 <TableCell component="th">
                   <Link to={'/admin/debts/' + row.id}>
                     {row.name}

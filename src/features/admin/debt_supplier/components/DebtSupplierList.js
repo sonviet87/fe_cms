@@ -78,7 +78,7 @@ export default function DebtSupplierList({ list, pagination, filter, onFilter, o
           {list.length > 0 &&
             list.map((row) => (
               <TableRow key={row.id}>
-                <TableCell>{row.id}</TableCell>
+                <TableCell>{row.code}</TableCell>
                 <TableCell component="th">
                   <Link to={'/admin/debts-supplier/' + row.id}>
                     {row.name}

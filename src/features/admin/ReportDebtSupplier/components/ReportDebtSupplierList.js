@@ -27,20 +27,17 @@ export default function ReportDebtSupplierList({ list, pagination, filter, onFil
   };
 
   const handleTotalFP = () => {
-    if (list.length === 0) return '(Tổng PAKD: <b>0</b> / Tổng giá bán: <b>0</b> / Tổng giá bán (VAT): <b>0</b> /Tổng lợi nhuận: <b>0</b>)';
-    let totalSelling = 0;
-    let totalMargin = 0;
+    if (list.length === 0) return '(Tổng PAKD: <b>0</b> / Tổng giá mua (VAT): <b>0</b> )';
+
     let totalVAT = 0;
     let totalFP = 0;
     list.map((item, index) => {
-      totalSelling += parseInt(item.fp.selling);
-      totalMargin += parseInt(item.fp.margin);
       totalVAT += parseInt(item.total_debt);
       totalFP++;
       return item;
     })
 
-    return `(Tổng PAKD: <b>${totalFP}</b> / Tổng giá bán: <b>${totalSelling.toLocaleString()}</b>  / Tổng giá bán (VAT): <b>${totalVAT.toLocaleString()}</b> / Tổng lợi nhuận: <b>${totalMargin.toLocaleString()}</b>)`
+    return `(Tổng PAKD: <b>${totalFP}</b>   / Tổng giá mua (VAT): <b>${totalVAT.toLocaleString()}</b>)`
   }
 
 
@@ -53,10 +50,10 @@ export default function ReportDebtSupplierList({ list, pagination, filter, onFil
             <TableCell>ID</TableCell>
             <TableCell>Khách hàng</TableCell>
 
-            <TableCell>Liên hệ</TableCell>
+            <TableCell>Nhà cung cấp</TableCell>
             <TableCell>Sale phụ trách</TableCell>
 
-            <TableCell>Tổng giá bán(VAT)</TableCell>
+            <TableCell>Tổng giá mua (VAT)</TableCell>
 
             <TableCell>Tình trạng</TableCell>
 
@@ -66,7 +63,7 @@ export default function ReportDebtSupplierList({ list, pagination, filter, onFil
         </TableHead>
         <TableBody>
           <TableRow>
-            <TableCell colSpan={8} sx={{ background: '#e3e3e3' }}>
+            <TableCell colSpan={9} sx={{ background: '#e3e3e3' }}>
               <Box sx={{ textAlign: 'center' }}>
                 <div dangerouslySetInnerHTML={{ __html: handleTotalFP() }} />
 
@@ -77,13 +74,14 @@ export default function ReportDebtSupplierList({ list, pagination, filter, onFil
           {list.length > 0 &&
             list.map((row) => (
               <TableRow key={row.id}>
+                <TableCell><Link to={'/admin/debts-supplier/' + row.id} target="_blank">{row.code} </Link></TableCell>
                 <TableCell>{row.fp.code}</TableCell>
                 <TableCell component="th">
-                  <Link to={'/admin/fps/' + row.id}>
-                    {row.fp.account}
-                  </Link>
+
+                  {row.fp.account}
+
                 </TableCell>
-                <TableCell>{row.fp.contact}</TableCell>
+                <TableCell>{row.supplier}</TableCell>
                 <TableCell>{row.fp.user_assign_name}</TableCell>
 
                 <TableCell>{<NumericFormat

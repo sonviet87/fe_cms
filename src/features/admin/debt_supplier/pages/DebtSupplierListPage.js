@@ -1,4 +1,3 @@
-import debtApi from 'api/debtAPI';
 import debtSupplierApi from 'api/debtSupplierAPI';
 import SkeletonList from 'components/Common/Skeleton/SkeletonList';
 import { WrapperPage } from 'components/Common/SlytedComponent/Wrapper';
@@ -32,7 +31,7 @@ function DebtSupplierListPage() {
 
     const handleDelete = async (item) => {
         setLoading(true);
-        const res = await debtApi.delete([item.id]);
+        const res = await debtSupplierApi.delete([item.id]);
         if (res.status) {
             if (res.data.status) {
                 setFilter({

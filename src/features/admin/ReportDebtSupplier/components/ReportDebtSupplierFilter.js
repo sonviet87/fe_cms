@@ -24,6 +24,7 @@ export default function ReportDebtSupplierFilter({ loading, filter, onSubmit, us
       account_id: '',
       fp_id: '',
       isDone: '',
+      supplier_id: ''
 
     },
     resolver: yupResolver(schema),

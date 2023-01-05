@@ -8,6 +8,8 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import BasicDatePicker from 'components/FormElement/DatetimePicker';
 import BasicSelect from 'components/FormElement/SelectBox';
 import { statusArray } from 'features/admin/fp/constants/FPConstants';
+import AutoCompleteForm from 'components/FormElement/Autocomplete';
+
 
 
 
@@ -18,7 +20,7 @@ export default function ReportFilter({ loading, filter, onSubmit, accounts, user
     endDay: yup.string().required('Xin hãy chọn ngày kết thúc'),
   });
 
-  const { control, handleSubmit } = useForm({
+  const { control, handleSubmit, setValue } = useForm({
     defaultValues: {
       startDay: '',
       endDay: '',
@@ -35,7 +37,11 @@ export default function ReportFilter({ loading, filter, onSubmit, accounts, user
   const handleFormSubmit = async (formValues) => {
 
     if (!onSubmit) return;
-    console.log(formValues)
+
+    formValues.category_id = formValues.category_id?.id
+    formValues.supplier_id = formValues.supplier_id?.id
+    formValues.account_id = formValues.account_id?.id
+    //console.log(formValues)
     await onSubmit(formValues);
   };
   return (
@@ -66,10 +72,11 @@ export default function ReportFilter({ loading, filter, onSubmit, accounts, user
               options={
                 users
               }
+              setValue={setValue}
             />
           </Grid>
           <Grid item xs={12} sm={6} md={2} >
-            <BasicSelect
+            <AutoCompleteForm
               name="account_id"
               label="Khách hàng"
               control={control}
@@ -80,6 +87,7 @@ export default function ReportFilter({ loading, filter, onSubmit, accounts, user
           </Grid>
           <Grid item xs={12} sm={6} md={2}>
             <BasicSelect
+              setValue={setValue}
               name="type_fp"
               label="Tình trạng PAKD"
               control={control}
@@ -89,17 +97,26 @@ export default function ReportFilter({ loading, filter, onSubmit, accounts, user
             />
           </Grid>
           <Grid item xs={12} sm={6} md={2}>
-            <BasicSelect
+            {/* <BasicSelect
               name="category_id"
               label="Danh mục sản phẩm"
               control={control}
               options={
                 categories
               }
+            /> */}
+            <AutoCompleteForm
+              name="category_id"
+              label="Danh mục sản phẩm"
+              control={control}
+              options={
+                categories
+              }
+
             />
           </Grid>
           <Grid item xs={12} sm={6} md={2}>
-            <BasicSelect
+            <AutoCompleteForm
               name="supplier_id"
               label="Nhà cung cấp"
               control={control}

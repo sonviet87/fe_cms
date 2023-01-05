@@ -5,9 +5,10 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import styled from '@emotion/styled';
 import { useController } from 'react-hook-form';
-import { FormHelperText } from '@mui/material';
+import { FormHelperText, IconButton } from '@mui/material';
+import ClearIcon from '@mui/icons-material/Clear';
 
-export default function BasicSelect({ name, label, control, options = [], onChangeAjax, ...inputProps }) {
+export default function BasicSelect({ name, label, control, options = [], onChangeAjax, setValue, ...inputProps }) {
 
     const {
         field: { onChange, value },
@@ -16,6 +17,13 @@ export default function BasicSelect({ name, label, control, options = [], onChan
         name,
         control,
     });
+
+    const [show, setShow] = React.useState('');
+
+    const handleOnClick = () => {
+        setShow('');
+        setValue(name, '');
+    }
 
     return (
 
@@ -31,9 +39,12 @@ export default function BasicSelect({ name, label, control, options = [], onChan
                 onChange={(e) => {
                     if (onChangeAjax) onChangeAjax(e.target.value);
                     onChange(e.target.value)
+                    show(e.target.value)
                 }}
+                endAdornment={<IconButton onClick={handleOnClick} sx={{ visibility: show ? "visible" : "hidden" }} ><ClearIcon /></IconButton>}
                 {...inputProps}
             >
+
                 {options.length > 0 && options?.map((row, i) => (
 
                     <MenuItem key={i} value={row.id} >

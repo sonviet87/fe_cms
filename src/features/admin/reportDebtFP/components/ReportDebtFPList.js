@@ -51,6 +51,7 @@ export default function ReportDebtFPList({ list, pagination, filter, onFilter })
         <TableHead>
           <TableRow>
             <TableCell>ID</TableCell>
+            <TableCell>PAKD</TableCell>
             <TableCell>Khách hàng</TableCell>
 
             <TableCell>Liên hệ</TableCell>
@@ -66,7 +67,7 @@ export default function ReportDebtFPList({ list, pagination, filter, onFilter })
         </TableHead>
         <TableBody>
           <TableRow>
-            <TableCell colSpan={8} sx={{ background: '#e3e3e3' }}>
+            <TableCell colSpan={9} sx={{ background: '#e3e3e3' }}>
               <Box sx={{ textAlign: 'center' }}>
                 <div dangerouslySetInnerHTML={{ __html: handleTotalFP() }} />
 
@@ -77,11 +78,12 @@ export default function ReportDebtFPList({ list, pagination, filter, onFilter })
           {list.length > 0 &&
             list.map((row) => (
               <TableRow key={row.id}>
-                <TableCell>{row.fp.code}</TableCell>
+                <TableCell>{row.code}</TableCell>
+                <TableCell> <Link to={'/admin/debts/' + row.id} target="_blank">{row.fp.code} </Link></TableCell>
                 <TableCell component="th">
-                  <Link to={'/admin/fps/' + row.id}>
-                    {row.fp.account}
-                  </Link>
+
+                  {row.fp.account}
+
                 </TableCell>
                 <TableCell>{row.fp.contact}</TableCell>
                 <TableCell>{row.fp.user_assign_name}</TableCell>

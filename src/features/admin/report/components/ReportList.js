@@ -76,7 +76,7 @@ export default function ReportList({ list, pagination, filter, onFilter }) {
               <TableRow key={row.id}>
                 <TableCell>{row.code}</TableCell>
                 <TableCell component="th">
-                  <Link to={'/admin/fps/' + row.id}>
+                  <Link to={'/admin/fps/' + row.id} target="_blank">
                     {row.account}
                   </Link>
                 </TableCell>
