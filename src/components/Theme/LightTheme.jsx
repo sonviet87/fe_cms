@@ -35,6 +35,18 @@ const lightTheme = createTheme({
             main: '#d90f0f',
             contrastText: '#fff',
         },
+        fiveth: {
+            dark: '#a5610d',
+            light: '#ed9f3f',
+            main: '#bd6f0f',
+            contrastText: '#fff',
+        },
+        sixth: {
+            dark: '#4e830a',
+            light: '#82cb24',
+            main: '#78c512',
+            contrastText: '#fff',
+        },
         text: {
             primary: '#666',
             secondary: '#333',

@@ -6,13 +6,14 @@ import userApi from 'api/userAPI';
 import SkeletonList from 'components/Common/Skeleton/SkeletonList';
 import { WrapperPage } from 'components/Common/SlytedComponent/Wrapper';
 import React from 'react';
+import ReportChart from '../components/ReportChart';
 import ReportFilter from '../components/ReportFilter';
 import ReportHeaderPage from '../components/ReportHeaderPage';
 import ReportList from '../components/ReportList';
 
 function ReportListPage() {
     const [loading, setLoading] = React.useState(false);
-
+    const [isReport, setIsReport] = React.useState(false);
     const [accounts, setAccounts] = React.useState([]);
     const [users, setUsers] = React.useState([]);
     const [suppliers, setSuppliers] = React.useState([]);
@@ -66,6 +67,10 @@ function ReportListPage() {
         }
 
     }
+
+    const handleChangeStatusReport = (value) => {
+        setIsReport(value);
+    }
     React.useEffect(() => {
 
         (async () => {
@@ -94,20 +99,21 @@ function ReportListPage() {
             }
         })();
     }, []);
-    console.log(filter)
+
     return (
         <WrapperPage>
-            <ReportHeaderPage list={list.reports} filter={filter} />
+            <ReportHeaderPage list={list.reports} filter={filter} onHandleIsReport={handleChangeStatusReport} />
             <ReportFilter loading={loading} filter={filter} onSubmit={handleFilter} users={users} accounts={accounts} suppliers={suppliers} categories={categories} onHandleChangeListCategory={onHandleChangeListCategory} />
             {loading ? (
                 <SkeletonList />
-            ) : (<ReportList list={list.reports}
+            ) : (!isReport ? <ReportList list={list.reports}
                 pagination={list.pagination}
                 loading={loading}
                 filter={filter}
                 onFilter={handleFilter}
 
-            />)}
+            /> : '')}
+            {isReport && <ReportChart list={list.reports} />}
         </WrapperPage>
     );
 }
