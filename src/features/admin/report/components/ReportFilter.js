@@ -10,10 +10,7 @@ import BasicSelect from 'components/FormElement/SelectBox';
 import { statusArray } from 'features/admin/fp/constants/FPConstants';
 import AutoCompleteForm from 'components/FormElement/Autocomplete';
 
-
-
-
-export default function ReportFilter({ loading, filter, onSubmit, accounts, users, suppliers, categories }) {
+export default function ReportFilter({ loading, filter, onSubmit, accounts, users, suppliers, categories, onHandleChangeListCategory }) {
 
   const schema = yup.object().shape({
     startDay: yup.string().required('Xin hãy chọn ngày bắt đầu'),
@@ -33,6 +30,11 @@ export default function ReportFilter({ loading, filter, onSubmit, accounts, user
     },
     resolver: yupResolver(schema),
   });
+
+  const handleOnAjaxCategory = (value) => {
+    onHandleChangeListCategory(value)
+
+  }
 
   const handleFormSubmit = async (formValues) => {
 
@@ -68,6 +70,7 @@ export default function ReportFilter({ loading, filter, onSubmit, accounts, user
             <BasicSelect
               name="user_id"
               label="Sale phụ trách"
+              isClear={true}
               control={control}
               options={
                 users
@@ -83,6 +86,7 @@ export default function ReportFilter({ loading, filter, onSubmit, accounts, user
               options={
                 accounts
               }
+
             />
           </Grid>
           <Grid item xs={12} sm={6} md={2}>
@@ -90,6 +94,7 @@ export default function ReportFilter({ loading, filter, onSubmit, accounts, user
               setValue={setValue}
               name="type_fp"
               label="Tình trạng PAKD"
+              isClear={true}
               control={control}
               options={
                 statusArray
@@ -97,14 +102,6 @@ export default function ReportFilter({ loading, filter, onSubmit, accounts, user
             />
           </Grid>
           <Grid item xs={12} sm={6} md={2}>
-            {/* <BasicSelect
-              name="category_id"
-              label="Danh mục sản phẩm"
-              control={control}
-              options={
-                categories
-              }
-            /> */}
             <AutoCompleteForm
               name="category_id"
               label="Danh mục sản phẩm"
@@ -112,7 +109,7 @@ export default function ReportFilter({ loading, filter, onSubmit, accounts, user
               options={
                 categories
               }
-
+              onChangeAjax={handleOnAjaxCategory}
             />
           </Grid>
           <Grid item xs={12} sm={6} md={2}>
@@ -123,6 +120,7 @@ export default function ReportFilter({ loading, filter, onSubmit, accounts, user
               options={
                 suppliers
               }
+              onChangeAjax={handleOnAjaxCategory}
             />
           </Grid>
           <Grid item alignItems="center" display="flex"

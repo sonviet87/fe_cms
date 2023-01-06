@@ -16,7 +16,7 @@ export default function ReportDebtFPFilter({ loading, filter, onSubmit, accounts
     endDay: yup.string().required('Xin hãy chọn ngày kết thúc'),
   });
 
-  const { control, handleSubmit } = useForm({
+  const { control, handleSubmit, setValue } = useForm({
     defaultValues: {
       startDay: '',
       endDay: '',
@@ -58,9 +58,11 @@ export default function ReportDebtFPFilter({ loading, filter, onSubmit, accounts
           </Grid>
           <Grid item xs={12} sm={6} md={2}>
             <BasicSelect
+              setValue={setValue}
               name="fp_id"
               label="Mã PAKD"
               control={control}
+              isClear={true}
               options={
                 fps
               }
@@ -68,9 +70,11 @@ export default function ReportDebtFPFilter({ loading, filter, onSubmit, accounts
           </Grid>
           <Grid item xs={12} sm={6} md={2}>
             <BasicSelect
+              setValue={setValue}
               name="user_id"
               label="Sale phụ trách"
               control={control}
+              isClear={true}
               options={
                 users
               }
@@ -81,9 +85,11 @@ export default function ReportDebtFPFilter({ loading, filter, onSubmit, accounts
               name="account_id"
               label="Khách hàng"
               control={control}
+              isClear={true}
               options={
                 accounts
               }
+              setValue={setValue}
             />
           </Grid>
 
@@ -93,7 +99,8 @@ export default function ReportDebtFPFilter({ loading, filter, onSubmit, accounts
               name="isDone"
               label="Tình trạng"
               control={control}
-
+              isClear={true}
+              setValue={setValue}
               options={
                 [
                   { id: 2, name: "Chưa thu" },

@@ -16,7 +16,7 @@ export default function ReportDebtSupplierFilter({ loading, filter, onSubmit, us
     endDay: yup.string().required('Xin hãy chọn ngày kết thúc'),
   });
 
-  const { control, handleSubmit } = useForm({
+  const { control, handleSubmit, setValue } = useForm({
     defaultValues: {
       startDay: '',
       endDay: '',
@@ -55,16 +55,19 @@ export default function ReportDebtSupplierFilter({ loading, filter, onSubmit, us
               lableText="Ngày kết thúc"
               control={control}
               sx={{ width: '100px' }}
+
             />
           </Grid>
           <Grid item xs={12} sm={6} md={2}>
             <BasicSelect
               name="supplier_id"
               label="Nhà cung cấp"
+              isClear={true}
               control={control}
               options={
                 suppliers
               }
+              setValue={setValue}
             />
           </Grid>
           <Grid item xs={12} sm={6} md={2}>
@@ -72,9 +75,11 @@ export default function ReportDebtSupplierFilter({ loading, filter, onSubmit, us
               name="fp_id"
               label="Mã PAKD"
               control={control}
+              isClear={true}
               options={
                 fps
               }
+              setValue={setValue}
             />
           </Grid>
           <Grid item xs={12} sm={6} md={2}>
@@ -82,9 +87,11 @@ export default function ReportDebtSupplierFilter({ loading, filter, onSubmit, us
               name="user_id"
               label="Sale phụ trách"
               control={control}
+              isClear={true}
               options={
                 users
               }
+              setValue={setValue}
             />
           </Grid>
 
@@ -94,7 +101,8 @@ export default function ReportDebtSupplierFilter({ loading, filter, onSubmit, us
               name="isDone"
               label="Tình trạng"
               control={control}
-
+              isClear={true}
+              setValue={setValue}
               options={
                 [
                   { id: 2, name: "Chưa thu" },

@@ -53,6 +53,19 @@ function ReportListPage() {
         }
         setLoading(false);
     }
+
+    const onHandleChangeListCategory = async (value) => {
+        try {
+
+            const categoryRs = await categoryAPi.getList({ search: value });
+            if (categoryRs.status) {
+                setCategories(categoryRs.data.data);
+            }
+        } catch (error) {
+            console.log(error)
+        }
+
+    }
     React.useEffect(() => {
 
         (async () => {
@@ -85,7 +98,7 @@ function ReportListPage() {
     return (
         <WrapperPage>
             <ReportHeaderPage list={list.reports} filter={filter} />
-            <ReportFilter loading={loading} filter={filter} onSubmit={handleFilter} users={users} accounts={accounts} suppliers={suppliers} categories={categories} />
+            <ReportFilter loading={loading} filter={filter} onSubmit={handleFilter} users={users} accounts={accounts} suppliers={suppliers} categories={categories} onHandleChangeListCategory={onHandleChangeListCategory} />
             {loading ? (
                 <SkeletonList />
             ) : (<ReportList list={list.reports}

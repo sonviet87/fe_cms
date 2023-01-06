@@ -1,10 +1,10 @@
-import { Autocomplete, TextField } from '@mui/material';
+import { Autocomplete } from '@mui/material';
 import { TextFiledStyled } from 'components/Common/SlytedComponent/Input';
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useController } from 'react-hook-form';
+import _debounce from 'lodash/debounce';
 
-
-export default function AutoCompleteForm({ name, label, control, options, ...inputProps }) {
+export default function AutoCompleteForm({ name, label, control, options, onChangeAjax, ...inputProps }) {
     const {
         field: { ref, onChange, onBlur, value },
         fieldState: { invalid, error },
@@ -14,17 +14,23 @@ export default function AutoCompleteForm({ name, label, control, options, ...inp
         rules: { required: true },
         defaultValue: '',
     });
+    const debounceFn = useCallback(_debounce(function (v) {
+        onChangeAjax(v)
+    }, 1000));
+    const handleInputChange = (e, v) => {
+        if (!onChangeAjax) return;
+        debounceFn(v);
 
+    };
     return (
         <Autocomplete
             value={value}
-
             size="small"
             onChange={(event, item) => {
                 console.log(item)
                 onChange(item);
             }}
-            //onInputChange={handleInputChange}
+            onInputChange={handleInputChange}
             //disablePortal
             // filterSelectedOptions={true}
             // freeSolo

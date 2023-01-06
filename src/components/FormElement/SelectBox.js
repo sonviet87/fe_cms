@@ -8,7 +8,7 @@ import { useController } from 'react-hook-form';
 import { FormHelperText, IconButton } from '@mui/material';
 import ClearIcon from '@mui/icons-material/Clear';
 
-export default function BasicSelect({ name, label, control, options = [], onChangeAjax, setValue, ...inputProps }) {
+export default function BasicSelect({ name, label, control, options = [], onChangeAjax, isClear, setValue, ...inputProps }) {
 
     const {
         field: { onChange, value },
@@ -39,9 +39,9 @@ export default function BasicSelect({ name, label, control, options = [], onChan
                 onChange={(e) => {
                     if (onChangeAjax) onChangeAjax(e.target.value);
                     onChange(e.target.value)
-                    show(e.target.value)
+                    setShow(e.target.value)
                 }}
-                endAdornment={<IconButton onClick={handleOnClick} sx={{ visibility: show ? "visible" : "hidden" }} ><ClearIcon /></IconButton>}
+                endAdornment={isClear ? <IconButton onClick={handleOnClick} sx={{ visibility: show ? "visible" : "hidden" }} ><ClearIcon /></IconButton> : ''}
                 {...inputProps}
             >
 
