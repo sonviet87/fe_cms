@@ -26,9 +26,7 @@ function AdminAccountAddEditPage() {
         legal_name: '',
         legal_address: '',
         industry: '',
-        district: '',
-        city: '',
-        ...account,
+        email: '',
     };
 
     React.useEffect(() => {
@@ -54,7 +52,7 @@ function AdminAccountAddEditPage() {
                         legal_name: res.data.data.legal_name,
                         legal_address: res.data.data.legal_address,
                         industry: res.data.data.industry,
-                        district: res.data.data.district,
+                        email: res.data.data.email,
                         city: res.data.data.city,
                     });
 

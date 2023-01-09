@@ -5,6 +5,7 @@ import reportDebtFPApi from 'api/reportDebtFPAPI';
 import userApi from 'api/userAPI';
 import SkeletonList from 'components/Common/Skeleton/SkeletonList';
 import { WrapperPage } from 'components/Common/SlytedComponent/Wrapper';
+import moment from 'moment';
 import React from 'react';
 import ReportDebtFPFilter from '../components/ReportDebtFPFilter';
 import ReportDebtFPHeaderPage from '../components/ReportDebtFPHeaderPage';
@@ -30,6 +31,8 @@ function ReportDebtFPListPage() {
         page: 0,
     });
     const handleFilter = async (data) => {
+        data.startDay = moment(data.startDay).format('YYYY-MM-DD');
+        data.endDay = moment(data.endDay).format('YYYY-MM-DD');
         setFilter({
             ...filter,
             ...data,

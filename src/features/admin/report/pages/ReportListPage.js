@@ -5,6 +5,7 @@ import supplierApi from 'api/suppliertAPI';
 import userApi from 'api/userAPI';
 import SkeletonList from 'components/Common/Skeleton/SkeletonList';
 import { WrapperPage } from 'components/Common/SlytedComponent/Wrapper';
+import moment from 'moment';
 import React from 'react';
 import ReportChart from '../components/ReportChart';
 import ReportFilter from '../components/ReportFilter';
@@ -32,6 +33,8 @@ function ReportListPage() {
         page: 0,
     });
     const handleFilter = async (data) => {
+        data.startDay = moment(data.startDay).format('YYYY-MM-DD');
+        data.endDay = moment(data.endDay).format('YYYY-MM-DD');
         setFilter({
             ...filter,
             ...data,

@@ -7,7 +7,7 @@ import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import LoadingButton from '@mui/lab/LoadingButton';
 import TextFormik from 'components/FormElement/TextFormik';
-import BasicSelect from 'components/FormElement/SelectBox';
+
 
 
 
@@ -46,7 +46,7 @@ function AccountForm({ initialValue, onSubmit, itemValue, role, isEdit }) {
             setValue('phone', itemValue.phone);
             setValue('address', itemValue.address);
             setValue('legal_name', itemValue.legal_name);
-
+            setValue('email', itemValue.email);
             setValue('industry', itemValue.industry);
 
 
@@ -80,6 +80,9 @@ function AccountForm({ initialValue, onSubmit, itemValue, role, isEdit }) {
                     <TextFormik name="industry" label="Ngành" control={control} />
                 </Grid>
 
+                <Grid item xs={12} md={6}>
+                    <TextFormik name="email" label="Email" control={control} />
+                </Grid>
 
 
                 <Grid item xs={12} md={12}>

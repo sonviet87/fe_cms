@@ -43,6 +43,7 @@ function FPForm({
   isEdit,
   disabled
 }) {
+  const status = useSelector(selectStatus);
   const validationRules = {
     name: yup.string().required('Xin hãy điền tên FP'),
     contact_id: yup.string().required('Xin hãy chọn liên hệ'),
@@ -57,8 +58,33 @@ function FPForm({
       ),
     ),
   };
+
+  const validationRulesExtra = {
+    name: yup.string().required('Xin hãy điền tên FP'),
+    contact_id: yup.string().required('Xin hãy chọn liên hệ'),
+    account_id: yup.string().required('Xin hãy chọn tài khoản'),
+    user_assign: yup.string().required('Xin hãy chọn danh mục'),
+    number_invoice: yup.string().required('Xin hãy chọn số hóa đơn'),
+    date_invoice: yup.string().required('Xin hãy chọn ngày hóa đơn'),
+    date_shipping: yup.string().required('Xin hãy chọn ngày giao hàng'),
+    file_customer_invoice: yup.string().required('Xin hãy up hợp đồng hóa đơn'),
+    file_company_receipt: yup.string().required('Xin hãy up hợp đồng với Khách hàng'),
+    file_bbbg: yup.string().required('Xin hãy up biên bản bàn giao'),
+    file_ncc: yup.string().required('Xin hãy up hợp đồng NCC'),
+    details: yup.lazy(() =>
+      yup.array().of(
+        yup.object({
+          category_id: yup.string().required('Xin hãy chọn danh muc'),
+          supplier_id: yup.string().required('Xin hãy chọn nhà cung cấp'),
+          number_invoice: yup.string().required('Xin hãy chọn số hóa đơn'),
+          date_invoice: yup.string().required('Xin hãy chọn ngày hóa đơn'),
+        }),
+      ),
+    ),
+  };
   const navigate = useNavigate();
-  const schema = yup.object().shape(validationRules);
+  const schema = yup.object().shape(parseInt(status) < 4 ? validationRules : validationRulesExtra);
+
   const selectorStatus = useSelector(selectStatus);
   const [totalBuy, setTotalsBuy] = React.useState(0);
   const [totalSell, setTotalsSell] = React.useState(0);
@@ -71,6 +97,7 @@ function FPForm({
     formState: { isSubmitting, errors },
     setValue,
     getValues,
+    setError,
     reset,
   } = useForm({
     defaultValues: initialValue,
@@ -91,7 +118,7 @@ function FPForm({
     formValues.net_profit_percent = ((parseInt(totalBids) / parseInt(totalSell)) * 100).toFixed(2);
     formValues.total_sell = totalSell;
     delete formValues.status;
-    // console.log(formValues)
+    //console.log(formValues)
     await onSubmit(formValues);
   };
 
@@ -467,7 +494,7 @@ function FPForm({
           </WrapperBox>
           <Grid container spacing={0} sx={isEdit ? { justifyContent: 'space-between' } : { justifyContent: 'flex-end' }}>
             <WrapperBoxItem>
-              {isEdit && <FPUploadFile control={control} setValue={setValue} isEdit={isEdit} itemValue={itemValue} />}
+              {isEdit && <FPUploadFile control={control} setValue={setValue} isEdit={isEdit} itemValue={itemValue} errors={errors} setError={setError} />}
               {(isEdit && (parseInt(selectorStatus) !== 0 && parseInt(selectorStatus) !== 1 && parseInt(selectorStatus) !== 2)
               ) && <FPInvoice control={control} setValue={setValue} isEdit={isEdit} itemValue={itemValue} />}
             </WrapperBoxItem>

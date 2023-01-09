@@ -3,13 +3,12 @@ import LinearProgressWithLabel from "./ProgressBar";
 import { BasicButtonStyled } from "./SlytedComponent/Button";
 import UploadIcon from '@mui/icons-material/Upload';
 import uploadApi from "api/uploadAPI";
-
 import { WrapperBoxAlign } from "./SlytedComponent/Wrapper";
 import { DeleteIconStyled } from "./SlytedComponent/Icon";
 import { Link } from "@mui/material";
 import TextFormik from "components/FormElement/TextFormik";
 
-const UploadFile = ({ control, name, setValue, isEdit, field, index }) => {
+const UploadFile = ({ control, name, setValue, isEdit, field, index, setError }) => {
     //const [isLoading, setLoading] = useState(false);
     const [currentFile, setCurrentFile] = useState(undefined);
     const [progress, setProgress] = useState(0);
@@ -22,7 +21,7 @@ const UploadFile = ({ control, name, setValue, isEdit, field, index }) => {
             setFile({ name: field.file, url: field.file_url });
             // setLoading(true)
         }
-    }, [field, isEdit])
+    }, [])
 
     const uploadFile = (file, onUploadProgress) => {
 
@@ -52,6 +51,7 @@ const UploadFile = ({ control, name, setValue, isEdit, field, index }) => {
                 setCurrentFile(undefined);
                 setValue(name, rs.data.name)
                 setValue(name + "_url", rs.data.file_url)
+                if (setError) setError(name, { type: "custom", message: "" })
                 //setLoading(false);
             })
 

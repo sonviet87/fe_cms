@@ -27,6 +27,7 @@ function AdminSupplierAddEditPage() {
         phone: '',
         email: '',
         user_id: '',
+        debts: '',
     };
 
     React.useEffect(() => {
@@ -53,6 +54,7 @@ function AdminSupplierAddEditPage() {
                         email: res.data.data.email,
                         phone: res.data.data.phone,
                         user_id: res.data.data.user_id,
+                        debts: res.data.data.debts,
 
                     });
 

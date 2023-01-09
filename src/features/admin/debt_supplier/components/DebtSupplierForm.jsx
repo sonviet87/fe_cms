@@ -161,11 +161,10 @@ function DebtSupplierForm({ initialValue, onSubmit, itemValue, isEdit, fp, onCal
                         name="isDone"
                         label="Tình trạng"
                         control={control}
-
                         options={
                             [
-                                { id: 2, name: "Chưa thu" },
-                                { id: 1, name: "Đã thu xong" },
+                                { id: 2, name: "Chưa trả" },
+                                { id: 1, name: "Đã trả" },
 
                             ]
                         }

@@ -65,7 +65,7 @@ export default function AccountList({ list, pagination, filter, onFilter, onDele
             <TableCell>Địa chỉ</TableCell>
             <TableCell>Tên viết tắt</TableCell>
 
-            <TableCell>industry</TableCell>
+            <TableCell>Email</TableCell>
 
             <TableCell align="right">hành động</TableCell>
           </TableRow>
@@ -86,7 +86,7 @@ export default function AccountList({ list, pagination, filter, onFilter, onDele
 
                 <TableCell> {row.legal_name} </TableCell>
 
-                <TableCell> {row.industry} </TableCell>
+                <TableCell> {row.email} </TableCell>
 
                 <TableCell
                   align="right"

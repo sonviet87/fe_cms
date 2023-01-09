@@ -1,4 +1,5 @@
 import { Grid, Table, TableBody, TableContainer, TableRow, Typography } from '@mui/material';
+import { Box } from '@mui/system';
 import UploadFile from 'components/Common/UploadFile';
 import UploadMuitiFile from 'components/Common/UploadMuitiFile';
 import React from 'react';
@@ -6,7 +7,7 @@ import { useSelector } from 'react-redux';
 import { selectIsEdit } from '../fpSlice';
 import { TableCellStyled, WrapperBox } from '../style/StyledFP';
 
-function FPUploadFile({ control, name, setValue, itemValue }) {
+function FPUploadFile({ control, name, setValue, itemValue, errors, setError }) {
   const isEdit = useSelector(selectIsEdit)
   return (
     <WrapperBox sx={{ mt: 4 }}>
@@ -28,7 +29,10 @@ function FPUploadFile({ control, name, setValue, itemValue }) {
                     isEdit={isEdit}
                     field={{ file: itemValue?.file_customer_invoice, file_url: itemValue?.file_customer_invoice_url }}
                     index={name}
+                    setError={setError}
                   />
+
+                  {errors?.file_customer_invoice !== undefined ? <Box sx={{ color: '#d32f2f' }}>{errors?.file_customer_invoice.message}</Box> : ''}
                 </TableCellStyled>
               </TableRow>
               <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
@@ -45,7 +49,9 @@ function FPUploadFile({ control, name, setValue, itemValue }) {
                     isEdit={isEdit}
                     field={{ file: itemValue?.file_company_receipt, file_url: itemValue?.file_company_receipt_url }}
                     index={name}
+                    setError={setError}
                   />
+                  {errors?.file_company_receipt !== undefined ? <Box sx={{ color: '#d32f2f' }}>{errors?.file_company_receipt.message}</Box> : ''}
                 </TableCellStyled>
               </TableRow>
               <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
@@ -62,7 +68,9 @@ function FPUploadFile({ control, name, setValue, itemValue }) {
                     isEdit={isEdit}
                     field={{ file: itemValue?.file_bbbg, file_url: itemValue?.file_bbbg_url }}
                     index={name}
+                    setError={setError}
                   />
+                  {errors?.file_bbbg !== undefined ? <Box sx={{ color: '#d32f2f' }}>{errors?.file_bbbg.message}</Box> : ''}
                 </TableCellStyled>
               </TableRow>
               <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
@@ -79,7 +87,9 @@ function FPUploadFile({ control, name, setValue, itemValue }) {
                     isEdit={isEdit}
                     field={itemValue.file_ncc}
                     index={name}
+                    setError={setError}
                   />
+                  {errors?.file_ncc !== undefined ? <Box sx={{ color: '#d32f2f' }}>{errors?.file_ncc.message}</Box> : ''}
                 </TableCellStyled>
               </TableRow>
             </TableBody>

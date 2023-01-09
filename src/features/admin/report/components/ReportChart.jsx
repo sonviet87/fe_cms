@@ -20,7 +20,7 @@ ChartJS.register(
 
 
 function ReportChart({ list }) {
-    const [reports, setRepost] = React.useState({});
+    const [reports, setRepost] = React.useState({ labels: [], datasets: [] });
     const handleTotalFP = () => {
         if (list.length === 0) return '(Tổng PAKD: 0 / Tổng giá bán: 0 / Tổng lợi nhuận: 0)';
         let totalSelling = 0;
@@ -44,23 +44,11 @@ function ReportChart({ list }) {
             },
             title: {
                 display: true,
-                //text: handleTotalFP(),
+                text: handleTotalFP(),
             },
         },
     };
 
-    const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
-
-    const data = {
-        labels,
-        datasets: [
-            {
-                label: 'Dataset 2',
-                data: [15, 25, 35, 45, 55, 65, 75],
-                backgroundColor: 'rgba(53, 162, 235, 0.5)',
-            },
-        ],
-    };
     React.useEffect(() => {
         if (list.length !== 0) {
             let labels = []
@@ -74,7 +62,7 @@ function ReportChart({ list }) {
                 labels: labels,
                 datasets: [
                     {
-                        label: 'Dataset 2',
+                        label: 'PAKD',
                         data: selling,
                         backgroundColor: 'rgba(53, 162, 235, 0.5)',
                     },

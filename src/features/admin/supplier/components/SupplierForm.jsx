@@ -44,6 +44,7 @@ function SupplierForm({ initialValue, onSubmit, itemValue, isEdit, usersValue })
             setValue('mst', itemValue.mst);
             setValue('phone', itemValue.phone);
             setValue('user_id', itemValue.user_id);
+            setValue('debts', itemValue.debts);
         }
     }, [itemValue]);
 
@@ -73,6 +74,23 @@ function SupplierForm({ initialValue, onSubmit, itemValue, isEdit, usersValue })
                 </Grid>
                 <Grid item xs={12} md={6}>
                     <TextFormik name="email" label="email" control={control} />
+                </Grid>
+                <Grid item xs={12} md={6}>
+                    <BasicSelect
+                        name="debts"
+                        label="Công nợ"
+                        control={control}
+                        options={
+                            [
+                                { id: 1, name: "7 ngày" },
+                                { id: 2, name: "14 ngày" },
+                                { id: 3, name: "21 ngày" },
+                                { id: 4, name: "30 ngày" },
+
+                            ]
+                        }
+
+                    />
                 </Grid>
                 <Grid item xs={12} md={6} >
                     <BasicSelect

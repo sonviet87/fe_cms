@@ -80,6 +80,7 @@ function AdminFPAddEditPage() {
 
   React.useEffect(() => {
     dispatch(fpActions.setIsEdit(isEdit));
+    dispatch(fpActions.setStatus(0));
     (async () => {
       try {
         let [accountRs, categoriesRs, supplierRs, userRs] = await Promise.all([

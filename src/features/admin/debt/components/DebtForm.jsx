@@ -76,15 +76,12 @@ function DebtForm({ initialValue, onSubmit, itemValue, isEdit, fp }) {
     }
 
     const handleChangeDateOver = (e) => {
-
-        //const dateInvoice = moment(getValues('date_invoice'), "DD-MM-YYYY");
-        const dateInvoice = moment(getValues('date_invoice'));
         const dateOver = moment(e);
-
         const dateOne = new Date(dateOver);
-        const dateTwo = new Date(dateInvoice);
-
-        setValue('number_date_over', Math.ceil(dateOne.getTime() / (1000 * 60 * 60 * 24)) - (dateTwo.getTime() / (1000 * 60 * 60 * 24)).toFixed(0))
+        const toDay = new Date();
+        toDay.setHours(0, 0, 0, 0);
+        const resultOverDay = Math.ceil(toDay.getTime() / (1000 * 60 * 60 * 24)) - (dateOne.getTime() / (1000 * 60 * 60 * 24)).toFixed(0);
+        setValue('number_date_over', resultOverDay > 0 ? resultOverDay : 0)
 
     }
 
