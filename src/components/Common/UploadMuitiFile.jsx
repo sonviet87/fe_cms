@@ -6,10 +6,10 @@ import uploadApi from "api/uploadAPI";
 import KeyboardDoubleArrowUpIcon from '@mui/icons-material/KeyboardDoubleArrowUp';
 import { WrapperBoxAlign } from "./SlytedComponent/Wrapper";
 import { DeleteIconStyled } from "./SlytedComponent/Icon";
-import { Link } from "@mui/material";
+import { Box, Link } from "@mui/material";
 import TextFormik from "components/FormElement/TextFormik";
 
-const UploadMuitiFile = ({ control, name, setValue, isEdit, field, index }) => {
+const UploadMuitiFile = ({ control, name, setValue, isEdit, field, index, setError, errors }) => {
     const [uploadedFiles, setUploadedFiles] = useState([]);
     const [currentFile, setCurrentFile] = useState(undefined);
     const [progress, setProgress] = useState(0);
@@ -119,7 +119,7 @@ const UploadMuitiFile = ({ control, name, setValue, isEdit, field, index }) => {
             <div className="alert alert-light" role="alert">
                 {message}
             </div>
-
+            {errors?.[name] !== undefined ? <Box sx={{ color: '#d32f2f' }}>{errors?.[name].message}</Box> : ''}
 
         </div>
     );

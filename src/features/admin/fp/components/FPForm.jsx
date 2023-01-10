@@ -78,6 +78,7 @@ function FPForm({
           supplier_id: yup.string().required('Xin hãy chọn nhà cung cấp'),
           number_invoice: yup.string().required('Xin hãy chọn số hóa đơn'),
           date_invoice: yup.string().required('Xin hãy chọn ngày hóa đơn'),
+          file: yup.string().required('Xin hãy up file'),
         }),
       ),
     ),
@@ -194,7 +195,7 @@ function FPForm({
     }
   }, [itemValue, reset]);
 
-
+  console.log(fields)
   return (
     <Box component="form" noValidate autoComplete="off" onSubmit={handleSubmit(handleFormSubmit)}>
       <Grid container spacing={2}>
@@ -387,6 +388,8 @@ function FPForm({
                             isEdit={isEdit}
                             field={field}
                             index={index}
+                            setError={setError}
+                            errors={errors}
                           />
                         </TableCellStyled>
                         {(isEdit && (parseInt(selectorStatus) !== 0 && parseInt(selectorStatus) !== 1 && parseInt(selectorStatus) !== 2)) &&

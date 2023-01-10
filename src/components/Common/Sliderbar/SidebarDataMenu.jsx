@@ -48,6 +48,12 @@ export const MenuCMS = [
         permission: 'category-list',
       },
       {
+        title: 'Bảo hành',
+        route: '/admin/warranty',
+        Icon: CategoryIcon,
+        permission: 'category-list',
+      },
+      {
         title: 'Báo cáo thống kê',
         Icon: AnalyticsIcon,
         permission: 'all',

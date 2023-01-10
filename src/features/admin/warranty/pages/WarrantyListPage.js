@@ -1,16 +1,15 @@
-import accountApi from 'api/accountAPI';
-import { LoadingOverlay } from 'components/Common/LoadingOverlay';
+import warrantyAPI from 'api/warrantyAPI';
 import SkeletonList from 'components/Common/Skeleton/SkeletonList';
 import { WrapperPage } from 'components/Common/SlytedComponent/Wrapper';
 import TitleForm from 'components/Common/TitleForm';
 import React from 'react';
 import { toast } from 'react-toastify';
-import AccountFilter from '../components/AccountFilter';
-import UserFilter from '../components/AccountFilter';
-import AccountList from '../components/AccountList';
+import WarrantFilter from '../components/WarrantFilter';
+import WarrantyList from '../components/WarrantyList';
 
 
-function AccountListPage() {
+
+function WarrantyListPage() {
     const [loading, setLoading] = React.useState(false);
     const [list, setList] = React.useState({
         users: [],
@@ -33,7 +32,7 @@ function AccountListPage() {
 
     const handleDelete = async (item) => {
         setLoading(true);
-        const res = await accountApi.delete([item.id]);
+        const res = await warrantyAPI.delete([item.id]);
         if (res.status) {
             if (res.data.status) {
                 setFilter({
@@ -58,7 +57,7 @@ function AccountListPage() {
         (async () => {
             try {
                 setLoading(true);
-                const res = await accountApi.getAll(filter);
+                const res = await warrantyAPI.getAll(filter);
                 if (res.status) {
                     setList({
                         users: res.data.data,
@@ -78,12 +77,11 @@ function AccountListPage() {
 
     return (
         <WrapperPage>
-
-            <TitleForm lable="Danh sách tài khoản" />
-            <AccountFilter loading={loading} filter={filter} onSubmit={handleFilter} />
+            <TitleForm lable="Danh sách bảo hành" />
+            <WarrantFilter loading={loading} filter={filter} onSubmit={handleFilter} />
             {loading ? (
                 <SkeletonList />
-            ) : (<AccountList list={list.users}
+            ) : (<WarrantyList list={list.users}
                 pagination={list.pagination}
                 loading={loading}
                 filter={filter}
@@ -94,4 +92,4 @@ function AccountListPage() {
     );
 }
 
-export default AccountListPage;
+export default WarrantyListPage;

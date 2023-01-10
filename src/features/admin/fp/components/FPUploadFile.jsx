@@ -30,9 +30,10 @@ function FPUploadFile({ control, name, setValue, itemValue, errors, setError }) 
                     field={{ file: itemValue?.file_customer_invoice, file_url: itemValue?.file_customer_invoice_url }}
                     index={name}
                     setError={setError}
+                    errors={errors}
                   />
 
-                  {errors?.file_customer_invoice !== undefined ? <Box sx={{ color: '#d32f2f' }}>{errors?.file_customer_invoice.message}</Box> : ''}
+
                 </TableCellStyled>
               </TableRow>
               <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
@@ -50,8 +51,9 @@ function FPUploadFile({ control, name, setValue, itemValue, errors, setError }) 
                     field={{ file: itemValue?.file_company_receipt, file_url: itemValue?.file_company_receipt_url }}
                     index={name}
                     setError={setError}
+                    errors={errors}
                   />
-                  {errors?.file_company_receipt !== undefined ? <Box sx={{ color: '#d32f2f' }}>{errors?.file_company_receipt.message}</Box> : ''}
+
                 </TableCellStyled>
               </TableRow>
               <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
@@ -69,8 +71,9 @@ function FPUploadFile({ control, name, setValue, itemValue, errors, setError }) 
                     field={{ file: itemValue?.file_bbbg, file_url: itemValue?.file_bbbg_url }}
                     index={name}
                     setError={setError}
+                    errors={errors}
                   />
-                  {errors?.file_bbbg !== undefined ? <Box sx={{ color: '#d32f2f' }}>{errors?.file_bbbg.message}</Box> : ''}
+
                 </TableCellStyled>
               </TableRow>
               <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
@@ -88,8 +91,9 @@ function FPUploadFile({ control, name, setValue, itemValue, errors, setError }) 
                     field={itemValue.file_ncc}
                     index={name}
                     setError={setError}
+                    errors={errors}
                   />
-                  {errors?.file_ncc !== undefined ? <Box sx={{ color: '#d32f2f' }}>{errors?.file_ncc.message}</Box> : ''}
+
                 </TableCellStyled>
               </TableRow>
             </TableBody>

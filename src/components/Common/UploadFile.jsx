@@ -5,10 +5,10 @@ import UploadIcon from '@mui/icons-material/Upload';
 import uploadApi from "api/uploadAPI";
 import { WrapperBoxAlign } from "./SlytedComponent/Wrapper";
 import { DeleteIconStyled } from "./SlytedComponent/Icon";
-import { Link } from "@mui/material";
+import { Box, Link } from "@mui/material";
 import TextFormik from "components/FormElement/TextFormik";
 
-const UploadFile = ({ control, name, setValue, isEdit, field, index, setError }) => {
+const UploadFile = ({ control, name, setValue, isEdit, field, index, setError, errors }) => {
     //const [isLoading, setLoading] = useState(false);
     const [currentFile, setCurrentFile] = useState(undefined);
     const [progress, setProgress] = useState(0);
@@ -115,8 +115,9 @@ const UploadFile = ({ control, name, setValue, isEdit, field, index, setError })
 
             <div className="alert alert-light" role="alert">
                 {message}
-            </div>
 
+            </div>
+            {errors?.[name] !== undefined ? <Box sx={{ color: '#d32f2f' }}>{errors?.[name].message}</Box> : ''}
 
         </div>
     );

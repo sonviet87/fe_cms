@@ -13,6 +13,7 @@ import AdminReportDebtSupplierFeature from './ReportDebtSupplier';
 import AdminRolesFeature from './role';
 import AdminSuppliersFeature from './supplier';
 import AdminUsersFeature from './user';
+import AdminWarrantyFeature from './warranty';
 
 const AdminFeature = () => {
   return (
@@ -30,6 +31,7 @@ const AdminFeature = () => {
       <Route path={'/debts-supplier/*'} element={<AdminDebtSupplierFeature />} />
       <Route path={'/reports-debt-fp/*'} element={<AdminReportDebtFPFeature />} />
       <Route path={'/reports-debt-supplier/*'} element={<AdminReportDebtSupplierFeature />} />
+      <Route path={'/warranty/*'} element={<AdminWarrantyFeature />} />
     </Routes>
   );
 };

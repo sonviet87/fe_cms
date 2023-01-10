@@ -42,3 +42,11 @@ export const WrapperBoxAlign = styled('div', {})(({ theme, align, isborder = tru
     ...(isborder && { borderBottom: '1px solid #e5e4e4' })
 
 }));
+
+export const WrapperBox = styled(Box, {}
+)(() => ({
+    marginTop: '8px',
+    border: '1px solid #eee',
+    borderRadius: '10px',
+    padding: '10px'
+}))
