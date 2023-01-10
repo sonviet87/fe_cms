@@ -41,7 +41,7 @@ function FPForm({
   suppliersValues,
   usersValues,
   isEdit,
-  disabled
+  disabled,
 }) {
   const status = useSelector(selectStatus);
   const validationRules = {
@@ -91,7 +91,6 @@ function FPForm({
   const [totalSell, setTotalsSell] = React.useState(0);
   const [totalBids, setTotalsBids] = React.useState(0);
 
-
   const {
     control,
     handleSubmit,
@@ -119,7 +118,7 @@ function FPForm({
     formValues.net_profit_percent = ((parseInt(totalBids) / parseInt(totalSell)) * 100).toFixed(2);
     formValues.total_sell = totalSell;
     delete formValues.status;
-    //console.log(formValues)
+    console.log(formValues);
     await onSubmit(formValues);
   };
 
@@ -195,7 +194,7 @@ function FPForm({
     }
   }, [itemValue, reset]);
 
-  console.log(fields)
+  console.log(fields);
   return (
     <Box component="form" noValidate autoComplete="off" onSubmit={handleSubmit(handleFormSubmit)}>
       <Grid container spacing={2}>
@@ -220,12 +219,12 @@ function FPForm({
         </Grid>
         <Grid item xs={12}>
           <WrapperBox>
-            <TableContainer  >
+            <TableContainer>
               <Table aria-label="simple table">
                 <TableBody>
                   {fields.map((field, index) => (
                     <React.Fragment key={field.id}>
-                      <TableRow >
+                      <TableRow>
                         <TableCellStyled>
                           <BasicSelect
                             name={`details[${index}].category_id`}
@@ -262,14 +261,20 @@ function FPForm({
                               let qty = getValues(`details[${index}].qty`);
                               let profit = getValues(`details[${index}].profit`);
                               let price_sell = getValues(`details[${index}].price_sell`).toString();
-                              let priceBuy = "0";
+                              let priceBuy = '0';
                               if (v.value !== '') priceBuy = v.value;
                               handleFPUpdatePrice(priceBuy, price_sell, qty, profit, index);
                             }}
                           />
                         </TableCellStyled>
                         <TableCellStyled>
-                          <TextFieldNumber name={`details[${index}].total_buy`} sx={{ width: '180px' }} label="Tổng giá mua" control={control} disabled={disabled} />
+                          <TextFieldNumber
+                            name={`details[${index}].total_buy`}
+                            sx={{ width: '180px' }}
+                            label="Tổng giá mua"
+                            control={control}
+                            disabled={disabled}
+                          />
                         </TableCellStyled>
                         <TableCellStyled>
                           <TextFieldNumber
@@ -348,7 +353,13 @@ function FPForm({
                           />
                         </TableCellStyled>
                         <TableCellStyled>
-                          <TextFieldNumber name={`details[${index}].total_sell`} sx={{ width: '180px' }} label="Tổng giá bán" control={control} disabled={disabled} />
+                          <TextFieldNumber
+                            name={`details[${index}].total_sell`}
+                            sx={{ width: '180px' }}
+                            label="Tổng giá bán"
+                            control={control}
+                            disabled={disabled}
+                          />
                         </TableCellStyled>
                         <TableCellStyled>
                           <TextFieldNumber
@@ -392,32 +403,32 @@ function FPForm({
                             errors={errors}
                           />
                         </TableCellStyled>
-                        {(isEdit && (parseInt(selectorStatus) !== 0 && parseInt(selectorStatus) !== 1 && parseInt(selectorStatus) !== 2)) &&
-
-                          (<><TableCellStyled>
-                            <TextFormik
-                              name={`details[${index}].number_invoice`}
-                              label="Số hóa đơn"
-                              control={control}
-                              sx={{ minWidth: '120px' }}
-                            />
-                          </TableCellStyled>
-                            <TableCellStyled>
-                              <BasicDatePicker
-                                name={`details[${index}].date_invoice`}
-                                lableText="Ngày xuất hóa đơn"
-                                control={control}
-                                sx={{ minWidth: '200px' }}
-                              />
-
-
-                            </TableCellStyled>
-                          </>
-                          )
-                        }
+                        {isEdit &&
+                          parseInt(selectorStatus) !== 0 &&
+                          parseInt(selectorStatus) !== 1 &&
+                          parseInt(selectorStatus) !== 2 && (
+                            <>
+                              <TableCellStyled>
+                                <TextFormik
+                                  name={`details[${index}].number_invoice`}
+                                  label="Số hóa đơn"
+                                  control={control}
+                                  sx={{ minWidth: '120px' }}
+                                />
+                              </TableCellStyled>
+                              <TableCellStyled>
+                                <BasicDatePicker
+                                  name={`details[${index}].date_invoice`}
+                                  lableText="Ngày xuất hóa đơn"
+                                  control={control}
+                                  sx={{ minWidth: '200px' }}
+                                />
+                              </TableCellStyled>
+                            </>
+                          )}
 
                         <TableCellStyled>
-                          {(index !== 0 && !disabled) && (
+                          {index !== 0 && !disabled && (
                             <BasicButtonStyled
                               variant="contained"
                               color="error"
@@ -436,7 +447,6 @@ function FPForm({
                           )}
                         </TableCellStyled>
                       </TableRow>
-
                     </React.Fragment>
                   ))}
                   <TableRow>
@@ -472,34 +482,52 @@ function FPForm({
                 </TableBody>
               </Table>
             </TableContainer>
-            {!disabled && <Button
-              color="primary"
-              variant="contained"
-              startIcon={<AddIcon />}
-              sx={{ mt: 2 }}
-              onClick={() => {
-                append({
-                  supplier_id: '',
-                  category_id: '',
-                  qty: 1,
-                  price_buy: 0,
-                  price_sell: '',
-                  profit: '10',
-                  file: '',
-                  file_url: '',
-                });
-              }}
-            >
-              {' '}
-              Thêm{' '}
-            </Button>}
-
+            {!disabled && (
+              <Button
+                color="primary"
+                variant="contained"
+                startIcon={<AddIcon />}
+                sx={{ mt: 2 }}
+                onClick={() => {
+                  append({
+                    supplier_id: '',
+                    category_id: '',
+                    qty: 1,
+                    price_buy: 0,
+                    price_sell: '',
+                    profit: '10',
+                    file: '',
+                    file_url: '',
+                  });
+                }}
+              >
+                {' '}
+                Thêm{' '}
+              </Button>
+            )}
           </WrapperBox>
-          <Grid container spacing={0} sx={isEdit ? { justifyContent: 'space-between' } : { justifyContent: 'flex-end' }}>
+          <Grid
+            container
+            spacing={0}
+            sx={isEdit ? { justifyContent: 'space-between' } : { justifyContent: 'flex-end' }}
+          >
             <WrapperBoxItem>
-              {isEdit && <FPUploadFile control={control} setValue={setValue} isEdit={isEdit} itemValue={itemValue} errors={errors} setError={setError} />}
-              {(isEdit && (parseInt(selectorStatus) !== 0 && parseInt(selectorStatus) !== 1 && parseInt(selectorStatus) !== 2)
-              ) && <FPInvoice control={control} setValue={setValue} isEdit={isEdit} itemValue={itemValue} />}
+              {isEdit && (
+                <FPUploadFile
+                  control={control}
+                  setValue={setValue}
+                  isEdit={isEdit}
+                  itemValue={itemValue}
+                  errors={errors}
+                  setError={setError}
+                />
+              )}
+              {isEdit &&
+                parseInt(selectorStatus) !== 0 &&
+                parseInt(selectorStatus) !== 1 &&
+                parseInt(selectorStatus) !== 2 && (
+                  <FPInvoice control={control} setValue={setValue} isEdit={isEdit} itemValue={itemValue} />
+                )}
             </WrapperBoxItem>
             <FPTotal
               control={control}

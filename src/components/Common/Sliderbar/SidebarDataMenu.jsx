@@ -7,6 +7,7 @@ import SupervisedUserCircleIcon from '@mui/icons-material/SupervisedUserCircle';
 import CategoryIcon from '@mui/icons-material/Category';
 import SummarizeIcon from '@mui/icons-material/Summarize';
 import AnalyticsIcon from '@mui/icons-material/Analytics';
+import FactCheckIcon from '@mui/icons-material/FactCheck';
 export const MenuCMS = [
   {
     // title: 'Management',
@@ -50,7 +51,7 @@ export const MenuCMS = [
       {
         title: 'Bảo hành',
         route: '/admin/warranty',
-        Icon: CategoryIcon,
+        Icon: FactCheckIcon,
         permission: 'category-list',
       },
       {
@@ -90,7 +91,6 @@ export const MenuCMS = [
             route: '/admin/debts-supplier',
             permission: 'all',
           },
-
         ],
       },
       {

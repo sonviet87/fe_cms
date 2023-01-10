@@ -98,7 +98,7 @@ export default function WarrantyList({ list, pagination, filter, onFilter, onDel
                     variant="contained"
                     color="primary"
                     size="small"
-                    onClick={() => navigate('/admin/accounts/' + row.id)}
+                    onClick={() => navigate('/admin/warranty/' + row.id)}
                   >
                     <EditIcon fontSize="small" />
                   </BasicButtonStyled>

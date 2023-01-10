@@ -3,9 +3,7 @@ import { WrapperBox } from 'components/Common/SlytedComponent/Wrapper';
 import UploadMuitiFile from 'components/Common/UploadMuitiFile';
 import React from 'react';
 
-
 function WarrantyUploadFile({ control, name, setValue, itemValue, errors, setError, isEdit }) {
-
   return (
     <WrapperBox sx={{ mt: 4 }}>
       <Grid item xs={12} md={12}>
@@ -24,12 +22,11 @@ function WarrantyUploadFile({ control, name, setValue, itemValue, errors, setErr
                     name="file_warranty"
                     setValue={setValue}
                     isEdit={isEdit}
-                    field={itemValue.file_ncc}
+                    field={itemValue.file_warranty}
                     index={name}
                     setError={setError}
                     errors={errors}
                   />
-
                 </TableCell>
               </TableRow>
             </TableBody>
