@@ -2,6 +2,7 @@ import React, { Suspense } from 'react';
 import { lazy } from 'react';
 import { Routes, Route } from 'react-router';
 
+const AdminUserChangePassPage = lazy(() => import('./pages/UserChangePassPage'));
 const UserListPage = lazy(() => import('./pages/UserListPage'));
 const AdminUserAddEditPage = lazy(() => import('./pages/UserAddEditPage'));
 function AdminUsersFeature() {
@@ -9,6 +10,7 @@ function AdminUsersFeature() {
         <Suspense>
             <Routes>
                 <Route path="/" element={<UserListPage />} />
+                <Route path="/change-pass/" element={<AdminUserChangePassPage />} />
                 <Route path="/add" element={<AdminUserAddEditPage />} />
                 <Route path="/:id" element={<AdminUserAddEditPage />} />
             </Routes>

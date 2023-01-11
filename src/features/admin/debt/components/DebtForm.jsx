@@ -78,6 +78,7 @@ function DebtForm({ initialValue, onSubmit, itemValue, isEdit, fp }) {
     const handleChangeDateOver = (e) => {
         const dateOver = moment(e);
         const dateOne = new Date(dateOver);
+        dateOne.setHours(0, 0, 0, 0);
         const toDay = new Date();
         toDay.setHours(0, 0, 0, 0);
         const resultOverDay = Math.ceil(toDay.getTime() / (1000 * 60 * 60 * 24)) - (dateOne.getTime() / (1000 * 60 * 60 * 24)).toFixed(0);
@@ -166,7 +167,7 @@ function DebtForm({ initialValue, onSubmit, itemValue, isEdit, fp }) {
                         control={control}
                         sx={{ minWidth: '200px' }}
                         onChangeAjax={handleChangeDateOver}
-                        disabled={isEdit}
+                    // disabled={isEdit}
                     />
                 </Grid>
                 <Grid item xs={12} md={4}>
@@ -174,7 +175,7 @@ function DebtForm({ initialValue, onSubmit, itemValue, isEdit, fp }) {
                         name="number_date_over"
                         label="Số ngày đã quá hạn"
                         control={control}
-                        disabled={isEdit}
+                    //disabled={isEdit}
                     />
                 </Grid>
                 <Grid item xs={12} md={4}>
@@ -183,7 +184,7 @@ function DebtForm({ initialValue, onSubmit, itemValue, isEdit, fp }) {
                         label="Tổng tiền hóa đơn"
                         control={control}
                         sx={{ width: "100%" }}
-                        disabled={isEdit}
+                    //disabled={isEdit}
                     />
                 </Grid>
                 <Grid item xs={12} md={4}>
@@ -206,16 +207,16 @@ function DebtForm({ initialValue, onSubmit, itemValue, isEdit, fp }) {
                                 { id: 100, name: "100%" },
                             ]
                         }
-                        disabled={isEdit}
+                        //disabled={isEdit}
                         onChangeAjax={handleChangeDeposit}
 
                     />
                 </Grid>
                 <Grid item xs={12} md={4}>
-                    <TextFieldNumber name="pay_first" label="Cọc" control={control} sx={{ width: "100%" }} disabled={isEdit} />
+                    <TextFieldNumber name="pay_first" label="Cọc" control={control} sx={{ width: "100%" }} />
                 </Grid>
                 <Grid item xs={12} md={4}>
-                    <TextFieldNumber name="pay_second" label="Nợ" control={control} sx={{ width: "100%" }} disabled={isEdit} />
+                    <TextFieldNumber name="pay_second" label="Nợ" control={control} sx={{ width: "100%" }} />
                 </Grid>
                 <Grid item xs={12}>
                     {fpdetails.length > 0 &&
