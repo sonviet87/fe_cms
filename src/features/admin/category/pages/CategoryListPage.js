@@ -51,21 +51,48 @@ function CategoryListPage() {
         setLoading(false);
     };
 
+    const handleImportExcel = async (file) => {
+        setLoading(true);
+        try {
+            const formData = new FormData();
+            formData.append('file', file);
+            const res = await categoryAPi.import(formData);
+            if (res.status) {
+                if (res.data.status) {
+                    toast.success(res.data.message);
+                    loadData();
+                } else {
+                    toast.error(res.data.message);
+                }
+
+            } else {
+                toast.error(res.message);
+            }
+        } catch (e) {
+            toast.error(e.message);
+        }
+
+        setLoading(false);
+    }
+
+    const loadData = async () => {
+        setLoading(true);
+        const res = await categoryAPi.getAll(filter);
+        if (res.status) {
+            setList({
+                suppliers: res.data.data,
+                pagination: {
+                    total: res.data.meta.total,
+                    current_page: res.data.meta.current_page
+                },
+            });
+        }
+        setLoading(false);
+    }
     React.useEffect(() => {
 
         (async () => {
-            setLoading(true);
-            const res = await categoryAPi.getAll(filter);
-            if (res.status) {
-                setList({
-                    suppliers: res.data.data,
-                    pagination: {
-                        total: res.data.meta.total,
-                        current_page: res.data.meta.current_page
-                    },
-                });
-            }
-            setLoading(false);
+            loadData();
         })();
     }, [filter]);
 
@@ -73,7 +100,7 @@ function CategoryListPage() {
         <WrapperPage>
 
             <TitleForm lable="Danh mục sản phẩm" />
-            <CategoryFilter loading={loading} filter={filter} onSubmit={handleFilter} />
+            <CategoryFilter loading={loading} filter={filter} onSubmit={handleFilter} onImportExcel={handleImportExcel} />
             {loading ? (
                 <SkeletonList />
             ) : (<CategoryList list={list.suppliers}

@@ -11,7 +11,9 @@ const categoryAPi = {
   get: (id) => {
     return axiosClient.get(url + '/' + id);
   },
-
+  import: (params) => {
+    return axiosClient.post(url + '/import', params);
+  },
   add: (params) => {
     return axiosClient.post(url, params);
   },

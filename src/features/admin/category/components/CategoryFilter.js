@@ -9,8 +9,9 @@ import * as yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useNavigate } from 'react-router-dom';
-
-export default function CategoryFilter({ loading, filter, onSubmit }) {
+import AddchartIcon from '@mui/icons-material/Addchart';
+import CateogryExportExcel from './CateogryExportExcel';
+export default function CategoryFilter({ loading, filter, onSubmit, onImportExcel }) {
 
   const navigate = useNavigate();
   const schema = yup.object().shape({
@@ -24,9 +25,13 @@ export default function CategoryFilter({ loading, filter, onSubmit }) {
     },
     resolver: yupResolver(schema),
   });
+  const handleImportExcel = async (e) => {
+    if (!onImportExcel) return;
+    if (!e.target.files[0]) return;
+    await onImportExcel(e.target.files[0]);
+  };
 
   const handleFormSubmit = async (formValues) => {
-
     if (!onSubmit) return;
     await onSubmit(formValues);
   };
@@ -44,12 +49,31 @@ export default function CategoryFilter({ loading, filter, onSubmit }) {
           <SearchIcon />
         </IconButtonStyled>
       </Box>
-      <Button
-        color="primary"
-        variant="contained"
-        startIcon={<AddIcon />}
-        onClick={() => { navigate('add') }}
-      > Thêm </Button>
+      <Box>
+        <Button
+          color="primary"
+          variant="contained"
+          startIcon={<AddIcon />}
+          onClick={() => { navigate('add') }}
+        > Thêm </Button>
+        <CateogryExportExcel />
+        <Button
+          color="third"
+          variant="contained"
+          component="label"
+          sx={{ ml: 1 }}
+          startIcon={<AddchartIcon />}
+
+        >
+          Nhập  Excel
+          <input
+            type="file"
+            hidden
+            onChange={handleImportExcel}
+          />
+        </Button>
+
+      </Box>
     </Box>
   )
 }

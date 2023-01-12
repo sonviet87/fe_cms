@@ -10,6 +10,7 @@ import CategoryForm from '../components/CategoryForm';
 import categoryAPi from 'api/categoryAPI';
 
 
+
 function AdminCategoryAddEditPage() {
 
     const [loading, setLoading] = React.useState(false);
@@ -87,7 +88,6 @@ function AdminCategoryAddEditPage() {
                 <LoadingOverlay />
             )}
             <TitleForm lable={isEdit ? "Cập nhật danh mục" : "Thêm danh mục "} />
-
             {(!isEdit || Boolean(category)) && (
                 <CategoryForm initialValue={initialValue} onSubmit={handleFormSubmit} itemValue={category} isEdit={isEdit} />
             )}
