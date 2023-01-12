@@ -30,15 +30,24 @@ export default function AutoCompleteForm({ name, label, control, options, onChan
                 console.log(item)
                 onChange(item);
             }}
-            onInputChange={handleInputChange}
+            //onInputChange={handleInputChange}
             //disablePortal
             // filterSelectedOptions={true}
             // freeSolo
+            renderOption={(props, option) => {
+                return (
+                    <li {...props} key={option.id}>
+                        {option.name}
+                    </li>
+                );
+            }}
             options={options}
             getOptionLabel={option => option.name ? option.name : ""}
             isOptionEqualToValue={(option, value) => value === undefined || value === "" || option.id === value.id}
             renderInput={(params) => <TextFiledStyled {...params} label={label} inputRef={ref} error={!!error?.message}
                 helperText={error?.message} />}
+
+            {...inputProps}
         />
     );
 }

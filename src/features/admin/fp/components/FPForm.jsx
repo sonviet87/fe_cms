@@ -24,6 +24,7 @@ import FPInvoice from './FPInvoice';
 import { selectStatus } from '../fpSlice';
 import { useSelector } from 'react-redux';
 import BasicDatePicker from 'components/FormElement/DatetimePicker';
+import AutoCompleteForm from 'components/FormElement/Autocomplete';
 
 FPForm.propTypes = {
   initialValue: PropTypes.object,
@@ -226,7 +227,7 @@ function FPForm({
                     <React.Fragment key={field.id}>
                       <TableRow>
                         <TableCellStyled>
-                          <BasicSelect
+                          <AutoCompleteForm
                             name={`details[${index}].category_id`}
                             label="Danh mục"
                             control={control}
