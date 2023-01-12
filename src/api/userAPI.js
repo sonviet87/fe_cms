@@ -14,6 +14,10 @@ const userApi = {
 
     return axiosClient.post('/login-by-username', params);
   },
+  changePass: (params) => {
+
+    return axiosClient.post(url + '/change-password', params);
+  },
   getUser: () => {
     const url = '/user';
     return axiosClient.get(url);

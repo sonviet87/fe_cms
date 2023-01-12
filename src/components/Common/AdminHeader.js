@@ -4,7 +4,7 @@ import { Box } from '@mui/system';
 import { authActions, selectCurrentUser } from 'features/auth/authSlice';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { removeLSItem } from 'utils';
 import { AppBarStyled } from './SlytedComponent/AppBar';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -93,6 +93,7 @@ function AdminHeader(props) {
                         open={Boolean(anchorEl)}
                         onClose={handleClose}
                     >
+                        <MenuItem component={NavLink} to={'/admin/users/change-pass'} onClick={handleClose}>Đổi mật khẩu</MenuItem>
                         <MenuItem onClick={handleLogout}>Đăng xuất</MenuItem>
 
                     </Menu>

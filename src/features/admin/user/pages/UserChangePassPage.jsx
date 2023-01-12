@@ -1,6 +1,5 @@
 import { LoadingOverlay } from 'components/Common/LoadingOverlay';
 import React from 'react';
-import { useParams } from 'react-router';
 import { toast } from 'react-toastify';
 import userApi from 'api/userAPI';
 import { WrapperPage } from 'components/Common/SlytedComponent/Wrapper';
@@ -9,11 +8,8 @@ import UserChangePassForm from '../components/UserChangePassForm';
 
 function AdminUserChangePassPage() {
     const [loading, setLoading] = React.useState(false);
-    const { id } = useParams();
     const initialValue = {
-        oldPass: '',
-        newPassFirst: '',
-        newPassSecond: '',
+        password: '',
     };
 
     const handleFormSubmit = async (formValues) => {
@@ -21,17 +17,15 @@ function AdminUserChangePassPage() {
         try {
             let res;
 
-            res = await userApi.update(id, formValues);
+            res = await userApi.changePass(formValues);
 
-            if (res.status) {
-                console.log('res.message', res.message);
-                if (res.data.status) {
-                    toast.success(res.message);
-                } else {
-                    toast.error(res.data.message);
-                }
+            if (res.data.status) {
+                console.log(res)
+                toast.success(res.data.message);
+
             } else {
-                toast.error(res.message);
+                console.log(res)
+                toast.error(res.data.message);
             }
 
         } catch (error) {
@@ -46,10 +40,7 @@ function AdminUserChangePassPage() {
                 <LoadingOverlay />
             )}
             <TitleForm lable={"Thay đổi mật khẩu"} />
-
             <UserChangePassForm initialValue={initialValue} onSubmit={handleFormSubmit} />
-
-
         </WrapperPage>
     );
 }

@@ -5,9 +5,9 @@ import { NumericFormat } from 'react-number-format';
 import { FormHelperText } from '@mui/material';
 // import { Container } from './styles';
 
-function TextFormik({ name, label, control, multiline = false, ...inputProps }) {
+function TextFormik({ name, label, control, multiline = false, onBlur, ...inputProps }) {
     const {
-        field: { ref, onChange, onBlur, value },
+        field: { ref, onChange, value },
         fieldState: { invalid, error },
     } = useController({
         name,

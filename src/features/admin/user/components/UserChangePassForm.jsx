@@ -1,5 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Grid } from '@mui/material';
+import { Grid, TextField } from '@mui/material';
 import { Box } from '@mui/system';
 import PropTypes from 'prop-types';
 import React from 'react';
@@ -7,6 +7,7 @@ import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import LoadingButton from '@mui/lab/LoadingButton';
 import TextFormik from 'components/FormElement/TextFormik';
+import { TextFiledStyled } from 'components/Common/SlytedComponent/Input';
 
 
 UserChangePassForm.propTypes = {
@@ -21,9 +22,10 @@ function UserChangePassForm({ initialValue, onSubmit }) {
             .string()
             .typeError('Xin vui lòng nhập mật khẩu')
             .required('Xin vui lòng nhập mật khẩu')
-            .matches(/^.{6,10}$/g, { excludeEmptyString: false, message: 'Invalid password' }),
-        newPassFirst: yup.string().required('Xin vui lòng nhập mật khẩu'),
-        newPassSecond: yup.string().required('Xin vui lòng nhập mật khẩu'),
+            .matches(/^.{6,15}$/g, { excludeEmptyString: false, message: 'Mật khẩu phải lớn hơn 6 ký tự' }),
+        password: yup.string().required('Xin vui lòng nhập mật khẩu.'),
+        passwordConfirmation: yup.string()
+            .oneOf([yup.ref('password'), null], 'Mật khẩu không giống nhau.')
 
     };
     if (initialValue.email !== '') {
@@ -43,10 +45,7 @@ function UserChangePassForm({ initialValue, onSubmit }) {
 
     const handleFormSubmit = async (formValues) => {
         if (!onSubmit) return;
-
-        if (formValues.password === '') {
-            delete formValues.password;
-        }
+        delete formValues.passwordConfirmation;
         await onSubmit(formValues);
     };
 
@@ -61,15 +60,16 @@ function UserChangePassForm({ initialValue, onSubmit }) {
         >
             <Grid container spacing={2} justifyContent={'center'}>
                 <Grid item xs={12}  >
-                    <TextFormik name="oldPass" label="Mật khẩu cũ" control={control} />
+
+                    <TextFormik type="password" name="oldPass" label="Mật khẩu cũ" control={control} />
                 </Grid>
                 <Grid item xs={12} >
-                    <TextFormik name="newPassFirst" label="Mật khẩu mới" control={control} />
+                    <TextFormik type="password" name="password" label="Mật khẩu mới" control={control} />
                 </Grid>
                 <Grid item xs={12}>
                     <TextFormik
-                        type="newPassSecond"
-                        name="newPassSecond"
+                        type="password"
+                        name="passwordConfirmation"
                         label="Nhập lại mật khẩu"
                         control={control}
                     />
