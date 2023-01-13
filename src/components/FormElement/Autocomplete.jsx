@@ -27,13 +27,12 @@ export default function AutoCompleteForm({ name, label, control, options, onChan
             value={value}
             size="small"
             onChange={(event, item) => {
-                console.log(item)
                 onChange(item);
             }}
             //onInputChange={handleInputChange}
             //disablePortal
             // filterSelectedOptions={true}
-            // freeSolo
+            //freeSolo
             renderOption={(props, option) => {
                 return (
                     <li {...props} key={option.id}>
@@ -41,9 +40,10 @@ export default function AutoCompleteForm({ name, label, control, options, onChan
                     </li>
                 );
             }}
+
             options={options}
             getOptionLabel={option => option.name ? option.name : ""}
-            isOptionEqualToValue={(option, value) => value === undefined || value === "" || option.id === value.id}
+            isOptionEqualToValue={(option, value) => { return value === undefined || value === "" || parseInt(option.id) === parseInt(value.id) }}
             renderInput={(params) => <TextFiledStyled {...params} label={label} inputRef={ref} error={!!error?.message}
                 helperText={error?.message} />}
 

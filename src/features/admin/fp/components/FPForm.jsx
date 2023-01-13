@@ -53,7 +53,24 @@ function FPForm({
     details: yup.lazy(() =>
       yup.array().of(
         yup.object({
-          category_id: yup.string().required('Xin hãy chọn danh muc'),
+          // category_id: yup.lazy(value => {
+          //   switch (typeof value) {
+          //     case 'object':
+          //       return yup.object().shape({
+          //         name: yup.string().required("Is required"),
+          //         id: yup.string().required("Is required")
+          //       }); // schema for object
+          //     case 'string':
+          //       return yup.string().required('Xin hãy chọn danh muc'); // schema for string
+          //     default:
+          //       return yup.mixed().required('Xin hãy chọn danh muc'); // here you can decide what is the default
+          //   }
+          // }),
+          category_id: yup.mixed()
+            .test("required", "Xin hãy chọn danh muc", (item) => {
+              if (item) return true;
+              return false;
+            }),
           supplier_id: yup.string().required('Xin hãy chọn nhà cung cấp'),
         }),
       ),
@@ -119,6 +136,10 @@ function FPForm({
     formValues.net_profit_percent = ((parseInt(totalBids) / parseInt(totalSell)) * 100).toFixed(2);
     formValues.total_sell = totalSell;
     delete formValues.status;
+    formValues.details = formValues.details.map((item) => {
+      item.category_id = item.category_id.id;
+      return item;
+    });
     console.log(formValues);
     await onSubmit(formValues);
   };
@@ -195,7 +216,7 @@ function FPForm({
     }
   }, [itemValue, reset]);
 
-  console.log(fields);
+
   return (
     <Box component="form" noValidate autoComplete="off" onSubmit={handleSubmit(handleFormSubmit)}>
       <Grid container spacing={2}>
