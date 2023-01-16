@@ -9,9 +9,18 @@ import BasicDatePicker from 'components/FormElement/DatetimePicker';
 import BasicSelect from 'components/FormElement/SelectBox';
 import { statusArray } from 'features/admin/fp/constants/FPConstants';
 import AutoCompleteForm from 'components/FormElement/Autocomplete';
+import { selectListAccount } from 'features/admin/account/accountSlice';
+import { selectListCategory } from 'features/admin/category/categorySlice';
+import { selectListSupplier } from 'features/admin/supplier/supplierSlice';
+import { selectListUser } from 'features/admin/user/userSlice';
+import { useSelector } from 'react-redux';
 
-export default function ReportFilter({ loading, filter, onSubmit, accounts, users, suppliers, categories, onHandleChangeListCategory }) {
+export default function ReportFilter({ loading, filter, onSubmit }) {
 
+  const accounts = useSelector(selectListAccount);
+  const categories = useSelector(selectListCategory);
+  const suppliers = useSelector(selectListSupplier);
+  const users = useSelector(selectListUser);
   const schema = yup.object().shape({
     startDay: yup.string().required('Xin hãy chọn ngày bắt đầu'),
     endDay: yup.string().required('Xin hãy chọn ngày kết thúc'),
@@ -31,10 +40,10 @@ export default function ReportFilter({ loading, filter, onSubmit, accounts, user
     resolver: yupResolver(schema),
   });
 
-  const handleOnAjaxCategory = (value) => {
-    onHandleChangeListCategory(value)
+  // const handleOnAjaxCategory = (value) => {
+  //   onHandleChangeListCategory(value)
 
-  }
+  // }
 
   const handleFormSubmit = async (formValues) => {
 
@@ -86,7 +95,7 @@ export default function ReportFilter({ loading, filter, onSubmit, accounts, user
               options={
                 accounts
               }
-
+              sx={{ marginTop: '8px' }}
             />
           </Grid>
           <Grid item xs={12} sm={6} md={2}>
@@ -109,7 +118,7 @@ export default function ReportFilter({ loading, filter, onSubmit, accounts, user
               options={
                 categories
               }
-              onChangeAjax={handleOnAjaxCategory}
+              sx={{ marginTop: '8px' }}
             />
           </Grid>
           <Grid item xs={12} sm={6} md={2}>
@@ -120,7 +129,8 @@ export default function ReportFilter({ loading, filter, onSubmit, accounts, user
               options={
                 suppliers
               }
-              onChangeAjax={handleOnAjaxCategory}
+              sx={{ mt: 1, ml: 1 }}
+            //onChangeAjax={handleOnAjaxCategory}
             />
           </Grid>
           <Grid item alignItems="center" display="flex"

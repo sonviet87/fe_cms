@@ -76,31 +76,31 @@ function ReportListPage() {
     }
     React.useEffect(() => {
 
-        (async () => {
-            try {
-                let [accountRs, userRs, supplierRs, categoryRs] = await Promise.all([
-                    accountApi.getList(),
-                    userApi.getList(),
-                    supplierApi.getlist(),
-                    categoryAPi.getList(),
-                ]);
-                if (accountRs.status) {
-                    setAccounts(accountRs.data.data);
-                }
-                if (userRs.status) {
-                    setUsers(userRs.data.data);
-                }
-                if (supplierRs.status) {
-                    setSuppliers(supplierRs.data.data);
-                }
-                if (categoryRs.status) {
-                    setCategories(categoryRs.data.data);
-                }
+        // (async () => {
+        //     try {
+        //         let [accountRs, userRs, supplierRs, categoryRs] = await Promise.all([
+        //             accountApi.getList(),
+        //             userApi.getList(),
+        //             supplierApi.getlist(),
+        //             categoryAPi.getList(),
+        //         ]);
+        //         if (accountRs.status) {
+        //             setAccounts(accountRs.data.data);
+        //         }
+        //         if (userRs.status) {
+        //             setUsers(userRs.data.data);
+        //         }
+        //         if (supplierRs.status) {
+        //             setSuppliers(supplierRs.data.data);
+        //         }
+        //         if (categoryRs.status) {
+        //             setCategories(categoryRs.data.data);
+        //         }
 
-            } catch (error) {
-                console.log('get fp by id error', error);
-            }
-        })();
+        //     } catch (error) {
+        //         console.log('get fp by id error', error);
+        //     }
+        // })();
     }, []);
 
     return (

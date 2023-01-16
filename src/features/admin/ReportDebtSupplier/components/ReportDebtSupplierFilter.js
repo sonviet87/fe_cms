@@ -7,10 +7,15 @@ import { yupResolver } from '@hookform/resolvers/yup';
 
 import BasicDatePicker from 'components/FormElement/DatetimePicker';
 import BasicSelect from 'components/FormElement/SelectBox';
+import { useSelector } from 'react-redux';
+import { selectListSupplier } from 'features/admin/supplier/supplierSlice';
+import { selectListUser } from 'features/admin/user/userSlice';
 
 
-export default function ReportDebtSupplierFilter({ loading, filter, onSubmit, users, suppliers, fps }) {
+export default function ReportDebtSupplierFilter({ loading, filter, onSubmit, fps }) {
 
+  const suppliers = useSelector(selectListSupplier);
+  const users = useSelector(selectListUser);
   const schema = yup.object().shape({
     startDay: yup.string().required('Xin hãy chọn ngày bắt đầu'),
     endDay: yup.string().required('Xin hãy chọn ngày kết thúc'),

@@ -25,6 +25,10 @@ import { selectStatus } from '../fpSlice';
 import { useSelector } from 'react-redux';
 import BasicDatePicker from 'components/FormElement/DatetimePicker';
 import AutoCompleteForm from 'components/FormElement/Autocomplete';
+import { selectListAccount } from 'features/admin/account/accountSlice';
+import { selectListCategory } from 'features/admin/category/categorySlice';
+import { selectListSupplier } from 'features/admin/supplier/supplierSlice';
+import { selectListUser } from 'features/admin/user/userSlice';
 
 FPForm.propTypes = {
   initialValue: PropTypes.object,
@@ -36,15 +40,17 @@ function FPForm({
   onSubmit,
   onCallContactAPi,
   itemValue,
-  accountValue,
   contactValue,
-  categoriesValues,
-  suppliersValues,
-  usersValues,
   isEdit,
   disabled,
 }) {
   const status = useSelector(selectStatus);
+
+  const accounts = useSelector(selectListAccount);
+  const categories = useSelector(selectListCategory);
+  const suppliers = useSelector(selectListSupplier);
+  const users = useSelector(selectListUser);
+
   const validationRules = {
     name: yup.string().required('Xin hãy điền tên FP'),
     contact_id: yup.string().required('Xin hãy chọn liên hệ'),
@@ -224,14 +230,14 @@ function FPForm({
           <TextFormik name="name" disabled={disabled} label="Tên phương án kinh doanh" control={control} />
         </Grid>
         <Grid item xs={12} md={4}>
-          <BasicSelect name="user_assign" disabled={disabled} label="Gán cho" control={control} options={usersValues} />
+          <BasicSelect name="user_assign" disabled={disabled} label="Gán cho" control={control} options={users} />
         </Grid>
         <Grid item xs={12} md={4}>
           <BasicSelect
             name="account_id"
             label="Tài khoản"
             control={control}
-            options={accountValue}
+            options={accounts}
             onChangeAjax={handleCallAPIContact}
             disabled={disabled}
           />
@@ -252,7 +258,7 @@ function FPForm({
                             name={`details[${index}].category_id`}
                             label="Danh mục"
                             control={control}
-                            options={categoriesValues}
+                            options={categories}
                             sx={{ minWidth: '250px' }}
                             disabled={disabled}
                           />
@@ -406,7 +412,7 @@ function FPForm({
                             name={`details[${index}].supplier_id`}
                             label="Nhà cung cấp"
                             control={control}
-                            options={suppliersValues}
+                            options={suppliers}
                             sx={{ minWidth: '250px' }}
                             disabled={disabled}
                           />

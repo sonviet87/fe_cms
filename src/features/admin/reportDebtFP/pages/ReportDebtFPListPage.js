@@ -1,8 +1,5 @@
-import accountApi from 'api/accountAPI';
 import fpApi from 'api/fpAPI';
-import reportApi from 'api/reportAPI';
 import reportDebtFPApi from 'api/reportDebtFPAPI';
-import userApi from 'api/userAPI';
 import SkeletonList from 'components/Common/Skeleton/SkeletonList';
 import { WrapperPage } from 'components/Common/SlytedComponent/Wrapper';
 import moment from 'moment';
@@ -13,11 +10,7 @@ import ReportList from '../components/ReportDebtFPList';
 
 function ReportDebtFPListPage() {
     const [loading, setLoading] = React.useState(false);
-
-    const [accounts, setAccounts] = React.useState([]);
-    const [users, setUsers] = React.useState([]);
     const [fps, setFps] = React.useState([]);
-
     const [list, setList] = React.useState({
         reports: [],
         pagination: {
@@ -59,23 +52,11 @@ function ReportDebtFPListPage() {
 
         (async () => {
             try {
-                let [accountRs, userRs, fpRs] = await Promise.all([
-                    accountApi.getList(),
-                    userApi.getList(),
-                    fpApi.getList()
-                ]);
-                if (accountRs.status) {
-                    setAccounts(accountRs.data.data);
-                }
-                if (userRs.status) {
-                    setUsers(userRs.data.data);
-                }
-
+                const fpRs = await fpApi.getList()
                 if (fpRs.status) {
                     const fpList = fpRs.data.data.map((item) => { return { id: item.id, name: item.code } })
                     setFps(fpList);
                 }
-
             } catch (error) {
                 console.log('get fp by id error', error);
             }
@@ -85,7 +66,7 @@ function ReportDebtFPListPage() {
     return (
         <WrapperPage>
             <ReportDebtFPHeaderPage list={list.reports} filter={filter} />
-            <ReportDebtFPFilter loading={loading} filter={filter} onSubmit={handleFilter} users={users} accounts={accounts} fps={fps} />
+            <ReportDebtFPFilter loading={loading} filter={filter} onSubmit={handleFilter} fps={fps} />
             {loading ? (
                 <SkeletonList />
             ) : (<ReportList list={list.reports}

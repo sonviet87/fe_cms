@@ -81,47 +81,47 @@ function AdminFPAddEditPage() {
   React.useEffect(() => {
     dispatch(fpActions.setIsEdit(isEdit));
     dispatch(fpActions.setStatus(0));
-    (async () => {
-      try {
-        let [accountRs, categoriesRs, supplierRs, userRs] = await Promise.all([
-          accountApi.getList(),
-          categoryAPi.getList(),
-          supplierApi.getlist(),
-          userApi.getList()
-        ]);
+    // (async () => {
+    //   try {
+    //     let [accountRs, categoriesRs, supplierRs, userRs] = await Promise.all([
+    //       accountApi.getList(),
+    //       categoryAPi.getList(),
+    //       supplierApi.getlist(),
+    //       userApi.getList()
+    //     ]);
 
-        if (accountRs.status) {
-          setAccounts(accountRs.data.data);
-        }
-        if (categoriesRs.status) {
-          setCategories(categoriesRs.data.data);
-        }
-        if (supplierRs.status) {
-          setSuppliers(supplierRs.data.data);
-        }
-        if (userRs.status) {
-          setUsers(userRs.data.data);
-        }
-      } catch (err) {
-        console.log(err);
-      }
-    })();
+    //     if (accountRs.status) {
+    //       setAccounts(accountRs.data.data);
+    //     }
+    //     if (categoriesRs.status) {
+    //       setCategories(categoriesRs.data.data);
+    //     }
+    //     if (supplierRs.status) {
+    //       setSuppliers(supplierRs.data.data);
+    //     }
+    //     if (userRs.status) {
+    //       setUsers(userRs.data.data);
+    //     }
+    //   } catch (err) {
+    //     console.log(err);
+    //   }
+    // })();
 
     if (!id) return;
     (async () => {
       setLoading(true);
       try {
-        let [fpRs, contactRs] = await Promise.all([fpApi.get(id), contactApi.getAll()]);
-
-        if (contactRs.status) {
-          setContacts(contactRs.data.data);
-        }
-
+        //let [fpRs, contactRs] = await Promise.all([fpApi.get(id), contactApi.getAll()]);
+        const fpRs = await fpApi.get(id);
         if (fpRs.status) {
           setFP(fpRs.data.data);
           if (permissions.includes(fpPermissions.FP_IS_SALE) && (parseInt(fpRs.data.data.status) !== 0 || (fpRs.data.data.status) !== 7)) { setDisable(true) }
-          console.log(fpRs.data.data)
+          // console.log(fpRs.data.data)
           dispatch(fpActions.setStatus(fpRs.data.data.status))
+          let contactRs = await accountApi.getContactByIDAccount(fpRs.data.data.account_id);
+          if (contactRs.status) {
+            setContacts(contactRs.data.data);
+          }
         } else {
           toast.error(fpRs.message);
           navigate('/admin/fps');
@@ -187,11 +187,7 @@ function AdminFPAddEditPage() {
           onSubmit={handleFormSubmit}
           onCallContactAPi={handleCallAPIContact}
           itemValue={fps}
-          accountValue={accounts}
           contactValue={contacts}
-          categoriesValues={categories}
-          suppliersValues={suppliers}
-          usersValues={users}
           isEdit={isEdit}
           disabled={disabled}
         />

@@ -1,4 +1,4 @@
-import { Autocomplete } from '@mui/material';
+import { Autocomplete, TextField } from '@mui/material';
 import { TextFiledStyled } from 'components/Common/SlytedComponent/Input';
 import React, { useCallback } from 'react';
 import { useController } from 'react-hook-form';
@@ -44,7 +44,7 @@ export default function AutoCompleteForm({ name, label, control, options, onChan
             options={options}
             getOptionLabel={option => option.name ? option.name : ""}
             isOptionEqualToValue={(option, value) => { return value === undefined || value === "" || parseInt(option.id) === parseInt(value.id) }}
-            renderInput={(params) => <TextFiledStyled {...params} label={label} inputRef={ref} error={!!error?.message}
+            renderInput={(params) => <TextField {...params} label={label} inputRef={ref} error={!!error?.message}
                 helperText={error?.message} />}
 
             {...inputProps}

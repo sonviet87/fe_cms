@@ -1,7 +1,5 @@
 import fpApi from 'api/fpAPI';
 import reportDebtSupplierApi from 'api/reportDebtSupplierAPI';
-import supplierApi from 'api/suppliertAPI';
-import userApi from 'api/userAPI';
 import SkeletonList from 'components/Common/Skeleton/SkeletonList';
 import { WrapperPage } from 'components/Common/SlytedComponent/Wrapper';
 import moment from 'moment';
@@ -12,8 +10,6 @@ import ReportList from '../components/ReportDebtSupplierList';
 
 function ReportDebtFPListPage() {
     const [loading, setLoading] = React.useState(false);
-    const [suppliers, setSuppliers] = React.useState([]);
-    const [users, setUsers] = React.useState([]);
     const [fps, setFps] = React.useState([]);
 
     const [list, setList] = React.useState({
@@ -57,24 +53,11 @@ function ReportDebtFPListPage() {
 
         (async () => {
             try {
-                let [userRs, fpRs, supplierRs] = await Promise.all([
-
-                    userApi.getList(),
-                    fpApi.getList(),
-                    supplierApi.getlist(),
-                ]);
-
-                if (userRs.status) {
-                    setUsers(userRs.data.data);
-                }
+                const fpRs = await fpApi.getList()
 
                 if (fpRs.status) {
                     const fpList = fpRs.data.data.map((item) => { return { id: item.id, name: item.code } })
                     setFps(fpList);
-                }
-
-                if (supplierRs.status) {
-                    setSuppliers(supplierRs.data.data);
                 }
 
             } catch (error) {
@@ -86,7 +69,7 @@ function ReportDebtFPListPage() {
     return (
         <WrapperPage>
             <ReportDebtSupplierHeaderPage list={list.reports} filter={filter} />
-            <ReportDebtSupplierFilter loading={loading} filter={filter} onSubmit={handleFilter} users={users} suppliers={suppliers} fps={fps} />
+            <ReportDebtSupplierFilter loading={loading} filter={filter} onSubmit={handleFilter} fps={fps} />
             {loading ? (
                 <SkeletonList />
             ) : (<ReportList list={list.reports}
