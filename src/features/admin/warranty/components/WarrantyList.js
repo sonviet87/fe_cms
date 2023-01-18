@@ -81,7 +81,7 @@ export default function WarrantyList({ list, pagination, filter, onFilter, onDel
                     {row.name}
                   </Link>
                 </TableCell>
-                <TableCell>{row.account}</TableCell>
+                <TableCell>{row.fps?.account}</TableCell>
                 <TableCell>{row.start_day}</TableCell>
 
 

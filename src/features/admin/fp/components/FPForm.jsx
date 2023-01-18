@@ -1,10 +1,8 @@
-import { yupResolver } from '@hookform/resolvers/yup';
 import { Button, Divider, Grid, Table, TableBody, TableContainer, TableRow, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { useFieldArray, useForm } from 'react-hook-form';
-import * as yup from 'yup';
+import { useFieldArray } from 'react-hook-form';
 import LoadingButton from '@mui/lab/LoadingButton';
 import TextFormik, { TextFieldNumberAuto } from 'components/FormElement/TextFormik';
 import BasicSelect from 'components/FormElement/SelectBox';
@@ -43,91 +41,25 @@ function FPForm({
   contactValue,
   isEdit,
   disabled,
+  methods
 }) {
-  const status = useSelector(selectStatus);
+
 
   const accounts = useSelector(selectListAccount);
   const categories = useSelector(selectListCategory);
   const suppliers = useSelector(selectListSupplier);
   const users = useSelector(selectListUser);
-
-  const validationRules = {
-    name: yup.string().required('Xin hãy điền tên FP'),
-    contact_id: yup.string().required('Xin hãy chọn liên hệ'),
-    account_id: yup.string().required('Xin hãy chọn tài khoản'),
-    user_assign: yup.string().required('Xin hãy chọn danh mục'),
-    details: yup.lazy(() =>
-      yup.array().of(
-        yup.object({
-          // category_id: yup.lazy(value => {
-          //   switch (typeof value) {
-          //     case 'object':
-          //       return yup.object().shape({
-          //         name: yup.string().required("Is required"),
-          //         id: yup.string().required("Is required")
-          //       }); // schema for object
-          //     case 'string':
-          //       return yup.string().required('Xin hãy chọn danh muc'); // schema for string
-          //     default:
-          //       return yup.mixed().required('Xin hãy chọn danh muc'); // here you can decide what is the default
-          //   }
-          // }),
-          category_id: yup.mixed()
-            .test("required", "Xin hãy chọn danh muc", (item) => {
-              if (item) return true;
-              return false;
-            }),
-          supplier_id: yup.string().required('Xin hãy chọn nhà cung cấp'),
-        }),
-      ),
-    ),
-  };
-
-  const validationRulesExtra = {
-    name: yup.string().required('Xin hãy điền tên FP'),
-    contact_id: yup.string().required('Xin hãy chọn liên hệ'),
-    account_id: yup.string().required('Xin hãy chọn tài khoản'),
-    user_assign: yup.string().required('Xin hãy chọn danh mục'),
-    number_invoice: yup.string().required('Xin hãy chọn số hóa đơn'),
-    date_invoice: yup.string().required('Xin hãy chọn ngày hóa đơn'),
-    date_shipping: yup.string().required('Xin hãy chọn ngày giao hàng'),
-    file_customer_invoice: yup.string().required('Xin hãy up hợp đồng hóa đơn'),
-    file_company_receipt: yup.string().required('Xin hãy up hợp đồng với Khách hàng'),
-    file_bbbg: yup.string().required('Xin hãy up biên bản bàn giao'),
-    file_ncc: yup.string().required('Xin hãy up hợp đồng NCC'),
-    details: yup.lazy(() =>
-      yup.array().of(
-        yup.object({
-          category_id: yup.string().required('Xin hãy chọn danh muc'),
-          supplier_id: yup.string().required('Xin hãy chọn nhà cung cấp'),
-          number_invoice: yup.string().required('Xin hãy chọn số hóa đơn'),
-          date_invoice: yup.string().required('Xin hãy chọn ngày hóa đơn'),
-          file: yup.string().required('Xin hãy up file'),
-        }),
-      ),
-    ),
-  };
   const navigate = useNavigate();
-  const schema = yup.object().shape(parseInt(status) < 4 ? validationRules : validationRulesExtra);
+
 
   const selectorStatus = useSelector(selectStatus);
   const [totalBuy, setTotalsBuy] = React.useState(0);
   const [totalSell, setTotalsSell] = React.useState(0);
   const [totalBids, setTotalsBids] = React.useState(0);
 
-  const {
-    control,
-    handleSubmit,
-    formState: { isSubmitting, errors },
-    setValue,
-    getValues,
-    setError,
-    reset,
-  } = useForm({
-    defaultValues: initialValue,
-    resolver: yupResolver(schema),
-  });
 
+  const { control, reset, getValues, setValue, handleSubmit } = methods;
+  const { setError, errors, isSubmitting } = methods.formState;
   const { fields, append, remove } = useFieldArray({
     control,
     name: 'details',
@@ -146,7 +78,7 @@ function FPForm({
       item.category_id = item.category_id.id;
       return item;
     });
-    console.log(formValues);
+    //console.log(formValues);
     await onSubmit(formValues);
   };
 
@@ -222,7 +154,6 @@ function FPForm({
     }
   }, [itemValue, reset]);
 
-
   return (
     <Box component="form" noValidate autoComplete="off" onSubmit={handleSubmit(handleFormSubmit)}>
       <Grid container spacing={2}>
@@ -235,7 +166,7 @@ function FPForm({
         <Grid item xs={12} md={4}>
           <BasicSelect
             name="account_id"
-            label="Tài khoản"
+            label="Khách hàng"
             control={control}
             options={accounts}
             onChangeAjax={handleCallAPIContact}

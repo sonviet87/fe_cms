@@ -57,6 +57,7 @@ function WarrantyForm({ initialValue, onSubmit, itemValue, isEdit, fps }) {
 
   const handleFormSubmit = async (formValues) => {
     if (!onSubmit) return;
+    delete formValues.account;
     await onSubmit(formValues);
   };
 
@@ -86,6 +87,7 @@ function WarrantyForm({ initialValue, onSubmit, itemValue, isEdit, fps }) {
       if (Object.keys(itemValue).length !== 0) {
         reset(itemValue);
       }
+
     }
   }, [itemValue]);
 

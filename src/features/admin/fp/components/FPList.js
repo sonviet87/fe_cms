@@ -67,7 +67,7 @@ export default function FPList({ list, pagination, filter, onFilter, onDelete })
           <TableRow>
             <TableCell>ID</TableCell>
             <TableCell>Tên FP</TableCell>
-            <TableCell>Tài khoản</TableCell>
+            <TableCell>Khách hàng</TableCell>
             <TableCell>Liên hệ</TableCell>
             <TableCell>Gán cho</TableCell>
             <TableCell>Tình trạng</TableCell>
