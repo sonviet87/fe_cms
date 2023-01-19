@@ -14,7 +14,6 @@ export const FPButtonApproved = ({ status, onChangeStatus }) => {
   const methods = useFormContext();
   const permissions = useSelector(selectRoles);
   const [loading, setLoading] = React.useState(false);
-  console.log('status', status)
   const { id } = useParams();
   const validationRules = {
     name: yup.string().required('Xin hãy điền tên FP'),
@@ -67,9 +66,11 @@ export const FPButtonApproved = ({ status, onChangeStatus }) => {
   const handleChangeStatus = async (value) => {
 
     methods.trigger();
-    const schema = yup.object().shape((parseInt(status) < 4 || parseInt(status) === 7) ? validationRules : validationRulesExtra);
+    const schema = yup.object().shape((parseInt(status) < 3 || parseInt(status) === 7) ? validationRules : validationRulesExtra);
     const formValue = methods.getValues();
     const isValid = schema.isValidSync(formValue);
+    console.log(isValid)
+    console.log(methods.formState.errors)
     if (isValid) {
       setLoading(true);
       try {

@@ -96,7 +96,7 @@ function AdminFPAddEditPage() {
       ),
     ),
   };
-  const schema = yup.object().shape((parseInt(status) < 4 || parseInt(status) === 7) ? validationRules : validationRulesExtra);
+  const schema = yup.object().shape((parseInt(status) < 3 || parseInt(status) === 7) ? validationRules : validationRulesExtra);
   const initialValue = {
     name: '',
     account_id: '',
