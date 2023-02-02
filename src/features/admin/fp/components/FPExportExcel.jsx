@@ -336,30 +336,48 @@ const FPExportExcel = ({ data, fps, status }) => {
             alignment: { horizontal: 'center', vertical: 'middle', },
         }
         // addRow(ws, ['Số 132/70A Đường Bình Đông, P14, Quận 8,TP. Hồ Chí Minh. '], header);
-        ws.getRow(1).getCell(8).value = 'Số 132/70A Đường Bình Đông, P14, Quận 8,TP. Hồ Chí Minh.';
+        ws.getRow(1).getCell(8).value = 'CÔNG TY TNHH MV TECH';
         ws.getRow(1).getCell(8).alignment = { horizontal: 'right', vertical: 'middle' };
         ws.getRow(1).getCell(8).font = { size: 12, bold: true, name: fontFamily }
-        ws.getRow(2).getCell(8).value = 'Website : mvtech.vn';
+        ws.getRow(2).getCell(8).value = 'Số 132/70A Đường Bình Đông, P14, Quận 8,TP. Hồ Chí Minh.';
         ws.getRow(2).getCell(8).alignment = { horizontal: 'right', vertical: 'middle' };
         ws.getRow(2).getCell(8).font = { size: 12, bold: true, name: fontFamily }
-        ws.getRow(3).getCell(8).value = 'Tel: 028 39515979';
+        ws.getRow(3).getCell(8).value = 'Website : mvtech.vn';
         ws.getRow(3).getCell(8).alignment = { horizontal: 'right', vertical: 'middle' };
         ws.getRow(3).getCell(8).font = { size: 12, bold: true, name: fontFamily }
+        ws.getRow(4).getCell(8).value = 'Tel: 028 39515979';
+        ws.getRow(4).getCell(8).alignment = { horizontal: 'right', vertical: 'middle' };
+        ws.getRow(4).getCell(8).font = { size: 12, bold: true, name: fontFamily }
         //start from row 6
         ws.getRow(6).values = '';
         //add title 
         mergeCells(ws, addRow(ws, ['BẢNG CHÀO GIÁ'], title), 1, columns);
+        mergeCells(ws, addRow(ws, [fps.code], {
+            border: false,
+            font: {
+                name: fontFamily,
+                bold: true,
+            },
+            alignment: { horizontal: 'center', vertical: 'middle', wrapText: true },
+        }), 1, columns);
         ws.addRow('');
         mergeCells(ws, addRow(ws, ['Kính gửi', '', fps.account.toString().toUpperCase()], info), 1, 2);
         mergeCells(ws, addRow(ws, ['Người nhận', '', fps?.contact], info), 1, 2);
         mergeCells(ws, addRow(ws, ['Đơn vị cung cấp ', '', 'CÔNG TY MVTECH'], info), 1, 2);
         mergeCells(ws, addRow(ws, ['Địa chỉ', '', 'Số 132/70A Đường Bình Đông, P14, Quận 8, TP. Hồ Chí Minh.'], info), 1, 2);
         let rowUser = addRow(ws, ['Người gửi', '', fps?.user_assign_name + ' - ĐT: ' + fps?.phone], info);
-        const dateObj = new Date();
-        const month = dateObj.getUTCMonth() + 1; //months from 1-12
-        const day = dateObj.getUTCDate();
-        const year = dateObj.getUTCFullYear();
-        rowUser.getCell(8).value = day + '/' + month + '/' + year;
+        const d = new Date();
+        // const month = dateObj.getUTCMonth() + 1; //months from 1-12
+        // const day = dateObj.getUTCDate();
+        // const year = dateObj.getUTCFullYear();
+
+        const year = d.getFullYear();
+        const month = d.getMonth() + 1;
+        const day = d.getDate();
+        const dayofweek = d.getDay();
+        const dayName = ['Chủ nhật','Thứ 2','Thứ 3','Thứ 4','Thứ 5','Thứ 6','Thứ 7'];
+
+        rowUser.getCell(8).value = dayName[dayofweek] + ' ngày '+ day + ' tháng ' + month+ ' năm '+ year;
         rowUser.getCell(8).font = { size: 12, bold: true, name: fontFamily }
         rowUser.getCell(8).alignment = { horizontal: 'right', vertical: 'middle' }
         mergeCells(ws, rowUser, 1, 2);

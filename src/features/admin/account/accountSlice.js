@@ -10,6 +10,9 @@ const accountSlice = createSlice({
         setListAccount(state, action) {
             state.list = action.payload;
         },
+        addAccount(state, action) {
+            state.list = [...state.list,action.payload];
+        },
 
     },
     extraReducers: (builder) => {

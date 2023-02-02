@@ -121,6 +121,8 @@ function AdminFPAddEditPage() {
     date_invoice: '',
     date_shipping: '',
     number_invoice: '',
+    notes: '',
+    code_contract: '',
     details: [
       {
         supplier_id: '',

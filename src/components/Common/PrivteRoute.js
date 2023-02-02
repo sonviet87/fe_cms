@@ -7,13 +7,13 @@ import { categoryActions } from "features/admin/category/categorySlice";
 import { supplierActions } from "features/admin/supplier/supplierSlice";
 import { userActions } from "features/admin/user/userSlice";
 import { authActions, selectCurrentUser } from "features/auth/authSlice";
-import jwtDecode from "jwt-decode";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { getLSItem, removeLSItem } from "utils";
 import { LoadingOverlay } from "./LoadingOverlay";
+
 
 
 function PrivateRoute({ children }) {
@@ -53,6 +53,8 @@ function PrivateRoute({ children }) {
                     if (accountRs.status) dispatch(accountActions.setListAccount(accountRs.data.data));
                     if (supplierRs.status) dispatch(supplierActions.setListSupplier(supplierRs.data.data));
                     if (usersRs.status) dispatch(userActions.setListUser(usersRs.data.data));
+
+
 
                 } catch (err) {
                     toast.error("Lỗi đăng nhập")

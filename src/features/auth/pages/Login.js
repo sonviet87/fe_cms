@@ -10,6 +10,10 @@ import { useNavigate } from 'react-router-dom';
 import { getLSItem } from 'utils/localStorage';
 import { setLSItem } from 'utils';
 import { authActions, loginThunk } from '../authSlice';
+import userApi from "../../../api/userAPI";
+import accountApi from "../../../api/accountAPI";
+import categoryAPi from "../../../api/categoryAPI";
+import supplierApi from "../../../api/suppliertAPI";
 
 //import userApi from 'api/userAPI';
 
@@ -48,6 +52,7 @@ function Login() {
                     delete res.payload.data.data.roles;
                     delete res.payload.data.data.scopes;
                     dispatch(authActions.setCurrentUser(res.payload.data.data));
+
                     navigate('/admin');
                 } else {
                     toast.error(res.payload?.data.message);

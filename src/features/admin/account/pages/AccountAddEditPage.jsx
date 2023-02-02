@@ -27,6 +27,9 @@ function AdminAccountAddEditPage() {
         legal_address: '',
         industry: '',
         email: '',
+        mst: '',
+        deposit: '',
+        debt: '',
     };
 
     React.useEffect(() => {
@@ -46,14 +49,17 @@ function AdminAccountAddEditPage() {
 
                 if (res.status) {
                     setAccount({
-                        name: res.data.data.name,
+                        name: res.data.data.name?? '',
                         phone: res.data.data.phone ?? '',
-                        address: res.data.address,
-                        legal_name: res.data.data.legal_name,
-                        legal_address: res.data.data.legal_address,
-                        industry: res.data.data.industry,
-                        email: res.data.data.email,
-                        city: res.data.data.city,
+                        address: res.data.data.address?? '',
+                        legal_name: res.data.data.legal_name?? '',
+                        legal_address: res.data.data.legal_address?? '',
+                        industry: res.data.data.industry?? '',
+                        email: res.data.data.email?? '',
+                        city: res.data.data.city?? '',
+                        mst: res.data.data.mst?? '',
+                        deposit: res.data.data.deposit ?? '',
+                        debt: res.data.data.debt?? '',
                     });
 
                 } else {

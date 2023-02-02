@@ -69,8 +69,7 @@ export const FPButtonApproved = ({ status, onChangeStatus }) => {
     const schema = yup.object().shape((parseInt(status) < 3 || parseInt(status) === 7) ? validationRules : validationRulesExtra);
     const formValue = methods.getValues();
     const isValid = schema.isValidSync(formValue);
-    console.log(isValid)
-    console.log(methods.formState.errors)
+
     if (isValid) {
       setLoading(true);
       try {
