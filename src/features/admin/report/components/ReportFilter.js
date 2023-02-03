@@ -1,19 +1,21 @@
 import { Button, Grid } from '@mui/material'
 import { Box } from '@mui/system'
-import React from 'react'
+import React, {useEffect} from 'react'
 import * as yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import BasicDatePicker from 'components/FormElement/DatetimePicker';
 import BasicSelect from 'components/FormElement/SelectBox';
-import { statusArray } from 'features/admin/fp/constants/FPConstants';
+import {fpPermissions, statusArray} from 'features/admin/fp/constants/FPConstants';
 import AutoCompleteForm from 'components/FormElement/Autocomplete';
 import { selectListAccount } from 'features/admin/account/accountSlice';
 import { selectListCategory } from 'features/admin/category/categorySlice';
 import { selectListSupplier } from 'features/admin/supplier/supplierSlice';
 import { selectListUser } from 'features/admin/user/userSlice';
 import { useSelector } from 'react-redux';
+import {selectRoles} from "../../../auth/authSlice";
+
 
 export default function ReportFilter({ loading, filter, onSubmit }) {
 
@@ -21,6 +23,8 @@ export default function ReportFilter({ loading, filter, onSubmit }) {
   const categories = useSelector(selectListCategory);
   const suppliers = useSelector(selectListSupplier);
   const users = useSelector(selectListUser);
+  const [disabled, setDisable] = React.useState(false);
+  const permissions = useSelector(selectRoles)
   const schema = yup.object().shape({
     startDay: yup.string().required('Xin hãy chọn ngày bắt đầu'),
     endDay: yup.string().required('Xin hãy chọn ngày kết thúc'),
@@ -44,6 +48,12 @@ export default function ReportFilter({ loading, filter, onSubmit }) {
   //   onHandleChangeListCategory(value)
 
   // }
+
+  useEffect(()=>{
+    if (permissions.includes(fpPermissions.FP_IS_SALE)){
+      setDisable(true)
+    }
+ },[])
 
   const handleFormSubmit = async (formValues) => {
 
@@ -75,7 +85,7 @@ export default function ReportFilter({ loading, filter, onSubmit }) {
               sx={{ width: '100px' }}
             />
           </Grid>
-          <Grid item xs={12} sm={6} md={2}>
+          {!disabled && <Grid item xs={12} sm={6} md={2}>
             <BasicSelect
               name="user_id"
               label="Sale phụ trách"
@@ -86,7 +96,7 @@ export default function ReportFilter({ loading, filter, onSubmit }) {
               }
               setValue={setValue}
             />
-          </Grid>
+          </Grid>}
           <Grid item xs={12} sm={6} md={2} >
             <AutoCompleteForm
               name="account_id"

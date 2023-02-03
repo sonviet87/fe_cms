@@ -10,7 +10,7 @@ function FPHeaderPage({ isEdit, id, fps }) {
   const dispatch = useDispatch();
   const [status, setStatus] = useState(fps?.status);
   React.useEffect(() => {
-    console.log(fps.status);
+    //console.log(fps.status);
     setStatus(fps?.status);
   }, [fps?.status]);
   const handleChangeStatus = (status) => {

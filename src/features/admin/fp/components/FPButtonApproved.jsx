@@ -80,6 +80,7 @@ export const FPButtonApproved = ({ status, onChangeStatus }) => {
             navigate('/admin/fps');
           }
           onChangeStatus(value);
+          if(parseInt(value) ===3) methods.setValue('code_contract',res.data.data.code_contract)
           setLoading(false);
         }
       } catch (error) {

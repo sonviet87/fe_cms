@@ -28,7 +28,7 @@ function FPInvoice({ control }) {
                             </TableRow>
                             <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                                 <TableCellStyled component="th" scope="row">
-                                    <TextFormik control={control} name="code_contract" label="Số hợp đồng" />
+                                    <TextFormik control={control} name="code_contract" label="Số hợp đồng" disabled={true} />
                                 </TableCellStyled>
                             </TableRow>
                             <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>

@@ -31,7 +31,6 @@ function AdminFPAddEditPage() {
   // const [suppliers, setSuppliers] = React.useState([]);
   // const [users, setUsers] = React.useState([]);
   const status = useSelector(selectStatus);
-  console.log('status home', status)
   const [disabled, setDisable] = React.useState(false);
   const permissions = useSelector(selectRoles)
 

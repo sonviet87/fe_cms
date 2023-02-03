@@ -54,8 +54,6 @@ function PrivateRoute({ children }) {
                     if (supplierRs.status) dispatch(supplierActions.setListSupplier(supplierRs.data.data));
                     if (usersRs.status) dispatch(userActions.setListUser(usersRs.data.data));
 
-
-
                 } catch (err) {
                     toast.error("Lỗi đăng nhập")
                     //console.log(err.response.data);
@@ -64,7 +62,6 @@ function PrivateRoute({ children }) {
                     removeLSItem('typeLogin');
                     return navigate('/login');
                 }
-
             }
             setLoading(false);
         })();
