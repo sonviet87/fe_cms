@@ -140,6 +140,7 @@ export const FPButtonApproved = ({ status, onChangeStatus }) => {
               >
                 Duyệt Hợp đồng
               </Button>
+
             </>
           )}
         </>
@@ -159,6 +160,15 @@ export const FPButtonApproved = ({ status, onChangeStatus }) => {
                   onClick={() => handleChangeStatus(4)}
                 >
                   Duyệt giao hàng
+                </Button>
+                <Button
+                    color="error"
+                    variant="contained"
+                    sx={{ mb: 2, mr: 1 }}
+                    size="small"
+                    onClick={() => handleChangeStatus(7)}
+                >
+                  Trả về
                 </Button>
               </>
             )}

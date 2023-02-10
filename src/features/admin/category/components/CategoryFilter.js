@@ -41,9 +41,9 @@ export default function CategoryFilter({ loading, filter, onSubmit, onImportExce
         <InputBaseForm
           sx={{ ml: 1, flex: 1 }}
           placeholder="Tìm danh mục"
-          inputProps={{ 'aria-label': 'Tìm nhà cung cấp' }}
+          inputProps={{ 'aria-label': 'Tìm danh mục' }}
           control={control}
-          name="username"
+          name="search"
         />
         <IconButtonStyled type="button" sx={{ p: '10px' }} aria-label="search" size="small" onClick={handleSubmit(handleFormSubmit)}>
           <SearchIcon />
