@@ -19,20 +19,20 @@ UserForm.propTypes = {
 
 function UserForm({ initialValue, onSubmit, userValue, role, isEdit }) {
     const validationRules = {
-        name: yup.string().required('Please enter your name'),
+        name: yup.string().required('Xin vui lòng nhập tên'),
         password: yup
             .string()
-            .typeError('Please enter your password')
-            .required('Please enter your password')
-            .matches(/^.{6,10}$/g, { excludeEmptyString: false, message: 'Invalid password' }),
-        email: yup.string().email('Please enter valid email').required('Please enter email'),
-        phone: yup.string().required('Please enter phone'),
+            .typeError('Xin vui lòng nhập mật khẩu')
+            .required('Xin vui lòng nhập mật khẩu')
+            .matches(/^.{6,40}$/g, { excludeEmptyString: false, message: 'Mật khẩu ít nhất 6 ký tự' }),
+        email: yup.string().email('Không đúng định dạng email').required('Xin hãy điền email'),
+        phone: yup.string().required('Xin điền số điện thoại'),
 
     };
     if (initialValue.email !== '') {
         validationRules.password = yup
             .string()
-            .matches(/^.{6,10}$/g, { excludeEmptyString: true, message: 'Invalid password' });
+            .matches(/^.{6,40}$/g, { excludeEmptyString: true, message: 'Mật khẩu ít nhất 6 ký tự' });
     }
     const schema = yup.object().shape(validationRules);
     const {

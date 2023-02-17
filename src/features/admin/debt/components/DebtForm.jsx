@@ -56,7 +56,7 @@ function DebtForm({ initialValue, onSubmit, itemValue, isEdit, fp }) {
         const fpRs = await fpApi.get(formValue);
         if (fpRs.status) {
             const totalDebt = fpRs.data.data.details.reduce((total, num) => {
-                return total += (parseInt(num.price_sell) + (parseInt(num.price_sell) * (parseInt(num.category.tax_percent.replace(/%/g, '')) / 100)));
+                return total += ((parseInt(num.price_sell)* parseInt(num.qty)) + ((parseInt(num.price_sell)* parseInt(num.qty)) * (parseInt(num.category.tax_percent.replace(/%/g, '')) / 100)));
             }, 0);
             setValue('account', fpRs.data.data.account)
             setValue('number_invoice', fpRs.data.data.number_invoice)
@@ -245,7 +245,7 @@ function DebtForm({ initialValue, onSubmit, itemValue, isEdit, fp }) {
                                             <TableCell >{row.qty}</TableCell>
                                             <TableCell >{<NumericFormat value={row.price_sell} thousandSeparator={true} displayType="text" />}</TableCell>
                                             <TableCell >{row.category.tax_percent}</TableCell>
-                                            <TableCell >{<NumericFormat value={parseInt(row.price_sell) + (parseInt(row.price_sell) * (parseInt((row.category.tax_percent).replace(/%/g, '')) / 100))} thousandSeparator={true} displayType="text" />}</TableCell>
+                                            <TableCell >{<NumericFormat value={(parseInt(row.price_sell)* parseInt(row.qty)) + ((parseInt(row.price_sell)* parseInt(row.qty)) * (parseInt((row.category.tax_percent).replace(/%/g, '')) / 100))} thousandSeparator={true} displayType="text" />}</TableCell>
                                         </TableRow>
                                     ))}
                                 </TableBody>
