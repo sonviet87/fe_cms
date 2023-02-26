@@ -17,7 +17,7 @@ function AdminDebtSupplierAddEditPage() {
     const { id } = useParams();
     const isEdit = Boolean(id);
     const [debts, setDebts] = React.useState({});
-    const [fp, setFP] = React.useState({});
+    const [fp, setFP] = React.useState([]);
     const [supplier, setSupplier] = React.useState([]);
 
     const navigate = useNavigate();
@@ -46,7 +46,7 @@ function AdminDebtSupplierAddEditPage() {
                     const fpRs = res.data.data;
                     // console.log("arrFP", res)
                     fpRs.map((item) => {
-                        return arrFP.push({ id: item.id, name: item.code })
+                        return arrFP.push({ id: item.id, code: item.code })
                     })
                     setFP(arrFP);
 
@@ -75,7 +75,7 @@ function AdminDebtSupplierAddEditPage() {
                     console.log(res.data.data)
                     setDebts({
                         name: res.data.data.name ?? '',
-                        fp_id: res.data.data.fp_id.id ?? '',
+                        fp_id: res.data.data.fp_id ?? '',
                         supplier_id: res.data.data.supplier_id ?? '',
                         date_over: res.data.data.date_over ?? '',
                         number_date_over: res.data.data.number_date_over ?? '',

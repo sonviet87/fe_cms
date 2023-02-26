@@ -9,9 +9,12 @@ import ConfirmDialog from 'components/Common/ConfirmDialog';
 import { NumericFormat } from 'react-number-format';
 import moment from 'moment';
 import ChipStatus from 'components/Common/Element/Chip';
+import {fpPermissions} from "../../fp/constants/FPConstants";
+import {useSelector} from "react-redux";
+import { selectRoles } from 'features/auth/authSlice';
 
 export default function DebtSupplierList({ list, pagination, filter, onFilter, onDelete }) {
-
+  const permissions = useSelector(selectRoles);
   const navigate = useNavigate();
   const [confirmDeleteDialogData, setConfirmDeleteDialogData] = React.useState({
     title: '',
@@ -102,14 +105,16 @@ export default function DebtSupplierList({ list, pagination, filter, onFilter, o
                   >
                     <EditIcon fontSize="small" />
                   </BasicButtonStyled>
-                  <BasicButtonStyled
-                    variant="contained"
-                    color="error"
-                    size="small"
-                    onClick={() => handleOpenConfirmDeleteDialog(row)}
-                  >
-                    <DeleteOutlineIcon fontSize="small" />
-                  </BasicButtonStyled>
+                  {(!permissions.includes(fpPermissions.FP_IS_SALE))  &&
+                    <BasicButtonStyled
+                      variant="contained"
+                      color="error"
+                      size="small"
+                      onClick={() => handleOpenConfirmDeleteDialog(row)}
+                    >
+                      <DeleteOutlineIcon fontSize="small" />
+                    </BasicButtonStyled>
+                  }
                 </TableCell>
               </TableRow>
             ))}

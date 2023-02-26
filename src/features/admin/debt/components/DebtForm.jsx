@@ -13,6 +13,7 @@ import fpApi from 'api/fpAPI';
 import moment from 'moment/moment';
 import { NumericFormat } from 'react-number-format';
 import { useNavigate } from 'react-router-dom';
+import AutoCompleteForm from "components/FormElement/Autocomplete";
 
 DebtForm.propTypes = {
     initialValue: PropTypes.object,
@@ -25,7 +26,12 @@ function DebtForm({ initialValue, onSubmit, itemValue, isEdit, fp }) {
     const [fpdetails, setFPDetails] = React.useState([]);
     const validationRules = {
         name: yup.string().required('Xin hãy điền tên công nợ'),
-        fp_id: yup.string().required('Xin hãy chọn 1 mã phương án kinh doanh'),
+        //fp_id: yup.string().required('Xin hãy chọn 1 mã phương án kinh doanh'),
+        fp_id: yup.mixed()
+            .test("required", "Xin hãy chọn 1 mã phương án kinh doanh", (item) => {
+                if (item) return true;
+                return false;
+            }),
         deposit_percent: yup.string().required('Xin hãy chọn phần trăm cọc'),
         date_over: yup.string().required('Xin hãy ngày đến hạn'),
 
@@ -48,6 +54,7 @@ function DebtForm({ initialValue, onSubmit, itemValue, isEdit, fp }) {
         delete formValues.number_invoice;
         delete formValues.account;
         delete formValues.date_invoice;
+        formValues.fp_id = formValues.fp_id.id;
         await onSubmit(formValues);
     };
 
@@ -118,13 +125,14 @@ function DebtForm({ initialValue, onSubmit, itemValue, isEdit, fp }) {
                     <TextFormik name="name" label="Tên" control={control} />
                 </Grid>
                 <Grid item xs={12} md={3}>
-                    <BasicSelect
+                    <AutoCompleteForm
                         name="fp_id"
                         label="Mã PAKD"
                         control={control}
                         disabled={isEdit}
                         options={fp}
                         onChangeAjax={handleCallAPIFP}
+                        displayName="code"
                     // disabled={disabled}
                     />
                 </Grid>

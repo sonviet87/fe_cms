@@ -13,6 +13,7 @@ import moment from 'moment/moment';
 import { NumericFormat } from 'react-number-format';
 import { useNavigate } from 'react-router-dom';
 import debtSupplierApi from 'api/debtSupplierAPI';
+import AutoCompleteForm from "components/FormElement/Autocomplete";
 
 DebtSupplierForm.propTypes = {
     initialValue: PropTypes.object,
@@ -25,7 +26,11 @@ function DebtSupplierForm({ initialValue, onSubmit, itemValue, isEdit, fp, onCal
     const [fpdetails, setFPDetails] = React.useState([]);
     const validationRules = {
         name: yup.string().required('Xin hãy điền tên công nợ'),
-        fp_id: yup.string().required('Xin hãy chọn 1 mã phương án kinh doanh'),
+        fp_id: yup.mixed()
+            .test("required", "Xin hãy chọn 1 mã phương án kinh doanh", (item) => {
+                if (item) return true;
+                return false;
+            }),
         deposit_percent: yup.string().required('Xin hãy chọn phần trăm cọc'),
         date_over: yup.string().required('Xin hãy ngày đến hạn'),
 
@@ -48,6 +53,7 @@ function DebtSupplierForm({ initialValue, onSubmit, itemValue, isEdit, fp, onCal
         delete formValues.number_invoice;
         delete formValues.account;
         delete formValues.date_invoice;
+        formValues.fp_id = formValues.fp_id.id;
         await onSubmit(formValues);
     };
 
@@ -124,14 +130,14 @@ function DebtSupplierForm({ initialValue, onSubmit, itemValue, isEdit, fp, onCal
                     <TextFormik name="name" label="Tên" control={control} />
                 </Grid>
                 <Grid item xs={12} md={4}>
-                    <BasicSelect
+                    <AutoCompleteForm
                         name="fp_id"
                         label="Mã PAKD"
                         control={control}
                         disabled={isEdit}
                         options={fp}
                         onChangeAjax={handleCallAPISupplierFP}
-
+                        displayName="code"
                     />
                 </Grid>
                 <Grid item xs={12} md={4}>

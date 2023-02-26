@@ -55,7 +55,8 @@ const UploadFile = ({ control, name, setValue, isEdit, field, index, setError, e
                 //setLoading(false);
             })
 
-            .catch(() => {
+            .catch((e) => {
+                console.log(e)
                 setProgress(0);
                 setMessage("Could not upload the file!");
                 setCurrentFile(undefined);
