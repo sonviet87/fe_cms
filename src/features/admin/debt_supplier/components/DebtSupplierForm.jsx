@@ -129,7 +129,7 @@ function DebtSupplierForm({ initialValue, onSubmit, itemValue, isEdit, fp, onCal
                 <Grid item xs={12} md={12} >
                     <TextFormik name="name" label="Tên" control={control} />
                 </Grid>
-                <Grid item xs={12} md={4}>
+                <Grid item xs={12} md={4} mt={1}>
                     <AutoCompleteForm
                         name="fp_id"
                         label="Mã PAKD"

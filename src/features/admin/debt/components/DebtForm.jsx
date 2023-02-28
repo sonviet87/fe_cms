@@ -124,7 +124,7 @@ function DebtForm({ initialValue, onSubmit, itemValue, isEdit, fp }) {
                 <Grid item xs={12} md={6} >
                     <TextFormik name="name" label="Tên" control={control} />
                 </Grid>
-                <Grid item xs={12} md={3}>
+                <Grid item xs={12} md={3} mt={1}>
                     <AutoCompleteForm
                         name="fp_id"
                         label="Mã PAKD"
