@@ -14,6 +14,7 @@ const UploadFile = ({ control, name, setValue, isEdit, field, index, setError, e
     const [progress, setProgress] = useState(0);
     const [message, setMessage] = useState("");
     const [file, setFile] = useState({ name: '', url: '' });
+    const arrName = name.split(".");
 
     React.useEffect(() => {
 
@@ -118,7 +119,10 @@ const UploadFile = ({ control, name, setValue, isEdit, field, index, setError, e
                 {message}
 
             </div>
+
             {errors?.[name] !== undefined ? <Box sx={{ color: '#d32f2f' }}>{errors?.[name].message}</Box> : ''}
+            {errors.hasOwnProperty('details') ? (errors?.details[index]?.[arrName[1]] !== undefined ? <Box sx={{ color: '#d32f2f' }}>{errors?.details[index]?.[arrName[1]].message}</Box> : '') : ''}
+
 
         </div>
     );

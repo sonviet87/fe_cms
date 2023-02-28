@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { Route, Routes } from 'react-router-dom';
 import AdminAccountFeature from './account';
 import AdminCategoryFeature from './category';
@@ -15,7 +15,29 @@ import AdminSuppliersFeature from './supplier';
 import AdminUsersFeature from './user';
 import AdminWarrantyFeature from './warranty';
 
+import Echo from "laravel-echo";
+import SendMessages from "./messages/sendMessages";
+
 const AdminFeature = () => {
+    useEffect(() => {
+        (async () => {
+
+                //add socket
+                // const echo = new Echo({
+                //     broadcaster: "socket.io",
+                //     host: 'http://redisfe.sonnguyen.top:6001',
+                //     auth: {
+                //         headers: {
+                //             Authorization: 'Bearer ' + localStorage.getItem('access_token')
+                //         }
+                //     }
+                // })
+                // echo.join('chat')
+                //     .here((data1) => {
+                //         console.log("du lieu",data1)
+                //     })
+        })();
+    }, []);
   return (
     <Routes>
       <Route path="/" element={<DashBoard />} />
@@ -32,6 +54,7 @@ const AdminFeature = () => {
       <Route path={'/reports-debt-fp/*'} element={<AdminReportDebtFPFeature />} />
       <Route path={'/reports-debt-supplier/*'} element={<AdminReportDebtSupplierFeature />} />
       <Route path={'/warranty/*'} element={<AdminWarrantyFeature />} />
+        <Route path={'/send/*'} element={<SendMessages />} />
     </Routes>
   );
 };

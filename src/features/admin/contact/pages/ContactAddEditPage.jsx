@@ -36,8 +36,8 @@ function AdminContactAddEditPage() {
         (async () => {
             try {
                 let [accountRs, usersRs] = await Promise.all([
-                    accountApi.getAll(),
-                    userApi.getAll(),
+                    accountApi.getList(),
+                    userApi.getList(),
                 ]);
                 if (accountRs.status) {
                     setAccounts(accountRs.data.data);

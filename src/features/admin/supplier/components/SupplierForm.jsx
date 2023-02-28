@@ -17,6 +17,7 @@ SupplierForm.propTypes = {
 function SupplierForm({ initialValue, onSubmit, itemValue, isEdit, usersValue }) {
     const validationRules = {
         company: yup.string().required('Xin hãy điền thông tin công ty'),
+        user_id: yup.string().required('Xin hãy chọn nhân viên phụ trách'),
     };
 
     const schema = yup.object().shape(validationRules);

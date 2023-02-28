@@ -1,5 +1,8 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import userApi from 'api/userAPI';
+import accountApi from "api/accountAPI";
+import categoryAPi from "api/categoryAPI";
+import supplierApi from "api/suppliertAPI";
 
 // First, create the thunk
 export const loginThunk = createAsyncThunk('login', async (data) => {
@@ -10,6 +13,15 @@ export const loginThunk = createAsyncThunk('login', async (data) => {
     return response;
 });
 
+export const getData = createAsyncThunk('getData', async (data) => {
+    const response = await Promise.all([
+        accountApi.getList(),
+        categoryAPi.getList(),
+        supplierApi.getlist(),
+        userApi.getList()
+    ]);
+    return response;
+});
 
 const authSlice = createSlice({
     name: 'auth',
@@ -40,8 +52,9 @@ const authSlice = createSlice({
         // Add reducers for additional action types here, and handle loading state as needed
         builder.addCase(loginThunk.fulfilled, (state, action) => {
             // Add user to the state array
-
             //state.currentUser = action.payload;
+        });
+        builder.addCase(getData.fulfilled, (state, action) => {
         });
     },
 });

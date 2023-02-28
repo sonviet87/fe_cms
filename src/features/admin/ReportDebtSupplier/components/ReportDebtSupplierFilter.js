@@ -1,16 +1,25 @@
 import { Button, Grid } from '@mui/material'
 import { Box } from '@mui/system'
-import React from 'react'
+import React ,{useEffect} from 'react'
 import * as yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 import BasicDatePicker from 'components/FormElement/DatetimePicker';
 import BasicSelect from 'components/FormElement/SelectBox';
+import { useSelector } from 'react-redux';
+import { selectListSupplier } from 'features/admin/supplier/supplierSlice';
+import { selectListUser } from 'features/admin/user/userSlice';
+import {selectRoles} from "../../../auth/authSlice";
+import {fpPermissions} from "../../fp/constants/FPConstants";
 
 
-export default function ReportDebtSupplierFilter({ loading, filter, onSubmit, users, suppliers, fps }) {
+export default function ReportDebtSupplierFilter({ loading, filter, onSubmit, fps }) {
 
+  const suppliers = useSelector(selectListSupplier);
+  const users = useSelector(selectListUser);
+  const [disabled, setDisable] = React.useState(false);
+  const permissions = useSelector(selectRoles)
   const schema = yup.object().shape({
     startDay: yup.string().required('Xin hãy chọn ngày bắt đầu'),
     endDay: yup.string().required('Xin hãy chọn ngày kết thúc'),
@@ -36,6 +45,12 @@ export default function ReportDebtSupplierFilter({ loading, filter, onSubmit, us
     console.log(formValues)
     await onSubmit(formValues);
   };
+
+  useEffect(()=>{
+    if (permissions.includes(fpPermissions.FP_IS_SALE)){
+      setDisable(true)
+    }
+  },[])
   return (
     <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
       <Box component="form" onSubmit={handleSubmit(handleFormSubmit)} >
@@ -82,7 +97,7 @@ export default function ReportDebtSupplierFilter({ loading, filter, onSubmit, us
               setValue={setValue}
             />
           </Grid>
-          <Grid item xs={12} sm={6} md={2}>
+          {!disabled && <Grid item xs={12} sm={6} md={2}>
             <BasicSelect
               name="user_id"
               label="Sale phụ trách"
@@ -93,7 +108,7 @@ export default function ReportDebtSupplierFilter({ loading, filter, onSubmit, us
               }
               setValue={setValue}
             />
-          </Grid>
+          </Grid>}
 
 
           <Grid item xs={12} sm={6} md={2}>

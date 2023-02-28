@@ -22,8 +22,8 @@ function UserChangePassForm({ initialValue, onSubmit }) {
             .string()
             .typeError('Xin vui lòng nhập mật khẩu')
             .required('Xin vui lòng nhập mật khẩu')
-            .matches(/^.{6,15}$/g, { excludeEmptyString: false, message: 'Mật khẩu phải lớn hơn 6 ký tự' }),
-        password: yup.string().required('Xin vui lòng nhập mật khẩu.'),
+            .matches(/^.{6,40}$/g, { excludeEmptyString: false, message: 'Mật khẩu phải lớn hơn 6 ký tự' }),
+        password: yup.string().required('Xin vui lòng nhập mật khẩu.').matches(/^.{6,30}$/g, { excludeEmptyString: false, message: 'Mật khẩu phải lớn hơn 6 ký tự' }),
         passwordConfirmation: yup.string()
             .oneOf([yup.ref('password'), null], 'Mật khẩu không giống nhau.')
 
@@ -31,7 +31,7 @@ function UserChangePassForm({ initialValue, onSubmit }) {
     if (initialValue.email !== '') {
         validationRules.password = yup
             .string()
-            .matches(/^.{6,10}$/g, { excludeEmptyString: true, message: 'Invalid password' });
+            .matches(/^.{6,40}$/g, { excludeEmptyString: true, message: 'Mật khẩu ít nhất 6 ký tự' });
     }
     const schema = yup.object().shape(validationRules);
     const {

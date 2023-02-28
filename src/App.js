@@ -16,12 +16,16 @@ import NotFound from "components/Common/NotFound";
 import Adminlayout from "components/Layout/AdminLayout";
 
 import ThemeMuTiProvider from "components/Theme/ThemeProvider";
+import RealTimeReloadData from "./components/Common/RealTimeReloadData";
+
 
 function App() {
   return (
     <ThemeMuTiProvider >
       <CssBaseline />
+
       <Provider store={store}>
+          <RealTimeReloadData />
         <BrowserRouter>
           <ToastContainer />
           <Routes>

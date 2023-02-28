@@ -62,7 +62,7 @@ function AdminWarrantyAddEditPage() {
           setWarranty({
             name: res.data.data.name ?? '',
             phone: res.data.data.phone ?? '',
-            account: res.data.data.account ?? '',
+            account: res.data.data.fps?.account ?? '',
             end_day: res.data.data.end_day,
             start_day: res.data.data.start_day,
             file_warranty: res.data.data.file_warranty ?? '',

@@ -9,7 +9,13 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { getLSItem } from 'utils/localStorage';
 import { setLSItem } from 'utils';
-import { authActions, loginThunk } from '../authSlice';
+import {authActions, getData, loginThunk} from '../authSlice';
+import {categoryActions} from "../../admin/category/categorySlice";
+import {accountActions} from "../../admin/account/accountSlice";
+import {supplierActions} from "../../admin/supplier/supplierSlice";
+import {userActions} from "../../admin/user/userSlice";
+
+
 
 //import userApi from 'api/userAPI';
 
@@ -48,6 +54,15 @@ function Login() {
                     delete res.payload.data.data.roles;
                     delete res.payload.data.data.scopes;
                     dispatch(authActions.setCurrentUser(res.payload.data.data));
+                    dispatch(getData()).then((res)=>{
+                        const [ accountRs, categoriesRs, supplierRs, usersRs] = res.payload;
+                        if (categoriesRs.status) dispatch(categoryActions.setListCategory(categoriesRs.data.data));
+                        if (accountRs.status) dispatch(accountActions.setListAccount(accountRs.data.data));
+                        if (supplierRs.status) dispatch(supplierActions.setListSupplier(supplierRs.data.data));
+                        if (usersRs.status) dispatch(userActions.setListUser(usersRs.data.data));
+                    })
+
+
                     navigate('/admin');
                 } else {
                     toast.error(res.payload?.data.message);

@@ -26,6 +26,16 @@ function FPInvoice({ control }) {
                                     <BasicDatePicker control={control} name="date_shipping" lableText="Ngày dự kiến giao hàng" />
                                 </TableCellStyled>
                             </TableRow>
+                            <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                                <TableCellStyled component="th" scope="row">
+                                    <TextFormik control={control} name="code_contract" label="Số hợp đồng" disabled={true} />
+                                </TableCellStyled>
+                            </TableRow>
+                            <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                                <TableCellStyled component="th" scope="row">
+                                    <TextFormik control={control} name="notes" label="Ghi chú"  rows={8} multiline={true}/>
+                                </TableCellStyled>
+                            </TableRow>
 
                         </TableBody>
                     </Table>

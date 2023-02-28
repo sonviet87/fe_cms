@@ -12,6 +12,12 @@ export const MenuCMS = [
   {
     // title: 'Management',
     items: [
+      // {
+      //   title: 'test',
+      //   route: '/admin/send',
+      //   Icon: DashboardIcon,
+      //   permission: 'all',
+      // },
       {
         title: 'Bảng điều khiển',
         route: '/admin',
