@@ -91,6 +91,27 @@ export const FPButtonApproved = ({ status, onChangeStatus }) => {
 
   };
 
+  const handleChangeStatusBack = async (value) => {
+
+      setLoading(true);
+      try {
+        const res = await fpApi.updateStatus(id, value);
+        if (res.status) {
+          toast.success(res.data.message);
+          if (parseInt(value) === 2) {
+            navigate('/admin/fps');
+          }
+          onChangeStatus(value);
+          if(parseInt(value) ===3) methods.setValue('code_contract',res.data.data.code_contract)
+          setLoading(false);
+        }
+      } catch (error) {
+        console.log('Error', error.message);
+        setLoading(false);
+      }
+
+  };
+
   return (
     <>
       {loading ? <LoadingOverlay /> : ''}
@@ -114,7 +135,7 @@ export const FPButtonApproved = ({ status, onChangeStatus }) => {
                   variant="contained"
                   sx={{ mb: 2, mr: 1 }}
                   size="small"
-                  onClick={() => handleChangeStatus(7)}
+                  onClick={() => handleChangeStatusBack(7)}
                 >
                   Trả về
                 </Button>
@@ -123,7 +144,7 @@ export const FPButtonApproved = ({ status, onChangeStatus }) => {
                   variant="contained"
                   sx={{ mb: 2, mr: 1 }}
                   size="small"
-                  onClick={() => handleChangeStatus(2)}
+                  onClick={() => handleChangeStatusBack(2)}
                 >
                   Hủy PAKD
                 </Button>
@@ -140,7 +161,15 @@ export const FPButtonApproved = ({ status, onChangeStatus }) => {
               >
                 Duyệt Hợp đồng
               </Button>
-
+              <Button
+                  color="error"
+                  variant="contained"
+                  sx={{ mb: 2, mr: 1 }}
+                  size="small"
+                  onClick={() => handleChangeStatusBack(7)}
+              >
+                Trả về
+              </Button>
             </>
           )}
         </>
@@ -166,7 +195,7 @@ export const FPButtonApproved = ({ status, onChangeStatus }) => {
                     variant="contained"
                     sx={{ mb: 2, mr: 1 }}
                     size="small"
-                    onClick={() => handleChangeStatus(7)}
+                    onClick={() => handleChangeStatusBack(7)}
                 >
                   Trả về
                 </Button>
@@ -201,7 +230,7 @@ export const FPButtonApproved = ({ status, onChangeStatus }) => {
                   variant="contained"
                   sx={{ mb: 2, mr: 1 }}
                   size="small"
-                  onClick={() => handleChangeStatus(7)}
+                  onClick={() => handleChangeStatusBack(7)}
                 >
                   Trả về
                 </Button>
