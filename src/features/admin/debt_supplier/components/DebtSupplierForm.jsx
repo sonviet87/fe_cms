@@ -66,8 +66,7 @@ function DebtSupplierForm({ initialValue, onSubmit, itemValue, isEdit, fp, onCal
 
     const handleCallAPIFP = async (supplier_id) => {
 
-        const fpID = getValues('fp_id');
-
+        const fpID = getValues('fp_id')?.id;
         if (fpID === '' || fpID === undefined) return;
         try {
             const fpDetailsRs = await debtSupplierApi.getFPBySupplier(fpID, supplier_id);
