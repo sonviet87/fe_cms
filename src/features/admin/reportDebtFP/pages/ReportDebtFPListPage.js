@@ -7,6 +7,9 @@ import React from 'react';
 import ReportDebtFPFilter from '../components/ReportDebtFPFilter';
 import ReportDebtFPHeaderPage from '../components/ReportDebtFPHeaderPage';
 import ReportList from '../components/ReportDebtFPList';
+import * as yup from "yup";
+import {useForm} from "react-hook-form";
+import {yupResolver} from "@hookform/resolvers/yup";
 
 function ReportDebtFPListPage() {
     const [loading, setLoading] = React.useState(false);
@@ -18,7 +21,23 @@ function ReportDebtFPListPage() {
             current_page: 0
         },
     });
+    const schema = yup.object().shape({
+        startDay: yup.string().required('Xin hãy chọn ngày bắt đầu'),
+        endDay: yup.string().required('Xin hãy chọn ngày kết thúc'),
+    });
 
+    const methods = useForm({
+        defaultValues: {
+            startDay: '',
+            endDay: '',
+            user_id: '',
+            account_id: '',
+            fp_id: '',
+            isDone: '',
+
+        },
+        resolver: yupResolver(schema),
+    });
     const [filter, setFilter] = React.useState({
         per_page: 10,
         page: 0,
@@ -66,7 +85,7 @@ function ReportDebtFPListPage() {
     return (
         <WrapperPage>
             <ReportDebtFPHeaderPage list={list.reports} filter={filter} />
-            <ReportDebtFPFilter loading={loading} filter={filter} onSubmit={handleFilter} fps={fps} />
+            <ReportDebtFPFilter loading={loading} filter={filter} onSubmit={handleFilter} fps={fps} methods={methods} />
             {loading ? (
                 <SkeletonList />
             ) : (<ReportList list={list.reports}
@@ -74,7 +93,7 @@ function ReportDebtFPListPage() {
                 loading={loading}
                 filter={filter}
                 onFilter={handleFilter}
-
+                methods={methods}
             />)}
         </WrapperPage>
     );

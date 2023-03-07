@@ -10,19 +10,31 @@ import { NumericFormat } from 'react-number-format';
 import { Box } from '@mui/system';
 
 
-export default function ReportList({ list, pagination, filter, onFilter }) {
+export default function ReportList({ list, pagination, filter, onFilter,methods }) {
 
   const handleChangePage = (event, newPage) => {
+    console.log(methods.getValues('startDay'));
     onFilter({
       page: newPage + 1,
+      startDay: methods.getValues('startDay'),
+      endDay: methods.getValues('endDay'),
+      category_id: methods.getValues('category_id'),
+      supplier_id: methods.getValues('supplier_id'),
+      account_id: methods.getValues('account_id'),
+      type_fp: methods.getValues('type_fp'),
     });
-
   };
 
   const handleChangeRowsPerPage = (event) => {
     onFilter({
       page: 0,
       per_page: parseInt(event.target.value, 10),
+      startDay: methods.getValues('startDay'),
+      endDay: methods.getValues('endDay'),
+      category_id: methods.getValues('category_id'),
+      supplier_id: methods.getValues('supplier_id'),
+      account_id: methods.getValues('account_id'),
+      type_fp: methods.getValues('type_fp'),
     });
   };
 

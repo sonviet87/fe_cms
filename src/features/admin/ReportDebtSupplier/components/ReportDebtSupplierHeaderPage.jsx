@@ -4,11 +4,11 @@ import React from 'react';
 import ReportDebtSupplierExportExcel from './ReportDebtSupplierExportExcel';
 
 
-function ReportDebtSupplierHeaderPage({ list, filter }) {
+function ReportDebtSupplierHeaderPage({ list, filter ,methods}) {
   return (
     <WrapperBoxAlign align="space-between" isborder={0}>
       <TitleForm lable="Thống kê công nợ nhà cung cấp" isborder={0} />
-      <ReportDebtSupplierExportExcel data={list} filter={filter} />
+      <ReportDebtSupplierExportExcel data={list} filter={filter} methods={methods}/>
     </WrapperBoxAlign>
   );
 }

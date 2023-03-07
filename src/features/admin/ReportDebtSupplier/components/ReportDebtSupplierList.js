@@ -10,19 +10,33 @@ import { NumericFormat } from 'react-number-format';
 import { Box } from '@mui/system';
 
 
-export default function ReportDebtSupplierList({ list, pagination, filter, onFilter }) {
+export default function ReportDebtSupplierList({ list, pagination, filter, onFilter,methods }) {
 
   const handleChangePage = (event, newPage) => {
     onFilter({
       page: newPage + 1,
+      startDay: methods.getValues('startDay'),
+      endDay: methods.getValues('endDay'),
+      isDone: methods.getValues('isDone'),
+      supplier_id: methods.getValues('supplier_id'),
+      account_id: methods.getValues('account_id'),
+      fp_id: methods.getValues('fp_id'),
+      user_id: methods.getValues('user_id'),
     });
 
   };
-  console.log(list)
+
   const handleChangeRowsPerPage = (event) => {
     onFilter({
       page: 0,
       per_page: parseInt(event.target.value, 10),
+      startDay: methods.getValues('startDay'),
+      endDay: methods.getValues('endDay'),
+      isDone: methods.getValues('isDone'),
+      supplier_id: methods.getValues('supplier_id'),
+      account_id: methods.getValues('account_id'),
+      fp_id: methods.getValues('fp_id'),
+      user_id: methods.getValues('user_id'),
     });
   };
 

@@ -5,23 +5,41 @@ import ExcelJS from 'exceljs';
 import { saveAs } from 'file-saver';
 import moment from 'moment';
 
-const ReportFPExportExcel = ({ data, filter }) => {
+import {toast} from "react-toastify";
+import reportApi from "../../../../api/reportAPI";
+
+const ReportFPExportExcel = ({ filter }) => {
+  const [loading, setLoading] = React.useState(false);
+
+
   const fontFamily = 'Times New Roman';
 
   const exportToExcel = async (fileName, sheetName) => {
-    if (!data || data.length === 0) {
-      console.error('Chưa có data');
-      return;
-    }
 
-    const wb = new ExcelJS.Workbook();
-    const wsPAKD = wb.addWorksheet(sheetName, { views: [{ zoomScale: 80, zoomScaleNormal: 80 }] });
-    createSheetPAKD(wb, wsPAKD);
-    const buf = await wb.xlsx.writeBuffer();
-    saveAs(new Blob([buf]), `${fileName}.xlsx`);
+    setLoading(true);
+    const param = {...filter,list: 'list'}
+    const res = await reportApi.getList(param);
+
+    try {
+      if (res.status) {
+        const wb = new ExcelJS.Workbook();
+        const wsPAKD = wb.addWorksheet(sheetName, { views: [{ zoomScale: 80, zoomScaleNormal: 80 }] });
+        createSheetPAKD(wb, wsPAKD,res.data.data);
+        const buf = await wb.xlsx.writeBuffer();
+        saveAs(new Blob([buf]), `${fileName}.xlsx`);
+      }
+      else {
+        toast.error(res.message);
+      }
+    } catch (error) {
+      toast.error("Bạn không có quyền truy cập");
+      console.log('Lỗi hệ thống', error);
+    }
+    setLoading(false);
+
   };
 
-  const createSheetPAKD = (wb, ws) => {
+  const createSheetPAKD = (wb, ws,data) => {
     const headers = ['No', 'Khách hàng', 'Liên hệ', 'Sale phụ trách', 'Tổng giá bán', 'Lợi nhuận', 'Tình trạng'];
 
     const columns = headers?.length;

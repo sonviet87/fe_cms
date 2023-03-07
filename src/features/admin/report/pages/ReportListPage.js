@@ -1,8 +1,4 @@
-import accountApi from 'api/accountAPI';
-import categoryAPi from 'api/categoryAPI';
 import reportApi from 'api/reportAPI';
-import supplierApi from 'api/suppliertAPI';
-import userApi from 'api/userAPI';
 import SkeletonList from 'components/Common/Skeleton/SkeletonList';
 import { WrapperPage } from 'components/Common/SlytedComponent/Wrapper';
 import moment from 'moment';
@@ -11,14 +7,31 @@ import ReportChart from '../components/ReportChart';
 import ReportFilter from '../components/ReportFilter';
 import ReportHeaderPage from '../components/ReportHeaderPage';
 import ReportList from '../components/ReportList';
+import * as yup from "yup";
+import {useForm} from "react-hook-form";
+import {yupResolver} from "@hookform/resolvers/yup";
 
 function ReportListPage() {
     const [loading, setLoading] = React.useState(false);
     const [isReport, setIsReport] = React.useState(false);
-    const [accounts, setAccounts] = React.useState([]);
-    const [users, setUsers] = React.useState([]);
-    const [suppliers, setSuppliers] = React.useState([]);
-    const [categories, setCategories] = React.useState([]);
+    const schema = yup.object().shape({
+        startDay: yup.string().required('Xin hãy chọn ngày bắt đầu'),
+        endDay: yup.string().required('Xin hãy chọn ngày kết thúc'),
+    });
+
+    const methods = useForm({
+        defaultValues: {
+            startDay: '',
+            endDay: '',
+            user_id: '',
+            supplier_id: '',
+            account_id: '',
+            category_id: '',
+            type_fp: '',
+
+        },
+        resolver: yupResolver(schema),
+    });
 
     const [list, setList] = React.useState({
         reports: [],
@@ -45,7 +58,7 @@ function ReportListPage() {
         }
         setLoading(true);
         const res = await reportApi.getList(params);
-        console.log(res.data.data)
+
         if (res.status) {
             setList({
                 reports: res.data.data,
@@ -58,55 +71,14 @@ function ReportListPage() {
         setLoading(false);
     }
 
-    const onHandleChangeListCategory = async (value) => {
-        try {
-
-            const categoryRs = await categoryAPi.getList({ search: value });
-            if (categoryRs.status) {
-                setCategories(categoryRs.data.data);
-            }
-        } catch (error) {
-            console.log(error)
-        }
-
-    }
-
     const handleChangeStatusReport = (value) => {
         setIsReport(value);
     }
-    React.useEffect(() => {
-
-        // (async () => {
-        //     try {
-        //         let [accountRs, userRs, supplierRs, categoryRs] = await Promise.all([
-        //             accountApi.getList(),
-        //             userApi.getList(),
-        //             supplierApi.getlist(),
-        //             categoryAPi.getList(),
-        //         ]);
-        //         if (accountRs.status) {
-        //             setAccounts(accountRs.data.data);
-        //         }
-        //         if (userRs.status) {
-        //             setUsers(userRs.data.data);
-        //         }
-        //         if (supplierRs.status) {
-        //             setSuppliers(supplierRs.data.data);
-        //         }
-        //         if (categoryRs.status) {
-        //             setCategories(categoryRs.data.data);
-        //         }
-
-        //     } catch (error) {
-        //         console.log('get fp by id error', error);
-        //     }
-        // })();
-    }, []);
 
     return (
         <WrapperPage>
             <ReportHeaderPage list={list.reports} filter={filter} onHandleIsReport={handleChangeStatusReport} />
-            <ReportFilter loading={loading} filter={filter} onSubmit={handleFilter} users={users} accounts={accounts} suppliers={suppliers} categories={categories} onHandleChangeListCategory={onHandleChangeListCategory} />
+            <ReportFilter loading={loading} filter={filter} onSubmit={handleFilter} methods={methods}   />
             {loading ? (
                 <SkeletonList />
             ) : (!isReport ? <ReportList list={list.reports}
@@ -114,7 +86,7 @@ function ReportListPage() {
                 loading={loading}
                 filter={filter}
                 onFilter={handleFilter}
-
+                methods={methods}
             /> : '')}
             {isReport && <ReportChart list={list.reports} />}
         </WrapperPage>

@@ -1,9 +1,6 @@
 import { Button, Grid } from '@mui/material'
 import { Box } from '@mui/system'
 import React, {useEffect} from 'react'
-import * as yup from 'yup';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
 
 import BasicDatePicker from 'components/FormElement/DatetimePicker';
 import BasicSelect from 'components/FormElement/SelectBox';
@@ -17,7 +14,7 @@ import { useSelector } from 'react-redux';
 import {selectRoles} from "../../../auth/authSlice";
 
 
-export default function ReportFilter({ loading, filter, onSubmit }) {
+export default function ReportFilter({ loading, filter, onSubmit,methods }) {
 
   const accounts = useSelector(selectListAccount);
   const categories = useSelector(selectListCategory);
@@ -25,29 +22,11 @@ export default function ReportFilter({ loading, filter, onSubmit }) {
   const users = useSelector(selectListUser);
   const [disabled, setDisable] = React.useState(false);
   const permissions = useSelector(selectRoles)
-  const schema = yup.object().shape({
-    startDay: yup.string().required('Xin hãy chọn ngày bắt đầu'),
-    endDay: yup.string().required('Xin hãy chọn ngày kết thúc'),
-  });
 
-  const { control, handleSubmit, setValue } = useForm({
-    defaultValues: {
-      startDay: '',
-      endDay: '',
-      user_id: '',
-      supplier_id: '',
-      account_id: '',
-      category_id: '',
-      type_fp: '',
 
-    },
-    resolver: yupResolver(schema),
-  });
+  const { control, handleSubmit, setValue }= methods;
 
-  // const handleOnAjaxCategory = (value) => {
-  //   onHandleChangeListCategory(value)
 
-  // }
 
   useEffect(()=>{
     if (permissions.includes(fpPermissions.FP_IS_SALE)){

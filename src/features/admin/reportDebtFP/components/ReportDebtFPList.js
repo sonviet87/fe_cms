@@ -10,19 +10,28 @@ import { NumericFormat } from 'react-number-format';
 import { Box } from '@mui/system';
 
 
-export default function ReportDebtFPList({ list, pagination, filter, onFilter }) {
+export default function ReportDebtFPList({ list, pagination, filter, onFilter,methods }) {
 
   const handleChangePage = (event, newPage) => {
     onFilter({
       page: newPage + 1,
+      startDay: methods.getValues('startDay'),
+      endDay: methods.getValues('endDay'),
+      fp_id: methods.getValues('fp_id'),
+      account_id: methods.getValues('account_id'),
+      isDone: methods.getValues('isDone'),
     });
 
   };
-  console.log(list)
   const handleChangeRowsPerPage = (event) => {
     onFilter({
       page: 0,
       per_page: parseInt(event.target.value, 10),
+      startDay: methods.getValues('startDay'),
+      endDay: methods.getValues('endDay'),
+      fp_id: methods.getValues('fp_id'),
+      account_id: methods.getValues('account_id'),
+      isDone: methods.getValues('isDone'),
     });
   };
 
@@ -33,9 +42,9 @@ export default function ReportDebtFPList({ list, pagination, filter, onFilter })
     let totalVAT = 0;
     let totalFP = 0;
     list.map((item, index) => {
-      totalSelling += parseInt(item.fp.selling);
-      totalMargin += parseInt(item.fp.margin);
-      totalVAT += parseInt(item.total_debt);
+      totalSelling += parseInt(item.fp?.selling);
+      totalMargin += parseInt(item.fp?.margin);
+      totalVAT += parseInt(item?.total_debt);
       totalFP++;
       return item;
     })
@@ -78,35 +87,35 @@ export default function ReportDebtFPList({ list, pagination, filter, onFilter })
           {list.length > 0 &&
             list.map((row) => (
               <TableRow key={row.id}>
-                <TableCell>{row.code}</TableCell>
-                <TableCell> <Link to={'/admin/debts/' + row.id} target="_blank">{row.fp.code} </Link></TableCell>
+                <TableCell>{row?.code}</TableCell>
+                <TableCell> <Link to={'/admin/debts/' + row.id} target="_blank">{row.fp?.code} </Link></TableCell>
                 <TableCell component="th">
 
-                  {row.fp.account}
+                  {row.fp?.account}
 
                 </TableCell>
-                <TableCell>{row.fp.contact}</TableCell>
-                <TableCell>{row.fp.user_assign_name}</TableCell>
+                <TableCell>{row.fp?.contact}</TableCell>
+                <TableCell>{row.fp?.user_assign_name}</TableCell>
                 <TableCell>{<NumericFormat
                   displayType="text"
-                  value={row.fp.selling}
+                  value={row.fp?.selling}
                   thousandSeparator=","
                   renderText={(value) => <b>{value}</b>}
                 />}</TableCell>
                 <TableCell>{<NumericFormat
                   displayType="text"
-                  value={row.total_debt}
+                  value={row?.total_debt}
                   thousandSeparator=","
                   renderText={(value) => <b>{value}</b>}
                 />}</TableCell>
 
                 <TableCell>{<NumericFormat
                   displayType="text"
-                  value={row.fp.margin}
+                  value={row.fp?.margin}
                   thousandSeparator=","
                   renderText={(value) => <b>{value}</b>}
                 />} </TableCell>
-                <TableCell><ChipStatus label={row.isDone} status={parseInt(row.isDone_number)} /></TableCell>
+                <TableCell><ChipStatus label={row?.isDone} status={parseInt(row.isDone_number)} /></TableCell>
 
 
               </TableRow>

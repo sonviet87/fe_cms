@@ -1,10 +1,6 @@
 import { Button, Grid } from '@mui/material'
 import { Box } from '@mui/system'
 import React, {useEffect} from 'react'
-import * as yup from 'yup';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-
 import BasicDatePicker from 'components/FormElement/DatetimePicker';
 import BasicSelect from 'components/FormElement/SelectBox';
 import { useSelector } from 'react-redux';
@@ -14,34 +10,19 @@ import {selectRoles} from "../../../auth/authSlice";
 import {fpPermissions} from "../../fp/constants/FPConstants";
 
 
-export default function ReportDebtFPFilter({ loading, filter, onSubmit, fps }) {
+export default function ReportDebtFPFilter({ loading, filter, onSubmit, fps ,methods }) {
 
   const accounts = useSelector(selectListAccount);
   const users = useSelector(selectListUser);
   const [disabled, setDisable] = React.useState(false);
   const permissions = useSelector(selectRoles)
-  const schema = yup.object().shape({
-    startDay: yup.string().required('Xin hãy chọn ngày bắt đầu'),
-    endDay: yup.string().required('Xin hãy chọn ngày kết thúc'),
-  });
 
-  const { control, handleSubmit, setValue } = useForm({
-    defaultValues: {
-      startDay: '',
-      endDay: '',
-      user_id: '',
-      account_id: '',
-      fp_id: '',
-      isDone: '',
 
-    },
-    resolver: yupResolver(schema),
-  });
+  const { control, handleSubmit, setValue } = methods
 
   const handleFormSubmit = async (formValues) => {
 
     if (!onSubmit) return;
-    console.log(formValues)
     await onSubmit(formValues);
   };
 
