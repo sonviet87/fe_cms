@@ -62,10 +62,10 @@ export default function ReportDebtSupplierList({ list, pagination, filter, onFil
         <TableHead>
           <TableRow>
             <TableCell>ID</TableCell>
-            <TableCell>Khách hàng</TableCell>
+            <TableCell>PAKD</TableCell>
 
             <TableCell>Nhà cung cấp</TableCell>
-            <TableCell>Sale phụ trách</TableCell>
+            <TableCell>Liên hệ</TableCell>
 
             <TableCell>Tổng giá mua (VAT)</TableCell>
 

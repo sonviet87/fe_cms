@@ -55,7 +55,7 @@ function ReportDebtFPListPage() {
         }
         setLoading(true);
         const res = await reportDebtFPApi.getList(params);
-        console.log(res.data.data)
+
         if (res.status) {
             setList({
                 reports: res.data.data,
@@ -84,7 +84,7 @@ function ReportDebtFPListPage() {
 
     return (
         <WrapperPage>
-            <ReportDebtFPHeaderPage list={list.reports} filter={filter} />
+            <ReportDebtFPHeaderPage list={list.reports} filter={filter} methods={methods}/>
             <ReportDebtFPFilter loading={loading} filter={filter} onSubmit={handleFilter} fps={fps} methods={methods} />
             {loading ? (
                 <SkeletonList />

@@ -77,7 +77,7 @@ function ReportListPage() {
 
     return (
         <WrapperPage>
-            <ReportHeaderPage list={list.reports} filter={filter} onHandleIsReport={handleChangeStatusReport} />
+            <ReportHeaderPage list={list.reports} filter={filter} onHandleIsReport={handleChangeStatusReport} methods={methods} />
             <ReportFilter loading={loading} filter={filter} onSubmit={handleFilter} methods={methods}   />
             {loading ? (
                 <SkeletonList />

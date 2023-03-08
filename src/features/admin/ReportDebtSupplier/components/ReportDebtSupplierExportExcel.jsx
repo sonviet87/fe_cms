@@ -4,24 +4,40 @@ import LocalPrintshopIcon from '@mui/icons-material/LocalPrintshop';
 import ExcelJS from 'exceljs';
 import { saveAs } from 'file-saver';
 import moment from 'moment';
+import * as yup from "yup";
+import reportDebtSupplierApi from "api/reportDebtSupplierAPI";
 
-const ReportDebtSupplierExportExcel = ({ data, filter }) => {
+const ReportDebtSupplierExportExcel = ({  filter,methods }) => {
   const fontFamily = 'Times New Roman';
-  console.log("export", data)
+  const schema = yup.object().shape({
+    startDay: yup.string().required('Xin hãy chọn ngày bắt đầu'),
+    endDay: yup.string().required('Xin hãy chọn ngày kết thúc'),
+  });
+
   const exportToExcel = async (fileName, sheetName) => {
-    if (!data || data.length === 0) {
-      console.error('Chưa có data');
-      return;
+
+    methods.trigger();
+    const formValue = methods.getValues();
+    const isValid = schema.isValidSync(formValue);
+    if (isValid) {
+      try {
+        const params = {...filter, list: 'list'}
+        const res = await reportDebtSupplierApi.getList(params);
+        if (res.status) {
+          const wb = new ExcelJS.Workbook();
+          const wsPAKD = wb.addWorksheet(sheetName, { views: [{ zoomScale: 80, zoomScaleNormal: 80 }] });
+          createSheetPAKD(wb, wsPAKD, res.data.data);
+          const buf = await wb.xlsx.writeBuffer();
+          saveAs(new Blob([buf]), `${fileName}.xlsx`);
+        }
+      } catch (error) {
+        console.log('get fp by id error', error);
+      }
     }
 
-    const wb = new ExcelJS.Workbook();
-    const wsPAKD = wb.addWorksheet(sheetName, { views: [{ zoomScale: 80, zoomScaleNormal: 80 }] });
-    createSheetPAKD(wb, wsPAKD);
-    const buf = await wb.xlsx.writeBuffer();
-    saveAs(new Blob([buf]), `${fileName}.xlsx`);
   };
 
-  const createSheetPAKD = (wb, ws) => {
+  const createSheetPAKD = (wb, ws, data) => {
     const headers = ['No', 'Khách hàng', 'Liên hệ', 'Sale phụ trách', 'Tổng giá bán (VAT)', 'Tình trạng'];
 
     const columns = headers?.length;
@@ -87,7 +103,7 @@ const ReportDebtSupplierExportExcel = ({ data, filter }) => {
 
     let rowDate = addRow(
       ws,
-      [moment(filter?.startDay).format('DD-MM-YYYY') + ' - ' + moment(filter?.endDay).format('DD-MM-YYYY')],
+        [moment(methods.getValues('startDay')).format('DD-MM-YYYY') + ' - ' + moment(methods.getValues('endDay')).format('DD-MM-YYYY')],
       {
         border: false,
         font: { size: 11, bold: true, color: { argb: '000000' }, name: fontFamily },

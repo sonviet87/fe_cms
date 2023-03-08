@@ -6,7 +6,7 @@ import ReportFPExportExcel from './ReportFPExportExcel';
 import EqualizerIcon from '@mui/icons-material/Equalizer';
 import AutoAwesomeMotionIcon from '@mui/icons-material/AutoAwesomeMotion';
 import { Box } from '@mui/system';
-function ReportHeaderPage({ list, filter, onHandleIsReport }) {
+function ReportHeaderPage({ list, filter, onHandleIsReport , methods}) {
   return (
     <WrapperBoxAlign align="space-between" isborder={0}>
       <TitleForm lable="Thống kê phương án kinh doanh" isborder={0} />
@@ -35,7 +35,7 @@ function ReportHeaderPage({ list, filter, onHandleIsReport }) {
         >
           Xem dạng dữ liệu
         </Button>
-        <ReportFPExportExcel data={list} filter={filter} />
+        <ReportFPExportExcel data={list} filter={filter} methods={methods}/>
       </Box>
 
 

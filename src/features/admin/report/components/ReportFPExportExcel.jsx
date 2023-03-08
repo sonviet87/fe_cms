@@ -7,35 +7,41 @@ import moment from 'moment';
 
 import {toast} from "react-toastify";
 import reportApi from "../../../../api/reportAPI";
+import * as yup from "yup";
 
-const ReportFPExportExcel = ({ filter }) => {
-  const [loading, setLoading] = React.useState(false);
-
-
+const ReportFPExportExcel = ({ filter,methods}) => {
+  //const [loading, setLoading] = React.useState(false);
   const fontFamily = 'Times New Roman';
+  const schema = yup.object().shape({
+    startDay: yup.string().required('Xin hãy chọn ngày bắt đầu'),
+    endDay: yup.string().required('Xin hãy chọn ngày kết thúc'),
+  });
 
   const exportToExcel = async (fileName, sheetName) => {
+    methods.trigger();
+    const formValue = methods.getValues();
+    const isValid = schema.isValidSync(formValue);
+   // setLoading(true);
 
-    setLoading(true);
-    const param = {...filter,list: 'list'}
-    const res = await reportApi.getList(param);
-
-    try {
-      if (res.status) {
-        const wb = new ExcelJS.Workbook();
-        const wsPAKD = wb.addWorksheet(sheetName, { views: [{ zoomScale: 80, zoomScaleNormal: 80 }] });
-        createSheetPAKD(wb, wsPAKD,res.data.data);
-        const buf = await wb.xlsx.writeBuffer();
-        saveAs(new Blob([buf]), `${fileName}.xlsx`);
+    if (isValid) {
+      try {
+        const params = {...filter, list: 'list'}
+        const res = await reportApi.getList(params);
+        if (res.status) {
+          const wb = new ExcelJS.Workbook();
+          const wsPAKD = wb.addWorksheet(sheetName, {views: [{zoomScale: 80, zoomScaleNormal: 80}]});
+          createSheetPAKD(wb, wsPAKD, res.data.data);
+          const buf = await wb.xlsx.writeBuffer();
+          saveAs(new Blob([buf]), `${fileName}.xlsx`);
+        } else {
+          toast.error(res.message);
+        }
+      } catch (error) {
+        toast.error("Bạn không có quyền truy cập");
+        console.log('Lỗi hệ thống', error);
       }
-      else {
-        toast.error(res.message);
-      }
-    } catch (error) {
-      toast.error("Bạn không có quyền truy cập");
-      console.log('Lỗi hệ thống', error);
     }
-    setLoading(false);
+    //setLoading(false);
 
   };
 
@@ -104,7 +110,7 @@ const ReportFPExportExcel = ({ filter }) => {
 
     let rowDate = addRow(
       ws,
-      [moment(filter?.start_day).format('DD-MM-YYYY') + ' - ' + moment(filter?.end_day).format('DD-MM-YYYY')],
+        [moment(methods.getValues('startDay')).format('DD-MM-YYYY') + ' - ' + moment(methods.getValues('endDay')).format('DD-MM-YYYY')],
       {
         border: false,
         font: { size: 11, bold: true, color: { argb: '000000' }, name: fontFamily },
@@ -154,7 +160,7 @@ const ReportFPExportExcel = ({ filter }) => {
     //ws.getRow(6).value = stringTotal;
     return ws;
   };
-
+console.log(filter)
   const addRow = (ws, data, section) => {
     const borderStyles = {
       top: { style: 'thin' },
