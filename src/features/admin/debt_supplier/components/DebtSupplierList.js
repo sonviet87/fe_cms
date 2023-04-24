@@ -80,16 +80,16 @@ export default function DebtSupplierList({ list, pagination, filter, onFilter, o
         <TableBody>
           {list.length > 0 &&
             list.map((row) => (
-              <TableRow key={row.id}>
-                <TableCell>{row.code}</TableCell>
+              <TableRow key={row?.id}>
+                <TableCell>{row?.code}</TableCell>
                 <TableCell component="th">
-                  <Link to={'/admin/debts-supplier/' + row.id}>
-                    {row.name}
+                  <Link to={'/admin/debts-supplier/' + row?.id}>
+                    {row?.name}
                   </Link>
                 </TableCell>
-                <TableCell>{row.fp_code}</TableCell>
-                <TableCell>{row.supplier}</TableCell>
-                <TableCell> {<NumericFormat value={row.total_debt} thousandSeparator={true} displayType="text" />} </TableCell>
+                <TableCell>{row?.fp_code}</TableCell>
+                <TableCell>{row?.supplier}</TableCell>
+                <TableCell> {<NumericFormat value={row?.total_debt} thousandSeparator={true} displayType="text" />} </TableCell>
                 <TableCell> <ChipStatus label={row?.isDone} status={row.isDone_number} /></TableCell>
 
                 <TableCell
@@ -101,7 +101,7 @@ export default function DebtSupplierList({ list, pagination, filter, onFilter, o
                     variant="contained"
                     color="primary"
                     size="small"
-                    onClick={() => navigate('/admin/debts-supplier/' + row.id)}
+                    onClick={() => navigate('/admin/debts-supplier/' + row?.id)}
                   >
                     <EditIcon fontSize="small" />
                   </BasicButtonStyled>

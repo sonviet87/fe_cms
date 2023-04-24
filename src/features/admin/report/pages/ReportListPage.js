@@ -44,6 +44,7 @@ function ReportListPage() {
     const [filter, setFilter] = React.useState({
         per_page: 10,
         page: 0,
+        //list: 'list'
     });
     const handleFilter = async (data) => {
         data.startDay = moment(data.startDay).format('YYYY-MM-DD');
@@ -57,6 +58,7 @@ function ReportListPage() {
             ...data,
         }
         setLoading(true);
+
         const res = await reportApi.getList(params);
 
         if (res.status) {
