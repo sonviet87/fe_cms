@@ -18,11 +18,11 @@ AccountForm.propTypes = {
 };
 
 
-function AccountForm({ initialValue, onSubmit, itemValue, role, isEdit }) {
+function AccountForm({ initialValue, onSubmit, itemValue, usersValue, isEdit }) {
     const validationRules = {
         name: yup.string().required('Tên không được bỏ trống'),
         phone: yup.string().required('Điện thoại không được bỏ trống'),
-
+        user_id: yup.string().required('user không được bỏ trống'),
     };
 
     const schema = yup.object().shape(validationRules);
@@ -52,6 +52,7 @@ function AccountForm({ initialValue, onSubmit, itemValue, role, isEdit }) {
             setValue('mst', itemValue.mst);
             setValue('deposit', itemValue.deposit);
             setValue('debt', itemValue.debt);
+            setValue('user_id', itemValue.user_id);
 
         }
     }, [itemValue]);
@@ -113,6 +114,15 @@ function AccountForm({ initialValue, onSubmit, itemValue, role, isEdit }) {
                 </Grid>
                 <Grid item xs={12} md={4}>
                     <TextFormik name="debt" label="Số ngày công nợ" control={control} />
+                </Grid>
+                <Grid item xs={12} md={6} >
+                    <BasicSelect
+                        name="user_id"
+                        label="Gán cho"
+                        control={control}
+                        options={usersValue}
+
+                    />
                 </Grid>
 
                 <Grid item xs={12} md={12}>

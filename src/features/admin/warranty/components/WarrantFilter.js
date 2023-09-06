@@ -32,8 +32,9 @@ export default function WarrantFilter({ loading, filter, onSubmit }) {
   };
   return (
     <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-      <Box component="form" onSubmit={handleSubmit(handleFormSubmit)} sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 300, border: '1px solid #acacac', borderRadius: '8px' }}>
-        <InputBaseForm
+      <Box component="form" onSubmit={handleSubmit(handleFormSubmit)}  sx={{display: 'flex'}}>
+        <Box sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 300, border: '1px solid #acacac', borderRadius: '8px' }}>
+          <InputBaseForm
           sx={{ ml: 1, flex: 1 }}
           placeholder="Tìm bảo hành"
           inputProps={{ 'aria-label': 'Tìm bảo hành' }}
@@ -43,6 +44,29 @@ export default function WarrantFilter({ loading, filter, onSubmit }) {
         <IconButtonStyled type="button" sx={{ p: '10px' }} aria-label="search" size="small" onClick={handleSubmit(handleFormSubmit)}>
           <SearchIcon />
         </IconButtonStyled>
+        </Box>
+        <Box sx={{ p: '2px 4px',ml: '10px', display: 'flex', alignItems: 'center', width: 300, border: '1px solid #acacac', borderRadius: '8px' }}>
+          <InputBaseForm
+              sx={{ ml: 1, flex: 1 }}
+              placeholder="Tìm mã PAKD"
+              control={control}
+              name="fp_id"
+          />
+          <IconButtonStyled type="button" sx={{ p: '10px' }} aria-label="search" size="small" onClick={handleSubmit(handleFormSubmit)}>
+            <SearchIcon />
+          </IconButtonStyled>
+        </Box>
+        <Box sx={{ p: '2px 4px',ml: '10px', display: 'flex', alignItems: 'center', width: 300, border: '1px solid #acacac', borderRadius: '8px' }}>
+          <InputBaseForm
+              sx={{ ml: 1, flex: 1 }}
+              placeholder="Tìm theo Serial"
+              control={control}
+              name="serial"
+          />
+          <IconButtonStyled type="button" sx={{ p: '10px' }} aria-label="search" size="small" onClick={handleSubmit(handleFormSubmit)}>
+            <SearchIcon />
+          </IconButtonStyled>
+        </Box>
       </Box>
       <Button
         color="primary"

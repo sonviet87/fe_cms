@@ -9,6 +9,7 @@ import TitleForm from 'components/Common/TitleForm';
 import roleApi from 'api/roleAPI';
 import accountApi from 'api/accountAPI';
 import AccountForm from '../components/AccountForm';
+import userApi from "../../../../api/userAPI";
 
 function AdminAccountAddEditPage() {
 
@@ -16,7 +17,8 @@ function AdminAccountAddEditPage() {
     const { id } = useParams();
     const isEdit = Boolean(id);
     const [account, setAccount] = React.useState({});
-    const [role, setRole] = React.useState([]);
+    //const [role, setRole] = React.useState([]);
+    const [users, setUsers] = React.useState([]);
     const navigate = useNavigate();
 
     const initialValue = {
@@ -30,14 +32,15 @@ function AdminAccountAddEditPage() {
         mst: '',
         deposit: '',
         debt: '',
+        user_id: ''
     };
 
     React.useEffect(() => {
         (async () => {
-            const rsRole = await roleApi.getAll();
-            if (rsRole.status) {
-                if (rsRole.status) {
-                    setRole(rsRole.data.data);
+            const rsUsers = await userApi.getList();
+            if (rsUsers.status) {
+                if (rsUsers.status) {
+                    setUsers(rsUsers.data.data);
                 }
             }
         })();
@@ -60,6 +63,7 @@ function AdminAccountAddEditPage() {
                         mst: res.data.data.mst?? '',
                         deposit: res.data.data.deposit ?? '',
                         debt: res.data.data.debt?? '',
+                        user_id: res.data.data.user_id?? '',
                     });
 
                 } else {
@@ -72,7 +76,6 @@ function AdminAccountAddEditPage() {
             setLoading(false);
         })();
     }, [id, navigate]);
-
 
     const handleFormSubmit = async (formValues) => {
         setLoading(true);
@@ -100,7 +103,6 @@ function AdminAccountAddEditPage() {
         }
         setLoading(false);
     };
-
     return (
         <WrapperPage >
             {loading && (
@@ -109,7 +111,7 @@ function AdminAccountAddEditPage() {
             <TitleForm lable={isEdit ? "Cập nhật khách hàng" : "Thêm khách hàng"} />
 
             {(!isEdit || Boolean(account)) && (
-                <AccountForm initialValue={initialValue} onSubmit={handleFormSubmit} itemValue={account} role={role} isEdit={isEdit} />
+                <AccountForm initialValue={initialValue} onSubmit={handleFormSubmit} itemValue={account} usersValue={users} isEdit={isEdit} />
             )}
 
         </WrapperPage>
