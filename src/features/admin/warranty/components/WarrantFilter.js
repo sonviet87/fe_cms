@@ -34,7 +34,8 @@ export default function WarrantFilter({ loading, filter, onSubmit }) {
   };
   return (
     <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-      <Box component="form" onSubmit={handleSubmit(handleFormSubmit)} sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 300, border: '1px solid #acacac', borderRadius: '8px' }}>
+      <Box sx={{display:'flex'}}>
+        <Box component="form" onSubmit={handleSubmit(handleFormSubmit)} sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 300, border: '1px solid #acacac', borderRadius: '8px' }}>
           <InputBaseForm
               sx={{ ml: 1, flex: 1 }}
               placeholder="Tìm bảo hành"
@@ -45,18 +46,6 @@ export default function WarrantFilter({ loading, filter, onSubmit }) {
           <IconButtonStyled type="button" sx={{ p: '10px' }} aria-label="search" size="small" onClick={handleSubmit(handleFormSubmit)}>
             <SearchIcon />
           </IconButtonStyled>
-      </Box>
-      <Box component="form" onSubmit={handleSubmit(handleFormSubmit)} sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 300, border: '1px solid #acacac', borderRadius: '8px' }}>
-        <InputBaseForm
-            sx={{ ml: 1, flex: 1 }}
-            placeholder="Tìm serial"
-            inputProps={{ 'aria-label': 'Tìm serial' }}
-            control={control}
-            name="serial"
-        />
-        <IconButtonStyled type="button" sx={{ p: '10px' }} aria-label="search" size="small" onClick={handleSubmit(handleFormSubmit)}>
-          <SearchIcon />
-        </IconButtonStyled>
         </Box>
         <Box sx={{ p: '2px 4px',ml: '10px', display: 'flex', alignItems: 'center', width: 300, border: '1px solid #acacac', borderRadius: '8px' }}>
           <InputBaseForm
@@ -80,6 +69,8 @@ export default function WarrantFilter({ loading, filter, onSubmit }) {
             <SearchIcon />
           </IconButtonStyled>
         </Box>
+      </Box>
+
       <Button
         color="primary"
         variant="contained"

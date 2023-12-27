@@ -38,7 +38,7 @@ export default function SupplierFilter({ loading, filter, onSubmit }) {
           placeholder="Tìm nhà cung cấp"
           inputProps={{ 'aria-label': 'Tìm nhà cung cấp' }}
           control={control}
-          name="username"
+          name="search"
         />
         <IconButtonStyled type="button" sx={{ p: '10px' }} aria-label="search" size="small" onClick={handleSubmit(handleFormSubmit)}>
           <SearchIcon />

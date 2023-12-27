@@ -9,6 +9,9 @@ import * as yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useNavigate } from 'react-router-dom';
+import BasicSelect from "../../../../components/FormElement/SelectBox";
+import {statusApproved} from "../../fp/constants/FPConstants";
+import {statusDebtSupplier} from "../constants/debtSupplierConstants";
 
 export default function DebtSupplierFilter({ loading, filter, onSubmit }) {
 
@@ -32,24 +35,51 @@ export default function DebtSupplierFilter({ loading, filter, onSubmit }) {
   };
   return (
     <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-      <Box component="form" onSubmit={handleSubmit(handleFormSubmit)} sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 300, border: '1px solid #acacac', borderRadius: '8px' }}>
-        <InputBaseForm
-          sx={{ ml: 1, flex: 1 }}
-          placeholder="Tìm công nợ"
-          inputProps={{ 'aria-label': 'Tìm công nợ' }}
-          control={control}
-          name="keyword"
-        />
-        <IconButtonStyled type="button" sx={{ p: '10px' }} aria-label="search" size="small" onClick={handleSubmit(handleFormSubmit)}>
-          <SearchIcon />
-        </IconButtonStyled>
+      <Box sx={{display:'flex', alignItems:'center'}}>
+        <Box sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', width: 300, border: '1px solid #acacac', borderRadius: '5px',height:'40px' }}>
+
+           <InputBaseForm
+            sx={{ ml: 1, flex: 1 }}
+            placeholder="Tìm công nợ"
+            inputProps={{ 'aria-label': 'Tìm công nợ' }}
+            control={control}
+            name="keyword"
+          />
+
+
+
+        </Box>
+          <Box>
+              <BasicSelect
+                  name="status"
+                  label="Tình trạng"
+                  isClear={true}
+                  control={control}
+                  options={
+                      [
+                          { id: 0, name: 'Tất cả' },
+                          { id: statusDebtSupplier.PAID, name: 'Đã trả' },
+                          { id: statusDebtSupplier.UNPAID, name: 'Chưa trả' },
+                      ]
+                  }
+
+              />
+          </Box>
+          <Box>
+              <Button sx={{ml:'10px'}} onClick={handleSubmit(handleFormSubmit)} variant="contained" >
+                  Tìm kiếm
+              </Button>
+          </Box>
       </Box>
-      <Button
-        color="primary"
-        variant="contained"
-        startIcon={<AddIcon />}
-        onClick={() => { navigate('add') }}
-      > Thêm </Button>
+      <Box>
+        <Button
+          color="primary"
+          variant="contained"
+          startIcon={<AddIcon />}
+          onClick={() => { navigate('add') }}
+        > Thêm </Button>
+       </Box>
+
     </Box>
   )
 }

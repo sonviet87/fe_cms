@@ -38,7 +38,7 @@ export default function AccountFilter({ loading, filter, onSubmit }) {
           placeholder="Tìm người dùng"
           inputProps={{ 'aria-label': 'Tìm người dùng' }}
           control={control}
-          name="username"
+          name="search"
         />
         <IconButtonStyled type="button" sx={{ p: '10px' }} aria-label="search" size="small" onClick={handleSubmit(handleFormSubmit)}>
           <SearchIcon />
