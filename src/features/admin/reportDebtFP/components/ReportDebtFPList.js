@@ -10,7 +10,7 @@ import { NumericFormat } from 'react-number-format';
 import { Box } from '@mui/system';
 
 
-export default function ReportDebtFPList({ list, pagination, filter, onFilter,methods }) {
+export default function ReportDebtFPList({ list, pagination, filter, onFilter,methods ,sumValues}) {
 
   const handleChangePage = (event, newPage) => {
     onFilter({
@@ -35,22 +35,7 @@ export default function ReportDebtFPList({ list, pagination, filter, onFilter,me
     });
   };
 
-  const handleTotalFP = () => {
-    if (list.length === 0) return '(Tổng PAKD: <b>0</b> / Tổng giá bán: <b>0</b> / Tổng giá bán (VAT): <b>0</b> /Tổng lợi nhuận: <b>0</b>)';
-    let totalSelling = 0;
-    let totalMargin = 0;
-    let totalVAT = 0;
-    let totalFP = 0;
-    list.map((item, index) => {
-      totalSelling += parseInt(item.fp?.selling);
-      totalMargin += parseInt(item.fp?.margin);
-      totalVAT += parseInt(item?.total_debt);
-      totalFP++;
-      return item;
-    })
 
-    return `(Tổng PAKD: <b>${totalFP}</b> / Tổng giá bán: <b>${totalSelling.toLocaleString()}</b>  / Tổng giá bán (VAT): <b>${totalVAT.toLocaleString()}</b> / Tổng lợi nhuận: <b>${totalMargin.toLocaleString()}</b>)`
-  }
 
 
 
@@ -78,7 +63,7 @@ export default function ReportDebtFPList({ list, pagination, filter, onFilter,me
           <TableRow>
             <TableCell colSpan={9} sx={{ background: '#e3e3e3' }}>
               <Box sx={{ textAlign: 'center' }}>
-                <div dangerouslySetInnerHTML={{ __html: handleTotalFP() }} />
+                <div dangerouslySetInnerHTML={{ __html: sumValues }} />
 
               </Box>
 

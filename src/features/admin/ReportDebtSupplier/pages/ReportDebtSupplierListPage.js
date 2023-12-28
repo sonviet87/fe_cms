@@ -10,6 +10,7 @@ import ReportList from '../components/ReportDebtSupplierList';
 import * as yup from "yup";
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
+import reportDebtFPApi from "../../../../api/reportDebtFPAPI";
 
 function ReportDebtFPListPage() {
     const [loading, setLoading] = React.useState(false);
@@ -17,6 +18,7 @@ function ReportDebtFPListPage() {
 
     const [list, setList] = React.useState({
         reports: [],
+        sumValues: '(Tổng PAKD: <b>0</b> / Tổng giá mua (VAT): <b>0</b> )',
         pagination: {
             total: 0,
             current_page: 0
@@ -57,10 +59,13 @@ function ReportDebtFPListPage() {
         }
         setLoading(true);
         const res = await reportDebtSupplierApi.getList(params);
-
+        const paramsSum = {...params, list: 'list'};
+        const resSum = await reportDebtFPApi.getList(paramsSum);
         if (res.status) {
+            const sumValues = handleTotalFP(resSum.data.data);
             setList({
                 reports: res.data.data,
+                sumValues: sumValues,
                 pagination: {
                     total: res.data.meta.total,
                     current_page: res.data.meta.current_page
@@ -86,6 +91,19 @@ function ReportDebtFPListPage() {
         })();
     }, []);
 
+    const handleTotalFP = (data) => {
+        if (list.length === 0) return '(Tổng PAKD: <b>0</b> / Tổng giá mua (VAT): <b>0</b> )';
+
+        let totalVAT = 0;
+        let totalFP = 0;
+        data.map((item, index) => {
+            totalVAT += parseInt(item.total_debt);
+            totalFP++;
+            return item;
+        })
+
+        return `(Tổng PAKD: <b>${totalFP}</b>   / Tổng giá mua (VAT): <b>${totalVAT.toLocaleString()}</b>)`
+    }
     return (
         <WrapperPage>
             <ReportDebtSupplierHeaderPage list={list.reports} filter={filter} methods={methods} />
@@ -98,6 +116,7 @@ function ReportDebtFPListPage() {
                 filter={filter}
                 onFilter={handleFilter}
                 methods={methods}
+                             sumValues={list.sumValues}
             />)}
         </WrapperPage>
     );

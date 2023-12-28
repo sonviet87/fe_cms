@@ -35,6 +35,7 @@ function ReportListPage() {
 
     const [list, setList] = React.useState({
         reports: [],
+        sumValues: '(Tổng PAKD: <b>0</b> / Tổng giá bán: <b>0</b> / Tổng lợi nhuận: <b>0</b>)',
         pagination: {
             total: 0,
             current_page: 0
@@ -60,10 +61,13 @@ function ReportListPage() {
         setLoading(true);
 
         const res = await reportApi.getList(params);
-
+        const paramsSum = {...params, list: 'list'};
+        const resSum = await reportApi.getList(paramsSum);
         if (res.status) {
+            const sumValues = handleTotalFP(resSum.data.data);
             setList({
                 reports: res.data.data,
+                sumValues: sumValues,
                 pagination: {
                     total: res.data.meta.total,
                     current_page: res.data.meta.current_page
@@ -71,6 +75,21 @@ function ReportListPage() {
             });
         }
         setLoading(false);
+    }
+
+    const handleTotalFP = (data) => {
+        if (data.length === 0) return '(Tổng PAKD: <b>0</b> / Tổng giá bán: <b>0</b> / Tổng lợi nhuận: <b>0</b>)';
+        let totalSelling = 0;
+        let totalMargin = 0;
+        let totalFP = 0;
+        data.map((item, index) => {
+            totalSelling += parseInt(item.selling);
+            totalMargin += parseInt(item.margin);
+            totalFP++;
+            return item;
+        })
+
+        return `(Tổng PAKD: <b>${totalFP}</b> / Tổng giá bán: <b>${totalSelling.toLocaleString()}</b> / Tổng lợi nhuận: <b>${totalMargin.toLocaleString()}</b>)`
     }
 
     const handleChangeStatusReport = (value) => {
@@ -83,7 +102,7 @@ function ReportListPage() {
             <ReportFilter loading={loading} filter={filter} onSubmit={handleFilter} methods={methods}   />
             {loading ? (
                 <SkeletonList />
-            ) : (!isReport ? <ReportList list={list.reports}
+            ) : (!isReport ? <ReportList list={list.reports} sumValues={list.sumValues}
                 pagination={list.pagination}
                 loading={loading}
                 filter={filter}

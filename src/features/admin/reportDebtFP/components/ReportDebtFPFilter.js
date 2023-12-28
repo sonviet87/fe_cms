@@ -8,6 +8,7 @@ import { selectListAccount } from 'features/admin/account/accountSlice';
 import { selectListUser } from 'features/admin/user/userSlice';
 import {selectRoles} from "../../../auth/authSlice";
 import {fpPermissions} from "../../fp/constants/FPConstants";
+import AutoCompleteForm from "../../../../components/FormElement/Autocomplete";
 
 
 export default function ReportDebtFPFilter({ loading, filter, onSubmit, fps ,methods }) {
@@ -23,6 +24,8 @@ export default function ReportDebtFPFilter({ loading, filter, onSubmit, fps ,met
   const handleFormSubmit = async (formValues) => {
 
     if (!onSubmit) return;
+    formValues.fp_id = formValues.fp_id?.id
+    formValues.account_id = formValues.account_id?.id
     await onSubmit(formValues);
   };
 
@@ -52,8 +55,8 @@ export default function ReportDebtFPFilter({ loading, filter, onSubmit, fps ,met
               sx={{ width: '100px' }}
             />
           </Grid>
-          <Grid item xs={12} sm={6} md={2}>
-            <BasicSelect
+          <Grid item xs={12} sm={6} md={2} sx={{mt:1}}>
+            <AutoCompleteForm
               setValue={setValue}
               name="fp_id"
               label="Mã PAKD"
@@ -76,8 +79,8 @@ export default function ReportDebtFPFilter({ loading, filter, onSubmit, fps ,met
               }
             />
           </Grid>}
-          <Grid item xs={12} sm={6} md={2} >
-            <BasicSelect
+          <Grid item xs={12} sm={6} md={2} sx={{mt:1}}>
+            <AutoCompleteForm
               name="account_id"
               label="Khách hàng"
               control={control}

@@ -160,7 +160,7 @@ const ReportFPExportExcel = ({ filter,methods}) => {
     //ws.getRow(6).value = stringTotal;
     return ws;
   };
-console.log(filter)
+
   const addRow = (ws, data, section) => {
     const borderStyles = {
       top: { style: 'thin' },

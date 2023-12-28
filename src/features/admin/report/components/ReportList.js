@@ -10,17 +10,17 @@ import { NumericFormat } from 'react-number-format';
 import { Box } from '@mui/system';
 
 
-export default function ReportList({ list, pagination, filter, onFilter,methods }) {
+export default function ReportList({ list, pagination, filter, onFilter,methods ,sumValues}) {
 
   const handleChangePage = (event, newPage) => {
-    console.log(methods.getValues('startDay'));
+   // console.log(methods.getValues('startDay'));
     onFilter({
       page: newPage + 1,
       startDay: methods.getValues('startDay'),
       endDay: methods.getValues('endDay'),
-      category_id: methods.getValues('category_id'),
+      category_id: methods.getValues('category_id')?.id,
       supplier_id: methods.getValues('supplier_id'),
-      account_id: methods.getValues('account_id'),
+      account_id: methods.getValues('account_id')?.id,
       type_fp: methods.getValues('type_fp'),
     });
   };
@@ -37,22 +37,6 @@ export default function ReportList({ list, pagination, filter, onFilter,methods 
       type_fp: methods.getValues('type_fp'),
     });
   };
-
-  const handleTotalFP = () => {
-    if (list.length === 0) return '(Tổng PAKD: <b>0</b> / Tổng giá bán: <b>0</b> / Tổng lợi nhuận: <b>0</b>)';
-    let totalSelling = 0;
-    let totalMargin = 0;
-    let totalFP = 0;
-    list.map((item, index) => {
-      totalSelling += parseInt(item.selling);
-      totalMargin += parseInt(item.margin);
-      totalFP++;
-      return item;
-    })
-
-    return `(Tổng PAKD: <b>${totalFP}</b> / Tổng giá bán: <b>${totalSelling.toLocaleString()}</b> / Tổng lợi nhuận: <b>${totalMargin.toLocaleString()}</b>)`
-  }
-
 
 
   return (
@@ -77,7 +61,7 @@ export default function ReportList({ list, pagination, filter, onFilter,methods 
           <TableRow>
             <TableCell colSpan={7} sx={{ background: '#e3e3e3' }}>
               <Box sx={{ textAlign: 'center' }}>
-                <div dangerouslySetInnerHTML={{ __html: handleTotalFP() }} />
+                <div dangerouslySetInnerHTML={{ __html: sumValues }} />
 
               </Box>
 

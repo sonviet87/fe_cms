@@ -38,7 +38,11 @@ function AdminFPAddEditPage() {
   const validationRules = {
     name: yup.string().required('Xin hãy điền tên FP'),
     contact_id: yup.string().required('Xin hãy chọn liên hệ'),
-    account_id: yup.string().required('Xin hãy chọn tài khoản'),
+    account_id:  yup.mixed()
+        .test("required", "Xin hãy chọn tài khoản", (item) => {
+          if (item) return true;
+          return false;
+        }),
     user_assign: yup.string().required('Xin hãy chọn danh mục'),
     details: yup.lazy(() =>
       yup.array().of(
@@ -70,7 +74,13 @@ function AdminFPAddEditPage() {
   const validationRulesExtra = {
     name: yup.string().required('Xin hãy điền tên FP'),
     contact_id: yup.string().required('Xin hãy chọn liên hệ'),
-    account_id: yup.string().required('Xin hãy chọn tài khoản'),
+    //account_id: yup.string().required('Xin hãy chọn tài khoản'),
+    account_id:  yup.mixed()
+        .test("required", "Xin hãy chọn tài khoản", (item) => {
+          if (item) return true;
+          return false;
+        }),
+
     user_assign: yup.string().required('Xin hãy chọn danh mục'),
     number_invoice: yup.string().required('Xin hãy chọn số hóa đơn'),
     date_invoice: yup.string().required('Xin hãy chọn ngày hóa đơn'),
@@ -182,7 +192,7 @@ function AdminFPAddEditPage() {
           if (permissions.includes(fpPermissions.FP_IS_SALE) && (parseInt(fpRs.data.data.status) !== 0 && (parseInt(fpRs.data.data.status) !== 7))) { setDisable(true) }
           //console.log("role", (parseInt(fpRs.data.data.status) !== 7))
           dispatch(fpActions.setStatus(fpRs.data.data.status))
-          let contactRs = await accountApi.getContactByIDAccount(fpRs.data.data.account_id);
+          let contactRs = await accountApi.getContactByIDAccount(fpRs.data.data.account_id.id);
           if (contactRs.status) {
             setContacts(contactRs.data.data);
           }

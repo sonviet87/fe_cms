@@ -10,7 +10,7 @@ import { NumericFormat } from 'react-number-format';
 import { Box } from '@mui/system';
 
 
-export default function ReportDebtSupplierList({ list, pagination, filter, onFilter,methods }) {
+export default function ReportDebtSupplierList({ list, pagination, filter, onFilter,methods,sumValues }) {
 
   const handleChangePage = (event, newPage) => {
     onFilter({
@@ -18,7 +18,7 @@ export default function ReportDebtSupplierList({ list, pagination, filter, onFil
       startDay: methods.getValues('startDay'),
       endDay: methods.getValues('endDay'),
       isDone: methods.getValues('isDone'),
-      supplier_id: methods.getValues('supplier_id'),
+      supplier_id: methods.getValues('supplier_id')?.id,
       account_id: methods.getValues('account_id'),
       fp_id: methods.getValues('fp_id'),
       user_id: methods.getValues('user_id'),
@@ -33,26 +33,14 @@ export default function ReportDebtSupplierList({ list, pagination, filter, onFil
       startDay: methods.getValues('startDay'),
       endDay: methods.getValues('endDay'),
       isDone: methods.getValues('isDone'),
-      supplier_id: methods.getValues('supplier_id'),
+      supplier_id: methods.getValues('supplier_id')?.id,
       account_id: methods.getValues('account_id'),
       fp_id: methods.getValues('fp_id'),
       user_id: methods.getValues('user_id'),
     });
   };
 
-  const handleTotalFP = () => {
-    if (list.length === 0) return '(Tổng PAKD: <b>0</b> / Tổng giá mua (VAT): <b>0</b> )';
 
-    let totalVAT = 0;
-    let totalFP = 0;
-    list.map((item, index) => {
-      totalVAT += parseInt(item.total_debt);
-      totalFP++;
-      return item;
-    })
-
-    return `(Tổng PAKD: <b>${totalFP}</b>   / Tổng giá mua (VAT): <b>${totalVAT.toLocaleString()}</b>)`
-  }
 
 
 
@@ -79,7 +67,7 @@ export default function ReportDebtSupplierList({ list, pagination, filter, onFil
           <TableRow>
             <TableCell colSpan={9} sx={{ background: '#e3e3e3' }}>
               <Box sx={{ textAlign: 'center' }}>
-                <div dangerouslySetInnerHTML={{ __html: handleTotalFP() }} />
+                <div dangerouslySetInnerHTML={{ __html: sumValues }} />
 
               </Box>
 

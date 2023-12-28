@@ -73,12 +73,12 @@ function FPForm({
     formValues.net_profit = totalBids;
     formValues.net_profit_percent = ((parseInt(totalBids) / parseInt(totalSell)) * 100).toFixed(2);
     formValues.total_sell = totalSell;
+    formValues.account_id = formValues.account_id.id;
     delete formValues.status;
     formValues.details = formValues.details.map((item) => {
       item.category_id = item.category_id.id;
       return item;
     });
-    //console.log(formValues);
     await onSubmit(formValues);
   };
 
@@ -163,8 +163,8 @@ function FPForm({
         <Grid item xs={12} md={4}>
           <BasicSelect name="user_assign" disabled={disabled} label="Gán cho" control={control} options={users} />
         </Grid>
-        <Grid item xs={12} md={4}>
-          <BasicSelect
+        <Grid item xs={12} md={4} sx={{mt:1}}>
+          <AutoCompleteForm
             name="account_id"
             label="Khách hàng"
             control={control}

@@ -8,6 +8,7 @@ import { selectListSupplier } from 'features/admin/supplier/supplierSlice';
 import { selectListUser } from 'features/admin/user/userSlice';
 import {selectRoles} from "../../../auth/authSlice";
 import {fpPermissions} from "../../fp/constants/FPConstants";
+import AutoCompleteForm from "../../../../components/FormElement/Autocomplete";
 
 
 export default function ReportDebtSupplierFilter({ loading, filter, onSubmit, fps ,methods}) {
@@ -23,7 +24,8 @@ export default function ReportDebtSupplierFilter({ loading, filter, onSubmit, fp
   const handleFormSubmit = async (formValues) => {
 
     if (!onSubmit) return;
-    console.log(formValues)
+    formValues.fp_id = formValues.fp_id?.id
+    formValues.supplier_id = formValues.supplier_id?.id
     await onSubmit(formValues);
   };
 
@@ -54,8 +56,8 @@ export default function ReportDebtSupplierFilter({ loading, filter, onSubmit, fp
 
             />
           </Grid>
-          <Grid item xs={12} sm={6} md={2}>
-            <BasicSelect
+          <Grid item xs={12} sm={6} md={2} sx={{mt:1}}>
+            <AutoCompleteForm
               name="supplier_id"
               label="Nhà cung cấp"
               isClear={true}
@@ -66,8 +68,8 @@ export default function ReportDebtSupplierFilter({ loading, filter, onSubmit, fp
               setValue={setValue}
             />
           </Grid>
-          <Grid item xs={12} sm={6} md={2}>
-            <BasicSelect
+          <Grid item xs={12} sm={6} md={2} sx={{mt:1}}>
+            <AutoCompleteForm
               name="fp_id"
               label="Mã PAKD"
               control={control}
@@ -101,8 +103,8 @@ export default function ReportDebtSupplierFilter({ loading, filter, onSubmit, fp
               setValue={setValue}
               options={
                 [
-                  { id: 2, name: "Chưa thu" },
-                  { id: 1, name: "Đã thu xong" },
+                  { id: 2, name: "Chưa trả" },
+                  { id: 1, name: "Đã trả" },
 
                 ]
               }
