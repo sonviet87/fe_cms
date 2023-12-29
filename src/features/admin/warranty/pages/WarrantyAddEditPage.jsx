@@ -33,6 +33,8 @@ function AdminWarrantyAddEditPage() {
         serial: '',
         time_warranty: '',
         type: 1,
+        start_day_warranty:'',
+        end_day_warranty:'',
       },
     ],
   };

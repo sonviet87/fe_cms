@@ -157,6 +157,12 @@ function WarrantyForm({ initialValue, onSubmit, itemValue, isEdit, fps }) {
                             sx={{ minWidth: '250px' }}
                           />
                         </TableCellStyled>
+                        <TableCellStyled>
+                            <BasicDatePicker name={`details[${index}].start_day_warranty`} lableText="Ngày bắt đầu" control={control} />
+                        </TableCellStyled>
+                        <TableCellStyled>
+                          <BasicDatePicker name={`details[${index}].end_day_warranty`} lableText="Ngày kết thúc" control={control} />
+                        </TableCellStyled>
                       </TableRow>
                     </React.Fragment>
                   ))}
