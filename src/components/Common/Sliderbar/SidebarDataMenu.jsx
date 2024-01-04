@@ -100,6 +100,23 @@ export const MenuCMS = [
         ],
       },
       {
+        title: 'KPI',
+        Icon: ManageAccountsIcon,
+        permission: 'all',
+        items: [
+          {
+            title: 'Danh sách KPI',
+            route: '/admin/kpi',
+            permission: 'all',
+          },
+          {
+            title: 'Danh sách nhóm',
+            route: '/admin/kpi/group-member',
+            permission: 'all',
+          },
+        ],
+      },
+      {
         title: 'Người dùng',
         Icon: ManageAccountsIcon,
         permission: 'user-list',

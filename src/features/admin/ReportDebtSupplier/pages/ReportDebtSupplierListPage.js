@@ -60,7 +60,7 @@ function ReportDebtFPListPage() {
         setLoading(true);
         const res = await reportDebtSupplierApi.getList(params);
         const paramsSum = {...params, list: 'list'};
-        const resSum = await reportDebtFPApi.getList(paramsSum);
+        const resSum = await reportDebtSupplierApi.getList(paramsSum);
         if (res.status) {
             const sumValues = handleTotalFP(resSum.data.data);
             setList({

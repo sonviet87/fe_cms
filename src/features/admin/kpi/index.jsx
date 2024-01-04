@@ -1,0 +1,21 @@
+import React, { lazy, Suspense } from 'react';
+import { Routes, Route } from 'react-router';
+
+const AdminKpiGroupMemberAddEditPage = lazy(() => import('./pages/KpiGroupMemberAddEdit'));
+const KpiGroupMemberListPage = lazy(() => import('./pages/KpiGroupMemberList'));
+const KpiListPage = lazy(() => import('./pages/KpiListPage'));
+
+function AdminKPIFeature() {
+    return (
+        <Suspense>
+            <Routes>
+                <Route path="/" element={<KpiListPage />} />
+                <Route path="/group-member" element={<KpiGroupMemberListPage />} />
+                <Route path="/group-member/add" element={<AdminKpiGroupMemberAddEditPage />} />
+                <Route path="/group-member/:id" element={<AdminKpiGroupMemberAddEditPage />} />
+            </Routes>
+        </Suspense>
+    );
+}
+
+export default AdminKPIFeature;
