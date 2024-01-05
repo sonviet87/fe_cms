@@ -1,14 +1,28 @@
-import {Box, Grid} from "@mui/material";
+import React from 'react';
+import {Box, Grid, } from "@mui/material";
 import * as yup from "yup";
-import {useForm} from "react-hook-form";
+
 import {yupResolver} from "@hookform/resolvers/yup";
-import TextFormik from "../../../../components/FormElement/TextFormik";
+import TextFormik, {TextFieldNumber} from "../../../../components/FormElement/TextFormik";
 import SelectAllTransferList from "./TransferList";
 import {useSelector} from "react-redux";
 import {selectListUser} from "../../user/userSlice";
+import { WrapperBox} from "../../fp/style/StyledFP";
+import {WrapperBoxAlign} from "../../../../components/Common/SlytedComponent/Wrapper";
+import LoadingButton from "@mui/lab/LoadingButton";
+import CustomerConditions from "./CustomerConditions";
+import DebtsConditions from "./DebtsConditions";
+import {TitleBackGroundStyled} from "../../../../components/Common/SlytedComponent/Title";
+import {useForm} from "react-hook-form";
+import {toast} from "react-toastify";
+import kpiMemberGroupsApi from "../../../../api/kpiMemberGroupsAPI";
+import {useNavigate} from "react-router-dom";
+
 
 function KpiGroupMemberForm({ initialValue, onSubmit, itemValue, usersValue, isEdit }) {
+    const navigate = useNavigate();
     const users = useSelector(selectListUser);
+    const [loading, setLoading] = React.useState(false);
     const validationRules = {
 
     };
@@ -24,27 +38,113 @@ function KpiGroupMemberForm({ initialValue, onSubmit, itemValue, usersValue, isE
         resolver: yupResolver(schema),
     });
 
+
+    const handleFormSubmit = async (formValues) => {
+        console.log(formValues);
+        setLoading(true);
+        try {
+            let res;
+
+            res = await kpiMemberGroupsApi.add(formValues);
+
+            if (res.status) {
+                if (res.data.status) {
+                    toast.success(res.message);
+                    navigate('/kpi/group-member');
+                } else {
+                    toast.error(res.data.message);
+                }
+            } else {
+                toast.error(res.message);
+            }
+        } catch (error) {
+            console.log('Error', error.message);
+        }
+        setLoading(false);
+
+
+    }
     return (
-        <>
-            <TextFormik name="name" label="Tên nhóm" control={control} />
-            <SelectAllTransferList lists={users} />
+        <Box component="form" noValidate autoComplete="off" onSubmit={handleSubmit(handleFormSubmit)}>
+            <TextFormik name="name" label="Tên nhóm" control={control}  />
+
+            <SelectAllTransferList lists={users}  setValue={setValue} />
             <Box sx={{mt:4}}>
                 <Grid container spacing={2}>
                     <Grid item xs={4}>
-                        <div>Mục tiêu tháng</div>
-                        <TextFormik name="profit_months" label="Lợi nhuận" control={control} />
+                        <WrapperBox>
+                            <TitleBackGroundStyled background='4527a0' sx={{mb:1}}>Mục tiêu tháng</TitleBackGroundStyled>
+                            <TextFieldNumber name="profit_months" label="mục tiêu Lợi nhuận" control={control} fullWidth  />
+                            <WrapperBox>
+                                <div>Mục tiêu khách hàng mới</div>
+                                <TextFieldNumber name="customer_months" label="mục tiêu khách hàng mới" control={control} fullWidth  />
+
+                                <div>Điều kiện đạt khách hàng mới</div>
+                                <CustomerConditions name="customer_months_conditions" control={control} type='months' />
+                            </WrapperBox>
+                            <WrapperBox>
+                                <div>Mục tiêu công nợ</div>
+                                <TextFieldNumber name="debts_months" label="Mục tiêu công nợ bé hơn" control={control} fullWidth  />
+                                <div>Điều kiện đạt công nợ</div>
+                                <DebtsConditions name="debts_months_conditions" control={control} type='months' />
+                            </WrapperBox>
+                        </WrapperBox>
                     </Grid>
                     <Grid item xs={4}>
-                        <div>Mục tiêu quý</div>
-                        xs=4
+                        <WrapperBox>
+                            <TitleBackGroundStyled background='28A831' sx={{mb:1}}>Mục tiêu quý</TitleBackGroundStyled>
+                            <TextFieldNumber name="profit_3_months" label="mục tiêu Lợi nhuận" control={control}  fullWidth />
+                            <WrapperBox>
+                                <div>Mục tiêu khách hàng mới</div>
+                                <TextFieldNumber name="customer_3_months" label="mục tiêu khách hàng mới" control={control} fullWidth  />
+
+                                <div>Điều kiện đạt khách hàng mới</div>
+                                <CustomerConditions name="customer_3months_conditions" control={control} type='3months' />
+                            </WrapperBox>
+                            <WrapperBox>
+                                <div>Mục tiêu công nợ</div>
+                                <TextFieldNumber name="debts_3_months" label="Mục tiêu công nợ bé hơn " control={control} fullWidth  />
+                                <div>Điều kiện đạt công nợ</div>
+                                <DebtsConditions name="debts_3months_conditions" control={control} type='3months' />
+                            </WrapperBox>
+                        </WrapperBox>
                     </Grid>
                     <Grid item xs={4}>
-                        <div>Mục tiêu Năm</div>
-                        xs=4
+                        <WrapperBox>
+                            <TitleBackGroundStyled background='b8bb0d' sx={{mb:1}}>Mục tiêu năm</TitleBackGroundStyled>
+                            <TextFieldNumber name="profit_12_months" label="mục tiêu Lợi nhuận" control={control} fullWidth  />
+                            <WrapperBox>
+                                <div>Mục tiêu khách hàng mới</div>
+                                <TextFieldNumber name="customer_12_months" label="mục tiêu khách hàng mới" control={control} fullWidth  />
+
+                                <div>Điều kiện đạt khách hàng mới</div>
+                                <CustomerConditions name="customer_12months_conditions" control={control} type='12months' />
+                            </WrapperBox>
+                            <WrapperBox>
+                                <div>Mục tiêu công nợ</div>
+                                <TextFieldNumber name="debts_12_months" label="Mục tiêu công nợ bé hơn" control={control} fullWidth  />
+                                <div>Điều kiện đạt công nợ</div>
+                                <DebtsConditions name="debts_12months_conditions" control={control} type='12months' />
+                            </WrapperBox>
+                        </WrapperBox>
                     </Grid>
                 </Grid>
             </Box>
-        </>
+            <Grid item xs={12} md={12} sx={{mt:4}}>
+                <WrapperBoxAlign isborder={false} align={'center'}>
+                    <LoadingButton
+                        onClick={handleSubmit(handleFormSubmit)}
+                        color="primary"
+                        loading={isSubmitting}
+                        loadingIndicator="Loading..."
+                        variant="contained"
+                    >
+                        Lưu
+                    </LoadingButton>
+
+                </WrapperBoxAlign>
+            </Grid>
+        </Box>
     );
 
 }

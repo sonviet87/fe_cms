@@ -3,10 +3,14 @@ import {WrapperPage} from "../../../../components/Common/SlytedComponent/Wrapper
 import TitleForm from "../../../../components/Common/TitleForm";
 import SkeletonList from "../../../../components/Common/Skeleton/SkeletonList";
 import KpiMemberGroupFilter from "../components/KpiMemberGroupFilter";
+import fpApi from "../../../../api/fpAPI";
+import {toast} from "react-toastify";
+import kpiMemberGroupsApi from "../../../../api/kpiMemberGroupsAPI";
+import KpiGroupMemberList from "../components/KpiGroupMemberList";
 
 
 
-function KpiGroupMemberList() {
+function KpiGroupMemberListPage() {
     const [loading, setLoading] = React.useState(false);
     const [list, setList] = React.useState({
         members: [],
@@ -27,10 +31,34 @@ function KpiGroupMemberList() {
             ...data,
         });
     };
+    React.useEffect(() => {
 
+        (async () => {
+            setLoading(true);
+            const res = await kpiMemberGroupsApi.getList(filter);
+            try {
+                if (res.status) {
+                    setList({
+                        members: res.data.data,
+                        pagination: {
+                            total: res.data.meta.total,
+                            current_page: res.data.meta.current_page
+                        },
+                    });
+                }
+                else {
+                    toast.error(res.message);
+                }
+            } catch (error) {
+                toast.error("Bạn không có quyền truy cập");
+                console.log('Lỗi hệ thống', error);
+            }
+            setLoading(false);
+        })();
+    }, [filter]);
     const handleDelete = async (item) => {
         setLoading(true);
-       /* const res = await accountApi.delete([item.id]);
+        const res = await kpiMemberGroupsApi.delete([item.id]);
         if (res.status) {
             if (res.data.status) {
                 setFilter({
@@ -47,7 +75,7 @@ function KpiGroupMemberList() {
 
         } else {
             toast.error(res.message);
-        }*/
+        }
         setLoading(false);
     };
 
@@ -56,17 +84,17 @@ function KpiGroupMemberList() {
 
             <TitleForm lable="Danh sách nhóm" />
             <KpiMemberGroupFilter loading={loading} filter={filter} onSubmit={handleFilter} />
-            {/*  {loading ? (
+            {loading ? (
                 <SkeletonList />
             ) : (<KpiGroupMemberList list={list.members}
-                              pagination={list.pagination}
-                              loading={loading}
-                              filter={filter}
-                              onFilter={handleFilter}
-                              onDelete={handleDelete}
-            />)}*/}
+                                         pagination={list.pagination}
+                                         loading={loading}
+                                         filter={filter}
+                                         onFilter={handleFilter}
+                                         onDelete={handleDelete}
+            />)}
         </WrapperPage>
     );
 }
 
-export default KpiGroupMemberList;
+export default KpiGroupMemberListPage;

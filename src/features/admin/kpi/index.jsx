@@ -2,7 +2,7 @@ import React, { lazy, Suspense } from 'react';
 import { Routes, Route } from 'react-router';
 
 const AdminKpiGroupMemberAddEditPage = lazy(() => import('./pages/KpiGroupMemberAddEdit'));
-const KpiGroupMemberListPage = lazy(() => import('./pages/KpiGroupMemberList'));
+const KpiGroupMemberListPage = lazy(() => import('./pages/KpiGroupMemberListPage'));
 const KpiListPage = lazy(() => import('./pages/KpiListPage'));
 
 function AdminKPIFeature() {

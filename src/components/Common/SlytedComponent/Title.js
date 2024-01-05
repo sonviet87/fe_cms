@@ -12,3 +12,12 @@ export const TitleFormStyled = styled(Box, {})(({ theme, isborder = true }) => (
     ...(isborder && { borderBottom: '1px solid #e5e4e4' })
 
 }));
+
+export const TitleBackGroundStyled = styled(Box, {})(({ theme, background = '000',border='5px' }) => ({
+    fontWeight: '600',
+    padding: '5px 10px',
+    color:'#fff',
+    ...(border && { borderRadius: border}),
+    ...(background && { background:'#'+ background })
+
+}));

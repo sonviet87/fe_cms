@@ -9,6 +9,10 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import Checkbox from '@mui/material/Checkbox';
 import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
+import TextFormik from "../../../../components/FormElement/TextFormik";
+import {TextField} from "@mui/material";
+import {NumericFormat} from "react-number-format";
+
 
 function not(a, b) {
     return a.filter((value) => b.indexOf(value) === -1);
@@ -22,12 +26,14 @@ function union(a, b) {
     return [...a, ...not(b, a)];
 }
 
-export default function SelectAllTransferList({lists}) {
+export default function SelectAllTransferList({lists,setValue}) {
 
 
     const [checked, setChecked] = React.useState([]);
     const [left, setLeft] = React.useState([...lists]);
     const [right, setRight] = React.useState([]);
+
+    const [sumSalary, setSumSalary] = React.useState(0);
 
     const leftChecked = intersection(checked, left);
     const rightChecked = intersection(checked, right);
@@ -67,6 +73,11 @@ export default function SelectAllTransferList({lists}) {
         setChecked(not(checked, rightChecked));
     };
 
+    React.useEffect(() => {
+        setValue('users',right)
+        setSumSalary(right.reduce((acc, item) => acc + parseInt(item.salary), 0));
+        console.log(sumSalary)
+    }, [right]);
     const customList = (title, items) => (
         <Card>
             <CardHeader
@@ -125,35 +136,46 @@ export default function SelectAllTransferList({lists}) {
             </List>
         </Card>
     );
-    console.log(right)
+
     return (
-        <Grid container spacing={2} justifyContent="center" alignItems="center">
-            <Grid item>{customList('Danh sách người dùng', left)}</Grid>
-            <Grid item>
-                <Grid container direction="column" alignItems="center">
-                    <Button
-                        sx={{ my: 0.5 }}
-                        variant="outlined"
-                        size="small"
-                        onClick={handleCheckedRight}
-                        disabled={leftChecked.length === 0}
-                        aria-label="move selected right"
-                    >
-                        &gt;
-                    </Button>
-                    <Button
-                        sx={{ my: 0.5 }}
-                        variant="outlined"
-                        size="small"
-                        onClick={handleCheckedLeft}
-                        disabled={rightChecked.length === 0}
-                        aria-label="move selected left"
-                    >
-                        &lt;
-                    </Button>
+        <>
+            <Grid container spacing={2} justifyContent="center" alignItems="center">
+                <Grid item>{customList('Danh sách nhân viên', left)}</Grid>
+                <Grid item>
+                    <Grid container direction="column" alignItems="center">
+                        <Button
+                            sx={{ my: 0.5 }}
+                            variant="outlined"
+                            size="small"
+                            onClick={handleCheckedRight}
+                            disabled={leftChecked.length === 0}
+                            aria-label="move selected right"
+                        >
+                            &gt;
+                        </Button>
+                        <Button
+                            sx={{ my: 0.5 }}
+                            variant="outlined"
+                            size="small"
+                            onClick={handleCheckedLeft}
+                            disabled={rightChecked.length === 0}
+                            aria-label="move selected left"
+                        >
+                            &lt;
+                        </Button>
+                    </Grid>
                 </Grid>
+                <Grid item>{customList('Nhân viên đã chọn', right)}</Grid>
             </Grid>
-            <Grid item>{customList('Người dùng đã chọn', right)}</Grid>
-        </Grid>
+            <Grid item xs={12} md={12} textAlign="center" sx={{mt:3,fontWeight:'bold'}}>
+               Tổng lương :
+                <NumericFormat
+                displayType="text"
+                value={sumSalary}
+                thousandSeparator=","
+                renderText={(value) => <b>{value}</b>}
+            />
+            </Grid>
+        </>
     );
 }
