@@ -114,6 +114,11 @@ export const MenuCMS = [
             route: '/admin/kpi/group-member',
             permission: 'all',
           },
+          {
+            title: 'Cài đặt Kpi tổng',
+            route: '/admin/kpi/settings',
+            permission: 'all',
+          },
         ],
       },
       {

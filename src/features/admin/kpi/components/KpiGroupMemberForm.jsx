@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Box, Grid, } from "@mui/material";
 import * as yup from "yup";
 
@@ -13,62 +13,33 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import CustomerConditions from "./CustomerConditions";
 import DebtsConditions from "./DebtsConditions";
 import {TitleBackGroundStyled} from "../../../../components/Common/SlytedComponent/Title";
-import {useForm} from "react-hook-form";
-import {toast} from "react-toastify";
-import kpiMemberGroupsApi from "../../../../api/kpiMemberGroupsAPI";
-import {useNavigate} from "react-router-dom";
 
+function KpiGroupMemberForm({ initialValue, onSubmit, itemValue, isEdit,methods }) {
 
-function KpiGroupMemberForm({ initialValue, onSubmit, itemValue, usersValue, isEdit }) {
-    const navigate = useNavigate();
     const users = useSelector(selectListUser);
-    const [loading, setLoading] = React.useState(false);
-    const validationRules = {
-
-    };
-
-    const schema = yup.object().shape(validationRules);
-    const {
-        control,
-        handleSubmit,
-        formState: { isSubmitting },
-        setValue
-    } = useForm({
-        defaultValues: initialValue,
-        resolver: yupResolver(schema),
-    });
-
-
+    const { control, reset, getValues, setValue, handleSubmit } = methods;
+    const { setError, errors, isSubmitting } = methods.formState;
+    const [selectedUser, setSelectedUser] = useState([]);
     const handleFormSubmit = async (formValues) => {
-        console.log(formValues);
-        setLoading(true);
-        try {
-            let res;
-
-            res = await kpiMemberGroupsApi.add(formValues);
-
-            if (res.status) {
-                if (res.data.status) {
-                    toast.success(res.message);
-                    navigate('/kpi/group-member');
-                } else {
-                    toast.error(res.data.message);
-                }
-            } else {
-                toast.error(res.message);
-            }
-        } catch (error) {
-            console.log('Error', error.message);
-        }
-        setLoading(false);
-
-
+        if (!onSubmit) return;
+        await onSubmit(formValues);
     }
+
+    React.useEffect(() => {
+        if (isEdit) {
+            if (Object.keys(itemValue).length !== 0) {
+                setSelectedUser(itemValue.users);
+                reset(itemValue);
+            }
+
+        }
+    }, [itemValue]);
+
     return (
         <Box component="form" noValidate autoComplete="off" onSubmit={handleSubmit(handleFormSubmit)}>
             <TextFormik name="name" label="Tên nhóm" control={control}  />
+            <SelectAllTransferList lists={users}  setValue={setValue} seletedUser = {selectedUser} isEdit={true} />
 
-            <SelectAllTransferList lists={users}  setValue={setValue} />
             <Box sx={{mt:4}}>
                 <Grid container spacing={2}>
                     <Grid item xs={4}>

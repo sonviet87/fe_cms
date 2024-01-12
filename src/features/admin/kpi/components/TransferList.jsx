@@ -9,8 +9,6 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import Checkbox from '@mui/material/Checkbox';
 import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
-import TextFormik from "../../../../components/FormElement/TextFormik";
-import {TextField} from "@mui/material";
 import {NumericFormat} from "react-number-format";
 
 
@@ -26,12 +24,13 @@ function union(a, b) {
     return [...a, ...not(b, a)];
 }
 
-export default function SelectAllTransferList({lists,setValue}) {
+export default function SelectAllTransferList({lists,setValue, seletedUser=[],isEdit}) {
+
 
 
     const [checked, setChecked] = React.useState([]);
     const [left, setLeft] = React.useState([...lists]);
-    const [right, setRight] = React.useState([]);
+    const [right, setRight] = React.useState(seletedUser);
 
     const [sumSalary, setSumSalary] = React.useState(0);
 
@@ -72,12 +71,17 @@ export default function SelectAllTransferList({lists,setValue}) {
         setRight(not(right, rightChecked));
         setChecked(not(checked, rightChecked));
     };
+    React.useEffect(() => {
+        const diffResult = lists.filter(item => !seletedUser.some(otherItem => item.id === otherItem.id));
+        setRight(seletedUser);
+        setLeft(diffResult);
 
+    }, [seletedUser]);
     React.useEffect(() => {
         setValue('users',right)
         setSumSalary(right.reduce((acc, item) => acc + parseInt(item.salary), 0));
-        console.log(sumSalary)
     }, [right]);
+
     const customList = (title, items) => (
         <Card>
             <CardHeader

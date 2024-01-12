@@ -20,7 +20,6 @@ import ConfirmDialog from "../../../../components/Common/ConfirmDialog";
 
 const KpiGroupMemberList = ({ list, pagination, filter, onFilter, onDelete }) => {
     const navigate = useNavigate();
-    console.log('list',list)
     const [confirmDeleteDialogData, setConfirmDeleteDialogData] = React.useState({
         title: '',
         message: '',
@@ -101,7 +100,7 @@ const KpiGroupMemberList = ({ list, pagination, filter, onFilter, onDelete }) =>
                                         variant="contained"
                                         color="primary"
                                         size="small"
-                                        onClick={() => navigate('/admin/fps/' + row.id)}
+                                        onClick={() => navigate('/admin/kpi/group-member/' + row.id)}
                                     >
                                         <EditIcon fontSize="small" />
                                     </BasicButtonStyled>
