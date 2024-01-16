@@ -3,7 +3,6 @@ import {WrapperPage} from "../../../../components/Common/SlytedComponent/Wrapper
 import TitleForm from "../../../../components/Common/TitleForm";
 import SkeletonList from "../../../../components/Common/Skeleton/SkeletonList";
 import KpiMemberGroupFilter from "../components/KpiMemberGroupFilter";
-import fpApi from "../../../../api/fpAPI";
 import {toast} from "react-toastify";
 import kpiMemberGroupsApi from "../../../../api/kpiMemberGroupsAPI";
 import KpiGroupMemberList from "../components/KpiGroupMemberList";

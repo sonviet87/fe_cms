@@ -3,68 +3,51 @@ import React from 'react';
 import { useParams } from 'react-router';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
-import userApi from 'api/userAPI';
-import UserForm from '../components/UserForm';
+
 import { WrapperPage } from 'components/Common/SlytedComponent/Wrapper';
 import TitleForm from 'components/Common/TitleForm';
-import roleApi from 'api/roleAPI';
+import SalaryForm from '../components/SalaryForm';
 import salaryApi from "../../../../api/salaryAPI";
 
-function AdminUserAddEditPage() {
+function AdminSalaryAddEditPage() {
+
     const [loading, setLoading] = React.useState(false);
     const { id } = useParams();
     const isEdit = Boolean(id);
-    const [user, setUser] = React.useState({});
+
     const [salary, setSalary] = React.useState({});
-    const [role, setRole] = React.useState([]);
+
     const navigate = useNavigate();
 
     const initialValue = {
-        name: '',
-        username: '',
-        password: '',
-        email: '',
-        phone: '',
-        role_id: '',
-        salary_lv_id:'',
-        ...user,
+        level: '',
+        salary: '',
+
+
     };
 
     React.useEffect(() => {
-        (async () => {
-            const [rsRole, rsSalary] = await Promise.all([roleApi.getAll(), salaryApi.getList()]);
 
-            if (rsRole.status) {
-                setRole(rsRole.data.data);
-            }
-            if (rsSalary.status) {
-                setSalary(rsSalary.data.data);
-            }
-        })();
         if (!id) return;
         (async () => {
             setLoading(true);
             try {
-                const res = await userApi.get(id);
+                const res = await salaryApi.get(id);
 
-                console.log(res)
                 if (res.status) {
-                    setUser({
-                        name: res.data.data.name,
-                        username: res.data.data.username ?? '',
-                        password: '',
-                        email: res.data.data.email,
-                        phone: res.data.data.phone,
-                        role_id: res.data.data.role_id,
-                        salary_lv_id: res.data.data.salary_lv_id,
+                    setSalary({
+                        salary: res.data.data.salary,
+                        level: res.data.data.level ?? '',
+
+
                     });
 
                 } else {
                     toast.error(res.message);
-                    navigate('/admin/users');
+                    navigate('/admin/salaries');
                 }
             } catch (error) {
-                console.log('get user by id error', error);
+                console.log('get contact by id error', error);
             }
             setLoading(false);
         })();
@@ -76,15 +59,15 @@ function AdminUserAddEditPage() {
         try {
             let res;
             if (isEdit) {
-                res = await userApi.update(id, formValues);
+                res = await salaryApi.update(id, formValues);
             } else {
-                res = await userApi.add(formValues);
+                res = await salaryApi.add(formValues);
             }
             if (res.status) {
                 console.log('res.message', res.message);
                 if (res.data.status) {
                     toast.success(res.message);
-                    navigate('/admin/users');
+                    navigate('/admin/salaries');
                 } else {
                     toast.error(res.data.message);
                 }
@@ -103,14 +86,14 @@ function AdminUserAddEditPage() {
             {loading && (
                 <LoadingOverlay />
             )}
-            <TitleForm lable={isEdit ? "Cập nhật người dùng" : "Thêm người dùng "} />
+            <TitleForm lable={isEdit ? "Cập nhật lương" : "Thêm lương"} />
 
-            {(!isEdit || Boolean(user)) && (
-                <UserForm initialValue={initialValue} onSubmit={handleFormSubmit} userValue={user} salary={salary} role={role} isEdit={isEdit} />
+            {(!isEdit || Boolean(salary)) && (
+                <SalaryForm initialValue={initialValue} onSubmit={handleFormSubmit}  itemValue={salary} isEdit={isEdit} />
             )}
 
         </WrapperPage>
     );
 }
 
-export default AdminUserAddEditPage;
+export default AdminSalaryAddEditPage;

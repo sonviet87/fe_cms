@@ -44,6 +44,7 @@ export default function ReportFilter({ loading, filter, onSubmit,methods }) {
     //console.log(formValues)
     await onSubmit(formValues);
   };
+
   return (
     <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
       <Box component="form" onSubmit={handleSubmit(handleFormSubmit)} >

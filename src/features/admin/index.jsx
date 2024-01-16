@@ -18,6 +18,7 @@ import AdminWarrantyFeature from './warranty';
 import Echo from "laravel-echo";
 import SendMessages from "./messages/sendMessages";
 import AdminKPIFeature from "./kpi";
+import AdminSalaryFeature from "./salary";
 
 const AdminFeature = () => {
     useEffect(() => {
@@ -57,6 +58,7 @@ const AdminFeature = () => {
       <Route path={'/warranty/*'} element={<AdminWarrantyFeature />} />
       <Route path={'/kpi/*'} element={<AdminKPIFeature />} />
       <Route path={'/send/*'} element={<SendMessages />} />
+      <Route path={'/salaries/*'} element={<AdminSalaryFeature />} />
     </Routes>
   );
 };

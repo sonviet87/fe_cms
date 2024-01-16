@@ -16,6 +16,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import {TablePaginationActions} from "../../../../components/Common/TablePaginationActions";
 import ConfirmDialog from "../../../../components/Common/ConfirmDialog";
+import {NumericFormat} from "react-number-format";
 
 
 const KpiGroupMemberList = ({ list, pagination, filter, onFilter, onDelete }) => {
@@ -86,9 +87,31 @@ const KpiGroupMemberList = ({ list, pagination, filter, onFilter, onDelete }) =>
                                         {row.name}
                                     </Link>
                                 </TableCell>
-                                <TableCell>{row.profit_months}</TableCell>
-                                <TableCell>{row.profit_3_months}</TableCell>
-                                <TableCell>{row.profit_12_months} </TableCell>
+                                <TableCell>
+                                    {<NumericFormat
+                                        displayType="text"
+                                        value={row.profit_months}
+                                        thousandSeparator=","
+                                        renderText={(value) => <b>{value}</b>}
+                                    />}
+                                </TableCell>
+                                <TableCell>
+
+                                    {<NumericFormat
+                                        displayType="text"
+                                        value={row.profit_3_months}
+                                        thousandSeparator=","
+                                        renderText={(value) => <b>{value}</b>}
+                                    />}
+                                </TableCell>
+                                <TableCell>
+                                    {<NumericFormat
+                                        displayType="text"
+                                        value={row.profit_12_months}
+                                        thousandSeparator=","
+                                        renderText={(value) => <b>{value}</b>}
+                                    />}
+                                </TableCell>
 
                                 <TableCell>{moment(row.created_at).format('DD-MM-YYYY')}</TableCell>
                                 <TableCell

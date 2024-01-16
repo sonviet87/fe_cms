@@ -70,6 +70,7 @@ function FPForm({
 
   const handleFormSubmit = async (formValues) => {
     if (!onSubmit) return;
+
     formValues.net_profit = totalBids;
     formValues.net_profit_percent = ((parseInt(totalBids) / parseInt(totalSell)) * 100).toFixed(2);
     formValues.total_sell = totalSell;

@@ -132,6 +132,11 @@ export const MenuCMS = [
             permission: 'user-list',
           },
           {
+            title: 'Cấp độ lương',
+            route: '/admin/salaries',
+            permission: 'user-list',
+          },
+          {
             title: 'Quyền',
             route: '/admin/roles',
             permission: 'role-list',

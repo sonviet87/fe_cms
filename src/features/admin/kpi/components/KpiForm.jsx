@@ -1,9 +1,11 @@
 import React from 'react';
 import {Box, Divider, Grid} from "@mui/material";
 import {TitleBackGroundStyled} from "../../../../components/Common/SlytedComponent/Title";
-import {WrapperBox} from "../../../../components/Common/SlytedComponent/Wrapper";
+import {WrapperBox, WrapperBoxAlign} from "../../../../components/Common/SlytedComponent/Wrapper";
+import LoadingButton from "@mui/lab/LoadingButton";
 
-function KpiForm(props) {
+function KpiForm({ initialValue, onSubmit, itemValue, isEdit,methods }) {
+
     return (
         <Box sx={{mt:4}}>
             <Grid container spacing={2}>
@@ -139,7 +141,9 @@ function KpiForm(props) {
 
                         </Grid>
 
+
                     </WrapperBox>
+
                 </Grid>
             </Grid>
         </Box>

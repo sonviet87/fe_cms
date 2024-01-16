@@ -209,7 +209,6 @@ function AdminFPAddEditPage() {
 
   const handleFormSubmit = async (formValues) => {
     setLoading(true);
-
     try {
       let res;
       if (isEdit) {

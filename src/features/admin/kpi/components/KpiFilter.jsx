@@ -1,17 +1,18 @@
 import React from 'react';
 import {Box} from "@mui/system";
-import {Button, Grid} from "@mui/material";
+import { Grid} from "@mui/material";
 import BasicDatePicker from "../../../../components/FormElement/DatetimePicker";
 import BasicSelect from "../../../../components/FormElement/SelectBox";
+import LoadingButton from "@mui/lab/LoadingButton";
 
 
-function KpiFilter({ loading, filter, onSubmit,methods }) {
+function KpiFilter({ loading, filter, onSubmit,methods,memberGroup }) {
     const { control, handleSubmit, setValue }= methods;
-    const groupsKpi = [];
     const handleFormSubmit = async (formValues) => {
         if (!onSubmit) return;
         await onSubmit(formValues);
     };
+
     return (
         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
             <Box component="form" onSubmit={handleSubmit(handleFormSubmit)} >
@@ -34,15 +35,26 @@ function KpiFilter({ loading, filter, onSubmit,methods }) {
                     </Grid>
                      <Grid item xs={12} sm={6} md={4}>
                         <BasicSelect
-                            name="user_id"
-                            label="Sale phụ trách"
+                            name="groupMember"
+                            label="Nhóm"
                             isClear={true}
                             control={control}
                             options={
-                                groupsKpi
+                                memberGroup
                             }
                             setValue={setValue}
                         />
+                    </Grid>
+                    <Grid item xs={12} sm={6} md={4}>
+                        <LoadingButton
+                            onClick={handleSubmit(handleFormSubmit)}
+                            color="primary"
+
+                            loadingIndicator="Loading..."
+                            variant="contained"
+                        >
+                            Lưu
+                        </LoadingButton>
                     </Grid>
 
 

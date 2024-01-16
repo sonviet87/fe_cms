@@ -22,6 +22,9 @@ function KpiGroupMemberForm({ initialValue, onSubmit, itemValue, isEdit,methods 
     const [selectedUser, setSelectedUser] = useState([]);
     const handleFormSubmit = async (formValues) => {
         if (!onSubmit) return;
+        formValues.profit_months =parseFloat(formValues.profit_months.replace(/,/g, ''));
+        formValues.profit_3_months =parseFloat(formValues.profit_3_months.replace(/,/g, ''));
+        formValues.profit_12_months =parseFloat(formValues.profit_12_months.replace(/,/g, ''));
         await onSubmit(formValues);
     }
 

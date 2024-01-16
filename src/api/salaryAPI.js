@@ -1,11 +1,11 @@
 import axiosClient from "./axiosClient";
-const url = '/kpi-member-groups';
-const kpiMemberGroupsApi = {
-  getList: (params) => {
+const url = '/salaries';
+const salaryApi = {
+  getPaginnation: (params) => {
     return axiosClient.get(url, { params });
   },
-  getAll: (params) => {
-    return axiosClient.get(url+ '/getList', { params });
+  getList: (params) => {
+    return axiosClient.get(url + '/getList', { params });
   },
   get: (id) => {
     return axiosClient.get(url + '/' + id);
@@ -17,7 +17,6 @@ const kpiMemberGroupsApi = {
   update: (id, params) => {
     return axiosClient.put(url + '/' + id, params);
   },
-
   delete: (ids) => {
 
     return axiosClient.delete(url, {
@@ -29,4 +28,4 @@ const kpiMemberGroupsApi = {
   }
 };
 
-export default kpiMemberGroupsApi;
+export default salaryApi;

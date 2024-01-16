@@ -8,7 +8,7 @@ import { useController } from 'react-hook-form';
 import { FormHelperText, IconButton } from '@mui/material';
 import ClearIcon from '@mui/icons-material/Clear';
 
-export default function BasicSelect({ name, label, control, options = [], onChangeAjax, isClear, setValue, ...inputProps }) {
+export default function BasicSelect({ name, label, control, options = [], onChangeAjax, isClear, setValue,textValue = 'id',textName = 'name', ...inputProps }) {
 
     const {
         field: { onChange, value },
@@ -47,8 +47,8 @@ export default function BasicSelect({ name, label, control, options = [], onChan
 
                 {options.length > 0 && options?.map((row, i) => (
 
-                    <MenuItem key={i} value={row.id} >
-                        {row.name}
+                    <MenuItem key={i} value={row[textValue]} >
+                        {row[textName]}
                     </MenuItem>
                 ))}
             </SlytedSelect>

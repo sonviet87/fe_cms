@@ -17,7 +17,7 @@ UserForm.propTypes = {
 };
 
 
-function UserForm({ initialValue, onSubmit, userValue, role, isEdit }) {
+function UserForm({ initialValue, onSubmit, userValue, role, isEdit,salary }) {
     const validationRules = {
         name: yup.string().required('Xin vui lòng nhập tên'),
         password: yup
@@ -27,6 +27,7 @@ function UserForm({ initialValue, onSubmit, userValue, role, isEdit }) {
             .matches(/^.{6,40}$/g, { excludeEmptyString: false, message: 'Mật khẩu ít nhất 6 ký tự' }),
         email: yup.string().email('Không đúng định dạng email').required('Xin hãy điền email'),
         phone: yup.string().required('Xin điền số điện thoại'),
+        salary_lv_id: yup.string().nullable().required('Xin chọn cấp lương'),
 
     };
     if (initialValue.email !== '') {
@@ -56,12 +57,14 @@ function UserForm({ initialValue, onSubmit, userValue, role, isEdit }) {
 
     React.useEffect(() => {
         if (isEdit) {
+            console.log(userValue)
             setValue('name', userValue.name);
             setValue('username', userValue.username);
             setValue('password', userValue.password);
             setValue('email', userValue.email);
             setValue('role_id', userValue.role_id);
             setValue('phone', userValue.phone);
+            setValue('salary_lv_id', userValue.salary_lv_id);
         }
     }, [userValue]);
 
@@ -103,10 +106,19 @@ function UserForm({ initialValue, onSubmit, userValue, role, isEdit }) {
                 <Grid item xs={12} md={6}>
                     <TextFormik name="phone" label="Điện thoại" control={control} />
                 </Grid>
+                <Grid item xs={12} md={6} >
+                    <BasicSelect
+                        name="salary_lv_id"
+                        label="Cấp lương"
+                        control={control}
+                        options={salary}
+                        textName="level"
+
+                    />
+                </Grid>
 
 
-
-                <Grid item xs={12} md={6}>
+                <Grid item xs={12} md={12}>
                     <LoadingButton
                         onClick={handleSubmit(handleFormSubmit)}
                         color="primary"
