@@ -8,7 +8,7 @@ import { useController } from 'react-hook-form';
 import { FormHelperText, IconButton } from '@mui/material';
 import ClearIcon from '@mui/icons-material/Clear';
 
-export default function BasicSelect({ name, label, control, options = [], onChangeAjax, isClear, setValue,textValue = 'id',textName = 'name', ...inputProps }) {
+export default function BasicSelect({ name, label, control, options = [], onChangeAjax,onChangeValue, isClear, setValue,textValue = 'id',textName = 'name',minWidth='150', ...inputProps }) {
 
     const {
         field: { onChange, value },
@@ -28,7 +28,7 @@ export default function BasicSelect({ name, label, control, options = [], onChan
     return (
 
         <FormControl
-            sx={{ minWidth: 150, marginBottom: '8px', marginTop: '8px' }}
+            sx={{ minWidth: minWidth, marginBottom: '8px', marginTop: '8px' }}
             fullWidth
             size="small"
             error={invalid}
@@ -38,6 +38,8 @@ export default function BasicSelect({ name, label, control, options = [], onChan
             <SlytedSelect labelId={`select-${name}`} label={label} value={value}
                 onChange={(e) => {
                     if (onChangeAjax) onChangeAjax(e.target.value);
+                    if (onChangeValue) onChangeValue(e);
+
                     onChange(e.target.value)
                     setShow(e.target.value)
                 }}

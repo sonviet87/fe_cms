@@ -107,6 +107,7 @@ function DebtForm({ initialValue, onSubmit, itemValue, isEdit, fp }) {
             setValue('pay_second', itemValue.pay_second);
             setValue('isDone', itemValue.isDone);
             setValue('date_over', itemValue.date_over);
+            setValue('date_collection', itemValue.date_collection);
             setFPDetails(itemValue.details ?? [])
 
         }
@@ -168,17 +169,27 @@ function DebtForm({ initialValue, onSubmit, itemValue, isEdit, fp }) {
                         inputFormat="DD-MM-YYYY"
                     />
                 </Grid>
-                <Grid item xs={12} md={4}>
+                <Grid item xs={12} md={3}>
                     <BasicDatePicker
                         name="date_over"
                         lableText="Ngày đến hạn"
                         control={control}
                         sx={{ minWidth: '200px' }}
-                        onChangeAjax={handleChangeDateOver}
+                       // onChangeAjax={handleChangeDateOver}
                     // disabled={isEdit}
                     />
                 </Grid>
-                <Grid item xs={12} md={4}>
+                <Grid item xs={12} md={3}>
+                    <BasicDatePicker
+                        name="date_collection"
+                        lableText="Ngày thu thực tế"
+                        control={control}
+                        sx={{ minWidth: '200px' }}
+                       // onChangeAjax={handleChangeDateOver}
+                        // disabled={isEdit}
+                    />
+                </Grid>
+                <Grid item xs={12} md={3}>
                     <TextFormik
                         name="number_date_over"
                         label="Số ngày đã quá hạn"
@@ -186,7 +197,7 @@ function DebtForm({ initialValue, onSubmit, itemValue, isEdit, fp }) {
                     //disabled={isEdit}
                     />
                 </Grid>
-                <Grid item xs={12} md={4}>
+                <Grid item xs={12} md={3}>
                     <TextFieldNumber
                         name="total_debt"
                         label="Tổng tiền hóa đơn"

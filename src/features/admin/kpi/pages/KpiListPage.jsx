@@ -14,6 +14,7 @@ import kpiMemberGroupsApi from "../../../../api/kpiMemberGroupsAPI";
 function KpiListPage() {
     const [loading, setLoading] = React.useState(false);
     const [memberGroup, setMemberGroup] = React.useState(false);
+    const [list, setList] = React.useState({});
 
     const schema = yup.object().shape({
         startDay: yup.string().required('Xin hãy chọn ngày bắt đầu'),
@@ -24,7 +25,10 @@ function KpiListPage() {
         defaultValues: {
             startDay: '',
             endDay: '',
+            selectedDay: '',
             groupMember:'',
+            kpiTypeQuarter: '',
+            kpiType: 1
         },
         resolver: yupResolver(schema),
     });
@@ -49,12 +53,11 @@ function KpiListPage() {
             const res = await kpiApi.getAll(data);
 
             if (res.status) {
-                if (res.data.status) {
-                    toast.success(res.data.message);
 
-                } else {
-                    toast.error(res.data.message);
-                }
+                    toast.success(res.data.message);
+                    console.log(res.data.data)
+                    setList(res.data.data)
+
             } else {
                 toast.error(res.data.message);
             }
@@ -71,7 +74,7 @@ function KpiListPage() {
             const res = await kpiMemberGroupsApi.getAll();
             try {
                 if (res.status) {
-                    console.log(res.data.data)
+
                     setMemberGroup(res.data.data);
                 }
                 else {
@@ -83,13 +86,13 @@ function KpiListPage() {
             }
             setLoading(false);
         })();
-    }, [filter]);
+    }, []);
 
     return (
         <WrapperPage>
             <TitleForm lable="KPI" />
             <KpiFilter loading={loading} filter={filter} onSubmit={handleFilter} memberGroup={memberGroup}   methods={methods}  />
-            <KpiForm  methods={methods}  />
+            <KpiForm  methods={methods} list={list}  />
         </WrapperPage>
     );
 }
