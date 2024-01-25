@@ -6,6 +6,22 @@ import {NumericFormat} from "react-number-format";
 
 function KpiForm({ list }) {
     const data = list?.target_kpi;
+    const countTargetDebtsFalse = (arr) => {
+
+       if(arr === undefined || arr === null) return  0;
+       return  arr.filter(function (element) {
+            return element === 0;
+       }).length
+
+    }
+    const countTargetDebtsTrue =  (arr) => {
+        if(arr === undefined || arr === null) return  0;
+        return  arr.filter(function (element) {
+            return element !== 0;
+        }).length
+
+    }
+
     return (
         <Box sx={{mt:3}}>
             <Grid container spacing={2}>
@@ -32,7 +48,7 @@ function KpiForm({ list }) {
                             <Grid item xs={3}>
                                 <div>{ <NumericFormat
                                     displayType="text"
-                                    value={data?.target_profit_months}
+                                    value={data?.target_profit}
                                     thousandSeparator=","
                                     renderText={(value) => <b>{value}</b>}
                                 />}
@@ -47,7 +63,7 @@ function KpiForm({ list }) {
                                 />}</div>
                             </Grid>
                             <Grid item xs={3}>
-                                <div>{data?.total_percent_profit_months.toFixed(2)}%</div>
+                                <div>{data?.total_percent_profit.toFixed(2)}%</div>
                             </Grid>
 
 
@@ -58,10 +74,14 @@ function KpiForm({ list }) {
                                 <div></div>
                             </Grid>
                             <Grid item xs={3}>
-                                <div></div>
+                                <div>{data?.result_kpi_goals ? (
+                                    <span style={{ color: 'green' }}>Đạt</span>
+                                ) : (
+                                    <span style={{ color: 'red' }}>Không đạt</span>
+                                )}</div>
                             </Grid>
                             <Grid item xs={3}>
-                                <div>91% - 100%</div>
+                                <div>{data?.record_setting_percent !== 0  ?( <b>{data?.record_setting_percent?.min_percentage +"% - " + data?.record_setting_percent?.max_percentage+"%"} </b>) : "0%"}</div>
                             </Grid>
 
                             <Grid item xs={3} >
@@ -70,7 +90,7 @@ function KpiForm({ list }) {
                             <Grid item xs={3}>
                                 <div>{ <NumericFormat
                                     displayType="text"
-                                    value={data?.target_profit_months}
+                                    value={data?.target_profit}
                                     thousandSeparator=","
                                     renderText={(value) => <b>{value}</b>}
                                 />}</div>
@@ -84,14 +104,14 @@ function KpiForm({ list }) {
                                 />}</div>
                             </Grid>
                             <Grid item xs={3}>
-                                <div>{data?.total_percent_profit_max_70_months.toFixed(2)}%</div>
+                                <div>{data?.total_percent_profit_max_70.toFixed(2)}%</div>
                             </Grid>
 
                             <Grid item xs={3} >
                                 <div>Khách hàng mới</div>
                             </Grid>
                             <Grid item xs={3}>
-                                <div>{data?.target_customer_months }</div>
+                                <div>{data?.target_customer }</div>
                             </Grid>
                             <Grid item xs={3}>
                                 <div>{data?.total_account_new }</div>
@@ -104,13 +124,13 @@ function KpiForm({ list }) {
                                 <div>Công nợ</div>
                             </Grid>
                             <Grid item xs={3}>
-                                <div>Đạt</div>
+                                <div></div>
                             </Grid>
                             <Grid item xs={3}>
-                                <div>10%</div>
+                                <div>Đạt <b>{countTargetDebtsTrue(data?.debuts_percent)}</b> / Không <b>{countTargetDebtsFalse(data?.debuts_percent)}</b></div>
                             </Grid>
                             <Grid item xs={3}>
-                                <div>10%</div>
+                                <div>{data?.totalPercentDebuts.toFixed(2)}%</div>
                             </Grid>
                         </Grid>
                         <Divider sx={{mt:2,mb:2}}  />

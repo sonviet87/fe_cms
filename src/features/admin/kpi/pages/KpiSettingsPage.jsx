@@ -22,7 +22,7 @@ const KpiSettingsPage = () => {
                 max_percentage:'',
                 min_percentage:'',
                 percentage: '',
-                type: 'months'
+                type: '1months'
             }
         ],
         months3:[
@@ -30,7 +30,7 @@ const KpiSettingsPage = () => {
                 max_percentage:'',
                 min_percentage:'',
                 percentage: '',
-                type: 'months3'
+                type: '3months'
             }
         ],
         months12: [
@@ -38,7 +38,7 @@ const KpiSettingsPage = () => {
                 max_percentage:'',
                 min_percentage:'',
                 percentage: '',
-                type: 'months12'
+                type: '12months'
             }
         ],
 

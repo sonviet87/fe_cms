@@ -28,19 +28,19 @@ function KpiSettingsForm({ initialValue, onSubmit, itemValue,methods }) {
                     <Grid item xs={4}>
                         <WrapperBox>
                             <TitleBackGroundStyled background='4527a0' sx={{mb:1}}>KPI tháng</TitleBackGroundStyled>
-                                <SettingConditions name="months" control={control} type='months' />
+                                <SettingConditions name="1months" control={control} type='1months' />
                         </WrapperBox>
                     </Grid>
                     <Grid item xs={4}>
                         <WrapperBox>
                             <TitleBackGroundStyled background='28A831' sx={{mb:1}}>KPI quý</TitleBackGroundStyled>
-                                <SettingConditions name="months3" control={control} type='months3' />
+                                <SettingConditions name="3months" control={control} type='3months' />
                         </WrapperBox>
                     </Grid>
                     <Grid item xs={4}>
                         <WrapperBox>
                             <TitleBackGroundStyled background='b8bb0d' sx={{mb:1}}>KPI năm</TitleBackGroundStyled>
-                                 <SettingConditions name="months12" control={control} type='months12' />
+                                 <SettingConditions name="12months" control={control} type='12months' />
                         </WrapperBox>
                     </Grid>
                 </Grid>
