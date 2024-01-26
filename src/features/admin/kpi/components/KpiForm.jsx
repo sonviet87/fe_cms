@@ -4,7 +4,7 @@ import {TitleBackGroundStyled} from "../../../../components/Common/SlytedCompone
 import {WrapperBox} from "../../../../components/Common/SlytedComponent/Wrapper";
 import {NumericFormat} from "react-number-format";
 
-function KpiForm({ list }) {
+function KpiForm({ list,selectedTypeKpi }) {
     const data = list?.target_kpi;
     const countTargetDebtsFalse = (arr) => {
 
@@ -26,12 +26,21 @@ function KpiForm({ list }) {
         return ((total_profit * percentTotalSettings)/100).toFixed(0);
     }
 
+    const changeBackgroudTitle = (kpiType) => {
+        let  color = '3527a0';
+        switch (kpiType) {
+            case 1: color = '3527a0'; break;
+            case 3: color = '28A831'; break;
+            case 12: color = 'b8bb0d'; break;
+        }
+        return color;
+    }
     return (
         <Box sx={{mt:3}}>
             <Grid container spacing={2}>
                 <Grid item xs={8}>
                     <WrapperBox>
-                        <TitleBackGroundStyled background='3527a0' sx={{mb:1}}>Đạt tiêu chí đánh giá tháng</TitleBackGroundStyled>
+                        <TitleBackGroundStyled background={changeBackgroudTitle(selectedTypeKpi)} sx={{mb:1}}>Đạt tiêu chí đánh giá {selectedTypeKpi} tháng</TitleBackGroundStyled>
                         <Grid container spacing={2}>
                             <Grid item xs={3} >
                                 <div></div>

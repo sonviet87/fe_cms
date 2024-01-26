@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState} from 'react';
 import TitleForm from "../../../../components/Common/TitleForm";
 import {WrapperPage} from "../../../../components/Common/SlytedComponent/Wrapper";
 import KpiForm from "../components/KpiForm";
@@ -11,14 +11,22 @@ import {toast} from "react-toastify";
 import kpiApi from "../../../../api/kpiAPI";
 import kpiMemberGroupsApi from "../../../../api/kpiMemberGroupsAPI";
 
+import {statusKpi} from "../constants/KpiConstants";
+
 function KpiListPage() {
     const [loading, setLoading] = React.useState(false);
     const [memberGroup, setMemberGroup] = React.useState(false);
     const [list, setList] = React.useState({});
-
-    const schema = yup.object().shape({
+    const [selectedTypeKpi, setSelectedTypeKpi] = useState(statusKpi.KPI_MONTHS);
+    const schemaNotQuarter = yup.object().shape({
         selectedDay: yup.string().required('Xin hãy chọn ngày '),
         groupMember: yup.string().required('Xin hãy chọn nhóm'),
+
+    });
+    const schemaQuarter = yup.object().shape({
+        selectedDay: yup.string().required('Xin hãy chọn ngày '),
+        groupMember: yup.string().required('Xin hãy chọn nhóm'),
+        kpiTypeQuarter: yup.string().required('Xin hãy chọn Quý'),
 
     });
 
@@ -31,7 +39,7 @@ function KpiListPage() {
             kpiTypeQuarter: '',
             kpiType: 1
         },
-        resolver: yupResolver(schema),
+        resolver: yupResolver(selectedTypeKpi === statusKpi.KPI_3_MONTHS? schemaQuarter : schemaNotQuarter),
     });
 
     const [filter, setFilter] = React.useState({
@@ -92,8 +100,8 @@ function KpiListPage() {
     return (
         <WrapperPage>
             <TitleForm lable="KPI" />
-            <KpiFilter loading={loading} filter={filter} onSubmit={handleFilter} memberGroup={memberGroup}   methods={methods}  />
-            {Object.keys(list).length !== 0 && <KpiForm  methods={methods} list={list}  />}
+            <KpiFilter loading={loading} filter={filter} onSubmit={handleFilter} memberGroup={memberGroup} selectedTypeKpi={selectedTypeKpi} setSelectedTypeKpi={setSelectedTypeKpi}   methods={methods}  />
+            {Object.keys(list).length !== 0 && <KpiForm  methods={methods} selectedTypeKpi={selectedTypeKpi} list={list}  />}
 
         </WrapperPage>
     );

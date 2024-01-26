@@ -6,10 +6,12 @@ import BasicSelect from "../../../../components/FormElement/SelectBox";
 import LoadingButton from "@mui/lab/LoadingButton";
 import {quartersKpiArray, statusKpi, statuskPIArray} from "../constants/KpiConstants";
 import moment from "moment";
+import * as yup from "yup";
 
-function KpiFilter({ loading, filter, onSubmit,methods,memberGroup }) {
+function KpiFilter({ loading, filter,selectedTypeKpi,setSelectedTypeKpi, onSubmit,methods,memberGroup }) {
+
     const { control, handleSubmit, setValue,getValues,watch,reset }= methods;
-    const [selectedTypeKpi, setSelectedTypeKpi] = useState(statusKpi.KPI_MONTHS);
+
     const dateTimePickerKey = watch('selectedDay');
 
     const handleFormSubmit = async (formValues) => {
