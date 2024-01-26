@@ -17,8 +17,9 @@ function KpiListPage() {
     const [list, setList] = React.useState({});
 
     const schema = yup.object().shape({
-        startDay: yup.string().required('Xin hãy chọn ngày bắt đầu'),
-        endDay: yup.string().required('Xin hãy chọn ngày kết thúc'),
+        selectedDay: yup.string().required('Xin hãy chọn ngày '),
+        groupMember: yup.string().required('Xin hãy chọn nhóm'),
+
     });
 
     const methods = useForm({
@@ -92,7 +93,8 @@ function KpiListPage() {
         <WrapperPage>
             <TitleForm lable="KPI" />
             <KpiFilter loading={loading} filter={filter} onSubmit={handleFilter} memberGroup={memberGroup}   methods={methods}  />
-            <KpiForm  methods={methods} list={list}  />
+            {Object.keys(list).length !== 0 && <KpiForm  methods={methods} list={list}  />}
+
         </WrapperPage>
     );
 }

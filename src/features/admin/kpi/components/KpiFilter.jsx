@@ -43,8 +43,8 @@ function KpiFilter({ loading, filter, onSubmit,methods,memberGroup }) {
             const startDate = new Date(selectedYear, ((quarter - 1 ) * 3), 1);
             const endDate = new Date(selectedYear, ((quarter - 1) + 1) * 3, 0);
 
-            const formattedStartDate = `${startDate.getFullYear()}-${(startDate.getMonth() + 1).toString().padStart(2, '0')}-${startDate.getDate().toString().padStart(2, '0')}`;
-            const formattedEndDate = `${endDate.getFullYear()}-${(endDate.getMonth() + 1).toString().padStart(2, '0')}-${endDate.getDate().toString().padStart(2, '0')}`;
+           // const formattedStartDate = `${startDate.getFullYear()}-${(startDate.getMonth() + 1).toString().padStart(2, '0')}-${startDate.getDate().toString().padStart(2, '0')}`;
+           // const formattedEndDate = `${endDate.getFullYear()}-${(endDate.getMonth() + 1).toString().padStart(2, '0')}-${endDate.getDate().toString().padStart(2, '0')}`;
              //console.log('Ngày bắt đầu:', startDate.toISOString().slice(0, 10));
             //console.log('Ngày kết thúc:', endDate.toISOString().slice(0, 10));
           //  console.log('Ngày kết thúc:', formattedStartDate);

@@ -22,6 +22,10 @@ function KpiForm({ list }) {
 
     }
 
+    const totalBonus = (total_profit,percentTotalSettings) => {
+        return ((total_profit * percentTotalSettings)/100).toFixed(0);
+    }
+
     return (
         <Box sx={{mt:3}}>
             <Grid container spacing={2}>
@@ -46,24 +50,15 @@ function KpiForm({ list }) {
                                 <div>Đạt LN Với YC</div>
                             </Grid>
                             <Grid item xs={3}>
-                                <div>{ <NumericFormat
-                                    displayType="text"
-                                    value={data?.target_profit}
-                                    thousandSeparator=","
-                                    renderText={(value) => <b>{value}</b>}
-                                />}
+                                <div>
                                 </div>
                             </Grid>
                             <Grid item xs={3}>
-                                <div>{ <NumericFormat
-                                    displayType="text"
-                                    value={data?.total_profit}
-                                    thousandSeparator=","
-                                    renderText={(value) => <b>{value}</b>}
-                                />}</div>
+                                <div></div>
                             </Grid>
                             <Grid item xs={3}>
-                                <div>{data?.total_percent_profit.toFixed(2)}%</div>
+                                <div>{ (parseFloat(data?.total_percent_profit_max_70) + parseFloat(data?.goal_percent_customer) + parseFloat(data?.totalPercentDebuts)).toFixed(2)
+                                }%</div>
                             </Grid>
 
 
@@ -146,7 +141,7 @@ function KpiForm({ list }) {
                                 <div></div>
                             </Grid>
                             <Grid item xs={3}>
-                                <div>10%</div>
+                                <div>{data?.percentTotalSettings}%</div>
                             </Grid>
 
                             <Grid item xs={3} >
@@ -159,7 +154,12 @@ function KpiForm({ list }) {
                                 <div></div>
                             </Grid>
                             <Grid item xs={3}>
-                                <div>138000</div>
+                                <div>{data?.percentTotalSettings !=0? <NumericFormat
+                                    displayType="text"
+                                    value={totalBonus(data?.total_profit, data?.percentTotalSettings)}
+                                    thousandSeparator=","
+                                    renderText={(value) => <b>{value}</b>}
+                                />: 0 }</div>
                             </Grid>
 
                             <Grid item xs={3} >
@@ -172,7 +172,12 @@ function KpiForm({ list }) {
                                 <div></div>
                             </Grid>
                             <Grid item xs={3}>
-                                <div>1010000</div>
+                                <div>{<NumericFormat
+                                    displayType="text"
+                                    value={(data?.totalProfitMargin).toFixed(0)}
+                                    thousandSeparator=","
+                                    renderText={(value) => <b>{value}</b>}
+                                />}</div>
                             </Grid>
 
                             <Grid item xs={3} >
@@ -185,7 +190,7 @@ function KpiForm({ list }) {
                                 <div></div>
                             </Grid>
                             <Grid item xs={3}>
-                                <div>73.33%</div>
+                                <div>{data?.totalPercentRevenues.toFixed(2)}%</div>
                             </Grid>
                         </Grid>
                         <Divider sx={{mt:2,mb:2}}  />
@@ -200,7 +205,12 @@ function KpiForm({ list }) {
                                 <div></div>
                             </Grid>
                             <Grid item xs={3}>
-                                <div>230000</div>
+                                <div><NumericFormat
+                                    displayType="text"
+                                    value={data?.totalSalary.toFixed(0)}
+                                    thousandSeparator=","
+                                    renderText={(value) => <b>{value}</b>}
+                                /></div>
                             </Grid>
 
                             <Grid item xs={3} >
@@ -213,7 +223,12 @@ function KpiForm({ list }) {
                                 <div></div>
                             </Grid>
                             <Grid item xs={3}>
-                                <div>1380000</div>
+                                <div><div>{data?.percentTotalSettings !=0? <NumericFormat
+                                    displayType="text"
+                                    value={data?.revenues.toFixed(0)}
+                                    thousandSeparator=","
+                                    renderText={(value) => <b>{value}</b>}
+                                />: 0 }</div></div>
                             </Grid>
 
                             <Grid item xs={3} >
@@ -226,7 +241,12 @@ function KpiForm({ list }) {
                                 <div></div>
                             </Grid>
                             <Grid item xs={3}>
-                                <div>368000</div>
+                                <div>{ <NumericFormat
+                                    displayType="text"
+                                    value={(data?.totalSalary+data?.revenues).toFixed(0)}
+                                    thousandSeparator=","
+                                    renderText={(value) => <b>{value}</b>}
+                                />}</div>
                             </Grid>
 
                         </Grid>
