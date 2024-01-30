@@ -16,10 +16,69 @@ import {LoadingOverlay} from "../../../../components/Common/LoadingOverlay";
 function KpiGroupMemberAddEditPage() {
     const [kpiMemberGroups, setKpiMemberGroups] = React.useState({});
     const [loading, setLoading] = React.useState(false);
+    const [isError, setIsError] = React.useState(false);
     const { id } = useParams();
     const isEdit = Boolean(id);
     const navigate = useNavigate();
     const validationRules = {
+        name: yup.string().required('Xin hãy điền tên nhóm').nullable(),
+        profit_months: yup.string().required('Xin hãy điền mục tiêu lợi nhuận').nullable(),
+        profit_3_months: yup.string().required('Xin hãy điền mục tiêu lợi nhuận').nullable(),
+        profit_12_months: yup.string().required('Xin hãy điền mục tiêu lợi nhuận').nullable(),
+        customer_months: yup.string().required('Xin hãy điền mục tiêu khách hàng').nullable(),
+        customer_3_months: yup.string().required('Xin hãy điền mục tiêu khách hàng').nullable(),
+        customer_12_months: yup.string().required('Xin hãy điền mục tiêu khách hàng').nullable(),
+        customer_months_conditions: yup.lazy(() =>
+            yup.array().of(
+                yup.object({
+                    number: yup.string().required('Xin hãy nhập số khách hàng'),
+                    percentage: yup.string().required('Xin hãy nhập phần trăm'),
+                }),
+            ),
+        ),
+        customer_3months_conditions: yup.lazy(() =>
+            yup.array().of(
+                yup.object({
+                    number: yup.string().required('Xin hãy nhập số khách hàng'),
+                    percentage: yup.string().required('Xin hãy nhập phần trăm'),
+                }),
+            ),
+        ),
+        customer_12months_conditions: yup.lazy(() =>
+            yup.array().of(
+                yup.object({
+                    number: yup.string().required('Xin hãy nhập số khách hàng'),
+                    percentage: yup.string().required('Xin hãy nhập phần trăm'),
+                }),
+            ),
+        ),
+        debts_months_conditions: yup.lazy(() =>
+            yup.array().of(
+                yup.object({
+                    min_days: yup.string().required('Xin hãy nhập ngày'),
+                    max_days: yup.string().required('Xin hãy nhập ngày'),
+                    percentage: yup.string().required('Xin hãy nhập phần trăm'),
+                }),
+            ),
+        ),
+        debts_3months_conditions: yup.lazy(() =>
+            yup.array().of(
+                yup.object({
+                    min_days: yup.string().required('Xin hãy nhập ngày'),
+                    max_days: yup.string().required('Xin hãy nhập ngày'),
+                    percentage: yup.string().required('Xin hãy nhập phần trăm'),
+                }),
+            ),
+        ),
+        debts_12months_conditions: yup.lazy(() =>
+            yup.array().of(
+                yup.object({
+                    min_days: yup.string().required('Xin hãy nhập ngày'),
+                    max_days: yup.string().required('Xin hãy nhập ngày'),
+                    percentage: yup.string().required('Xin hãy nhập phần trăm'),
+                }),
+            ),
+        ),
 
     };
 
@@ -40,7 +99,7 @@ function KpiGroupMemberAddEditPage() {
             {
                 number:'',
                 percentage : '',
-                type : 'months'
+                type : '1months'
             }
         ],
         customer_3months_conditions: [
@@ -62,7 +121,7 @@ function KpiGroupMemberAddEditPage() {
                 min_days:'',
                 max_days: '',
                 percentage : '',
-                type : 'months'
+                type : '1months'
             }
         ],
         debts_3months_conditions: [
@@ -109,6 +168,11 @@ function KpiGroupMemberAddEditPage() {
     }, []);
 
     const handleFormSubmit = async (formValues) => {
+        if(formValues.users.length === 0)  {
+            toast.error("Hãy chọn ít nhất 1 nhân viên");
+            return;
+        }
+
         setLoading(true);
         try {
             let res;
@@ -117,7 +181,6 @@ function KpiGroupMemberAddEditPage() {
             }else{
                 res = await kpiMemberGroupsApi.add(formValues);
             }
-
 
             if (res.status) {
                 if (res.data.status) {
@@ -141,7 +204,7 @@ function KpiGroupMemberAddEditPage() {
             )}
             <TitleForm lable={isEdit?"Cập nhật nhóm thành viên":"Thêm nhóm thành viên "} />
 
-            <KpiGroupMemberForm initialValue={initialValue} itemValue={kpiMemberGroups} isEdit={isEdit}  methods={methods} onSubmit={handleFormSubmit} />
+            <KpiGroupMemberForm initialValue={initialValue} itemValue={kpiMemberGroups} isEdit={isEdit}  methods={methods} onSubmit={handleFormSubmit}  />
 
         </WrapperPage>
     );

@@ -24,6 +24,9 @@ DebtForm.propTypes = {
 function DebtForm({ initialValue, onSubmit, itemValue, isEdit, fp }) {
     const navigate = useNavigate();
     const [fpdetails, setFPDetails] = React.useState([]);
+    const [isDone, setIsDone] = React.useState(0);
+    const [isDisable, setIsDisable] = React.useState(false);
+
     const validationRules = {
         name: yup.string().required('Xin hãy điền tên công nợ'),
         //fp_id: yup.string().required('Xin hãy chọn 1 mã phương án kinh doanh'),
@@ -36,8 +39,20 @@ function DebtForm({ initialValue, onSubmit, itemValue, isEdit, fp }) {
         date_over: yup.string().required('Xin hãy ngày đến hạn'),
 
     };
+    const validationRulesEnd = {
+        name: yup.string().required('Xin hãy điền tên công nợ'),
+        date_collection : yup.string().required('Xin hãy chọn ngày thu thực tế'),
+        fp_id: yup.mixed()
+            .test("required", "Xin hãy chọn 1 mã phương án kinh doanh", (item) => {
+                if (item) return true;
+                return false;
+            }),
+        deposit_percent: yup.string().required('Xin hãy chọn phần trăm cọc'),
+        date_over: yup.string().required('Xin hãy ngày đến hạn'),
 
-    const schema = yup.object().shape(validationRules);
+    };
+
+    const schema = yup.object().shape(isDone ==0 ?validationRules : validationRulesEnd );
     const {
         control,
         handleSubmit,
@@ -65,6 +80,15 @@ function DebtForm({ initialValue, onSubmit, itemValue, isEdit, fp }) {
             const totalDebt = fpRs.data.data.details.reduce((total, num) => {
                 return total += ((parseInt(num.price_sell)* parseInt(num.qty)) + ((parseInt(num.price_sell)* parseInt(num.qty)) * (parseInt(num.category.tax_percent.replace(/%/g, '')) / 100)));
             }, 0);
+            //add date over
+            const dateInvoice = fpRs.data.data.date_invoice;
+            if(dateInvoice){
+                const dateMomentInvoice = moment(dateInvoice);
+                const numberDays = parseInt(fpRs.data.data?.account_id?.debt);
+                const dateAfterInvoice = dateMomentInvoice.add(numberDays, 'days');
+                setValue('date_over',dateAfterInvoice);
+            }
+
             setValue('account', fpRs.data.data.account)
             setValue('number_invoice', fpRs.data.data.number_invoice)
             setValue('date_invoice', fpRs.data.data.date_invoice)
@@ -93,6 +117,11 @@ function DebtForm({ initialValue, onSubmit, itemValue, isEdit, fp }) {
 
     }
 
+    const handleChangeStatus = (e)  =>{
+        const status = parseInt(e.target.value);
+        (status) === 2 ? setIsDone(0)  : setIsDone(1);
+    }
+
     React.useEffect(() => {
         if (isEdit) {
             setValue('name', itemValue.name);
@@ -109,7 +138,8 @@ function DebtForm({ initialValue, onSubmit, itemValue, isEdit, fp }) {
             setValue('date_over', itemValue.date_over);
             setValue('date_collection', itemValue.date_collection);
             setFPDetails(itemValue.details ?? [])
-
+            if(parseInt(itemValue.isDone)===1)  setIsDisable(true);
+            parseInt(itemValue.isDone) === 2 ? setIsDone(0)  : setIsDone(1);
         }
     }, [itemValue]);
 
@@ -142,7 +172,8 @@ function DebtForm({ initialValue, onSubmit, itemValue, isEdit, fp }) {
                         name="isDone"
                         label="Tình trạng"
                         control={control}
-
+                        onChangeValue={handleChangeStatus}
+                        disabled={isDisable}
                         options={
                             [
                                 { id: 2, name: "Chưa thu" },
@@ -185,6 +216,7 @@ function DebtForm({ initialValue, onSubmit, itemValue, isEdit, fp }) {
                         lableText="Ngày thu thực tế"
                         control={control}
                         sx={{ minWidth: '200px' }}
+
                        // onChangeAjax={handleChangeDateOver}
                         // disabled={isEdit}
                     />

@@ -6,7 +6,7 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import LoadingButton from '@mui/lab/LoadingButton';
-import TextFormik from 'components/FormElement/TextFormik';
+import TextFormik, {TextFieldNumber} from 'components/FormElement/TextFormik';
 import BasicSelect from "components/FormElement/SelectBox";
 
 
@@ -113,7 +113,7 @@ function AccountForm({ initialValue, onSubmit, itemValue, usersValue, isEdit }) 
                     />
                 </Grid>
                 <Grid item xs={12} md={4}>
-                    <TextFormik name="debt" label="Số ngày công nợ" control={control} />
+                    <TextFieldNumber name="debt" label="Số ngày công nợ" control={control} sx={{width:'100%'}} />
                 </Grid>
                 <Grid item xs={12} md={6} >
                     <BasicSelect

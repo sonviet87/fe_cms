@@ -21,10 +21,11 @@ function KpiGroupMemberForm({ initialValue, onSubmit, itemValue, isEdit,methods 
     const { setError, errors, isSubmitting } = methods.formState;
     const [selectedUser, setSelectedUser] = useState([]);
     const handleFormSubmit = async (formValues) => {
+
         if (!onSubmit) return;
-        formValues.profit_months =parseFloat(formValues.profit_months.replace(/,/g, ''));
-        formValues.profit_3_months =parseFloat(formValues.profit_3_months.replace(/,/g, ''));
-        formValues.profit_12_months =parseFloat(formValues.profit_12_months.replace(/,/g, ''));
+        formValues.profit_months =parseFloat(formValues.profit_months?.replace(/,/g, ''));
+        formValues.profit_3_months =parseFloat(formValues.profit_3_months?.replace(/,/g, ''));
+        formValues.profit_12_months =parseFloat(formValues.profit_12_months?.replace(/,/g, ''));
         await onSubmit(formValues);
     }
 
@@ -41,7 +42,7 @@ function KpiGroupMemberForm({ initialValue, onSubmit, itemValue, isEdit,methods 
     return (
         <Box component="form" noValidate autoComplete="off" onSubmit={handleSubmit(handleFormSubmit)}>
             <TextFormik name="name" label="Tên nhóm" control={control}  />
-            <SelectAllTransferList lists={users}  setValue={setValue} seletedUser = {selectedUser} isEdit={true} />
+            <SelectAllTransferList lists={users}  setValue={setValue} seletedUser = {selectedUser} isEdit={true} control={control} />
 
             <Box sx={{mt:4}}>
                 <Grid container spacing={2}>
@@ -54,13 +55,12 @@ function KpiGroupMemberForm({ initialValue, onSubmit, itemValue, isEdit,methods 
                                 <TextFieldNumber name="customer_months" label="mục tiêu khách hàng mới" control={control} fullWidth  />
 
                                 <div>Điều kiện đạt khách hàng mới</div>
-                                <CustomerConditions name="customer_months_conditions" control={control} type='months' />
+                                <CustomerConditions name="customer_months_conditions" control={control} type='1months' />
                             </WrapperBox>
                             <WrapperBox>
-                                <div>Mục tiêu công nợ</div>
-                                <TextFieldNumber name="debts_months" label="Mục tiêu công nợ bé hơn" control={control} fullWidth  />
+
                                 <div>Điều kiện đạt công nợ</div>
-                                <DebtsConditions name="debts_months_conditions" control={control} type='months' />
+                                <DebtsConditions name="debts_months_conditions" control={control} type='1months' />
                             </WrapperBox>
                         </WrapperBox>
                     </Grid>
@@ -76,8 +76,7 @@ function KpiGroupMemberForm({ initialValue, onSubmit, itemValue, isEdit,methods 
                                 <CustomerConditions name="customer_3months_conditions" control={control} type='3months' />
                             </WrapperBox>
                             <WrapperBox>
-                                <div>Mục tiêu công nợ</div>
-                                <TextFieldNumber name="debts_3_months" label="Mục tiêu công nợ bé hơn " control={control} fullWidth  />
+
                                 <div>Điều kiện đạt công nợ</div>
                                 <DebtsConditions name="debts_3months_conditions" control={control} type='3months' />
                             </WrapperBox>
@@ -95,8 +94,7 @@ function KpiGroupMemberForm({ initialValue, onSubmit, itemValue, isEdit,methods 
                                 <CustomerConditions name="customer_12months_conditions" control={control} type='12months' />
                             </WrapperBox>
                             <WrapperBox>
-                                <div>Mục tiêu công nợ</div>
-                                <TextFieldNumber name="debts_12_months" label="Mục tiêu công nợ bé hơn" control={control} fullWidth  />
+
                                 <div>Điều kiện đạt công nợ</div>
                                 <DebtsConditions name="debts_12months_conditions" control={control} type='12months' />
                             </WrapperBox>
