@@ -1,11 +1,8 @@
 import axiosClient from "./axiosClient";
-const url = '/kpi-settings';
+const url = '/kpi-settings-1';
 const kpiSettingsApi = {
   getList: () => {
-    return axiosClient.get(url + '/');
-  },
-  get: (id) => {
-    return axiosClient.get(url + '/' + id);
+    return axiosClient.get(url);
   },
 
   add: (params) => {

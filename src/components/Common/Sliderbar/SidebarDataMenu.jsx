@@ -116,7 +116,7 @@ export const MenuCMS = [
           },
           {
             title: 'Cài đặt Kpi tổng',
-            route: '/admin/kpi/settings',
+            route: '/admin/kpi/settings-1',
             permission: 'all',
           },
         ],

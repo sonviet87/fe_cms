@@ -14,7 +14,7 @@ function AdminKPIFeature() {
                 <Route path="/group-member" element={<KpiGroupMemberListPage />} />
                 <Route path="/group-member/add" element={<AdminKpiGroupMemberAddEditPage />} />
                 <Route path="/group-member/:id" element={<AdminKpiGroupMemberAddEditPage />} />
-                <Route path="/settings" element={<AdminKpiSettings />} />
+                <Route path="/settings-1" element={<AdminKpiSettings />} />
             </Routes>
         </Suspense>
     );
