@@ -50,6 +50,8 @@ function KpiGroupMemberForm({ initialValue, onSubmit, itemValue, isEdit,methods 
                         <WrapperBox>
                             <TitleBackGroundStyled background='4527a0' sx={{mb:1}}>Mục tiêu tháng</TitleBackGroundStyled>
                             <TextFieldNumber name="profit_months" label="mục tiêu Lợi nhuận" control={control} fullWidth  />
+                            <div>Phần trăm tối đa</div>
+                            <TextFieldNumber name="profit_months_percent" label="Phần trăm tối đa" control={control} fullWidth  />
                             <WrapperBox>
                                 <div>Mục tiêu khách hàng mới</div>
                                 <TextFieldNumber name="customer_months" label="mục tiêu khách hàng mới" control={control} fullWidth  />
@@ -68,9 +70,12 @@ function KpiGroupMemberForm({ initialValue, onSubmit, itemValue, isEdit,methods 
                         <WrapperBox>
                             <TitleBackGroundStyled background='28A831' sx={{mb:1}}>Mục tiêu quý</TitleBackGroundStyled>
                             <TextFieldNumber name="profit_3_months" label="mục tiêu Lợi nhuận" control={control}  fullWidth />
+                            <div>Phần trăm tối đa</div>
+                            <TextFieldNumber name="profit_3_months_percent" label="Phần trăm tối đa" control={control} fullWidth  />
                             <WrapperBox>
                                 <div>Mục tiêu khách hàng mới</div>
                                 <TextFieldNumber name="customer_3_months" label="mục tiêu khách hàng mới" control={control} fullWidth  />
+
 
                                 <div>Điều kiện đạt khách hàng mới</div>
                                 <CustomerConditions name="customer_3months_conditions" control={control} type='3months' />
@@ -86,6 +91,8 @@ function KpiGroupMemberForm({ initialValue, onSubmit, itemValue, isEdit,methods 
                         <WrapperBox>
                             <TitleBackGroundStyled background='b8bb0d' sx={{mb:1}}>Mục tiêu năm</TitleBackGroundStyled>
                             <TextFieldNumber name="profit_12_months" label="mục tiêu Lợi nhuận" control={control} fullWidth  />
+                            <div>Phần trăm tối đa</div>
+                            <TextFieldNumber name="profit_12_months_percent" label="Phần trăm tối đa" control={control} fullWidth  />
                             <WrapperBox>
                                 <div>Mục tiêu khách hàng mới</div>
                                 <TextFieldNumber name="customer_12_months" label="mục tiêu khách hàng mới" control={control} fullWidth  />
