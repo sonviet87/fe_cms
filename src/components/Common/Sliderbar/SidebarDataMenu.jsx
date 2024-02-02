@@ -102,22 +102,22 @@ export const MenuCMS = [
       {
         title: 'KPI',
         Icon: ManageAccountsIcon,
-        permission: 'all',
+        permission: 'kpi-list',
         items: [
           {
             title: 'Danh sách KPI',
             route: '/admin/kpi',
-            permission: 'all',
+            permission: 'kpi-list',
           },
           {
             title: 'Danh sách nhóm',
             route: '/admin/kpi/group-member',
-            permission: 'all',
+            permission: 'kpi-group',
           },
           {
             title: 'Cài đặt Kpi tổng',
             route: '/admin/kpi/settings-1',
-            permission: 'all',
+            permission: 'kpi-settings',
           },
         ],
       },
@@ -134,7 +134,7 @@ export const MenuCMS = [
           {
             title: 'Cấp độ lương',
             route: '/admin/salaries',
-            permission: 'user-list',
+            permission: 'salary-list',
           },
           {
             title: 'Quyền',
