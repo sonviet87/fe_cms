@@ -6,11 +6,8 @@ import { WrapperPage } from 'components/Common/SlytedComponent/Wrapper';
 import FPForm from '../components/FPForm';
 import fpApi from 'api/fpAPI';
 import accountApi from 'api/accountAPI';
-// import categoryAPi from 'api/categoryAPI';
-// import supplierApi from 'api/suppliertAPI';
-// import contactApi from 'api/contactAPI';
 import FPHeaderPage from '../components/FPHeaderPage';
-//import userApi from 'api/userAPI';
+
 import SkeletonPageFP from 'components/Common/Skeleton/SkeletonPageFP';
 import { selectRoles } from 'features/auth/authSlice';
 import { useDispatch, useSelector } from 'react-redux';
@@ -25,11 +22,8 @@ function AdminFPAddEditPage() {
   const { id } = useParams();
   const isEdit = Boolean(id);
   const [fps, setFP] = React.useState({});
-  // const [accounts, setAccounts] = React.useState([]);
+
   const [contacts, setContacts] = React.useState([]);
-  // const [categories, setCategories] = React.useState([]);
-  // const [suppliers, setSuppliers] = React.useState([]);
-  // const [users, setUsers] = React.useState([]);
   const status = useSelector(selectStatus);
   const [disabled, setDisable] = React.useState(false);
   const permissions = useSelector(selectRoles)
@@ -65,7 +59,10 @@ function AdminFPAddEditPage() {
               if (item) return true;
               return false;
             }),
-          supplier_id: yup.string().required('Xin hãy chọn nhà cung cấp'),
+          supplier_id: yup.mixed().test("required", "Xin hãy chọn nhà cung cấp", (item) => {
+            if (item) return true;
+            return false;
+          }),
         }),
       ),
     ),
@@ -97,7 +94,10 @@ function AdminFPAddEditPage() {
               if (item) return true;
               return false;
             }),
-          supplier_id: yup.string().required('Xin hãy chọn nhà cung cấp'),
+          supplier_id: yup.mixed().test("required", "Xin hãy chọn nhà cung cấp", (item) => {
+            if (item) return true;
+            return false;
+          }),
           number_invoice: yup.string().required('Xin hãy chọn số hóa đơn'),
           date_invoice: yup.string().required('Xin hãy chọn ngày hóa đơn'),
           file: yup.string().required('Xin hãy up file'),
@@ -134,8 +134,8 @@ function AdminFPAddEditPage() {
     code_contract: '',
     details: [
       {
-        supplier_id: '',
         category_id: '',
+        supplier_id: '',
         qty: 1,
         price_buy: 0,
         total_buy: 0,
@@ -155,31 +155,6 @@ function AdminFPAddEditPage() {
   React.useEffect(() => {
     dispatch(fpActions.setIsEdit(isEdit));
     dispatch(fpActions.setStatus(0));
-    // (async () => {
-    //   try {
-    //     let [accountRs, categoriesRs, supplierRs, userRs] = await Promise.all([
-    //       accountApi.getList(),
-    //       categoryAPi.getList(),
-    //       supplierApi.getlist(),
-    //       userApi.getList()
-    //     ]);
-
-    //     if (accountRs.status) {
-    //       setAccounts(accountRs.data.data);
-    //     }
-    //     if (categoriesRs.status) {
-    //       setCategories(categoriesRs.data.data);
-    //     }
-    //     if (supplierRs.status) {
-    //       setSuppliers(supplierRs.data.data);
-    //     }
-    //     if (userRs.status) {
-    //       setUsers(userRs.data.data);
-    //     }
-    //   } catch (err) {
-    //     console.log(err);
-    //   }
-    // })();
 
     if (!id) return;
     (async () => {

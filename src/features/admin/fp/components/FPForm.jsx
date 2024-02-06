@@ -78,6 +78,7 @@ function FPForm({
     delete formValues.status;
     formValues.details = formValues.details.map((item) => {
       item.category_id = item.category_id.id;
+      item.supplier_id = item.supplier_id.id;
       return item;
     });
     await onSubmit(formValues);
@@ -148,6 +149,7 @@ function FPForm({
     await onCallContactAPi(formValue);
   };
   React.useEffect(() => {
+
     if (isEdit) {
       if (Object.keys(itemValue).length !== 0) {
         reset(itemValue);
@@ -340,13 +342,14 @@ function FPForm({
                           />
                         </TableCellStyled>
                         <TableCellStyled>
-                          <BasicSelect
+                          <AutoCompleteForm
                             name={`details[${index}].supplier_id`}
                             label="Nhà cung cấp"
                             control={control}
                             options={suppliers}
                             sx={{ minWidth: '250px' }}
                             disabled={disabled}
+
                           />
                         </TableCellStyled>
 
