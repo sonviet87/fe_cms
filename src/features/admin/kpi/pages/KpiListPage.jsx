@@ -12,7 +12,7 @@ import kpiApi from "../../../../api/kpiAPI";
 import kpiMemberGroupsApi from "../../../../api/kpiMemberGroupsAPI";
 
 import {statusKpi} from "../constants/KpiConstants";
-import {DIVIDE,MULTIPLY,ROUND} from '@formulajs/formulajs';
+
 function KpiListPage() {
     const [loading, setLoading] = React.useState(false);
     const [memberGroup, setMemberGroup] = React.useState(false);
@@ -58,15 +58,10 @@ function KpiListPage() {
 
         setLoading(true);
         try {
-
             const res = await kpiApi.getAll(data);
-
             if (res.status) {
-
-                    toast.success(res.data.message);
-                    console.log(res.data.data)
-                    setList(res.data.data)
-
+                toast.success(res.data.message);
+                setList(res.data.data)
             } else {
                 toast.error(res.data.message);
             }
@@ -77,7 +72,7 @@ function KpiListPage() {
     }
 
     React.useEffect(() => {
-       // const test = ROUND(MULTIPLY(DIVIDE(MULTIPLY(249014700, 0.8), 138000000),100),2);
+
         //console.log(test)
         (async () => {
             setLoading(true);

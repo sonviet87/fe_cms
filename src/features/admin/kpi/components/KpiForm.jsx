@@ -1,11 +1,14 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Box, Divider, Grid} from "@mui/material";
 import {TitleBackGroundStyled} from "../../../../components/Common/SlytedComponent/Title";
 import {WrapperBox} from "../../../../components/Common/SlytedComponent/Wrapper";
 import {NumericFormat} from "react-number-format";
-
+import {DIVIDE,MULTIPLY,ROUND,ADD,MINUS} from '@formulajs/formulajs';
 function KpiForm({ list,selectedTypeKpi }) {
     const data = list?.target_kpi;
+
+    const [totalGoalsProfitPercent,setTotalGoalsProfitPercent] = useState(0);
+    const [totalBonus,settotalBonus] = useState(0);
     const countTargetDebtsFalse = (arr) => {
 
        if(arr === undefined || arr === null) return  0;
@@ -22,10 +25,21 @@ function KpiForm({ list,selectedTypeKpi }) {
 
     }
 
-    const totalBonus = (total_profit,percentTotalSettings) => {
-        return ((total_profit * percentTotalSettings)/100).toFixed(0);
+
+
+    const totalPercentProfitMaxDefault70 = (totalMargin= 0,profitPercentTarget= 0,profitType=0 ) =>{
+        return ROUND(MULTIPLY(DIVIDE(MULTIPLY(totalMargin,DIVIDE(profitPercentTarget,100)),profitType),100),2);
     }
 
+    const totalBonusFunc = (total_profit,percentTotalSettings) => {
+       // return ((total_profit * percentTotalSettings)/100).toFixed(0);
+        return DIVIDE(MULTIPLY(total_profit,percentTotalSettings),100);
+    }
+
+    const totalProfitMarginFunc = (total_profit,totalSalary,revenues) => {
+        return  MINUS(total_profit ,ADD(totalSalary, revenues));
+    }
+// const test = ROUND(MULTIPLY(DIVIDE(MULTIPLY(249014700, 0.8), 138000000),100),2);
     const changeBackgroudTitle = (kpiType) => {
         let  color = '3527a0';
         switch (kpiType) {
@@ -35,6 +49,13 @@ function KpiForm({ list,selectedTypeKpi }) {
         }
         return color;
     }
+
+    React.useEffect(() => {
+        if(Object.keys(list?.target_kpi).length !== 0){
+            setTotalGoalsProfitPercent(totalPercentProfitMaxDefault70(data?.total_profit,data?.profit_percent_target,data?.target_profit));
+            settotalBonus(totalBonusFunc(data?.total_profit, data?.percentTotalSettings));
+        }
+    });
     return (
         <Box sx={{mt:3}}>
             <Grid container spacing={2}>
@@ -66,7 +87,7 @@ function KpiForm({ list,selectedTypeKpi }) {
                                 <div></div>
                             </Grid>
                             <Grid item xs={3}>
-                                <div>{ (parseFloat(data?.total_percent_profit_max_70) + parseFloat(data?.goal_percent_customer) + parseFloat(data?.totalPercentDebuts)).toFixed(2)
+                                <div>{ (parseFloat(totalGoalsProfitPercent) + parseFloat(data?.goal_percent_customer) + parseFloat(data?.totalPercentDebuts)).toFixed(2)
                                 }%</div>
                             </Grid>
 
@@ -108,7 +129,7 @@ function KpiForm({ list,selectedTypeKpi }) {
                                 />}</div>
                             </Grid>
                             <Grid item xs={3}>
-                                <div>{data?.total_percent_profit_max_70.toFixed(2)}%</div>
+                                <div>{totalGoalsProfitPercent}%</div>
                             </Grid>
 
                             <Grid item xs={3} >
@@ -165,7 +186,7 @@ function KpiForm({ list,selectedTypeKpi }) {
                             <Grid item xs={3}>
                                 <div>{data?.percentTotalSettings !=0? <NumericFormat
                                     displayType="text"
-                                    value={totalBonus(data?.total_profit, data?.percentTotalSettings)}
+                                    value={totalBonus}
                                     thousandSeparator=","
                                     renderText={(value) => <b>{value}</b>}
                                 />: 0 }</div>
@@ -183,7 +204,7 @@ function KpiForm({ list,selectedTypeKpi }) {
                             <Grid item xs={3}>
                                 <div>{<NumericFormat
                                     displayType="text"
-                                    value={(data?.totalProfitMargin).toFixed(0)}
+                                    value={totalProfitMarginFunc(data?.total_profit,data?.totalSalary,totalBonus)}
                                     thousandSeparator=","
                                     renderText={(value) => <b>{value}</b>}
                                 />}</div>
@@ -234,7 +255,7 @@ function KpiForm({ list,selectedTypeKpi }) {
                             <Grid item xs={3}>
                                 <div><div>{data?.percentTotalSettings !=0? <NumericFormat
                                     displayType="text"
-                                    value={data?.revenues.toFixed(0)}
+                                    value={totalBonus}
                                     thousandSeparator=","
                                     renderText={(value) => <b>{value}</b>}
                                 />: 0 }</div></div>
@@ -252,7 +273,7 @@ function KpiForm({ list,selectedTypeKpi }) {
                             <Grid item xs={3}>
                                 <div>{ <NumericFormat
                                     displayType="text"
-                                    value={(data?.totalSalary+data?.revenues).toFixed(0)}
+                                    value={(data?.totalSalary+ totalBonus).toFixed(0)}
                                     thousandSeparator=","
                                     renderText={(value) => <b>{value}</b>}
                                 />}</div>

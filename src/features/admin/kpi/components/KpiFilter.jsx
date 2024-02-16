@@ -19,7 +19,7 @@ function KpiFilter({ loading, filter,selectedTypeKpi,setSelectedTypeKpi, onSubmi
         delete formValues.dateTimePickerKey;
         delete formValues.kpiTypeQuarter;
         delete formValues.selectedDay;
-        console.log(formValues)
+
         await onSubmit(formValues);
     };
     const handleKpiTypeChange = (event) => {
