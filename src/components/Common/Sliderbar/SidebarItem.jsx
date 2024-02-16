@@ -28,12 +28,13 @@ const SidebarItemComponent = (props) => {
 
 function SidebarItem(props) {
     const permissons = useSelector(selectRoles);
-    const { title, route, Icon, items, permission = [] } = props;
+    const { title, route, Icon, items,state, permission = [] } = props;
     const isCollapse = useMemo(() => items && items.length > 0, [items]);
     const [open, setOpen] = useState(false);
 
     function handleClick() {
         setOpen((prev) => !prev);
+        props.handleMenuActive(title)
     }
 
     return (
@@ -61,7 +62,7 @@ function SidebarItem(props) {
             </SidebarItemComponent>
 
             {isCollapse && (
-                <Collapse in={open}>
+                <Collapse in={state.active === title ? true :false}>
                     <List component="div" disablePadding>
                         {items.map((item, idx) => {
                             if (permissons.includes(item.permission) || item.permission === 'all') {

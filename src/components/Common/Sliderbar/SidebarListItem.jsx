@@ -1,14 +1,34 @@
 import { List, ListSubheader, Box } from '@mui/material';
 import { selectRoles } from 'features/auth/authSlice';
 import PropTypes from 'prop-types';
-import React from 'react';
+import React,{useState} from 'react';
 import { useSelector } from 'react-redux';
 import SidebarItem from './SidebarItem';
 
 
 
 function SidebarListItem({ list }) {
+    const initialState = {
+        active : "",
+        activeSubmenu : "",
+    }
     const permissons = useSelector(selectRoles);
+    const [state, setState] = useState(initialState);
+    const handleMenuActive = status => {
+        setState({active : status});
+        if(state.active === status){
+            setState({active : ""});
+        }
+
+    }
+    const handleSubmenuActive = (status) => {
+        setState({activeSubmenu : status})
+        if(state.activeSubmenu === status){
+            setState({activeSubmenu : ""})
+
+        }
+
+    }
     return (
         <>
             {list.map((dt, key) => (
@@ -17,13 +37,13 @@ function SidebarListItem({ list }) {
                     component="nav"
                     subheader={
                         <ListSubheader component="div">
-                            <Box >{dt.title}</Box>
+
                         </ListSubheader>
                     }
                 >
                     {dt.items.map((item, idx) => {
                         if (permissons.includes(item.permission) || item.permission === 'all') {
-                            return <SidebarItem {...item} key={idx} />
+                            return <SidebarItem {...item} key={idx} handleMenuActive={handleMenuActive} state={state} />
                         } else {
                             return ''
                         }
