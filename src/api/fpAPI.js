@@ -17,13 +17,9 @@ const fpApi = {
   update: (id, params) => {
     return axiosClient.put(url + '/' + id, params);
   },
-  updateStatus: (id, status) => {
+  updateStatus: (values) => {
 
-    return axiosClient.post(url + '/updateStatus', {
-
-      id, status
-
-    });
+    return axiosClient.post(url + '/updateStatus', values);
   },
   delete: (ids) => {
 

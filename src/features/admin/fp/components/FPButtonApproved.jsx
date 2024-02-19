@@ -29,7 +29,10 @@ export const FPButtonApproved = ({ status, onChangeStatus }) => {
               if (item) return true;
               return false;
             }),
-          supplier_id: yup.string().required('Xin hãy chọn nhà cung cấp'),
+          supplier_id: yup.mixed().test("required", "Xin hãy chọn nhà cung cấp", (item) => {
+            if (item) return true;
+            return false;
+          }),
         }),
       ),
     ),
@@ -55,7 +58,10 @@ export const FPButtonApproved = ({ status, onChangeStatus }) => {
               if (item) return true;
               return false;
             }),
-          supplier_id: yup.string().required('Xin hãy chọn nhà cung cấp'),
+          supplier_id: yup.mixed().test("required", "Xin hãy chọn nhà cung cấp", (item) => {
+            if (item) return true;
+            return false;
+          }),
           number_invoice: yup.string().required('Xin hãy chọn số hóa đơn'),
           date_invoice: yup.string().required('Xin hãy chọn ngày hóa đơn'),
           file: yup.string().required('Xin hãy up file'),
@@ -69,11 +75,12 @@ export const FPButtonApproved = ({ status, onChangeStatus }) => {
     const schema = yup.object().shape((parseInt(status) < 3 || parseInt(status) === 7) ? validationRules : validationRulesExtra);
     const formValue = methods.getValues();
     formValue.account_id = formValue.account_id.id;
+    formValue.status = value
     const isValid = schema.isValidSync(formValue);
     if (isValid) {
       setLoading(true);
       try {
-        const res = await fpApi.updateStatus(id, value);
+        const res = await fpApi.updateStatus(formValue);
         if (res.status) {
           toast.success(res.data.message);
           if (parseInt(value) === 2) {
