@@ -13,10 +13,12 @@ import {fpPermissions} from "../../fp/constants/FPConstants";
 import * as yup from "yup";
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
+import AddIcon from "@mui/icons-material/Add";
+import {useNavigate} from "react-router-dom";
 
 
 function ChanceFilter({ loading, filter }) {
-
+    const navigate = useNavigate();
     const accounts = useSelector(selectListAccount);
     const users = useSelector(selectListUser);
     const [disabled, setDisable] = React.useState(false);
@@ -109,7 +111,14 @@ function ChanceFilter({ loading, filter }) {
                     </Grid>
 
                 </Grid>
+
             </Box>
+            <Button
+                color="primary"
+                variant="contained"
+                startIcon={<AddIcon />}
+                onClick={() => { navigate('add') }}
+            > Thêm </Button>
 
         </Box>
     );
