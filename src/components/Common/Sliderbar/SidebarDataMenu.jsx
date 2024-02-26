@@ -25,6 +25,12 @@ export const MenuCMS = [
         permission: 'all',
       },
       {
+        title: 'Cơ hội kinh doanh',
+        route: '/admin/chances',
+        Icon: AssessmentIcon,
+        permission: 'all',
+      },
+      {
         title: 'Phương án kinh doanh',
         route: '/admin/fps',
         Icon: AssessmentIcon,

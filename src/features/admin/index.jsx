@@ -19,6 +19,7 @@ import Echo from "laravel-echo";
 import SendMessages from "./messages/sendMessages";
 import AdminKPIFeature from "./kpi";
 import AdminSalaryFeature from "./salary";
+import AdminChanceFeature from "./chance";
 
 const AdminFeature = () => {
     useEffect(() => {
@@ -59,6 +60,7 @@ const AdminFeature = () => {
       <Route path={'/kpi/*'} element={<AdminKPIFeature />} />
       <Route path={'/send/*'} element={<SendMessages />} />
       <Route path={'/salaries/*'} element={<AdminSalaryFeature />} />
+      <Route path={'/chances/*'} element={<AdminChanceFeature />} />
     </Routes>
   );
 };
