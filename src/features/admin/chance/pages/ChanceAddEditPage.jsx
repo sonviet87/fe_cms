@@ -9,8 +9,16 @@ import accountApi from "../../../../api/accountAPI";
 import {useParams} from "react-router";
 
 
-function ChanceAddEditPage(props) {
-    const initialValue = {}
+function ChanceAddEditPage() {
+    const initialValue = {
+        name: '',
+        account_id: '',
+        contact_id: '',
+        user_assign: '',
+        prices: '',
+        progress: '',
+        start_day: ''
+    }
     const validationRules = {}
     const schema = yup.object().shape(validationRules );
     const [contacts, setContacts] = React.useState([]);

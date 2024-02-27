@@ -1,5 +1,4 @@
 import { Grid, Table, TableBody, TableContainer, TableRow, Typography } from '@mui/material';
-import { Box } from '@mui/system';
 import UploadFile from 'components/Common/UploadFile';
 import UploadMuitiFile from 'components/Common/UploadMuitiFile';
 import React from 'react';
