@@ -9,7 +9,7 @@ import { DeleteIconStyled } from './SlytedComponent/Icon';
 import { Box, Link } from '@mui/material';
 import TextFormik from 'components/FormElement/TextFormik';
 
-const UploadMuitiFile = ({ control, name, setValue, isEdit, field, index, setError, errors }) => {
+const UploadMuitiFile = ({ control, name, setValue, isEdit, field, index, setError, errors,folder="" }) => {
   const [uploadedFiles, setUploadedFiles] = useState([]);
   const [currentFile, setCurrentFile] = useState(undefined);
   const [progress, setProgress] = useState(0);
@@ -20,7 +20,6 @@ const UploadMuitiFile = ({ control, name, setValue, isEdit, field, index, setErr
     if (isEdit) {
       if (field) {
         const filesInfo = JSON.parse(field);
-        console.log(filesInfo);
         setUploadedFiles(filesInfo);
       }
     }
@@ -29,7 +28,7 @@ const UploadMuitiFile = ({ control, name, setValue, isEdit, field, index, setErr
   const uploadFile = async (file, onUploadProgress) => {
     let formData = new FormData();
     formData.append('file_url', file);
-
+    if(folder!=="") formData.append('name', folder);
     return await uploadApi.upload(formData, onUploadProgress);
   };
 

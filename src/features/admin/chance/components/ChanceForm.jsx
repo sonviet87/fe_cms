@@ -22,6 +22,7 @@ function ChanceForm({initialValue, onSubmit,onCallContactAPi,itemValue,contactVa
     const handleFormSubmit = async (formValues) => {
         if (!onSubmit) return;
         formValues.account_id = formValues.account_id.id;
+        await onSubmit(formValues);
         console.log(formValues)
     }
     const handleCallAPIContact = async (formValue) => {
@@ -67,11 +68,11 @@ function ChanceForm({initialValue, onSubmit,onCallContactAPi,itemValue,contactVa
             <Grid
                 container
                 spacing={0}
-                sx={isEdit ? { justifyContent: 'space-between' } : { justifyContent: 'flex-end' }}
+
             >
                 <WrapperBoxItem>
                     <ChanceUploadfile
-                        control={control}
+                      control={control}
                       setValue={setValue}
                       isEdit={isEdit}
                       itemValue={itemValue}

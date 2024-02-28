@@ -14,7 +14,7 @@ function ChanceUploadfile({ control, name, setValue, itemValue, errors, setError
                                 <TableCellStyled component="th" scope="row">
                                     <UploadMuitiFile
                                         control={control}
-                                        name="file_ncc"
+                                        name="files"
                                         setValue={setValue}
                                         isEdit={isEdit}
                                         field={itemValue.file_ncc}

@@ -7,9 +7,14 @@ import ChanceHeaderPage from "../components/ChanceHeaderPage";
 import ChanceForm from "../components/ChanceForm";
 import accountApi from "../../../../api/accountAPI";
 import {useParams} from "react-router";
+import {toast} from "react-toastify";
+import {useNavigate} from "react-router-dom";
+import chanceApi from "../../../../api/chanceAPI";
 
 
 function ChanceAddEditPage() {
+    const [loading, setLoading] = React.useState(false);
+    const navigate = useNavigate();
     const initialValue = {
         name: '',
         account_id: '',
@@ -17,7 +22,8 @@ function ChanceAddEditPage() {
         user_assign: '',
         prices: '',
         progress: '',
-        start_day: ''
+        start_day: '',
+        files: ''
     }
     const validationRules = {}
     const schema = yup.object().shape(validationRules );
@@ -31,7 +37,29 @@ function ChanceAddEditPage() {
     const [disabled, setDisable] = React.useState(false);
     const [chance, setChance] = React.useState({});
     const handleFormSubmit = async (formValues) => {
+        setLoading(true);
+        try {
+            let res;
+            if (isEdit) {
+                res = await chanceApi.update(id, formValues);
+            } else {
 
+                res = await chanceApi.add(formValues);
+            }
+            if (res.status) {
+                if (res.data.status) {
+                    toast.success(res.message);
+                    navigate('/admin/chances');
+                } else {
+                    toast.error(res.data.message);
+                }
+            } else {
+                toast.error(res.message);
+            }
+        } catch (error) {
+            console.log('Error', error.message);
+        }
+        setLoading(false);
     }
 
     const handleCallAPIContact = async (formValues) => {
