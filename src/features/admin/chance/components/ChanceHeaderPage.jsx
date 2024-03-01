@@ -6,11 +6,12 @@ import ChanceSteps from "./ChanceSteps";
 
 
 function ChanceHeaderPage({ isEdit, id, chance }) {
-    const [status, setStatus] = useState(chance?.status);
+    console.log(chance)
+    const [status, setStatus] = useState(chance?.progress);
     React.useEffect(() => {
         //console.log(fps.status);
-        setStatus(chance?.status);
-    }, [chance?.status]);
+        setStatus(chance?.progress);
+    }, [chance?.progress]);
     const handleChangeStatus = (status) => {
         setStatus(status);
 

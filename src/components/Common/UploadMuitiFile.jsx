@@ -17,6 +17,7 @@ const UploadMuitiFile = ({ control, name, setValue, isEdit, field, index, setErr
   // const [file, setFile] = useState({ name: '', url: '' });
 
   React.useEffect(() => {
+      console.log(isEdit)
     if (isEdit) {
       if (field) {
         const filesInfo = JSON.parse(field);

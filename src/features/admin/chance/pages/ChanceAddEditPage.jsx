@@ -68,10 +68,37 @@ function ChanceAddEditPage() {
             setContacts(contactRs.data.data);
         }
     };
+
+
+    React.useEffect(() => {
+        if (!id) return;
+        (async () => {
+            setLoading(true);
+            try {
+
+                const chanceRs = await chanceApi.get(id);
+                if (chanceRs.status) {
+                    setChance(chanceRs.data.data);
+
+                    let contactRs = await accountApi.getContactByIDAccount(chanceRs.data.data.account_id.id);
+                    if (contactRs.status) {
+                        setContacts(contactRs.data.data);
+                    }
+                } else {
+                    toast.error(chanceRs.message);
+                    navigate('/admin/chances');
+                }
+            } catch (error) {
+                console.log('get chances by id error', error);
+            }
+            setLoading(false);
+        })();
+
+    }, [id, navigate]);
     return (
         <WrapperPage>
             <FormProvider {...methods}>
-                <ChanceHeaderPage />
+                <ChanceHeaderPage  isEdit={isEdit} id={id} chance={chance} initialValue={initialValue} onSubmit={handleFormSubmit}/>
                 <ChanceForm initialValue={initialValue}
                             onSubmit={handleFormSubmit}
                             onCallContactAPi={handleCallAPIContact}

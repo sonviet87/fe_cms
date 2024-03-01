@@ -21,6 +21,10 @@ function ChanceForm({initialValue, onSubmit,onCallContactAPi,itemValue,contactVa
     const { setError, errors, isSubmitting } = methods.formState;
     const handleFormSubmit = async (formValues) => {
         if (!onSubmit) return;
+        delete formValues.account;
+        delete formValues.user;
+        delete formValues.user_assign_name;
+        delete formValues.contact;
         formValues.account_id = formValues.account_id.id;
         await onSubmit(formValues);
         console.log(formValues)
@@ -30,6 +34,15 @@ function ChanceForm({initialValue, onSubmit,onCallContactAPi,itemValue,contactVa
         setValue('contact_id', '');
         await onCallContactAPi(formValue);
     };
+
+    React.useEffect(() => {
+
+        if (isEdit) {
+            if (Object.keys(itemValue).length !== 0) {
+                reset(itemValue);
+            }
+        }
+    }, [itemValue, reset]);
     return (
         <Box component="form" noValidate autoComplete="off" onSubmit={handleSubmit(handleFormSubmit)}>
             <Grid container spacing={2}>
@@ -41,7 +54,7 @@ function ChanceForm({initialValue, onSubmit,onCallContactAPi,itemValue,contactVa
                 </Grid>
                 <Grid item xs={12} md={2} >
                     <BasicDatePicker
-                        name="startDay"
+                        name="start_day"
                         lableText="Ngày bắt đầu"
                         control={control}
                         sx={{ width: '100px' }}

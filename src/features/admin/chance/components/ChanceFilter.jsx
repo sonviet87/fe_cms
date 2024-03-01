@@ -15,9 +15,10 @@ import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import AddIcon from "@mui/icons-material/Add";
 import {useNavigate} from "react-router-dom";
+import moment from "moment";
 
 
-function ChanceFilter({ loading, filter }) {
+function ChanceFilter({ loading, filter,onSubmit }) {
     const navigate = useNavigate();
     const accounts = useSelector(selectListAccount);
     const users = useSelector(selectListUser);
@@ -32,7 +33,11 @@ function ChanceFilter({ loading, filter }) {
 
     const { control, handleSubmit } = useForm({
         defaultValues: {
-            search: "",
+            account_id: "",
+            contact_id: "",
+            startDay: "",
+            endDay: "",
+            user_id: "",
         },
         resolver: yupResolver(schema),
     });
@@ -45,11 +50,11 @@ function ChanceFilter({ loading, filter }) {
     },[])
 
     const handleFormSubmit = async (formValues) => {
-
-
+        formValues.startDay = moment(formValues.startDay).format('YYYY-MM-DD');
+        formValues.endDay = moment(formValues.endDay).format('YYYY-MM-DD');
         formValues.account_id = formValues.account_id?.id
         //console.log(formValues)
-        await handleSubmit(formValues);
+        await onSubmit(formValues);
     };
 
     return (
@@ -59,7 +64,7 @@ function ChanceFilter({ loading, filter }) {
                     <Grid item xs={12} md={2} >
                         <BasicDatePicker
                             name="startDay"
-                            lableText="Ngày bắt đầu"
+                            lableText="Từ ngày"
                             control={control}
                             sx={{ width: '100px' }}
                         />
@@ -67,7 +72,7 @@ function ChanceFilter({ loading, filter }) {
                     <Grid item xs={12} sm={6} md={2}>
                         <BasicDatePicker
                             name="endDay"
-                            lableText="Ngày kết thúc"
+                            lableText="Đến ngày"
                             control={control}
                             sx={{ width: '100px' }}
                         />

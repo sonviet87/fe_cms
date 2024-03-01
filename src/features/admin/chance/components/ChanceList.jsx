@@ -21,6 +21,8 @@ import {fpPermissions} from "../../fp/constants/FPConstants";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import {TablePaginationActions} from "../../../../components/Common/TablePaginationActions";
 import ConfirmDialog from "../../../../components/Common/ConfirmDialog";
+import {getStepName} from "../constants/ChanceConstants";
+import LinearWithValueLabel from "../../../../components/Common/LineaerProgress";
 
 function ChanceList({ list, pagination, filter, onFilter, onDelete }) {
     const permissions = useSelector(selectRoles)
@@ -78,11 +80,12 @@ function ChanceList({ list, pagination, filter, onFilter, onDelete }) {
                         <TableCell>Cơ hội</TableCell>
                         <TableCell>Khách hàng</TableCell>
                         <TableCell>Liên hệ</TableCell>
-                        <TableCell>Gán cho</TableCell>
+                        <TableCell>Điện thoại</TableCell>
+                        <TableCell>Người phụ trách</TableCell>
                         <TableCell>Tình trạng</TableCell>
                         <TableCell>Phần trăm</TableCell>
                         <TableCell>Giá dự Toán</TableCell>
-                        <TableCell>Ngày tạo</TableCell>
+                        <TableCell>Ngày bắt đầu</TableCell>
                         <TableCell align="right">hành động</TableCell>
                     </TableRow>
                 </TableHead>
@@ -90,35 +93,30 @@ function ChanceList({ list, pagination, filter, onFilter, onDelete }) {
                     {list.length > 0 &&
                         list.map((row) => (
                             <TableRow key={row.id}>
-                                <TableCell>{row.code}</TableCell>
+                                <TableCell>{row.id}</TableCell>
                                 <TableCell component="th">
-                                    <Link to={'/admin/fps/' + row.id}>
+                                    <Link to={'/admin/chances/' + row.id}>
                                         {row.name}
                                     </Link>
                                 </TableCell>
                                 <TableCell>{row.account}</TableCell>
                                 <TableCell>{row.contact}</TableCell>
-
-
-                                <TableCell>{row.user_assign} </TableCell>
-                                <TableCell> <ChipStatus label={row.status} status={row.statusNumber} /></TableCell>
+                                <TableCell>{row.phone}</TableCell>
+                                <TableCell>{row.user_assign_name} </TableCell>
+                                <TableCell> {getStepName(parseInt(row.progress)) } </TableCell>
                                 <TableCell>
-                                    {<NumericFormat
-                                        displayType="text"
-                                        value={row.selling}
-                                        thousandSeparator=","
-                                        renderText={(value) => <b>{value}</b>}
-                                    />}
+
+                                    <LinearWithValueLabel progress={parseInt(row.progress)} />
                                 </TableCell>
                                 <TableCell>
                                     {<NumericFormat
                                         displayType="text"
-                                        value={row.margin}
+                                        value={row.prices}
                                         thousandSeparator=","
                                         renderText={(value) => <b>{value}</b>}
                                     />}
                                 </TableCell>
-                                <TableCell>{moment(row.created_at).format('DD-MM-YYYY')}</TableCell>
+                                <TableCell>{moment(row.start_day).format('DD-MM-YYYY')}</TableCell>
                                 <TableCell
                                     align="right"
 
@@ -128,7 +126,7 @@ function ChanceList({ list, pagination, filter, onFilter, onDelete }) {
                                         variant="contained"
                                         color="primary"
                                         size="small"
-                                        onClick={() => navigate('/admin/fps/' + row.id)}
+                                        onClick={() => navigate('/admin/chances/' + row.id)}
                                     >
                                         <EditIcon fontSize="small" />
                                     </BasicButtonStyled>

@@ -27,6 +27,7 @@ function ChanceListPage() {
             ...filter,
             ...data,
         });
+
     };
 
     const handleDelete = async (item) => {

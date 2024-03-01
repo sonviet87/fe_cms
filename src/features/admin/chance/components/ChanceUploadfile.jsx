@@ -17,7 +17,7 @@ function ChanceUploadfile({ control, name, setValue, itemValue, errors, setError
                                         name="files"
                                         setValue={setValue}
                                         isEdit={isEdit}
-                                        field={itemValue.file_ncc}
+                                        field={itemValue.files}
                                         index={name}
                                         setError={setError}
                                         errors={errors}

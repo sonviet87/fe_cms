@@ -25,7 +25,11 @@ const chanceApi = {
         ids
       }
     });
-  }
+  },
+  updateStatus: (values) => {
+
+    return axiosClient.post(url + '/updateStatus', values);
+  },
 };
 
 export default chanceApi;

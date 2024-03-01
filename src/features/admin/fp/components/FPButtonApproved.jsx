@@ -19,7 +19,7 @@ export const FPButtonApproved = ({ status, onChangeStatus }) => {
     name: yup.string().required('Xin hãy điền tên FP'),
     contact_id: yup.string().required('Xin hãy chọn liên hệ'),
     account_id: yup.string().required('Xin hãy chọn tài khoản'),
-    user_assign: yup.string().required('Xin hãy chọn danh mục'),
+    user_assign: yup.string().required('Xin hãy chọn người dùng'),
     details: yup.lazy(() =>
       yup.array().of(
         yup.object({
