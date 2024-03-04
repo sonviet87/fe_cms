@@ -17,7 +17,7 @@ function ChanceHeaderPage({ isEdit, id, chance }) {
         setStatus(status);
 
     };
-    console.log(chance)
+
     return (
         <WrapperBoxAlign align="space-between" isborder={0}>
             <TitleForm lable={isEdit ? 'Cập nhật Cơ hội kinh doanh' : 'Thêm cơ hội kinh doanh '} isborder={0} />

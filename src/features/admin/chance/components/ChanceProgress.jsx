@@ -45,7 +45,7 @@ function ChanceProgress({status,completed}) {
     React.useEffect(() => {
         setCompletedStatus(completed);
     }, [completed]);
-    console.log(completedStatus)
+
     return (
         <>
             {loading ? <LoadingOverlay /> : ''}

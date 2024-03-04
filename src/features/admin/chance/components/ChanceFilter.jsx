@@ -11,13 +11,11 @@ import {selectListContact} from "../../contact/contactSlice";
 import {selectListUser} from "../../user/userSlice";
 import {selectRoles} from "../../../auth/authSlice";
 
-import AddIcon from "@mui/icons-material/Add";
-import {useNavigate} from "react-router-dom";
 import moment from "moment";
 
 
 function ChanceFilter({ loading, filter,onSubmit,methods }) {
-    const navigate = useNavigate();
+
     const accounts = useSelector(selectListAccount);
     const contacts = useSelector(selectListContact)
     const users = useSelector(selectListUser);
@@ -98,7 +96,7 @@ function ChanceFilter({ loading, filter,onSubmit,methods }) {
 
 
                     <Grid item alignItems="center" display="flex"
-                          justifyContent="center">
+                          justifyContent="center" item xs={12} sm={6} md={2}>
                         <Box sx={{ width: '300px' }} >
                             <Button
                                 color="primary"
@@ -112,12 +110,7 @@ function ChanceFilter({ loading, filter,onSubmit,methods }) {
                 </Grid>
 
             </Box>
-            <Button
-                color="primary"
-                variant="contained"
-                startIcon={<AddIcon />}
-                onClick={() => { navigate('add') }}
-            > Thêm </Button>
+
 
         </Box>
     );

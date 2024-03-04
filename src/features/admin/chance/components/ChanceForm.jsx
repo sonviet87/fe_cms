@@ -13,14 +13,14 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import {useNavigate} from "react-router-dom";
 import BasicDatePicker from "../../../../components/FormElement/DatetimePicker";
 import {selectRoles} from "../../../auth/authSlice";
-import {fpPermissions} from "../../fp/constants/FPConstants";
+
 
 function ChanceForm({initialValue, onSubmit,onCallContactAPi,itemValue,contactValue,isEdit,disabled, methods}) {
     const navigate = useNavigate();
     const accounts = useSelector(selectListAccount);
     const users = useSelector(selectListUser);
     const permissions = useSelector(selectRoles)
-    const { control, reset, getValues, setValue, handleSubmit } = methods;
+    const { control, reset,  setValue, handleSubmit } = methods;
     const { setError, errors, isSubmitting } = methods.formState;
     const handleFormSubmit = async (formValues) => {
         if (!onSubmit) return;

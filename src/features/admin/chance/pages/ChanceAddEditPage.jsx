@@ -38,17 +38,12 @@ function ChanceAddEditPage() {
             }),
         user_assign:  yup.string().when("user_assign", (value) => {
             if (permissions.includes("chance-assign-user")) {
+                console.log('check required')
                 return  yup.string().required('Xin hãy chọn người dùng');
             } else {
+                console.log(' no check required')
                 return yup
                     .string()
-                    .transform((value, originalValue) => {
-                        // Convert empty values to null
-                        if (!value) {
-                            return null;
-                        }
-                        return originalValue;
-                    })
                     .nullable()
                     .optional();
             }

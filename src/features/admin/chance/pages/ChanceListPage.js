@@ -12,8 +12,13 @@ import ChanceExportExcel from "../components/ChanceExportExcel";
 import * as yup from "yup";
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
+import AddIcon from "@mui/icons-material/Add";
+import {Button} from "@mui/material";
+import {useNavigate} from "react-router-dom";
+import EqualizerIcon from "@mui/icons-material/Equalizer";
 
 function ChanceListPage() {
+    const navigate = useNavigate();
     const [loading, setLoading] = React.useState(false);
     const [list, setList] = React.useState({
         chances: [],
@@ -101,8 +106,20 @@ function ChanceListPage() {
             <WrapperBoxAlign align="space-between" isborder={0}>
                 <TitleForm lable="Cơ hội kinh doanh" isborder={0} />
                 <Box>
+                    <Button
+                        color="primary"
+                        variant="contained"
+                        startIcon={<AddIcon />}
+                        sx={{ mb: 2, mr: 2 }}
+                        size="small"
+                        onClick={() => { navigate('add') }}
+                    >
+                        Thêm
+                    </Button>
+
                     <ChanceExportExcel data={list} filter={filter} methods={methods} />
                 </Box>
+
 
             </WrapperBoxAlign>
             <ChanceFilter loading={loading} filter={filter} onSubmit={handleFilter} methods={methods} />
