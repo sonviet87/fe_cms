@@ -1,12 +1,17 @@
 
 import SkeletonList from 'components/Common/Skeleton/SkeletonList';
-import { WrapperPage } from 'components/Common/SlytedComponent/Wrapper';
+import {WrapperBoxAlign, WrapperPage} from 'components/Common/SlytedComponent/Wrapper';
 import TitleForm from 'components/Common/TitleForm';
 import React from 'react';
 import { toast } from 'react-toastify';
 import chanceApi from "../../../../api/chanceAPI";
 import ChanceFilter from "../components/ChanceFilter";
 import ChanceList from "../components/ChanceList";
+import {Box} from "@mui/system";
+import ChanceExportExcel from "../components/ChanceExportExcel";
+import * as yup from "yup";
+import {useForm} from "react-hook-form";
+import {yupResolver} from "@hookform/resolvers/yup";
 
 function ChanceListPage() {
     const [loading, setLoading] = React.useState(false);
@@ -49,6 +54,21 @@ function ChanceListPage() {
         }
         setLoading(false);
     };
+    const schema = yup.object().shape({
+        startDay: yup.string().required('hãy chọn ngày bắt đầu'),
+        endDay: yup.string().required('hãy chọn ngày kết thúc'),
+    });
+
+    const methods = useForm({
+        defaultValues: {
+            account_id: "",
+            contact_id: "",
+            startDay: "",
+            endDay: "",
+            user_id: "",
+        },
+        resolver: yupResolver(schema),
+    });
 
     React.useEffect(() => {
 
@@ -78,8 +98,14 @@ function ChanceListPage() {
 
     return (
         <WrapperPage>
-            <TitleForm lable="Cơ hội kinh doanh" />
-            <ChanceFilter loading={loading} filter={filter} onSubmit={handleFilter} />
+            <WrapperBoxAlign align="space-between" isborder={0}>
+                <TitleForm lable="Cơ hội kinh doanh" isborder={0} />
+                <Box>
+                    <ChanceExportExcel data={list} filter={filter} methods={methods} />
+                </Box>
+
+            </WrapperBoxAlign>
+            <ChanceFilter loading={loading} filter={filter} onSubmit={handleFilter} methods={methods} />
             {loading ? (
                 <SkeletonList />
             ) : (<ChanceList list={list.chances}

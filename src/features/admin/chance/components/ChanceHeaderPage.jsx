@@ -3,10 +3,11 @@ import {WrapperBoxAlign} from "../../../../components/Common/SlytedComponent/Wra
 import TitleForm from "../../../../components/Common/TitleForm";
 
 import ChanceSteps from "./ChanceSteps";
+import ChanceProgress from "./ChanceProgress";
 
 
 function ChanceHeaderPage({ isEdit, id, chance }) {
-    console.log(chance)
+
     const [status, setStatus] = useState(chance?.progress);
     React.useEffect(() => {
         //console.log(fps.status);
@@ -16,6 +17,7 @@ function ChanceHeaderPage({ isEdit, id, chance }) {
         setStatus(status);
 
     };
+    console.log(chance)
     return (
         <WrapperBoxAlign align="space-between" isborder={0}>
             <TitleForm lable={isEdit ? 'Cập nhật Cơ hội kinh doanh' : 'Thêm cơ hội kinh doanh '} isborder={0} />
@@ -23,7 +25,7 @@ function ChanceHeaderPage({ isEdit, id, chance }) {
                 <div>
 
                     <ChanceSteps status={status} onChangeStatus={handleChangeStatus} />
-
+                    <ChanceProgress status={status} completed={chance?.completed} />
                 </div>
             )}
         </WrapperBoxAlign>

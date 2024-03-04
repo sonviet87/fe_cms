@@ -6,45 +6,27 @@ import BasicSelect from "../../../../components/FormElement/SelectBox";
 import AutoCompleteForm from "../../../../components/FormElement/Autocomplete";
 import {useSelector} from "react-redux";
 import {selectListAccount} from "../../account/accountSlice";
+import {selectListContact} from "../../contact/contactSlice";
 
 import {selectListUser} from "../../user/userSlice";
 import {selectRoles} from "../../../auth/authSlice";
-import {fpPermissions} from "../../fp/constants/FPConstants";
-import * as yup from "yup";
-import {useForm} from "react-hook-form";
-import {yupResolver} from "@hookform/resolvers/yup";
+
 import AddIcon from "@mui/icons-material/Add";
 import {useNavigate} from "react-router-dom";
 import moment from "moment";
 
 
-function ChanceFilter({ loading, filter,onSubmit }) {
+function ChanceFilter({ loading, filter,onSubmit,methods }) {
     const navigate = useNavigate();
     const accounts = useSelector(selectListAccount);
+    const contacts = useSelector(selectListContact)
     const users = useSelector(selectListUser);
     const [disabled, setDisable] = React.useState(false);
     const permissions = useSelector(selectRoles)
-
-
-
-    const schema = yup.object().shape({
-
-    });
-
-    const { control, handleSubmit } = useForm({
-        defaultValues: {
-            account_id: "",
-            contact_id: "",
-            startDay: "",
-            endDay: "",
-            user_id: "",
-        },
-        resolver: yupResolver(schema),
-    });
-
+    const { control, reset, getValues, setValue, handleSubmit } = methods;
 
     useEffect(()=>{
-        if (permissions.includes(fpPermissions.FP_IS_SALE)){
+        if (!permissions.includes("chance-assign-user")){
             setDisable(true)
         }
     },[])
@@ -53,20 +35,21 @@ function ChanceFilter({ loading, filter,onSubmit }) {
         formValues.startDay = moment(formValues.startDay).format('YYYY-MM-DD');
         formValues.endDay = moment(formValues.endDay).format('YYYY-MM-DD');
         formValues.account_id = formValues.account_id?.id
+        formValues.contact_id = formValues.contact_id?.id
         //console.log(formValues)
         await onSubmit(formValues);
     };
 
     return (
         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-            <Box component="form" onSubmit={handleSubmit(handleFormSubmit)} >
+            <Box component="form" onSubmit={handleSubmit(handleFormSubmit)} sx={{flexGrow:1}} >
                 <Grid container spacing={1}>
                     <Grid item xs={12} md={2} >
                         <BasicDatePicker
                             name="startDay"
                             lableText="Từ ngày"
                             control={control}
-                            sx={{ width: '100px' }}
+
                         />
                     </Grid>
                     <Grid item xs={12} sm={6} md={2}>
@@ -74,7 +57,7 @@ function ChanceFilter({ loading, filter,onSubmit }) {
                             name="endDay"
                             lableText="Đến ngày"
                             control={control}
-                            sx={{ width: '100px' }}
+
                         />
                     </Grid>
                     {!disabled && <Grid item xs={12} sm={6} md={2}>
@@ -96,6 +79,17 @@ function ChanceFilter({ loading, filter,onSubmit }) {
                             control={control}
                             options={
                                 accounts
+                            }
+                            sx={{ marginTop: '8px' }}
+                        />
+                    </Grid>
+                    <Grid item xs={12} sm={6} md={2} >
+                        <AutoCompleteForm
+                            name="contact_id"
+                            label="Liên hệ"
+                            control={control}
+                            options={
+                                contacts
                             }
                             sx={{ marginTop: '8px' }}
                         />

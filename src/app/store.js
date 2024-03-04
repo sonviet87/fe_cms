@@ -6,6 +6,7 @@ import fpReducer from 'features/admin/fp/fpSlice';
 import supplierReducer from 'features/admin/supplier/supplierSlice';
 import userReducer from 'features/admin/user/userSlice';
 import authReducer from '../features/auth/authSlice';
+import contactReducer from "../features/admin/contact/contactSlice";
 
 export const store = configureStore({
     reducer: {
@@ -14,7 +15,8 @@ export const store = configureStore({
         category: categoryReducer,
         accounts: accountReducer,
         suppliers: supplierReducer,
-        users: userReducer
+        users: userReducer,
+        contacts: contactReducer
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware({ serializableCheck: false, }),
 });

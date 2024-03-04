@@ -78,7 +78,7 @@ function AdminFPAddEditPage() {
           return false;
         }),
 
-    user_assign: yup.string().required('Xin hãy chọn danh mục'),
+    user_assign: yup.string().required('Xin hãy chọn người dùng'),
     number_invoice: yup.string().required('Xin hãy chọn số hóa đơn'),
     date_invoice: yup.string().required('Xin hãy chọn ngày hóa đơn'),
     date_shipping: yup.string().required('Xin hãy chọn ngày giao hàng'),

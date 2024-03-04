@@ -30,6 +30,10 @@ const chanceApi = {
 
     return axiosClient.post(url + '/updateStatus', values);
   },
+  updateProgress: (values) => {
+
+    return axiosClient.post(url + '/updateProgress', values);
+  },
 };
 
 export default chanceApi;

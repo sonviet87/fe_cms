@@ -21,7 +21,7 @@ import {fpPermissions} from "../../fp/constants/FPConstants";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import {TablePaginationActions} from "../../../../components/Common/TablePaginationActions";
 import ConfirmDialog from "../../../../components/Common/ConfirmDialog";
-import {getStepName} from "../constants/ChanceConstants";
+import {getProgressName, getStepName} from "../constants/ChanceConstants";
 import LinearWithValueLabel from "../../../../components/Common/LineaerProgress";
 
 function ChanceList({ list, pagination, filter, onFilter, onDelete }) {
@@ -85,6 +85,7 @@ function ChanceList({ list, pagination, filter, onFilter, onDelete }) {
                         <TableCell>Tình trạng</TableCell>
                         <TableCell>Phần trăm</TableCell>
                         <TableCell>Giá dự Toán</TableCell>
+                        <TableCell>Kết quả</TableCell>
                         <TableCell>Ngày bắt đầu</TableCell>
                         <TableCell align="right">hành động</TableCell>
                     </TableRow>
@@ -116,6 +117,7 @@ function ChanceList({ list, pagination, filter, onFilter, onDelete }) {
                                         renderText={(value) => <b>{value}</b>}
                                     />}
                                 </TableCell>
+                                <TableCell> <ChipStatus label={getProgressName(row.completed)} status={row.completed} /> </TableCell>
                                 <TableCell>{moment(row.start_day).format('DD-MM-YYYY')}</TableCell>
                                 <TableCell
                                     align="right"
@@ -131,16 +133,16 @@ function ChanceList({ list, pagination, filter, onFilter, onDelete }) {
                                         <EditIcon fontSize="small" />
                                     </BasicButtonStyled>
 
-                                    {(!permissions.includes(fpPermissions.FP_IS_SALE) ) &&
-                                        <BasicButtonStyled
-                                            variant="contained"
-                                            color="error"
-                                            size="small"
-                                            onClick={() => handleOpenConfirmDeleteDialog(row)}
-                                        >
-                                            <DeleteOutlineIcon fontSize="small" />
-                                        </BasicButtonStyled>
-                                    }
+
+                                    <BasicButtonStyled
+                                        variant="contained"
+                                        color="error"
+                                        size="small"
+                                        onClick={() => handleOpenConfirmDeleteDialog(row)}
+                                    >
+                                        <DeleteOutlineIcon fontSize="small" />
+                                    </BasicButtonStyled>
+
                                 </TableCell>
                             </TableRow>
                         ))}

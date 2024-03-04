@@ -13,6 +13,8 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { getLSItem, removeLSItem } from "utils";
 import { LoadingOverlay } from "./LoadingOverlay";
+import contactAPI from "../../api/contactAPI";
+import {contactActions} from "../../features/admin/contact/contactSlice";
 
 
 
@@ -35,12 +37,14 @@ function PrivateRoute({ children }) {
             if (!selectUser) {
                 try {
                     //const res = await userApi.getUser();
-                    let [userRs, accountRs, categoriesRs, supplierRs, usersRs] = await Promise.all([
+                    let [userRs, accountRs, categoriesRs, supplierRs, usersRs,contactRs] = await Promise.all([
                         userApi.getUser(),
                         accountApi.getList(),
                         categoryAPi.getList(),
                         supplierApi.getlist(),
-                        userApi.getList()
+                        userApi.getList(),
+                        contactAPI.getList()
+
                     ]);
                     if (!userRs.status) return navigate('/login');
 
@@ -53,6 +57,7 @@ function PrivateRoute({ children }) {
                     if (accountRs.status) dispatch(accountActions.setListAccount(accountRs.data.data));
                     if (supplierRs.status) dispatch(supplierActions.setListSupplier(supplierRs.data.data));
                     if (usersRs.status) dispatch(userActions.setListUser(usersRs.data.data));
+                    if (contactRs.status) dispatch(contactActions.setListContact(contactRs.data.data));
 
                 } catch (err) {
                     toast.error("Lỗi đăng nhập")
