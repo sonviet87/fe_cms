@@ -102,7 +102,7 @@ export const FPButtonApproved = ({ status, onChangeStatus }) => {
 
       setLoading(true);
       try {
-        const res = await fpApi.updateStatus(id, value);
+        const res = await fpApi.updateStatus({id, status: value});
         if (res.status) {
           toast.success(res.data.message);
           if (parseInt(value) === 2) {
