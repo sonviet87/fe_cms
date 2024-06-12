@@ -37,6 +37,7 @@ function KpiGroupMemberListPage() {
             const res = await kpiMemberGroupsApi.getList(filter);
             try {
                 if (res.status) {
+                    console.log(res.data.data)
                     setList({
                         members: res.data.data,
                         pagination: {

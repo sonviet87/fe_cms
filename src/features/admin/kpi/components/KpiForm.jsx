@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import { Link } from 'react-router-dom'
 import {Box, Divider, Grid} from "@mui/material";
 import {TitleBackGroundStyled} from "../../../../components/Common/SlytedComponent/Title";
 import {WrapperBox} from "../../../../components/Common/SlytedComponent/Wrapper";
@@ -56,6 +57,8 @@ function KpiForm({ list,selectedTypeKpi }) {
             settotalBonus(totalBonusFunc(data?.total_profit, data?.percentTotalSettings));
         }
     });
+
+
     return (
         <Box sx={{mt:3}}>
             <Grid container spacing={2}>
@@ -284,6 +287,40 @@ function KpiForm({ list,selectedTypeKpi }) {
 
                     </WrapperBox>
 
+                </Grid>
+                <Grid item sx={4} >
+                    <WrapperBox>
+                        <TitleBackGroundStyled background="3527a0" sx={{mb:1}}>Khách hàng mới</TitleBackGroundStyled>
+                        <div sx={{ height:"120", overFlow:"auto"}}>
+                            {data?.listAccountNew.length > 0 &&
+                                data?.listAccountNew.map((item) => (
+                                    <Grid container item key={item.id} >
+                                        <Grid item xs={2}>
+                                            <div>{item.id}</div>
+                                        </Grid>
+                                        <Grid item xs={9}>
+                                            <div> <a href={'/admin/accounts/' + item.id} target="_blank">{item.name}</a></div>
+                                        </Grid>
+                                    </Grid>
+                             ))}
+                        </div>
+                    </WrapperBox>
+                    <WrapperBox>
+                        <TitleBackGroundStyled background="3527a0" sx={{mb:1}}>FP</TitleBackGroundStyled>
+                        <div sx={{ height:"120", overFlow:"auto"}}>
+                            {data?.fp.length > 0 &&
+                                data?.fp.map((item) => (
+                                    <Grid container item key={item.id} >
+                                        <Grid item xs={2}>
+                                            <div>{item.code}</div>
+                                        </Grid>
+                                        <Grid item xs={9}>
+                                            <div> <a href={'/admin/fps/' + item.id}  target="_blank">{item.name}</a></div>
+                                        </Grid>
+                                    </Grid>
+                                ))}
+                        </div>
+                    </WrapperBox>
                 </Grid>
             </Grid>
         </Box>

@@ -79,7 +79,7 @@ function KpiListPage() {
             const res = await kpiMemberGroupsApi.getAll();
             try {
                 if (res.status) {
-
+                    console.log(res.data)
                     setMemberGroup(res.data.data);
                 }
                 else {
