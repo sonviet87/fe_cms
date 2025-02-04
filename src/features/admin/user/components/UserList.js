@@ -63,7 +63,9 @@ export default function UserList({ list, pagination, filter, onFilter, onDelete 
             <TableCell>Tên đăng nhập</TableCell>
             <TableCell>Email</TableCell>
             <TableCell>Điện thoại</TableCell>
+            <TableCell>Chức vụ</TableCell>
             <TableCell>Quyền</TableCell>
+
             <TableCell>Tình trạng</TableCell>
             <TableCell align="right">hành động</TableCell>
           </TableRow>
@@ -81,10 +83,11 @@ export default function UserList({ list, pagination, filter, onFilter, onDelete 
                 <TableCell>{row.email}</TableCell>
                 <TableCell>{row.phone}</TableCell>
 
-
+                <TableCell>{row.position}</TableCell>
                 <TableCell>
                   <Chip label={row?.roles[0]?.name} color={'info'} size="small" />
                 </TableCell>
+
                 <TableCell>
                   <Chip
                     label={!row.status ? 'Unactive' : 'Active'}

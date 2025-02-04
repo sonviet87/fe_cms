@@ -27,6 +27,9 @@ import { selectListAccount } from 'features/admin/account/accountSlice';
 import { selectListCategory } from 'features/admin/category/categorySlice';
 import { selectListSupplier } from 'features/admin/supplier/supplierSlice';
 import { selectListUser } from 'features/admin/user/userSlice';
+import {selectRoles} from "../../../auth/authSlice";
+import {fpPermissions} from "../constants/FPConstants";
+import MultilSelectBox from "../../../../components/FormElement/MultilSelectBox";
 
 FPForm.propTypes = {
   initialValue: PropTypes.object,
@@ -44,7 +47,7 @@ function FPForm({
   methods
 }) {
 
-
+  const permissons = useSelector(selectRoles);
   const accounts = useSelector(selectListAccount);
   const categories = useSelector(selectListCategory);
   const suppliers = useSelector(selectListSupplier);
@@ -179,6 +182,12 @@ function FPForm({
         <Grid item xs={12} md={4}>
           <BasicSelect name="contact_id" label="Liên hệ" control={control} options={contactValue} disabled={disabled} />
         </Grid>
+        {itemValue.status > 2 &&
+          <Grid item xs={12} md={4}>
+          <MultilSelectBox name="technical_id" label="Kỹ thuật" control={control} options={users}  />
+          </Grid>
+        }
+
         <Grid item xs={12}>
           <WrapperBox>
             <TableContainer>
@@ -212,43 +221,49 @@ function FPForm({
                             disabled={disabled}
                           />
                         </TableCellStyled>
-                        <TableCellStyled>
-                          <TextFieldNumber
-                            name={`details[${index}].price_buy`}
-                            label="Giá mua"
-                            sx={{ width: '120px' }}
-                            control={control}
-                            disabled={disabled}
-                            onValueChange={(v) => {
-                              let qty = getValues(`details[${index}].qty`);
-                              let profit = getValues(`details[${index}].profit`);
-                              let price_sell = getValues(`details[${index}].price_sell`).toString();
-                              let priceBuy = '0';
-                              if (v.value !== '') priceBuy = v.value;
-                              handleFPUpdatePrice(priceBuy, price_sell, qty, profit, index);
-                            }}
-                          />
-                        </TableCellStyled>
-                        <TableCellStyled>
-                          <TextFieldNumber
-                            name={`details[${index}].total_buy`}
-                            sx={{ width: '180px' }}
-                            label="Tổng giá mua"
-                            control={control}
-                            disabled={disabled}
-                          />
-                        </TableCellStyled>
+                        {(!permissons.includes(fpPermissions.FP_IS_SALE) ) &&(
+                            <>
+                            <TableCellStyled>
+                              <TextFieldNumber
+                                name={`details[${index}].price_buy`}
+                                label="Giá mua"
+                                sx={{ width: '120px' }}
+                                control={control}
+                                disabled={disabled}
+                                onValueChange={(v) => {
+                                  let qty = getValues(`details[${index}].qty`);
+                                  let profit = getValues(`details[${index}].profit`);
+                                  let price_sell = getValues(`details[${index}].price_sell`).toString();
+                                  let priceBuy = '0';
+                                  if (v.value !== '') priceBuy = v.value;
+                                  handleFPUpdatePrice(priceBuy, price_sell, qty, profit, index);
+                                }}
+                              />
+                            </TableCellStyled>
+
+                            <TableCellStyled>
+                              <TextFieldNumber
+                                name={`details[${index}].total_buy`}
+                                sx={{ width: '180px' }}
+                                label="Tổng giá mua"
+                                control={control}
+                                disabled={disabled}
+                              />
+                            </TableCellStyled>
+                            </>
+                        )}
                         <TableCellStyled>
                           <TextFieldNumber
                             name={`details[${index}].price_sell`}
                             label="Giá bán"
                             sx={{ minWidth: '120px' }}
                             control={control}
-                            disabled={disabled}
+                            disabled={disabled }
                             onValueChange={(v) => {
                               let qty = getValues(`details[${index}].qty`);
                               setValue(`details[${index}].total_sell`, qty * parseFloat(v.value.replace(/,/g, '')));
                               let totalSell = totalPriceSell(getValues('details'));
+
                               setTotalsSell(totalSell);
 
                               setValue(
@@ -325,6 +340,30 @@ function FPForm({
                         </TableCellStyled>
                         <TableCellStyled>
                           <TextFieldNumber
+                              name={`details[${index}].price_sell_customer`}
+                              label="Giá bán khách hàng"
+                              sx={{ minWidth: '120px' }}
+                              control={control}
+
+                              onValueChange={(v) => {
+                                let qty = getValues(`details[${index}].qty`);
+                                setValue(`details[${index}].total_price_sell_customer`, qty * parseFloat(v.value.replace(/,/g, '')));
+
+                              }}
+                          />
+                        </TableCellStyled>
+                        <TableCellStyled>
+                          <TextFieldNumber
+                              name={`details[${index}].total_price_sell_customer`}
+                              sx={{ width: '180px' }}
+                              label="Tổng giá bán khách hàng"
+                              control={control}
+
+                          />
+                        </TableCellStyled>
+                        {(!permissons.includes(fpPermissions.FP_IS_SALE) ) &&(
+                        <TableCellStyled>
+                          <TextFieldNumber
                             disabled={disabled}
                             suffix={'%'}
                             name={`details[${index}].profit`}
@@ -341,6 +380,7 @@ function FPForm({
                             }}
                           />
                         </TableCellStyled>
+                        )}
                         <TableCellStyled>
                           <AutoCompleteForm
                             name={`details[${index}].supplier_id`}

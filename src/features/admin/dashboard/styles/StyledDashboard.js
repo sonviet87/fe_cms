@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
+import {Box, IconButton} from "@mui/material";
 
 export const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -19,3 +20,14 @@ export const StyledTableCellRow = styled(TableCell)(({ theme }) => ({
         border: '1px solid #d1d1d1'
     },
 }))
+
+export  const WrapperBox = styled(Box) (({ theme }) => ({
+    position: "relative",
+    backgroundColor: "white",
+    borderRadius: "8px",
+}))
+export const IconWrapper = styled(IconButton)({
+    position: "absolute",
+    top: 20,
+    right: 20,
+});

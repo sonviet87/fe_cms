@@ -81,6 +81,7 @@ function AdminDebtAddEditPage() {
                         number_invoice: res.data.data.fp_id?.number_invoice ?? '',
                         details: res.data.data.fp_id.details ?? [],
                         isDone: res.data.data.isDone ?? '',
+                        user_name: res.data.data.user_name ?? '',
                     });
 
                 } else {

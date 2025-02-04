@@ -19,8 +19,8 @@ export const CardWrapperStyled = styled(Card, {
         height: 210,
         background: bgColorSub ? bgColorSub : theme.palette.primary.light,
         borderRadius: '50%',
-        top: -85,
-        right: -95,
+        top: -127,
+        right: -124,
         [theme.breakpoints.down('sm')]: {
             top: -105,
             right: -140
@@ -33,8 +33,8 @@ export const CardWrapperStyled = styled(Card, {
         height: 210,
         background: bgColorSub ? bgColorSub : theme.palette.primary.light,
         borderRadius: '50%',
-        top: -125,
-        right: -15,
+        top: '-137px',
+        right: '-85px',
         opacity: 0.5,
         [theme.breakpoints.down('sm')]: {
             top: -155,

@@ -4,9 +4,13 @@ import LocalPrintshopIcon from '@mui/icons-material/LocalPrintshop';
 import ExcelJS from 'exceljs';
 import { saveAs } from 'file-saver';
 import { useParams } from 'react-router-dom';
+import {useSelector} from "react-redux";
+import {selectRoles} from "../../../auth/authSlice";
+import {fpPermissions} from "../constants/FPConstants";
 
 
 const FPExportExcel = ({ data, fps, status }) => {
+    const permissons = useSelector(selectRoles);
     const { id } = useParams();
     const fontFamily = 'Times New Roman';
     const myBase64Image =
@@ -32,12 +36,11 @@ const FPExportExcel = ({ data, fps, status }) => {
             createQuotation(wb, wsQuatation)
         }
 
+        if(!permissons.includes(fpPermissions.FP_IS_SALE)){
+            const wsPAKD = wb.addWorksheet(sheetName, {views: [{zoomScale: 80, zoomScaleNormal: 80}]});
 
-        const wsPAKD = wb.addWorksheet(sheetName, { views: [{ zoomScale: 80, zoomScaleNormal: 80 }] });
-
-
-
-        createSheetPAKD(wb, wsPAKD);
+            createSheetPAKD(wb, wsPAKD);
+        }
 
 
         const buf = await wb.xlsx.writeBuffer();
@@ -402,10 +405,10 @@ const FPExportExcel = ({ data, fps, status }) => {
         let totalVat = 0;
         let totalFinal = 0;
         data.forEach((r, index) => {
-            const vat = parseInt(r.total_sell) * (parseInt(r.category?.tax_percent.toString().replace(/%/g, '')) / 100);
-            const tt = parseInt(r.total_sell) + vat;
+            const vat = (parseInt(r.price_sell_customer), parseInt(r.total_price_sell_customer) == 0 ? parseInt(r.total_sell): parseInt(r.total_price_sell_customer)) * (parseInt(r.category?.tax_percent.toString().replace(/%/g, '')) / 100);
+            const tt = (parseInt(r.price_sell_customer), parseInt(r.total_price_sell_customer) == 0 ? parseInt(r.total_sell): parseInt(r.total_price_sell_customer)) + vat;
             const row = addRow(ws, [
-                index + 1, r.category?.name, r.category?.descriptions, r.qty, parseInt(r.price_sell), parseInt(r.total_sell), vat, tt
+                index + 1, r.category?.name, r.category?.descriptions, r.qty, parseInt(r.price_sell_customer) == 0 ? parseInt(r.price_sell): parseInt(r.price_sell_customer), parseInt(r.total_price_sell_customer) == 0 ? parseInt(r.total_sell): parseInt(r.total_price_sell_customer), vat, tt
             ], item);
             //set style
             row.getCell(2).alignment = { horizontal: 'left', wrapText: true, vertical: 'middle' };
@@ -493,7 +496,7 @@ const FPExportExcel = ({ data, fps, status }) => {
             sx={{ mb: 2 }}
             size="small"
             onClick={() => {
-                exportToExcel('testExecl', 'PAKD');
+                exportToExcel('Execl', 'PAKD');
             }}
         >
             {' '}

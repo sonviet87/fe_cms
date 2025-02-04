@@ -6,7 +6,6 @@ import { useNavigate } from 'react-router-dom';
 
 import { WrapperPage } from 'components/Common/SlytedComponent/Wrapper';
 import TitleForm from 'components/Common/TitleForm';
-import roleApi from 'api/roleAPI';
 import accountApi from 'api/accountAPI';
 import AccountForm from '../components/AccountForm';
 import userApi from "../../../../api/userAPI";

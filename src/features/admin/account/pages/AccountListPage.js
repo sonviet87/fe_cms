@@ -7,7 +7,6 @@ import { toast } from 'react-toastify';
 import AccountFilter from '../components/AccountFilter';
 import AccountList from '../components/AccountList';
 
-
 function AccountListPage() {
     const [loading, setLoading] = React.useState(false);
     const [list, setList] = React.useState({
@@ -43,9 +42,6 @@ function AccountListPage() {
             } else {
                 toast.error(res.data.message);
             }
-
-
-
         } else {
             toast.error(res.message);
         }

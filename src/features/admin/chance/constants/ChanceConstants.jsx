@@ -22,7 +22,7 @@ export const chanceArray = [
 
 ];
 export const getProgressName = (progress) =>{
-  console.log(progress)
+
   switch (progress) {
     case chanceProgress.PROGRESS_SUCCESS:
       return 'Hoàn tất dự án';

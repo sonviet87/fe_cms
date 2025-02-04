@@ -25,6 +25,9 @@ const userApi = {
   add: (params) => {
     return axiosClient.post(url, params);
   },
+  updateConfigKpi: (params) => {
+    return axiosClient.put('user-update-config-kpi', params);
+  },
   update: (id, params) => {
     return axiosClient.put(url + '/' + id, params);
   },

@@ -8,9 +8,13 @@ import moment from 'moment';
 import {toast} from "react-toastify";
 import reportApi from "../../../../api/reportAPI";
 import * as yup from "yup";
+import {useSelector} from "react-redux";
+import {selectRoles} from "../../../auth/authSlice";
+import {fpPermissions} from "../../fp/constants/FPConstants";
 
 const ReportFPExportExcel = ({ filter,methods}) => {
   //const [loading, setLoading] = React.useState(false);
+  const permissions = useSelector(selectRoles)
   const fontFamily = 'Times New Roman';
   const schema = yup.object().shape({
     startDay: yup.string().required('Xin hãy chọn ngày bắt đầu'),
@@ -46,8 +50,10 @@ const ReportFPExportExcel = ({ filter,methods}) => {
   };
 
   const createSheetPAKD = (wb, ws,data) => {
-    const headers = ['No', 'Khách hàng', 'Liên hệ', 'Sale phụ trách', 'Tổng giá bán', 'Lợi nhuận', 'Tình trạng'];
-
+    let headers = ['No', 'Khách hàng', 'Liên hệ', 'Sale phụ trách', 'Tổng giá bán', 'Lợi nhuận', 'Tình trạng'];
+    if(permissions.includes(fpPermissions.FP_IS_SALE)){
+      headers = ['No', 'Khách hàng', 'Liên hệ', 'Sale phụ trách', 'Tổng giá bán',  'Tình trạng'];
+    }
     const columns = headers?.length;
     const widths = [
       { width: 10 },
@@ -129,7 +135,14 @@ const ReportFPExportExcel = ({ filter,methods}) => {
       totalMargin += parseInt(r.margin);
       totalFP++;
     });
-    const stringTotal = `(Tổng PAKD: ${totalFP} / Tổng giá bán: ${totalSelling.toLocaleString()} / Tổng lợi nhuận: ${totalMargin.toLocaleString()})`;
+    let stringTotal;
+    if(!permissions.includes(fpPermissions.FP_IS_SALE)){
+       stringTotal = `(Tổng PAKD: ${totalFP} / Tổng giá bán: ${totalSelling.toLocaleString()} / Tổng lợi nhuận: ${totalMargin.toLocaleString()})`;
+    }else{
+       stringTotal = `(Tổng PAKD: ${totalFP} / Tổng giá bán: ${totalSelling.toLocaleString()} )`;
+    }
+
+
     let rowbg = addRow(ws, [stringTotal], {
       border: true,
       height: 50,
@@ -145,18 +158,31 @@ const ReportFPExportExcel = ({ filter,methods}) => {
     });
     mergeCells(ws, rowbg, 1, columns);
     //raw details
+    if(!permissions.includes(fpPermissions.FP_IS_SALE)) {
+      data.forEach((r) => {
+        const row = addRow(
+            ws,
+            [r.code, r.account, r.contact, r.user_assign, parseInt(r.selling), parseInt(r.margin), r.status],
+            item,
+        );
 
-    data.forEach((r) => {
-      const row = addRow(
-        ws,
-        [r.code, r.account, r.contact, r.user_assign, parseInt(r.selling), parseInt(r.margin), r.status],
-        item,
-      );
-      //set style
-      row.getCell(2).alignment = { horizontal: 'left', wrapText: true };
-      row.getCell(3).alignment = { horizontal: 'left', wrapText: true };
-    });
+        //set style
+        row.getCell(2).alignment = {horizontal: 'left', wrapText: true};
+        row.getCell(3).alignment = {horizontal: 'left', wrapText: true};
+      });
+    }else{
+      data.forEach((r) => {
+        const row = addRow(
+            ws,
+            [r.code, r.account, r.contact, r.user_assign, parseInt(r.selling),  r.status],
+            item,
+        );
 
+        //set style
+        row.getCell(2).alignment = {horizontal: 'left', wrapText: true};
+        row.getCell(3).alignment = {horizontal: 'left', wrapText: true};
+      });
+    }
     //ws.getRow(6).value = stringTotal;
     return ws;
   };
@@ -208,7 +234,7 @@ const ReportFPExportExcel = ({ filter,methods}) => {
       sx={{ mb: 2 }}
       size="small"
       onClick={() => {
-        exportToExcel('testExecl', 'PAKD');
+        exportToExcel('PAKDExecl', 'PAKD');
       }}
     >
       {' '}

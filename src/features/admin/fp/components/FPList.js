@@ -72,7 +72,9 @@ export default function FPList({ list, pagination, filter, onFilter, onDelete })
             <TableCell>Gán cho</TableCell>
             <TableCell>Tình trạng</TableCell>
             <TableCell>Tổng giá bán</TableCell>
+            {(!permissions.includes(fpPermissions.FP_IS_SALE) ) &&
             <TableCell>Lợi nhuận</TableCell>
+            }
             <TableCell>Ngày tạo</TableCell>
             <TableCell align="right">hành động</TableCell>
           </TableRow>
@@ -101,6 +103,7 @@ export default function FPList({ list, pagination, filter, onFilter, onDelete })
                     renderText={(value) => <b>{value}</b>}
                   />}
                 </TableCell>
+                {(!permissions.includes(fpPermissions.FP_IS_SALE) ) &&
                 <TableCell>
                   {<NumericFormat
                     displayType="text"
@@ -109,6 +112,7 @@ export default function FPList({ list, pagination, filter, onFilter, onDelete })
                     renderText={(value) => <b>{value}</b>}
                   />}
                 </TableCell>
+                }
                 <TableCell>{moment(row.created_at).format('DD-MM-YYYY')}</TableCell>
                 <TableCell
                   align="right"

@@ -35,7 +35,7 @@ export default function BasicSelect({ name, label, control, options = [], onChan
 
         >
             <InputLabel id={`select-${name}`}>{label}</InputLabel>
-            <SlytedSelect labelId={`select-${name}`} label={label} value={value}
+            <SlytedSelect labelId={`select-${name}`} label={label} value={value || ''}
                 onChange={(e) => {
                     if (onChangeAjax) onChangeAjax(e.target.value);
                     if (onChangeValue) onChangeValue(e);
@@ -44,6 +44,7 @@ export default function BasicSelect({ name, label, control, options = [], onChan
                     setShow(e.target.value)
                 }}
                 endAdornment={isClear ? <IconButton onClick={handleOnClick} sx={{ visibility: show ? "visible" : "hidden" }} ><ClearIcon /></IconButton> : ''}
+
                 {...inputProps}
             >
 
@@ -60,10 +61,77 @@ export default function BasicSelect({ name, label, control, options = [], onChan
     );
 }
 
+export  function BasicSelectSmall({ name, label, control, options = [], onChangeAjax,onChangeValue, isClear, setValue,textValue = 'id',textName = 'name',minWidth='150', ...inputProps }) {
+
+    const {
+        field: { onChange, value },
+        fieldState: { invalid, error },
+    } = useController({
+        name,
+        control,
+    });
+
+    const [show, setShow] = React.useState('');
+
+    const handleOnClick = () => {
+        setShow('');
+        setValue(name, '');
+    }
+
+    return (
+
+        <FormControl
+            sx={{ minWidth: minWidth, marginBottom: '8px', marginTop: '8px' }}
+            fullWidth
+            size="small"
+            error={invalid}
+
+        >
+            <InputLabel id={`select-${name}`}>{label}</InputLabel>
+            <SlytedSelectSmall labelId={`select-${name}`} label={label} value={value || ''}
+                          onChange={(e) => {
+                              if (onChangeAjax) onChangeAjax(e.target.value);
+                              if (onChangeValue) onChangeValue(e);
+
+                              onChange(e.target.value)
+                              setShow(e.target.value)
+                          }}
+                          endAdornment={isClear ? <IconButton onClick={handleOnClick} sx={{ visibility: show ? "visible" : "hidden" }} ><ClearIcon /></IconButton> : ''}
+
+                          {...inputProps}
+            >
+
+                {options.length > 0 && options?.map((row, i) => (
+
+                    <MenuItem key={i} value={row[textValue]} >
+                        {row[textName]}
+                    </MenuItem>
+                ))}
+            </SlytedSelectSmall>
+            {invalid && <FormHelperText>{error?.message}</FormHelperText>}
+        </FormControl>
+
+    );
+}
 export const SlytedSelect = styled(Select)(({ theme }) => ({
     '& .MuiSelect-select': {
         padding: '8px 14px',
     },
     margin: '0 5px',
+
+}))
+export const SlytedSelectSmall = styled(Select)(({ theme }) => ({
+    '& .MuiSelect-select': {
+        padding: '8px 14px',
+        fontSize: '12px',
+    },
+    margin: '0 5px',
+
+    '& .MuiInputLabel-root': {
+        fontSize: '12px',
+    },
+    '& .MuiOutlinedInput-notchedOutline': {
+        fontSize: '12px',
+    },
 
 }))

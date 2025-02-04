@@ -8,10 +8,13 @@ import ChipStatus from 'components/Common/Element/Chip';
 import { NumericFormat } from 'react-number-format';
 
 import { Box } from '@mui/system';
+import {fpPermissions} from "../../fp/constants/FPConstants";
+import {useSelector} from "react-redux";
+import {selectRoles} from "../../../auth/authSlice";
 
 
 export default function ReportList({ list, pagination, filter, onFilter,methods ,sumValues}) {
-
+  const permissions = useSelector(selectRoles)
   const handleChangePage = (event, newPage) => {
    // console.log(methods.getValues('startDay'));
     onFilter({
@@ -50,7 +53,9 @@ export default function ReportList({ list, pagination, filter, onFilter,methods 
             <TableCell>Liên hệ</TableCell>
             <TableCell>Sale phụ trách</TableCell>
             <TableCell>Tổng giá bán</TableCell>
+            {!permissions.includes(fpPermissions.FP_IS_SALE) &&
             <TableCell>Lợi nhuận</TableCell>
+            }
             <TableCell>Tình trạng</TableCell>
 
 
@@ -85,13 +90,14 @@ export default function ReportList({ list, pagination, filter, onFilter,methods 
                   renderText={(value) => <b>{value}</b>}
                 />}</TableCell>
 
-
+                {!permissions.includes(fpPermissions.FP_IS_SALE) &&
                 <TableCell>{<NumericFormat
                   displayType="text"
                   value={row.margin}
                   thousandSeparator=","
                   renderText={(value) => <b>{value}</b>}
                 />} </TableCell>
+                }
                 <TableCell><ChipStatus label={row.status} status={row.statusNumber} /></TableCell>
 
 

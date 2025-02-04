@@ -20,6 +20,11 @@ import SendMessages from "./messages/sendMessages";
 import AdminKPIFeature from "./kpi";
 import AdminSalaryFeature from "./salary";
 import AdminChanceFeature from "./chance";
+import AdminPositionFeature from "./position/index.";
+import AdminKPISaleFeature from "./kpiSale";
+import AdminKPITechnicalFeature from "./kpiTechnical";
+import AdminKPISupplierFeature from "./kpiSupplier";
+import AdminCostsFeature from "./costs";
 
 const AdminFeature = () => {
     useEffect(() => {
@@ -58,9 +63,14 @@ const AdminFeature = () => {
       <Route path={'/reports-debt-supplier/*'} element={<AdminReportDebtSupplierFeature />} />
       <Route path={'/warranty/*'} element={<AdminWarrantyFeature />} />
       <Route path={'/kpi/*'} element={<AdminKPIFeature />} />
+      <Route path={'/kpi-sale/*'} element={<AdminKPISaleFeature />} />
       <Route path={'/send/*'} element={<SendMessages />} />
       <Route path={'/salaries/*'} element={<AdminSalaryFeature />} />
       <Route path={'/chances/*'} element={<AdminChanceFeature />} />
+      <Route path={'/positions/*'} element={<AdminPositionFeature />} />
+      <Route path={'/kpi-technical/*'} element={<AdminKPITechnicalFeature />} />
+      <Route path={'/kpi-supplier/*'} element={<AdminKPISupplierFeature />} />
+      <Route path={'/costs/*'} element={<AdminCostsFeature />} />
     </Routes>
   );
 };

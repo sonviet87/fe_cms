@@ -30,6 +30,7 @@ export default function ReportFilter({ loading, filter, onSubmit,methods }) {
 
   useEffect(()=>{
     if (permissions.includes(fpPermissions.FP_IS_SALE)){
+
       setDisable(true)
     }
  },[])
@@ -65,7 +66,7 @@ export default function ReportFilter({ loading, filter, onSubmit,methods }) {
               sx={{ width: '100px' }}
             />
           </Grid>
-          {!disabled && <Grid item xs={12} sm={6} md={2}>
+           <Grid item xs={12} sm={6} md={2}>
             <BasicSelect
               name="user_id"
               label="Sale phụ trách"
@@ -76,7 +77,7 @@ export default function ReportFilter({ loading, filter, onSubmit,methods }) {
               }
               setValue={setValue}
             />
-          </Grid>}
+          </Grid>
           <Grid item xs={12} sm={6} md={2} >
             <AutoCompleteForm
               name="account_id"
@@ -96,7 +97,7 @@ export default function ReportFilter({ loading, filter, onSubmit,methods }) {
               isClear={true}
               control={control}
               options={
-                statusArray
+                permissions.includes(fpPermissions.FP_IS_SALE) ? statusArray.slice(2) :statusArray
               }
             />
           </Grid>

@@ -11,8 +11,6 @@ import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
 import {NumericFormat} from "react-number-format";
 
-import TextFormik from "../../../../components/FormElement/TextFormik";
-
 
 function not(a, b) {
     return a.filter((value) => b.indexOf(value) === -1);
@@ -173,7 +171,7 @@ export default function SelectAllTransferList({lists,setValue, seletedUser=[],is
                 </Grid>
                 <Grid item>{customList('Nhân viên đã chọn', right)}</Grid>
             </Grid>
-            <Grid item xs={12} md={12} textAlign="center" sx={{mt:3,fontWeight:'bold'}}>
+            {/* <Grid item xs={12} md={12} textAlign="center" sx={{mt:3,fontWeight:'bold'}}>
                Tổng lương :
                 <NumericFormat
                 displayType="text"
@@ -181,7 +179,7 @@ export default function SelectAllTransferList({lists,setValue, seletedUser=[],is
                 thousandSeparator=","
                 renderText={(value) => <b>{value}</b>}
             />
-            </Grid>
+            </Grid>*/}
         </>
     );
 }

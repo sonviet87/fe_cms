@@ -9,9 +9,12 @@ import * as yup from 'yup';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useNavigate } from 'react-router-dom';
+import {useSelector} from "react-redux";
+import {selectRoles} from "../../../auth/authSlice";
 
 export default function FPFilter({ loading, filter, onSubmit }) {
-
+  const permissons = useSelector(selectRoles);
+  console.log(permissons)
   const navigate = useNavigate();
   const schema = yup.object().shape({
 
@@ -44,12 +47,14 @@ export default function FPFilter({ loading, filter, onSubmit }) {
           <SearchIcon />
         </IconButtonStyled>
       </Box>
+      { !permissons.includes('fp-is-sale')&&
       <Button
         color="primary"
         variant="contained"
         startIcon={<AddIcon />}
         onClick={() => { navigate('add') }}
       > Thêm </Button>
+      }
     </Box>
   )
 }

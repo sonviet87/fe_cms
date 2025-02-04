@@ -7,6 +7,9 @@ import { useWatch } from 'react-hook-form';
 import { NumericFormat } from 'react-number-format';
 import { TableCellStyled, WrapperBox } from '../style/StyledFP';
 import { totalPriceSell } from './FPForm';
+import {fpPermissions} from "../constants/FPConstants";
+import {useSelector} from "react-redux";
+import {selectRoles} from "../../../auth/authSlice";
 
 // import { Container } from './styles';
 
@@ -15,7 +18,7 @@ function FPTotal({ control, totalBuy, totalSell, setValue, getValues, TotalPrice
     control,
     name: 'interest_percent',
   });
-
+  const permissons = useSelector(selectRoles);
   const handleTotalPrice = (shipping_charges, guest_costs, deployment_costs, interest, commission, tax, bids_cost) => {
     TotalPrice(shipping_charges, guest_costs, deployment_costs, interest, commission, tax, bids_cost);
   };
@@ -27,20 +30,25 @@ function FPTotal({ control, totalBuy, totalSell, setValue, getValues, TotalPrice
           <Table aria-label="simple table">
             <TableBody>
               <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                <TableCellStyled component="th" scope="row">
-                  Lãi gộp:
-                </TableCellStyled>
-                <TableCellStyled component="th" scope="row">
-                  <NumericFormat
-                    displayType="text"
-                    value={totalSell - totalBuy}
-                    thousandSeparator=","
-                    renderText={(value) => <b>{value}</b>}
-                  />
-                </TableCellStyled>
-                <TableCellStyled component="th" scope="row">
-                  {totalSell && (((totalSell - totalBuy) / totalSell) * 100).toFixed(2)}%
-                </TableCellStyled>
+                 {(!permissons.includes(fpPermissions.FP_IS_SALE) ) &&
+                     <>
+                        <TableCellStyled component="th" scope="row">
+                          Lãi gộp:
+                        </TableCellStyled>
+                        <TableCellStyled component="th" scope="row">
+                          <NumericFormat
+                            displayType="text"
+                            value={totalSell - totalBuy}
+                            thousandSeparator=","
+                            renderText={(value) => <b>{value}</b>}
+                          />
+                        </TableCellStyled>
+
+                        <TableCellStyled component="th" scope="row">
+                          {totalSell && (((totalSell - totalBuy) / totalSell) * 100).toFixed(2)}%
+                        </TableCellStyled>
+                     </>
+                 }
               </TableRow>
               <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                 <TableCellStyled component="th" scope="row">
@@ -291,22 +299,26 @@ function FPTotal({ control, totalBuy, totalSell, setValue, getValues, TotalPrice
                   />
                 </TableCellStyled>
               </TableRow>
-              <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                <TableCellStyled component="th" scope="row">
-                  Lãi :
-                </TableCellStyled>
-                <TableCellStyled component="th" scope="row">
-                  <NumericFormat
-                    displayType="text"
-                    value={totalBids}
-                    thousandSeparator=","
-                    renderText={(value) => <b>{value}</b>}
-                  />
-                </TableCellStyled>
-                <TableCellStyled component="th" scope="row">
-                  {((parseInt(totalBids) / parseInt(totalSell)) * 100).toFixed(2)}%
-                </TableCellStyled>
-              </TableRow>
+                {(!permissons.includes(fpPermissions.FP_IS_SALE) ) &&
+                    <>
+                  <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                    <TableCellStyled component="th" scope="row">
+                      Lãi :
+                    </TableCellStyled>
+                    <TableCellStyled component="th" scope="row">
+                      <NumericFormat
+                        displayType="text"
+                        value={totalBids}
+                        thousandSeparator=","
+                        renderText={(value) => <b>{value}</b>}
+                      />
+                    </TableCellStyled>
+                    <TableCellStyled component="th" scope="row">
+                      {((parseInt(totalBids) / parseInt(totalSell)) * 100).toFixed(2)}%
+                    </TableCellStyled>
+                  </TableRow>
+                    </>
+                }
             </TableBody>
           </Table>
         </TableContainer>

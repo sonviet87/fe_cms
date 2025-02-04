@@ -18,6 +18,10 @@ function SupplierForm({ initialValue, onSubmit, itemValue, isEdit, usersValue })
     const validationRules = {
         company: yup.string().required('Xin hãy điền thông tin công ty'),
         user_id: yup.string().required('Xin hãy chọn nhân viên phụ trách'),
+        debts: yup.mixed().test("required", "Xin hãy chọn số ngày được nợ", (item) => {
+            if (item) return true;
+            return false;
+        }),
     };
 
     const schema = yup.object().shape(validationRules);

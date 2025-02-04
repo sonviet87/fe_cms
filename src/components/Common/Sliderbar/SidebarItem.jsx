@@ -28,20 +28,18 @@ const SidebarItemComponent = (props) => {
 
 function SidebarItem(props) {
     const permissons = useSelector(selectRoles);
-    const { title, route, Icon, items,state, permission = [] } = props;
+    const { title, route, Icon, items, handleMenuActive, isActive } = props;
     const isCollapse = useMemo(() => items && items.length > 0, [items]);
-    const [open, setOpen] = useState(false);
 
     function handleClick() {
-        setOpen((prev) => !prev);
-        props.handleMenuActive(title)
+        handleMenuActive(title); // Toggle trạng thái menu cha
     }
 
     return (
         <>
             <SidebarItemComponent route={route} onHandleClick={handleClick}>
                 {!!Icon && (
-                    <ListItemIconStyled >
+                    <ListItemIconStyled>
                         <Icon fontSize="small" />
                     </ListItemIconStyled>
                 )}
@@ -57,18 +55,25 @@ function SidebarItem(props) {
                         color: '#333',
                     }}
                 />
-                {isCollapse && !open && <ExpandMore />}
-                {isCollapse && open && <ExpandLess />}
+                {isCollapse && !isActive && <ExpandMore />}
+                {isCollapse && isActive && <ExpandLess />}
             </SidebarItemComponent>
 
             {isCollapse && (
-                <Collapse in={state.active === title ? true :false}>
+                <Collapse in={isActive}>
                     <List component="div" disablePadding>
                         {items.map((item, idx) => {
                             if (permissons.includes(item.permission) || item.permission === 'all') {
-                                return <SidebarItem {...item} key={idx} />
+                                return (
+                                    <SidebarItem
+                                        {...item}
+                                        key={idx}
+                                        handleMenuActive={handleMenuActive}
+                                        isActive={props.isActive} // Menu cha luôn mở khi menu con mở
+                                    />
+                                );
                             } else {
-                                return ''
+                                return null;
                             }
                         })}
                     </List>
@@ -77,6 +82,8 @@ function SidebarItem(props) {
         </>
     );
 }
+
+
 
 SidebarItem.propTypes = {
     list: PropTypes.array,

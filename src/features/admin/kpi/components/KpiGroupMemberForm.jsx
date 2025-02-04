@@ -1,10 +1,8 @@
 import React, {useState} from 'react';
 import {Box, Grid, } from "@mui/material";
-import * as yup from "yup";
 
-import {yupResolver} from "@hookform/resolvers/yup";
 import TextFormik, {TextFieldNumber} from "../../../../components/FormElement/TextFormik";
-import SelectAllTransferList from "./TransferList";
+
 import {useSelector} from "react-redux";
 import {selectListUser} from "../../user/userSlice";
 import { WrapperBox} from "../../fp/style/StyledFP";
@@ -13,6 +11,7 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import CustomerConditions from "./CustomerConditions";
 import DebtsConditions from "./DebtsConditions";
 import {TitleBackGroundStyled} from "../../../../components/Common/SlytedComponent/Title";
+import SelectAllTransferList from "../../../../components/Common/TransferList";
 
 function KpiGroupMemberForm({ initialValue, onSubmit, itemValue, isEdit,methods }) {
 
@@ -21,7 +20,7 @@ function KpiGroupMemberForm({ initialValue, onSubmit, itemValue, isEdit,methods 
     const { setError, errors, isSubmitting } = methods.formState;
     const [selectedUser, setSelectedUser] = useState([]);
     const handleFormSubmit = async (formValues) => {
-
+        console.log(formValues)
         if (!onSubmit) return;
         formValues.profit_months =parseFloat(formValues.profit_months?.replace(/,/g, ''));
         formValues.profit_3_months =parseFloat(formValues.profit_3_months?.replace(/,/g, ''));
@@ -31,11 +30,11 @@ function KpiGroupMemberForm({ initialValue, onSubmit, itemValue, isEdit,methods 
 
     React.useEffect(() => {
         if (isEdit) {
+            console.log(itemValue)
             if (Object.keys(itemValue).length !== 0) {
                 setSelectedUser(itemValue.users);
                 reset(itemValue);
             }
-
         }
     }, [itemValue]);
 

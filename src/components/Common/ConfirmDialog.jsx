@@ -31,7 +31,7 @@ function ConfirmDialog({ title, message, open, onClose, onConfirm }) {
             </DialogContent>
             <DialogActions>
                 <Button autoFocus onClick={handleClose}>
-                    Cancel
+                    Hủy
                 </Button>
                 <Button onClick={handleConfirm} autoFocus>
                     Ok

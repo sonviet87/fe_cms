@@ -157,6 +157,7 @@ function KpiGroupMemberAddEditPage() {
                 const kpiGroupRs = await KpiMemberGroupsAPI.get(id);
                 if (kpiGroupRs.status && kpiGroupRs.data!= "") {
                     if (kpiGroupRs.data.length !== 0) {
+                        console.log(kpiGroupRs.data)
                         setKpiMemberGroups(kpiGroupRs.data);
                     }
                 } else {

@@ -68,6 +68,7 @@ function DebtForm({ initialValue, onSubmit, itemValue, isEdit, fp }) {
         if (!onSubmit) return;
         delete formValues.number_invoice;
         delete formValues.account;
+        delete formValues.user_name;
         delete formValues.date_invoice;
         formValues.fp_id = formValues.fp_id.id;
         await onSubmit(formValues);
@@ -88,8 +89,9 @@ function DebtForm({ initialValue, onSubmit, itemValue, isEdit, fp }) {
                 const dateAfterInvoice = dateMomentInvoice.add(numberDays, 'days');
                 setValue('date_over',dateAfterInvoice);
             }
-
+            setValue('user_id', fpRs.data.data.user_assign)
             setValue('account', fpRs.data.data.account)
+            setValue('user_name', fpRs.data.data.user_assign_name)
             setValue('number_invoice', fpRs.data.data.number_invoice)
             setValue('date_invoice', fpRs.data.data.date_invoice)
             setValue('total_debt', totalDebt)
@@ -136,6 +138,7 @@ function DebtForm({ initialValue, onSubmit, itemValue, isEdit, fp }) {
             setValue('pay_second', itemValue.pay_second);
             setValue('isDone', itemValue.isDone);
             setValue('date_over', itemValue.date_over);
+            setValue('user_name', itemValue.user_name);
             setValue('date_collection', itemValue.date_collection);
             setFPDetails(itemValue.details ?? [])
             if(parseInt(itemValue.isDone)===1)  setIsDisable(true);
@@ -183,14 +186,17 @@ function DebtForm({ initialValue, onSubmit, itemValue, isEdit, fp }) {
                         }
                     />
                 </Grid>
-                <Grid item xs={12} md={4}>
+                <Grid item xs={12} md={3}>
                     <TextFormik name="account" label="Tên khách hàng" control={control} disabled={true} />
                 </Grid>
-                <Grid item xs={12} md={4} >
+                <Grid item xs={12} md={3} >
+                    <TextFormik name="user_name" label="Gán cho" control={control} disabled={true} />
+                </Grid>
+                <Grid item xs={12} md={3} >
                     <TextFormik name="number_invoice" label="Số hóa đơn" control={control} disabled={true} />
                 </Grid>
 
-                <Grid item xs={12} md={4}>
+                <Grid item xs={12} md={3}>
 
                     <BasicDatePicker
                         name="date_invoice"

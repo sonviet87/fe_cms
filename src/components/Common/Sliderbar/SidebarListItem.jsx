@@ -8,53 +8,54 @@ import SidebarItem from './SidebarItem';
 
 
 function SidebarListItem({ list }) {
-    const initialState = {
-        active : "",
-        activeSubmenu : "",
-    }
     const permissons = useSelector(selectRoles);
-    const [state, setState] = useState(initialState);
-    const handleMenuActive = status => {
-        setState({active : status});
-        if(state.active === status){
-            setState({active : ""});
-        }
+    const [activeMenus, setActiveMenus] = useState({}); // Lưu trạng thái mở cho từng menu
 
-    }
-    const handleSubmenuActive = (status) => {
-        setState({activeSubmenu : status})
-        if(state.activeSubmenu === status){
-            setState({activeSubmenu : ""})
+    const handleMenuActive = (menuTitle) => {
+        setActiveMenus((prevActiveMenus) => {
+            const newState = { ...prevActiveMenus };
 
-        }
+            // Đóng tất cả menu khác
+            for (let key in newState) {
+                newState[key] = false;
+            }
 
-    }
+            // Toggle menu hiện tại
+            newState[menuTitle] = !prevActiveMenus[menuTitle];
+
+            return newState;
+        });
+    };
+
     return (
         <>
             {list.map((dt, key) => (
                 <List
                     key={key}
                     component="nav"
-                    subheader={
-                        <ListSubheader component="div">
-
-                        </ListSubheader>
-                    }
+                    subheader={<ListSubheader component="div"></ListSubheader>}
                 >
                     {dt.items.map((item, idx) => {
                         if (permissons.includes(item.permission) || item.permission === 'all') {
-                            return <SidebarItem {...item} key={idx} handleMenuActive={handleMenuActive} state={state} />
+                            return (
+                                <SidebarItem
+                                    {...item}
+                                    key={idx}
+                                    handleMenuActive={handleMenuActive}
+                                    isActive={!!activeMenus[item.title]} // Trạng thái menu
+                                />
+                            );
                         } else {
-                            return ''
+                            return null;
                         }
-                    }
-
-                    )}
+                    })}
                 </List>
             ))}
         </>
     );
 }
+
+
 
 SidebarListItem.propTypes = {
     list: PropTypes.array,

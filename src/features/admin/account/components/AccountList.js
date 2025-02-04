@@ -6,6 +6,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import { TablePaginationActions } from 'components/Common/TablePaginationActions';
 import { BasicButtonStyled } from 'components/Common/SlytedComponent/Button';
 import ConfirmDialog from 'components/Common/ConfirmDialog';
+import moment from "moment/moment";
 
 export default function AccountList({ list, pagination, filter, onFilter, onDelete }) {
 
@@ -66,7 +67,7 @@ export default function AccountList({ list, pagination, filter, onFilter, onDele
             <TableCell>Tên viết tắt</TableCell>
 
             <TableCell>Email</TableCell>
-
+            <TableCell>Ngày tạo</TableCell>
             <TableCell align="right">hành động</TableCell>
           </TableRow>
         </TableHead>
@@ -87,7 +88,7 @@ export default function AccountList({ list, pagination, filter, onFilter, onDele
                 <TableCell> {row.legal_name} </TableCell>
 
                 <TableCell> {row.email} </TableCell>
-
+                <TableCell> {moment(row.created_at).format('DD-MM-YYYY')} </TableCell>
                 <TableCell
                   align="right"
 

@@ -10,10 +10,14 @@ import ReportList from '../components/ReportList';
 import * as yup from "yup";
 import {useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
+import {useSelector} from "react-redux";
+import {selectRoles} from "../../../auth/authSlice";
+import {fpPermissions} from "../../fp/constants/FPConstants";
 
 function ReportListPage() {
     const [loading, setLoading] = React.useState(false);
     const [isReport, setIsReport] = React.useState(false);
+    const permissions = useSelector(selectRoles)
     const schema = yup.object().shape({
         startDay: yup.string().required('Xin hãy chọn ngày bắt đầu'),
         endDay: yup.string().required('Xin hãy chọn ngày kết thúc'),
@@ -78,18 +82,35 @@ function ReportListPage() {
     }
 
     const handleTotalFP = (data) => {
-        if (data.length === 0) return '(Tổng PAKD: <b>0</b> / Tổng giá bán: <b>0</b> / Tổng lợi nhuận: <b>0</b>)';
-        let totalSelling = 0;
-        let totalMargin = 0;
-        let totalFP = 0;
-        data.map((item, index) => {
-            totalSelling += parseInt(item.selling);
-            totalMargin += parseInt(item.margin);
-            totalFP++;
-            return item;
-        })
+        if(!permissions.includes(fpPermissions.FP_IS_SALE) ){
+            if (data.length === 0)return '(Tổng PAKD: <b>0</b> / Tổng giá bán: <b>0</b> / Tổng lợi nhuận: <b>0</b>)';
 
-        return `(Tổng PAKD: <b>${totalFP}</b> / Tổng giá bán: <b>${totalSelling.toLocaleString()}</b> / Tổng lợi nhuận: <b>${totalMargin.toLocaleString()}</b>)`
+            let totalSelling = 0;
+            let totalMargin = 0;
+            let totalFP = 0;
+            data.map((item, index) => {
+                totalSelling += parseInt(item.selling);
+                totalMargin += parseInt(item.margin);
+                totalFP++;
+                return item;
+            })
+
+            return `(Tổng PAKD: <b>${totalFP}</b> / Tổng giá bán: <b>${totalSelling.toLocaleString()}</b> / Tổng lợi nhuận: <b>${totalMargin.toLocaleString()}</b>)`;
+        }else{
+            if (data.length === 0)return '(Tổng PAKD: <b>0</b> / Tổng giá bán: <b>0</b> )';
+
+            let totalSelling = 0;
+            let totalMargin = 0;
+            let totalFP = 0;
+            data.map((item, index) => {
+                totalSelling += parseInt(item.selling);
+                totalFP++;
+                return item;
+            })
+
+            return `(Tổng PAKD: <b>${totalFP}</b> / Tổng giá bán: <b>${totalSelling.toLocaleString()}</b> )`;
+        }
+
     }
 
     const handleChangeStatusReport = (value) => {

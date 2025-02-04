@@ -164,7 +164,7 @@ function AdminFPAddEditPage() {
         const fpRs = await fpApi.get(id);
         if (fpRs.status) {
           setFP(fpRs.data.data);
-          if (permissions.includes(fpPermissions.FP_IS_SALE) && (parseInt(fpRs.data.data.status) !== 0 && (parseInt(fpRs.data.data.status) !== 7))) { setDisable(true) }
+          if (permissions.includes(fpPermissions.FP_IS_SALE) && (parseInt(fpRs.data.data.status) !== 0 )) { setDisable(true) }
           //console.log("role", (parseInt(fpRs.data.data.status) !== 7))
           dispatch(fpActions.setStatus(fpRs.data.data.status))
           let contactRs = await accountApi.getContactByIDAccount(fpRs.data.data.account_id.id);
