@@ -88,7 +88,7 @@ export const MenuCMS = [
         title: 'Bảo hành',
         route: '/admin/warranty',
         Icon: FactCheckIcon,
-        permission: 'category-list',
+        permission: 'warranty-list',
       },
       {
         title: 'Báo cáo thống kê',
@@ -159,7 +159,7 @@ export const MenuCMS = [
 
           {
             title: 'Kpi kỹ thuật',
-            permission: 'all',
+            permission: 'kpi-technical',
             items: [
               {
                 title: 'Danh sách KPI kỹ thuật',
@@ -206,7 +206,7 @@ export const MenuCMS = [
 
             ],
           },
-          {
+          /*{
             title: 'Danh sách KPI',
             route: '/admin/kpi',
             permission: 'kpi-list',
@@ -220,7 +220,7 @@ export const MenuCMS = [
             title: 'Cài đặt Kpi tổng',
             route: '/admin/kpi/settings-1',
             permission: 'kpi-settings',
-          },
+          },*/
         ],
       },
       {

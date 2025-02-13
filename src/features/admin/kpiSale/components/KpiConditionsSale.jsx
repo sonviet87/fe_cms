@@ -39,11 +39,11 @@ const KpiConditionsSale = ({control,name,type}) => {
 
                                         />
                                     </TableCellStyled>
-                                    <TableCellStyled>
+                                    {/* <TableCellStyled>
                                         <TextFieldNumberBase name={`${name}[${index}].percentage`} label="Phần trăm" control={control} />
-                                    </TableCellStyled>
+                                    </TableCellStyled>*/}
                                     <TableCellStyled>
-                                        <TextFieldNumberBase name={`${name}[${index}].points`} label="Điểm" control={control} />
+                                        <TextFieldNumberBase name={`${name}[${index}].points`} label="Điểm" control={control} sx={{width:'50px'}} />
                                     </TableCellStyled>
                                     <TableCellStyled>
                                         {index !== 0 && (

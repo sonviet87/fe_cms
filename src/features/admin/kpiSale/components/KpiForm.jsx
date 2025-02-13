@@ -74,7 +74,7 @@ function KpiForm({ list,selectedTypeKpi }) {
                                 <div>Kết quả</div>
                             </Grid>
                             <Grid item xs={2}>
-                                <div>Phần trăm</div>
+                                <div>Phần trăm tỷ trọng</div>
                             </Grid>
                             <Grid item xs={2}>
                                 <div>Điểm</div>
@@ -104,13 +104,13 @@ function KpiForm({ list,selectedTypeKpi }) {
                                 />}</div>
                             </Grid>
                             <Grid item xs={2}>
-                                {data?.sale_achievements?.percentage}%
+                                {data?.percent_sale}%
                             </Grid>
                             <Grid item xs={2}>
                                 {data?.sale_achievements?.points}
                             </Grid>
                             <Grid item xs={2}>
-                                {totalAchievements(data?.sale_achievements?.percentage,data?.sale_achievements?.points)}
+                                {totalAchievements(data?.percent_sale,data?.sale_achievements?.points)}
                             </Grid>
 
 
@@ -136,13 +136,13 @@ function KpiForm({ list,selectedTypeKpi }) {
                                 />}</div>
                             </Grid>
                             <Grid item xs={2}>
-                                {data?.current_sale_achievements?.percentage}%
+                                {data?.percent_current_sale}%
                             </Grid>
                             <Grid item xs={2}>
                                 {data?.current_sale_achievements?.points}
                             </Grid>
                             <Grid item xs={2}>
-                                {totalAchievements(data?.current_sale_achievements?.percentage,data?.current_sale_achievements?.points)}
+                                {totalAchievements(data?.percent_current_sale,data?.current_sale_achievements?.points)}
                             </Grid>
 
 
@@ -159,13 +159,13 @@ function KpiForm({ list,selectedTypeKpi }) {
                             </Grid>
 
                             <Grid item xs={2}>
-                                {data?.debts_kpi?.percentage}%
+                                {data?.percent_debts}%
                             </Grid>
                             <Grid item xs={2}>
                                 {data?.debts_kpi?.points}
                             </Grid>
                             <Grid item xs={2}>
-                                {totalAchievements(data?.debts_kpi?.percentage,data?.debts_kpi?.points)}
+                                {totalAchievements(data?.percent_debts,data?.debts_kpi?.points)}
                             </Grid>
 
 
@@ -223,7 +223,7 @@ function KpiForm({ list,selectedTypeKpi }) {
 
                             </Grid>
                             <Grid item xs={2}>
-                                {data?.total_percentage}%
+
                             </Grid>
                             <Grid item xs={2}>
                                 {data?.total_points}

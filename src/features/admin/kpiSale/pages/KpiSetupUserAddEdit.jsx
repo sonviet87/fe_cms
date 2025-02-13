@@ -34,7 +34,10 @@ function KpiSetupUserAddEditPage() {
         name: '',
         user_assign:'',
         year:'',
-        ales_months: "",
+        sales_months: '',
+        sale_text:'Doanh Thu Mới',
+        current_sale_text:'Doanh số hiện hữu',
+        debts_text:'Thu hồi công nợ',
         sale_months_conditions: [
            /* {
                 "min": "",
@@ -154,7 +157,7 @@ function KpiSetupUserAddEditPage() {
 
                         if (kpiSetUpUserRS.data.length !== 0) {
 
-                            console.log('copy', kpiSetUpUserRS.data?.data);
+                            //console.log('copy', kpiSetUpUserRS.data?.data);
                             setKpiSetUpUser(kpiSetUpUserRS.data?.data);
                         }
                     } else {

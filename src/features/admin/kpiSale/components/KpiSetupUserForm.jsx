@@ -25,6 +25,7 @@ function KpiSetupUserForm({ initialValue, onSubmit, itemValue, isEdit,methods })
 
     const handleChangeUser = (id) =>{
         const user = users.find((u) => u.id === id);
+        console.log(users)
         if (user) {
             setSelectedUser(user.users);
         } else {
@@ -89,12 +90,14 @@ function KpiSetupUserForm({ initialValue, onSubmit, itemValue, isEdit,methods })
 
             <Box sx={{mt:4}}>
                 <Grid container spacing={2}>
-                    <Grid item xs={12}>
+                    <Grid item xs={4}>
                         <WrapperBox>
                             <TitleBackGroundStyled background='4527a0' sx={{mb:1}}>Mục tiêu tháng</TitleBackGroundStyled>
                             <WrapperBox>
                                 <div>Mục tiêu doanh thu</div>
+                                <TextFormik name="sale_text" label="Tiêu đề KPI" control={control} fullWidth />
                                 <TextFieldNumber name="sales_months" label="Mục tiêu doanh thu" control={control} fullWidth  />
+                                <TextFieldNumber name="sales_months_percent" label="Phần trăm tỷ trọng" control={control} fullWidth  />
                                 <KpiConditionsSale name="sale_months_conditions" control={control} type='1months' />
                             </WrapperBox>
                             <WrapperBox>
@@ -105,22 +108,28 @@ function KpiSetupUserForm({ initialValue, onSubmit, itemValue, isEdit,methods })
                             </WrapperBox>
                             <WrapperBox>
                                 <div>Mục tiêu doanh số hiện hữu</div>
+                                <TextFormik name="current_sale_text" label="Tiêu đề KPI" control={control} fullWidth />
                                 <TextFieldNumber name="current_sale_months" label="mục tiêu doanh số hiện hữu" control={control} fullWidth  />
+                                <TextFieldNumber name="current_sale_months_percent" label="Phần trăm tỷ trọng" control={control} fullWidth  />
                                  <KpiConditionsSale name="current_sale_months_conditions" control={control} type='1months' />
                             </WrapperBox>
                             <WrapperBox>
 
                                 <div>Điều kiện đạt công nợ</div>
+                                <TextFormik name="debts_text" label="Tiêu đề KPI" control={control} fullWidth />
+                                <TextFieldNumber name="debts_1_percent" label="Phần trăm tỷ trọng" control={control} fullWidth  />
                                 <KpiConditionsDebts name="debts_months_conditions" control={control} type='1months' />
                             </WrapperBox>
                         </WrapperBox>
                     </Grid>
-                    <Grid item xs={12}>
+                    <Grid item xs={4}>
                         <WrapperBox>
                             <TitleBackGroundStyled background='28A831' sx={{mb:1}}>Mục tiêu quý</TitleBackGroundStyled>
                             <WrapperBox>
                                 <div>Mục tiêu doanh thu</div>
+
                                 <TextFieldNumber name="sales_3_months" label="Mục tiêu doanh thu" control={control} fullWidth  />
+                                <TextFieldNumber name="sales_3_months_percent" label="Phần trăm tỷ trọng" control={control} fullWidth  />
                                 <KpiConditionsSale name="sale_3_months_conditions" control={control} type='3months' />
                             </WrapperBox>
 
@@ -132,21 +141,24 @@ function KpiSetupUserForm({ initialValue, onSubmit, itemValue, isEdit,methods })
                             <WrapperBox>
                                 <div>Mục tiêu doanh số hiện hữu</div>
                                 <TextFieldNumber name="current_sale_3_months" label="mục tiêu doanh số hiện hữu" control={control} fullWidth  />
+                                <TextFieldNumber name="current_sale_3_months_percent" label="Phần trăm tỷ trọng" control={control} fullWidth  />
                                 <KpiConditionsSale name="current_sale_3_months_conditions" control={control} type='3months' />
                             </WrapperBox>
                             <WrapperBox>
 
                                 <div>Điều kiện đạt công nợ</div>
+                                <TextFieldNumber name="debts_3_percent" label="Phần trăm tỷ trọng" control={control} fullWidth  />
                                 <KpiConditionsDebts name="debts_3_months_conditions" control={control} type='3months' />
                             </WrapperBox>
                         </WrapperBox>
                     </Grid>
-                    <Grid item xs={12}>
+                    <Grid item xs={4}>
                         <WrapperBox>
                             <TitleBackGroundStyled background='b8bb0d' sx={{mb:1}}>Mục tiêu năm</TitleBackGroundStyled>
                             <WrapperBox>
                                 <div>Mục tiêu doanh thu</div>
                                 <TextFieldNumber name="sales_12_months" label="Mục tiêu doanh thu" control={control} fullWidth  />
+                                <TextFieldNumber name="sales_12_months_percent" label="Phần trăm tỷ trọng" control={control} fullWidth  />
                                 <KpiConditionsSale name="sale_12_months_conditions" control={control} type='12months' />
                             </WrapperBox>
 
@@ -158,11 +170,13 @@ function KpiSetupUserForm({ initialValue, onSubmit, itemValue, isEdit,methods })
                             <WrapperBox>
                                 <div>Mục tiêu doanh số hiện hữu</div>
                                 <TextFieldNumber name="current_sale_12_months" label="mục tiêu doanh số hiện hữu" control={control} fullWidth  />
+                                <TextFieldNumber name="current_sale_12_months_percent" label="Phần trăm tỷ trọng" control={control} fullWidth  />
                                 <KpiConditionsSale name="current_sale_12_months_conditions" control={control} type='12months' />
                             </WrapperBox>
                             <WrapperBox>
 
                                 <div>Điều kiện đạt công nợ</div>
+                                <TextFieldNumber name="debts_12_percent" label="Phần trăm tỷ trọng" control={control} fullWidth  />
                                 <KpiConditionsDebts name="debts_12_months_conditions" control={control} type='12months' />
                             </WrapperBox>
                         </WrapperBox>

@@ -46,7 +46,7 @@ function FPForm({
   disabled,
   methods
 }) {
-
+  const statusFP = useSelector(selectStatus);
   const permissons = useSelector(selectRoles);
   const accounts = useSelector(selectListAccount);
   const categories = useSelector(selectListCategory);
@@ -182,7 +182,7 @@ function FPForm({
         <Grid item xs={12} md={4}>
           <BasicSelect name="contact_id" label="Liên hệ" control={control} options={contactValue} disabled={disabled} />
         </Grid>
-        {itemValue.status > 2 &&
+        {statusFP > 2 &&
           <Grid item xs={12} md={4}>
           <MultilSelectBox name="technical_id" label="Kỹ thuật" control={control} options={users}  />
           </Grid>
