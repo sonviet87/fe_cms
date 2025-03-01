@@ -72,7 +72,7 @@ export const FPButtonApproved = ({ status, onChangeStatus }) => {
   const handleChangeStatus = async (value) => {
 
     methods.trigger();
-    const schema = yup.object().shape((parseInt(status) < 3 || parseInt(status) === 7) ? validationRules : validationRulesExtra);
+    const schema = yup.object().shape((parseInt(status) < 5 || parseInt(status) === 7) ? validationRules : validationRulesExtra);
     const formValue = methods.getValues();
     formValue.account_id = formValue.account_id.id;
     formValue.status = value
@@ -135,7 +135,7 @@ export const FPButtonApproved = ({ status, onChangeStatus }) => {
                   onClick={() => handleChangeStatus(1)}
                 >
                   {' '}
-                  Duyệt PAKD
+                  {/*Duyệt PAKD*/} Duyệt giá Sale
                 </Button>
                 <Button
                   color="error"
@@ -166,7 +166,7 @@ export const FPButtonApproved = ({ status, onChangeStatus }) => {
                 size="small"
                 onClick={() => handleChangeStatus(3)}
               >
-                Duyệt Hợp đồng
+               {/* Duyệt Hợp đồng*/}Duyệt giá bán
               </Button>
               <Button
                   color="error"
@@ -195,7 +195,7 @@ export const FPButtonApproved = ({ status, onChangeStatus }) => {
                   size="small"
                   onClick={() => handleChangeStatus(4)}
                 >
-                  Duyệt giao hàng
+                 {/* Duyệt giao hàng*/} Duyệt PA Triển Khai
                 </Button>
                 <Button
                     color="error"

@@ -85,7 +85,7 @@ function KpiForm({ list,selectedTypeKpi }) {
 
 
                             <Grid item xs={2} >
-                                <div>Doanh Thu Mới</div>
+                                <div>{data?.sale_text}</div>
                             </Grid>
                             <Grid item xs={2}>
                                 <div>{ <NumericFormat
@@ -117,7 +117,7 @@ function KpiForm({ list,selectedTypeKpi }) {
 
 
                             <Grid item xs={2} >
-                                <div>Doanh số hiện hữu </div>
+                                <div>{data?.current_sale_text} </div>
                             </Grid>
                             <Grid item xs={2}>
                                 <div>{ <NumericFormat
@@ -149,7 +149,7 @@ function KpiForm({ list,selectedTypeKpi }) {
 
 
                             <Grid item xs={2} >
-                                <div>Thu hồi công nợ</div>
+                                <div>{data?.debts_text}</div>
                             </Grid>
                             <Grid item xs={2}>
                                 Trễ hạn
@@ -195,16 +195,16 @@ function KpiForm({ list,selectedTypeKpi }) {
 
                                         </Grid>
                                         <Grid item xs={2}>
-                                            <div>{manager?.total_percent}%</div>
+
                                         </Grid>
                                         <Grid item xs={2}>
-                                            {manager?.kpi?.percentage}%
+                                            {manager?.percent}%
                                         </Grid>
                                         <Grid item xs={2}>
-                                            {manager?.kpi?.points}
+                                            {manager?.total_points}
                                         </Grid>
                                         <Grid item xs={2}>
-                                            {totalAchievements(manager?.kpi?.percentage,manager?.kpi?.points)}
+                                            {totalAchievements(manager?.percent,manager?.total_points)}
                                         </Grid>
                                     </React.Fragment>
                                 ))}

@@ -98,6 +98,8 @@ function AdminFPAddEditPage() {
             if (item) return true;
             return false;
           }),
+          price_sell_customer: yup.string().required('giá cho khách hàng không được trống'),
+          total_price_sell_customer: yup.string().required('giá cho khách hàng không được trống'),
           number_invoice: yup.string().required('Xin hãy chọn số hóa đơn'),
           date_invoice: yup.string().required('Xin hãy chọn ngày hóa đơn'),
           file: yup.string().required('Xin hãy up file'),
@@ -105,7 +107,7 @@ function AdminFPAddEditPage() {
       ),
     ),
   };
-  const schema = yup.object().shape((parseInt(status) < 3 || parseInt(status) === 7) ? validationRules : validationRulesExtra);
+  const schema = yup.object().shape((parseInt(status) < 5 || parseInt(status) === 7) ? validationRules : validationRulesExtra);
   const initialValue = {
     name: '',
     account_id: '',
@@ -120,6 +122,8 @@ function AdminFPAddEditPage() {
     interest_percent: 0,
     commission: 0,
     commission_percent: 0,
+    commission_customer: 0,
+    commission_customer_percent: 0,
     bids_cost: 0,
     bids_cost_percent: 0,
     tax: 0,
@@ -142,6 +146,7 @@ function AdminFPAddEditPage() {
         price_sell: 0,
         total_sell: 0,
         profit: '10%',
+        profit_customer: '0',
         number_invoice: '',
         date_invoice: ''
 

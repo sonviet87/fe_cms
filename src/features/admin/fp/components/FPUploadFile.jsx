@@ -5,8 +5,11 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { selectIsEdit } from '../fpSlice';
 import { TableCellStyled, WrapperBox } from '../style/StyledFP';
+import {selectRoles} from "../../../auth/authSlice";
+import {fpPermissions} from "../constants/FPConstants";
 
 function FPUploadFile({ control, name, setValue, itemValue, errors, setError }) {
+  const permissons = useSelector(selectRoles);
   const isEdit = useSelector(selectIsEdit)
   return (
     <WrapperBox sx={{ mt: 4 }}>
@@ -75,6 +78,8 @@ function FPUploadFile({ control, name, setValue, itemValue, errors, setError }) 
 
                 </TableCellStyled>
               </TableRow>
+              {(!permissons.includes(fpPermissions.FP_IS_SALE) ) &&(
+                  <>
               <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                 <TableCellStyled component="th" scope="row">
                   <Typography>Hợp đồng NCC</Typography>
@@ -95,6 +100,8 @@ function FPUploadFile({ control, name, setValue, itemValue, errors, setError }) 
 
                 </TableCellStyled>
               </TableRow>
+                  </>
+                )}
             </TableBody>
           </Table>
         </TableContainer>

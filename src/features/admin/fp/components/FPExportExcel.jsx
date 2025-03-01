@@ -356,7 +356,9 @@ const FPExportExcel = ({ data, fps, status }) => {
         ws.getRow(5).getCell(8).font = { size: 12, bold: true, name: fontFamily }
         //start from row 6
         ws.getRow(6).values = '';
-        //add title 
+
+
+        //add title
         mergeCells(ws, addRow(ws, ['BẢNG BÁO GIÁ'], title), 1, columns);
         mergeCells(ws, addRow(ws, [fps.code], {
             border: false,
@@ -367,11 +369,17 @@ const FPExportExcel = ({ data, fps, status }) => {
             alignment: { horizontal: 'center', vertical: 'middle', wrapText: true },
         }), 1, columns);
         ws.addRow('');
-        mergeCells(ws, addRow(ws, ['Kính gửi', '', fps.account.toString().toUpperCase()], info), 1, 2);
-        mergeCells(ws, addRow(ws, ['Người nhận', '', fps?.contact], info), 1, 2);
-        mergeCells(ws, addRow(ws, ['Đơn vị cung cấp ', '', 'CÔNG TY MVTECH'], info), 1, 2);
-        mergeCells(ws, addRow(ws, ['Địa chỉ', '', 'Số 132/70A Đường Bình Đông, P14, Quận 8, TP. Hồ Chí Minh.'], info), 1, 2);
-        let rowUser = addRow(ws, ['Người gửi', '', fps?.user_assign_name + ' - ĐT: ' + fps?.phone], info);
+        let rowInfor = addRow(ws, ['Kính gửi', '', fps.account.toString().toUpperCase()], info);
+        rowInfor.getCell(6).font = { size: 12, bold: true, name: fontFamily };
+        rowInfor.getCell(6).value = 'Người lập: '+fps?.user_assign_name ;
+        mergeCells(ws, rowInfor, 1, 2);
+        let rowAddress = addRow(ws, ['Địa chỉ', '', fps?.account_id?.address], info);
+        rowAddress.getCell(6).font = { size: 12, bold: true, name: fontFamily };
+        rowAddress.getCell(6).value = 'ĐTDĐ:  '+fps?.phone;
+        mergeCells(ws, rowAddress, 1, 2);
+        //mergeCells(ws, addRow(ws, ['Đơn vị cung cấp ', '', 'CÔNG TY MVTECH'], info), 1, 2);
+       // mergeCells(ws, addRow(ws, ['Địa chỉ', '', 'Số 132/70A Đường Bình Đông, P14, Quận 8, TP. Hồ Chí Minh.'], info), 1, 2);
+        let rowUser = addRow(ws, [], info);
         const d = new Date();
         // const month = dateObj.getUTCMonth() + 1; //months from 1-12
         // const day = dateObj.getUTCDate();
@@ -387,6 +395,18 @@ const FPExportExcel = ({ data, fps, status }) => {
         rowUser.getCell(8).font = { size: 12, bold: true, name: fontFamily }
         rowUser.getCell(8).alignment = { horizontal: 'right', vertical: 'middle' }
         mergeCells(ws, rowUser, 1, 2);
+        mergeCells(ws, addRow(ws, ["Công ty TNHH TMDV LUGAA TECHNOLOGY xin chân thành cảm ơn quý Khách hàng đã quan tâm đến sản phẩm và dịch vụ của chúng tôi. \n LUGAA TECHNOLOGY gởi đến quý Khách hàng bảng báo giá chi tiết như sau:"],
+            {
+            font: {
+                name: fontFamily,
+                bold: false,
+                size: 14,
+            },
+            height: 40,
+            alignment: { wrapText: true },
+        }
+        ), 1, 8);
+
         ws.addRow('');
         //create header
 
@@ -423,29 +443,24 @@ const FPExportExcel = ({ data, fps, status }) => {
         let totalRow = addRow(ws, ['Tổng Thành Tiền:', '', '', '', '', totalSell, totalVat, totalFinal], totalSytle)
         mergeCells(ws, totalRow, 1, 5);
         ws.addRow('');
-        addRow(ws, ['Điều khoản liên quan:'], footerTitle);
-        addRow(ws, ['1. Giá trên là giá giao hàng tại TP. HCM, đã bao gồm các chi phí vận chuyển đến nơi lắp đặt,  thuế giá trị gia tăng, các loại phí ,bảo hiểm rủi ro, chi phí bảo hành'], footerTitle);
-        ws.addRow('');
-        addRow(ws, ['2. Phương thức thanh toán: Chuyển khoản'], footerTitle);
+        mergeCells(ws, addRow(ws, ['Ghi chú: Giá trên đã bao gồm chi phí giao hàng tại TP. Hồ Chí Minh'], footerTitle),1,2);
 
-        mergeCells(ws, addRow(ws, ['Điều kiện thanh toán', '', 'Lần 01: Thanh toán 100% giá trị hợp đồng trong vòng 07 ngày sau khi ký kết hợp đồng'], footerText), 1, 2);
-        ws.addRow('');
-        addRow(ws, ['3. Thông tin tài khoản ngân hàng:'], footerTitle);
-        addRow(ws, ['', '', 'CÔNG TY MVTECH'], footerText);
-        addRow(ws, ['', '', 'Số 132/70A Đường Bình Đông, P14, Quận 8, TP. Hồ Chí Minh.'], footerText);
-        addRow(ws, ['', '', 'Số TK: 0171003484872, tại Ngân hàng Vietcombank – CN Tây Sài Gòn, TP.HCM'], footerText);
-        ws.addRow('');
-        addRow(ws, ['4. Bảo hành: theo quy định của Nhà sản xuất tại Việt Nam'], footerTitle);
-        ws.addRow('');
-        addRow(ws, ['5. Thời gian thực hiện dịch vụ :'], footerTitle);
-        addRow(ws, ['Dịch vụ sẽ kích hoạt kể từ ngày ký PO hoặc hợp đồng'], footerText);
-        ws.addRow('');
-        addRow(ws, ['6. Bảng giá có hiệu lực trong vòng 30 ngày, kể từ này thông báo.'], footerTitle);
+        addRow(ws, ['1. Phương thức thanh toán: chuyển khoản.'], footerTitle);
+
+        addRow(ws, ['', '- Thanh toán 100% giá trị hợp đồng trong vòng 07 ngày sau khi ký kết hợp đồng/ PO'], footerText);
+        addRow(ws, ['', '- Thông tin thanh toán:'], footerText);
+        addRow(ws, ['', '','Chủ tài khoản: CÔNG TY TNHH THƯƠNG MẠI DỊCH VỤ LUGAA TECHNOLOGY'], footerText);
+        addRow(ws, ['', '','Số tài khoản (VNĐ): 260789050628'], footerText);
+        addRow(ws, ['', '','Ngân hàng: ACB Bank – CN Phú Lâm'], footerText);
+        addRow(ws, ['2. Thời gian bảo hành : theo tiêu chuẩn của nhà sản xuất tại Việt Nam'], footerTitle);
+        addRow(ws, ['3. Thời gian giao hàng :  Trong vòng 7 ngày kể từ ngày xác nhận đơn hàng.'], footerTitle);
+        addRow(ws, ['4. Bảng giá có hiệu lực trong vòng 5 ngày, kể từ này thông báo.'], footerTitle);
+
         ws.addRow('');
 
-        mergeCells(ws, addRow(ws, ['Đại Điện MVTECH', '', '', '', '', '', 'Đại Điện Khách Hàng'], signText), 1, 2);
-        let rowSign = addRow(ws, ['', '', '', '', '', fps.account.toString().toUpperCase(), '', '',], signText)
-        mergeCells(ws, rowSign, 6, columns);
+        mergeCells(ws, addRow(ws, ['Đại diện Bên Mua (kí tên và đóng dấu):', '', '', '', '', '', 'Đại diện Bên Bán'], signText), 1, 2);
+       // let rowSign = addRow(ws, ['', '', '', '', '', fps.account.toString().toUpperCase(), '', '',], signText)
+        //mergeCells(ws, rowSign, 6, columns);
 
 
 

@@ -83,6 +83,7 @@ function KpiSettingTechnicalForm({ initialValue, onSubmit, itemValue, isEdit,met
                             <TitleBackGroundStyled background='b8bb0d' sx={{mb:1}}>Mục tiêu năm</TitleBackGroundStyled>
                             <WrapperBox>
                                 <div>Thi chứng chỉ</div>
+                                <TextFieldNumber name="certificate_percent" label="Phần trăm tỷ trọng" control={control} fullWidth  />
                                 <KpiConditionsTechnical name="certificate_conditions" control={control} type='12months' labelText="Chứng chỉ" />
                             </WrapperBox>
 
@@ -93,12 +94,13 @@ function KpiSettingTechnicalForm({ initialValue, onSubmit, itemValue, isEdit,met
                             </WrapperBox>
                             <WrapperBox>
                                 <div>Triển khai dự án</div>
-
-                                <KpiConditionsPoints name="project_conditions" control={control} type='12months' />
+                                <TextFieldNumber name="project_percent" label="Phần trăm tỷ trọng" control={control} fullWidth  />
+                                <KpiConditionsPoints name="project_conditions" control={control} type='12months'  />
                             </WrapperBox>
                             <WrapperBox>
 
                                 <div>Đánh giá chăm sóc khách hàng</div>
+                                <TextFieldNumber name="review_percent" label="Phần trăm tỷ trọng" control={control} fullWidth  />
                                 <KpiConditionsPoints name="review_conditions" control={control} type='12months'  />
                             </WrapperBox>
                         </WrapperBox>

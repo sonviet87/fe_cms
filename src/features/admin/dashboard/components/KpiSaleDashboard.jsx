@@ -43,7 +43,7 @@ function KpiSaleDashboard({list,onSaleKpiList,selectedMonth,setSelectedMonth}) {
                                 <TableCellStyled > {item?.user_name}</TableCellStyled>
                                 <TableCellStyled>
 
-                                        <ProgressBarKpi currentPercentage={item?.total_percentage} targetPercentage={item?.min_bonus_setting_progress}  maxPercentage={item?.min_bonus_setting_progress} backGround1={item.bg_color1} backGround2={item.bg_color2}/>
+                                        <ProgressBarKpi currentPercentage={(item?.total_percentage)}  backGround1={item.bg_color1} backGround2={item.bg_color2}/>
 
                                 </TableCellStyled>
                                 <TableCellStyled >

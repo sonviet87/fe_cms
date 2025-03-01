@@ -7,7 +7,7 @@ import AddIcon from "@mui/icons-material/Add";
 import {BasicButtonStyled} from "../../../../components/Common/SlytedComponent/Button";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 
-const KpiConditionsPoints = ({control,name,type,labelText}) => {
+const KpiConditionsPoints = ({control,name,type,labelText="Không có đánh giá nào điểm dưới"}) => {
     const { fields, append,remove } = useFieldArray({
         control,
         name,
@@ -24,10 +24,10 @@ const KpiConditionsPoints = ({control,name,type,labelText}) => {
                             <React.Fragment key={field.id}>
                                 <TableRow>
                                     <TableCellStyled>
-                                        <TextFieldNumberBase name={`${name}[${index}].points`} label="Điểm" control={control} />
+                                        <TextFieldNumberBase name={`${name}[${index}].text`} label={labelText} control={control} />
                                     </TableCellStyled>
                                     <TableCellStyled>
-                                        <TextFieldNumberBase name={`${name}[${index}].percentage`} label="Phần trăm" control={control} />
+                                        <TextFieldNumberBase name={`${name}[${index}].points`} label="Điểm" control={control} />
                                     </TableCellStyled>
 
                                     <TableCellStyled>

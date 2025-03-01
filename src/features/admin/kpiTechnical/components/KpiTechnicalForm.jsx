@@ -97,7 +97,7 @@ function KpiTechnicalForm({ list,selectedTypeKpi }) {
                                 <div>Không đạt : {list?.technical_certificate?.technical_summary?.goals_1}</div>
                             </Grid>
                             <Grid item xs={2}>
-                                {list?.technical_certificate?.technical_certificate_condition?.percentage}%
+                                {list?.certificate_percent}%
                             </Grid>
                             <Grid item xs={2}>
                                 {list?.technical_certificate?.technical_certificate_condition?.points}
@@ -120,7 +120,7 @@ function KpiTechnicalForm({ list,selectedTypeKpi }) {
                                 {list?.technical_project?.project_points }
                             </Grid>
                             <Grid item xs={2}>
-                                {list?.technical_project?.project_certificate_condition?.percentage}%
+                                {list?.project_percent}%
                             </Grid>
                             <Grid item xs={2}>
                                 {list?.technical_project?.project_certificate_condition?.points}
@@ -144,7 +144,7 @@ function KpiTechnicalForm({ list,selectedTypeKpi }) {
                             </Grid>
 
                             <Grid item xs={2}>
-                                {list?.technical_review?.review_certificate_condition?.percentage}%
+                                {list?.review_percent}%
                             </Grid>
                             <Grid item xs={2}>
                                 {list?.technical_review?.review_certificate_condition?.points}
@@ -181,16 +181,16 @@ function KpiTechnicalForm({ list,selectedTypeKpi }) {
 
                                             </Grid>
                                             <Grid item xs={2}>
-                                                <div>{manager?.total_points}</div>
+
                                             </Grid>
                                             <Grid item xs={2}>
-                                                {manager?.kpi?.percentage}%
+                                                {manager?.percent}%
                                             </Grid>
                                             <Grid item xs={2}>
-                                                {manager?.kpi?.points}
+                                                {manager?.total_points}
                                             </Grid>
                                             <Grid item xs={2}>
-                                                {totalAchievements(manager?.kpi?.percentage,manager?.kpi?.points)}
+                                                {totalAchievements(manager?.percent,manager?.total_points)}
                                             </Grid>
                                         </React.Fragment>
                                     ))}

@@ -6,14 +6,14 @@ import React from 'react';
 import { useWatch } from 'react-hook-form';
 import { NumericFormat } from 'react-number-format';
 import { TableCellStyled, WrapperBox } from '../style/StyledFP';
-import { totalPriceSell } from './FPForm';
+import {totalPriceSell, totalPriceSellCustomer} from './FPForm';
 import {fpPermissions} from "../constants/FPConstants";
 import {useSelector} from "react-redux";
 import {selectRoles} from "../../../auth/authSlice";
 
 // import { Container } from './styles';
 
-function FPTotal({ control, totalBuy, totalSell, setValue, getValues, TotalPrice, totalBids, disabled }) {
+function FPTotal({ control, totalBuy, totalSell, setValue, getValues, TotalPrice,TotalPriceSale,totalBids,totalBidsCustomer, disabled,totalSellCustomer }) {
   const monthInterest = useWatch({
     control,
     name: 'interest_percent',
@@ -21,7 +21,9 @@ function FPTotal({ control, totalBuy, totalSell, setValue, getValues, TotalPrice
   const permissons = useSelector(selectRoles);
   const handleTotalPrice = (shipping_charges, guest_costs, deployment_costs, interest, commission, tax, bids_cost) => {
     TotalPrice(shipping_charges, guest_costs, deployment_costs, interest, commission, tax, bids_cost);
+    TotalPriceSale(shipping_charges, guest_costs, deployment_costs, interest, commission, tax, bids_cost);
   };
+
 
   return (
     <WrapperBox sx={{ mt: 4 }}>
@@ -50,6 +52,23 @@ function FPTotal({ control, totalBuy, totalSell, setValue, getValues, TotalPrice
                      </>
                  }
               </TableRow>
+                <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                    <TableCellStyled component="th" scope="row">
+                       HH khách hàng:
+                    </TableCellStyled>
+                    <TableCellStyled component="th" scope="row">
+                        <NumericFormat
+                            displayType="text"
+                            value={totalSellCustomer - totalSell}
+                            thousandSeparator=","
+                            renderText={(value) => <b>{value}</b>}
+                        />
+                    </TableCellStyled>
+
+                    <TableCellStyled component="th" scope="row">
+
+                    </TableCellStyled>
+                </TableRow>
               <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                 <TableCellStyled component="th" scope="row">
                   Chi phí Vận chuyển:
@@ -210,7 +229,7 @@ function FPTotal({ control, totalBuy, totalSell, setValue, getValues, TotalPrice
               </TableRow>
               <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                 <TableCellStyled component="th" scope="row">
-                  Chi phí HH:
+                  Chi phí HH giá bán:
                 </TableCellStyled>
                 <TableCellStyled component="th" scope="row">
                   <TextFieldNumber disabled={disabled} name="commission" control={control} />
@@ -218,7 +237,7 @@ function FPTotal({ control, totalBuy, totalSell, setValue, getValues, TotalPrice
                 <TableCellStyled component="th" scope="row">
                   <TextFieldNumber
                     name="commission_percent"
-                    disabled={disabled}
+                   //disabled={disabled}
                     control={control}
                     suffix={'%'}
                     onValueChange={(v) => {
@@ -248,6 +267,31 @@ function FPTotal({ control, totalBuy, totalSell, setValue, getValues, TotalPrice
                   />
                 </TableCellStyled>
               </TableRow>
+               {/* <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                    <TableCellStyled component="th" scope="row">
+                        Chi phí HH giá khách hàng:
+                    </TableCellStyled>
+                    <TableCellStyled component="th" scope="row">
+                        <TextFieldNumber disabled={disabled} name="commission_customer" control={control} />
+                    </TableCellStyled>
+                    <TableCellStyled component="th" scope="row">
+                        <TextFieldNumber
+                            name="commission_customer_percent"
+                            disabled={disabled}
+                            control={control}
+                            suffix={'%'}
+                            onValueChange={(v) => {
+                                const commission = Math.round(
+                                    (v.value.toString().replace(/%/g, '') / 100) * totalPriceSellCustomer(getValues('details')),
+                                );
+
+                                setValue('commission_customer', commission);
+
+                            }}
+                            sx={{ width: '60px' }}
+                        />
+                    </TableCellStyled>
+                </TableRow>*/}
               <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                 <TableCellStyled component="th" scope="row">
                   Thuế thu nhập 20%:
@@ -294,6 +338,7 @@ function FPTotal({ control, totalBuy, totalSell, setValue, getValues, TotalPrice
                         tax,
                         bids_cost,
                       );
+
                     }}
                     sx={{ width: '60px' }}
                   />
@@ -319,6 +364,22 @@ function FPTotal({ control, totalBuy, totalSell, setValue, getValues, TotalPrice
                   </TableRow>
                     </>
                 }
+                <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                    <TableCellStyled component="th" scope="row">
+                        Lãi sale:
+                    </TableCellStyled>
+                    <TableCellStyled component="th" scope="row">
+                        <NumericFormat
+                            displayType="text"
+                            value={totalBidsCustomer}
+                            thousandSeparator=","
+                            renderText={(value) => <b>{value}</b>}
+                        />
+                    </TableCellStyled>
+                    <TableCellStyled component="th" scope="row">
+
+                    </TableCellStyled>
+                </TableRow>
             </TableBody>
           </Table>
         </TableContainer>

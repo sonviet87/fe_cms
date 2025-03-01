@@ -31,9 +31,9 @@ const KpiConditionsTechnical = ({control,name,type,labelText}) => {
 
                                         />
                                     </TableCellStyled>
-                                    <TableCellStyled>
+                                  {/*  <TableCellStyled>
                                         <TextFieldNumberBase name={`${name}[${index}].percentage`} label="Phần trăm" control={control} />
-                                    </TableCellStyled>
+                                    </TableCellStyled>*/}
                                     <TableCellStyled>
                                         <TextFieldNumberBase name={`${name}[${index}].points`} label="Điểm" control={control} />
                                     </TableCellStyled>

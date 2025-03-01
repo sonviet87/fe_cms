@@ -11,7 +11,7 @@ function ReportHeaderPage({ list, filter, onHandleIsReport , methods}) {
     <WrapperBoxAlign align="space-between" isborder={0}>
       <TitleForm lable="Thống kê phương án kinh doanh" isborder={0} />
       <Box>
-        <Button
+        {/*<Button
           color="sixth"
           variant="contained"
           startIcon={<EqualizerIcon />}
@@ -34,7 +34,7 @@ function ReportHeaderPage({ list, filter, onHandleIsReport , methods}) {
           }}
         >
           Xem dạng dữ liệu
-        </Button>
+        </Button>*/}
         <ReportFPExportExcel data={list} filter={filter} methods={methods}/>
       </Box>
 

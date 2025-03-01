@@ -59,6 +59,8 @@ function FPForm({
   const [totalBuy, setTotalsBuy] = React.useState(0);
   const [totalSell, setTotalsSell] = React.useState(0);
   const [totalBids, setTotalsBids] = React.useState(0);
+  const [totalSellCustomer, setTotalsSellCustomer] = React.useState(0);
+  const [totalBidsCustomer, setTotalsBidsCustomer,] = React.useState(0);
 
 
   const { control, reset, getValues, setValue, handleSubmit } = methods;
@@ -95,6 +97,15 @@ function FPForm({
     setTotalsBids(totalBids);
   };
 
+  const handleTotalPriceSale = (shipping_charges, guest_costs, deployment_costs, interest, commission, tax, bids_cost) => {
+    const totalPrice = totalPriceSellCustomer(getValues('details')) - totalPriceSell(getValues('details')) ;
+    //console.log(totalPrice);
+    const totalBids =
+        totalPrice - shipping_charges - guest_costs - deployment_costs - interest - commission - tax - bids_cost;
+
+    setTotalsBidsCustomer(totalBids);
+  };
+
   const handleFPUpdatePrice = (price_buy, price_sell, qty, profit, index) => {
     price_buy = parseFloat(price_buy.replace(/,/g, ''));
     price_sell = parseFloat(price_sell.replace(/,/g, ''));
@@ -106,7 +117,14 @@ function FPForm({
       priceSell = getValues(`details[${index}].price_sell`).toString().replace(/,/g, '');
     }
     setValue(`details[${index}].price_sell`, priceSell);
+    // set value price sale cusstomer
 
+    const profitCustomer = parseFloat(getValues(`details[${index}].profit_customer`));
+
+    const priceSelCustomer = ROUND((parseFloat( priceSell ) / (1 - toDecimal(profitCustomer))+priceSell),-3);
+
+    setValue(`details[${index}].price_sell_customer`, priceSelCustomer);
+    setValue(`details[${index}].total_price_sell_customer`, priceSelCustomer * qty);
     if (price_buy !== '') setValue(`details[${index}].total_buy`, qty * price_buy);
     if (price_sell !== '') setValue(`details[${index}].total_sell`, qty * priceSell);
     if (price_buy !== '') setTotalsBuy(totalPriceBuy(getValues('details')));
@@ -144,6 +162,7 @@ function FPForm({
     const bids_cost = getValues('bids_cost').toString().replace(/,/g, '');
 
     handleTotalPrice(shipping_charges, guest_costs, deployment_costs, interest, commission, tax, bids_cost);
+    handleTotalPriceSale(shipping_charges, guest_costs, deployment_costs, interest, commission, tax, bids_cost);
   };
 
   const handleCallAPIContact = async (formValue) => {
@@ -326,6 +345,15 @@ function FPForm({
                                 tax,
                                 bids_cost,
                               );
+                              handleTotalPriceSale(
+                                shipping_charges,
+                                guest_costs,
+                                deployment_costs,
+                                interest,
+                                commission,
+                                tax,
+                                bids_cost,
+                              );
                             }}
                           />
                         </TableCellStyled>
@@ -338,6 +366,26 @@ function FPForm({
                             disabled={disabled}
                           />
                         </TableCellStyled>
+                        {(!permissons.includes(fpPermissions.FP_IS_SALE) ) &&(
+                            <TableCellStyled>
+                              <TextFieldNumber
+                                  disabled={disabled}
+                                  suffix={'%'}
+                                  name={`details[${index}].profit`}
+                                  label="Lợi nhuận"
+                                  control={control}
+                                  sx={{ minWidth: '90px' }}
+                                  onValueChange={(v) => {
+                                    let qty = getValues(`details[${index}].qty`);
+                                    let price_sell = getValues(`details[${index}].price_sell`).toString();
+                                    let price_buy = getValues(`details[${index}].price_buy`).toString();
+                                    let profit = 0;
+                                    if (v.value !== '') profit = v.value;
+                                    handleFPUpdatePrice(price_buy, price_sell, qty, profit, index);
+                                  }}
+                              />
+                            </TableCellStyled>
+                        )}
                         <TableCellStyled>
                           <TextFieldNumber
                               name={`details[${index}].price_sell_customer`}
@@ -348,6 +396,18 @@ function FPForm({
                               onValueChange={(v) => {
                                 let qty = getValues(`details[${index}].qty`);
                                 setValue(`details[${index}].total_price_sell_customer`, qty * parseFloat(v.value.replace(/,/g, '')));
+                                const ttPrcieCutomer =totalPriceSellCustomer(getValues('details'));
+                                setTotalsSellCustomer(ttPrcieCutomer);
+
+                                const shipping_charges = getValues('shipping_charges').toString().replace(/,/g, '');
+                                const guest_costs = getValues('guest_costs').toString().replace(/,/g, '');
+                                const deployment_costs = getValues('deployment_costs').toString().replace(/,/g, '');
+                                const interest = getValues('interest').toString().replace(/,/g, '');
+                                const commission = getValues('commission').toString().replace(/,/g, '');
+                                const tax = getValues('tax').toString().replace(/,/g, '');
+                                const bids_cost = getValues('bids_cost').toString().replace(/,/g, '');
+
+                                handleTotalPriceSale(shipping_charges, guest_costs, deployment_costs, interest, commission, tax, bids_cost);
 
                               }}
                           />
@@ -361,26 +421,46 @@ function FPForm({
 
                           />
                         </TableCellStyled>
-                        {(!permissons.includes(fpPermissions.FP_IS_SALE) ) &&(
-                        <TableCellStyled>
-                          <TextFieldNumber
-                            disabled={disabled}
-                            suffix={'%'}
-                            name={`details[${index}].profit`}
-                            label="Lợi nhuận"
-                            control={control}
-                            sx={{ minWidth: '90px' }}
-                            onValueChange={(v) => {
-                              let qty = getValues(`details[${index}].qty`);
-                              let price_sell = getValues(`details[${index}].price_sell`).toString();
-                              let price_buy = getValues(`details[${index}].price_buy`).toString();
-                              let profit = 0;
-                              if (v.value !== '') profit = v.value;
-                              handleFPUpdatePrice(price_buy, price_sell, qty, profit, index);
-                            }}
-                          />
-                        </TableCellStyled>
-                        )}
+
+                            <TableCellStyled>
+                              <TextFieldNumber
+
+                                  suffix={'%'}
+                                  name={`details[${index}].profit_customer`}
+                                  label="Lợi nhuận khách hàng"
+                                  control={control}
+                                  sx={{ minWidth: '90px' }}
+                                  onValueChange={(v) => {
+
+                                    const price_sell = getValues(`details[${index}].price_sell`).toString();
+                                    const qty = getValues(`details[${index}].qty`);
+                                    let profit = 0;
+                                    if (v.value !== '') profit = v.value;
+                                    const profitPercent = (parseInt(profit)/100);
+                                    const price = parseInt(price_sell) * profitPercent;
+
+                                    const total = ROUND(parseInt(price_sell)+parseInt(price),-3);
+
+                                    setValue(`details[${index}].price_sell_customer`,total);
+                                    setValue(`details[${index}].total_price_sell_customer`,total*parseInt(qty));
+                                    const ttPrcieCutomer =totalPriceSellCustomer(getValues('details'));
+                                    setTotalsSellCustomer(ttPrcieCutomer);
+
+                                    const shipping_charges = getValues('shipping_charges').toString().replace(/,/g, '');
+                                    const guest_costs = getValues('guest_costs').toString().replace(/,/g, '');
+                                    const deployment_costs = getValues('deployment_costs').toString().replace(/,/g, '');
+                                    const interest = getValues('interest').toString().replace(/,/g, '');
+                                    const commission = getValues('commission').toString().replace(/,/g, '');
+                                    const tax = getValues('tax').toString().replace(/,/g, '');
+                                    const bids_cost = getValues('bids_cost').toString().replace(/,/g, '');
+
+                                    handleTotalPriceSale(shipping_charges, guest_costs, deployment_costs, interest, commission, tax, bids_cost);
+
+
+                                  }}
+                              />
+                            </TableCellStyled>
+
                         <TableCellStyled>
                           <AutoCompleteForm
                             name={`details[${index}].supplier_id`}
@@ -456,7 +536,8 @@ function FPForm({
                     <TableCellStyled colSpan={3}>
                       <Typography variant="subtitle2">Tổng ( Mua/ Bán)</Typography>{' '}
                     </TableCellStyled>
-
+                    {(!permissons.includes(fpPermissions.FP_IS_SALE) ) &&(
+                    <>
                     <TableCellStyled>
                       <NumericFormat
                         displayType="text"
@@ -466,6 +547,9 @@ function FPForm({
                       />
                     </TableCellStyled>
                     <TableCellStyled></TableCellStyled>
+                    </>
+                      )}
+
                     <TableCellStyled>
                       {' '}
                       <NumericFormat
@@ -476,8 +560,15 @@ function FPForm({
                       />
                     </TableCellStyled>
                     <TableCellStyled></TableCellStyled>
-                    <TableCellStyled></TableCellStyled>
-                    <TableCellStyled></TableCellStyled>
+                    <TableCellStyled> <NumericFormat
+                        displayType="text"
+                        value={totalSellCustomer}
+                        thousandSeparator=","
+                        renderText={(value) => <b>{value}</b>}
+                    /></TableCellStyled>
+                    <TableCellStyled>
+
+                    </TableCellStyled>
                     <TableCellStyled></TableCellStyled>
                     <TableCellStyled></TableCellStyled>
                     <TableCellStyled></TableCellStyled>
@@ -499,6 +590,9 @@ function FPForm({
                     price_buy: 0,
                     price_sell: '',
                     profit: '10',
+                    price_sell_customer: 0,
+                    total_price_sell_customer: 0,
+                    profit_customer: 0,
                     file: '',
                     file_url: '',
                   });
@@ -539,8 +633,11 @@ function FPForm({
               getValues={getValues}
               setValue={setValue}
               TotalPrice={handleTotalPrice}
+              TotalPriceSale={handleTotalPriceSale}
               totalBids={totalBids}
               disabled={disabled}
+              totalSellCustomer = {totalSellCustomer}
+              totalBidsCustomer = {totalBidsCustomer}
             />
           </Grid>
         </Grid>
@@ -549,6 +646,7 @@ function FPForm({
         </Grid>
         <Grid item xs={12} md={12}>
           <WrapperBoxAlign isborder={false} align={'center'}>
+            {(permissons.includes(fpPermissions.FP_EDIT || fpPermissions.FP_CREATE ) ) &&(
             <LoadingButton
               onClick={handleSubmit(handleFormSubmit)}
               color="primary"
@@ -558,6 +656,8 @@ function FPForm({
             >
               Lưu
             </LoadingButton>
+
+            )}
             <Button
               color="fourth"
               variant="contained"
@@ -591,6 +691,14 @@ export function totalPriceSell(arrPrice, name) {
   }, 0);
 }
 
+
+export function totalPriceSellCustomer(arrPrice, name) {
+  if (arrPrice.length === 0) return 0;
+
+  return arrPrice.reduce((total, item) => {
+    return total + item.total_price_sell_customer;
+  }, 0);
+}
 export function roundNumber(rnum, rlength) {
   return Math.floor(Math.pow(10, 2) * rnum + 0.5) * Math.pow(10, -2);
 }

@@ -14,7 +14,6 @@ import {selectRoles} from "../../../auth/authSlice";
 
 export default function FPFilter({ loading, filter, onSubmit }) {
   const permissons = useSelector(selectRoles);
-  console.log(permissons)
   const navigate = useNavigate();
   const schema = yup.object().shape({
 

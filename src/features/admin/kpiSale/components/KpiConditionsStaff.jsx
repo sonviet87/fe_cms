@@ -20,7 +20,7 @@ const KpiConditionsStaff = ({control,name,type,users}) => {
         <WrapperBox>
             <BasicSelect  name={`${name}.user_id`}  label="Nhân viên" control={control} options={users} />
             <TextFieldNumber name={`${name}.percent`}  label="Phần trăm tỷ trọng" control={control} fullWidth  />
-            <TableContainer>
+           {/* <TableContainer>
                 <Table aria-label="simple table">
                     <TableBody>
                         {fields.map((field, index) => (
@@ -33,13 +33,13 @@ const KpiConditionsStaff = ({control,name,type,users}) => {
                                             control={control}
                                         />
                                     </TableCellStyled>
-                                   {/* <TableCellStyled>
+                                    <TableCellStyled>
                                         <TextFieldNumber
                                             name={`${name}.staff_conditions[${index}].percentage`}
                                             label="Phần trăm"
                                             control={control}
                                         />
-                                    </TableCellStyled>*/}
+                                    </TableCellStyled>
                                     <TableCellStyled>
                                         <TextFieldNumber
                                             name={`${name}.staff_conditions[${index}].points`}
@@ -83,7 +83,7 @@ const KpiConditionsStaff = ({control,name,type,users}) => {
             >
                 {' '}
                 Thêm điều kiện
-            </Button>
+            </Button>*/}
 
         </WrapperBox>
     );

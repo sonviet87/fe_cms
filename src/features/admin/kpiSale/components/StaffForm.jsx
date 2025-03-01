@@ -13,7 +13,8 @@ function StaffForm({methods,users,name,type}) {
     const handleAddStaffMonth = () => {
         append({
             user_id: "",
-            staff_conditions: [],
+            percent: "",
+            //staff_conditions: [],
         });
     };
     return (

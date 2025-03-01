@@ -83,7 +83,7 @@ const DashBoard = () => {
         })();
     }, []);
 
-
+console.log(list)
     return (
         <>
 

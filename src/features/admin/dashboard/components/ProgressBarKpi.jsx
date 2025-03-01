@@ -2,7 +2,8 @@ import React from "react";
 import { Box, LinearProgress, Typography } from "@mui/material";
 
 export const ProgressBarKpi = ({ currentPercentage, targetPercentage ,maxPercentage,backGround2 ='#a09c9c',backGround1='#3b82f6'}) => {
-    const displayedValue = (currentPercentage / maxPercentage) * 100;
+    //const displayedValue = (currentPercentage / maxPercentage) * 100;
+    const displayedValue = parseInt(currentPercentage);
     return (
         <Box position="relative" width="100%" display="flex" alignItems="center">
             {/* Thanh tiến trình */}
@@ -36,17 +37,7 @@ export const ProgressBarKpi = ({ currentPercentage, targetPercentage ,maxPercent
                 </Typography>
             </Box>
 
-            {/* Hiển thị phần trăm đạt được cuối thanh */}
-            <Typography
-                sx={{
-                    marginLeft: 2,
-                    color: "#666",
-                    fontWeight: "bold",
-                    fontSize:'12px',
-                }}
-            >
-                {targetPercentage}%
-            </Typography>
+
         </Box>
     );
 

@@ -82,12 +82,14 @@ function KpiSettingSupplierForm({ initialValue, onSubmit, itemValue, isEdit,meth
                             <WrapperBox>
                                 <div>Nhà cung cấp mới</div>
                                 <TextFieldNumber name="new_supplier_target" label="Mục tiêu NCC mới " control={control} fullWidth  />
+                                <TextFieldNumber name="new_supplier_percent" label="Phần trăm tỷ trọng" control={control} fullWidth  />
                                 <KpiConditionsSupplier name="new_supplier_conditions" control={control} type='12months' labelText="NCC mới" />
                             </WrapperBox>
 
                             <WrapperBox>
                                 <div>Nhà cung cấp cũ tăng công nợ</div>
-                                <TextFieldNumber name="old_supplier_target" label="Mục tiêu NCC mới " control={control} fullWidth  />
+                                <TextFieldNumber name="old_supplier_target" label="Mục tiêu NCC cũ " control={control} fullWidth  />
+                                <TextFieldNumber name="old_supplier_percent" label="Phần trăm tỷ trọng" control={control} fullWidth  />
                                 <KpiConditionsTechnical name="old_supplier_conditions" control={control} type='12months' labelText="NCC" />
 
                             </WrapperBox>

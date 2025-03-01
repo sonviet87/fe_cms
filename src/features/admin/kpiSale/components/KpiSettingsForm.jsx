@@ -53,13 +53,13 @@ function KpiSettingsForm({ initialValue, onSubmit, itemValue,methods }) {
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                 <Tabs value={valueTab} onChange={handleChange} aria-label="basic tabs example">
                     <Tab label="Kpi Sale" {...a11yProps(0)} />
-                    <Tab label="Kpi Kỹ thuật" {...a11yProps(1)} />
-                    <Tab label="Kpi mua hàng" {...a11yProps(2)} />
-                    <Tab label="Kpi công ty" {...a11yProps(3)} />
+                    <Tab label="Kpi Quản lý" {...a11yProps(1)} />
+                    <Tab label="Kpi Kỹ thuật" {...a11yProps(2)} />
+                    <Tab label="Kpi mua hàng" {...a11yProps(3)} />
+                    <Tab label="Kpi công ty" {...a11yProps(4)} />
                 </Tabs>
             </Box>
             <CustomTabPanel value={valueTab} index={0}>
-
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
                             <WrapperBox>
@@ -86,13 +86,36 @@ function KpiSettingsForm({ initialValue, onSubmit, itemValue,methods }) {
                 <Grid container spacing={2}>
                     <Grid item xs={12}>
                         <WrapperBox>
+                            <TitleBackGroundStyled background='4527a0' sx={{mb:1}}>KPI tháng</TitleBackGroundStyled>
+                            <SettingConditions name="manager.1months" control={control} type='1months' />
+                        </WrapperBox>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <WrapperBox>
+                            <TitleBackGroundStyled background='28A831' sx={{mb:1}}>KPI quý</TitleBackGroundStyled>
+                            <SettingConditions name="manager.3months" control={control} type='3months' />
+                        </WrapperBox>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <WrapperBox>
+                            <TitleBackGroundStyled background='b8bb0d' sx={{mb:1}}>KPI năm</TitleBackGroundStyled>
+                            <SettingConditions name="manager.12months" control={control} type='12months' />
+                        </WrapperBox>
+                    </Grid>
+                </Grid>
+
+            </CustomTabPanel>
+            <CustomTabPanel value={valueTab} index={2}>
+                <Grid container spacing={2}>
+                    <Grid item xs={12}>
+                        <WrapperBox>
                             <TitleBackGroundStyled background='b8bb0d' sx={{mb:1}}>KPI năm</TitleBackGroundStyled>
                             <SettingConditions name="technical.12months" control={control} type='12months' type_kpi='technical' />
                         </WrapperBox>
                     </Grid>
                 </Grid>
             </CustomTabPanel>
-            <CustomTabPanel value={valueTab} index={2}>
+            <CustomTabPanel value={valueTab} index={3}>
                 <Grid container spacing={2}>
                     <Grid item xs={12}>
                         <WrapperBox>
@@ -102,13 +125,13 @@ function KpiSettingsForm({ initialValue, onSubmit, itemValue,methods }) {
                     </Grid>
                 </Grid>
             </CustomTabPanel>
-            <CustomTabPanel value={valueTab} index={3}>
+            <CustomTabPanel value={valueTab} index={4}>
                 <Grid container spacing={2}>
                     <Grid item xs={12}> <TextFieldNumber name={'kpi_company'}  label="Doanh số cty" control={control} /></Grid>
                     <Grid item xs={12}>
                         <WrapperBox>
                             <TitleBackGroundStyled background='b8bb0d' sx={{mb:1}}>KPI năm</TitleBackGroundStyled>
-                            <SettingConditions name="company.12months" control={control} type='12months' type_kpi='company' />
+                            <SettingConditions name="company.12months" control={control} type='12months' type_kpi='company' isMinMax={true} />
                         </WrapperBox>
                     </Grid>
                 </Grid>

@@ -7,7 +7,7 @@ import AddIcon from "@mui/icons-material/Add";
 import {BasicButtonStyled} from "../../../../components/Common/SlytedComponent/Button";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 
-const SettingConditions = ({control,name,type,type_kpi='sale'}) => {
+const SettingConditions = ({control,name,type,type_kpi='sale',isMinMax=false}) => {
     const { fields, append, remove } = useFieldArray({
         control,
         name,
@@ -24,12 +24,18 @@ const SettingConditions = ({control,name,type,type_kpi='sale'}) => {
                         {fields.map((field, index) => (
                             <React.Fragment key={field.id}>
                                 <TableRow>
-                                    <TableCellStyled>
-                                        <TextFieldNumber name={`${name}[${index}].min_percentage`}  label="Từ" control={control} />
-                                    </TableCellStyled>
-                                    <TableCellStyled>
-                                        <TextFieldNumber name={`${name}[${index}].max_percentage`}  label="Đến" control={control} />
-                                    </TableCellStyled>
+                                    {
+                                        isMinMax === true &&  (
+                                            <>
+                                             <TableCellStyled>
+                                                <TextFieldNumber name={`${name}[${index}].min_percentage`}  label="Từ" control={control} />
+                                            </TableCellStyled>
+                                            <TableCellStyled>
+                                            <TextFieldNumber name={`${name}[${index}].max_percentage`}  label="Đến" control={control} />
+                                            </TableCellStyled>
+                                            </>
+                                    )}
+
                                     <TableCellStyled>
                                         <TextFieldNumber sx={{display:"none"}} name={`${name}[${index}].percentage`}  label="Phần trăm thưởng" control={control} />
                                     </TableCellStyled>
@@ -70,6 +76,7 @@ const SettingConditions = ({control,name,type,type_kpi='sale'}) => {
                 sx={{ mt: 2 }}
                 onClick={() => {
                     append({
+
                         max_percentage: '',
                         min_percentage: '',
                         point: '',

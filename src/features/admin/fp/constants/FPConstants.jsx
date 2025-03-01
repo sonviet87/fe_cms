@@ -10,10 +10,13 @@ export const statusApproved = {
 };
 export const statusArray = [
   { id: statusApproved.STATUS_NEW, name: 'Mới' },
-  { id: statusApproved.STATUS_PAKD, name: 'Duyệt PAKD' },
+    //'Duyệt PAKD'
+  { id: statusApproved.STATUS_PAKD, name: 'Duyệt giá Sale' },
   { id: statusApproved.STATUS_PAKD_FAILED, name: 'Hủy PAKD' },
-  { id: statusApproved.STATUS_CONTRACT, name: 'Duyệt hợp đồng' },
-  { id: statusApproved.STATUS_SHIPPING, name: 'Duyệt giao hàng' },
+  //'Duyệt hợp đồng'
+  { id: statusApproved.STATUS_CONTRACT, name: 'Duyệt giá bán' },
+    //Duyệt giao hàng
+  { id: statusApproved.STATUS_SHIPPING, name: 'Duyệt PA Triển Khai ' },
   { id: statusApproved.STATUS_INVOICE, name: 'Xuất hóa đơn' },
   { id: statusApproved.STATUS_COMPLETED, name: 'Hoàn tất hợp đồng' },
   { id: statusApproved.STATUS_BACK, name: 'Trả về' },
@@ -27,4 +30,5 @@ export const fpPermissions = {
   FP_EDIT: 'fp-edit',
   FP_DELETE: 'fp-delete',
   FP_IS_SALE: 'fp-is-sale',
+  FP_VIEW: 'fp-view',
 };

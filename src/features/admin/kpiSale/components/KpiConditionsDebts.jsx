@@ -32,9 +32,9 @@ const KpiConditionsDebts = ({control,name,type}) => {
                                         />
                                     </TableCellStyled>
 
-                                    <TableCellStyled>
+                                   {/* <TableCellStyled>
                                         <TextFieldNumber name={`${name}[${index}].percentage`} label="Phần trăm" control={control} />
-                                    </TableCellStyled>
+                                    </TableCellStyled>*/}
                                     <TableCellStyled>
                                         <TextFieldNumber name={`${name}[${index}].points`} label="Điểm" control={control} />
                                     </TableCellStyled>
@@ -67,7 +67,7 @@ const KpiConditionsDebts = ({control,name,type}) => {
                 onClick={() => {
                     append({
                         number:'',
-                        percentage: '',
+
                         points: '',
                         type
                     });

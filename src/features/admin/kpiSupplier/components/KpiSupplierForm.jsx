@@ -95,13 +95,13 @@ function KpiSupplierForm({ list,selectedTypeKpi }) {
                                {list?.new_supplier}
                             </Grid>
                             <Grid item xs={2}>
-                                {list?.new_supplier_conditions?.percentage}%
+                                {list?.new_supplier_percent}%
                             </Grid>
                             <Grid item xs={2}>
                                 {list?.new_supplier_conditions?.points}
                             </Grid>
                             <Grid item xs={2}>
-                                {totalAchievements(list?.new_supplier_conditions?.percentage,list?.new_supplier_conditions?.points)}
+                                {totalAchievements(list?.new_supplier_percent,list?.new_supplier_conditions?.points)}
                             </Grid>
 
 
@@ -118,13 +118,13 @@ function KpiSupplierForm({ list,selectedTypeKpi }) {
                                 {list?.old_increase_supplier }
                             </Grid>
                             <Grid item xs={2}>
-                                {list?.old_increase_supplier_conditions?.percentage}%
+                                {list?.old_supplier_percent}%
                             </Grid>
                             <Grid item xs={2}>
                                 {list?.old_increase_supplier_conditions?.points}
                             </Grid>
                             <Grid item xs={2}>
-                                {totalAchievements(list?.old_increase_supplier_conditions?.percentage,list?.old_increase_supplier_conditions?.points)}
+                                {totalAchievements(list?.old_supplier_percent,list?.old_increase_supplier_conditions?.points)}
                             </Grid>
 
 
@@ -142,7 +142,7 @@ function KpiSupplierForm({ list,selectedTypeKpi }) {
 
                             </Grid>
                             <Grid item xs={2}>
-                                {list?.total_percent}%
+
                             </Grid>
                             <Grid item xs={2}>
                                 {list?.total_points}
